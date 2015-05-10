@@ -1,0 +1,9 @@
+#link_with 'HyperMediaAD', 'HyperMediaAD WatchKit Extension'
+#use_frameworks!
+link_with 'HyperMediaAD'
+platform :ios, '8.2'
+
+pod 'Mapbox-iOS-SDK'
+pod 'ISHTTPOperation'
+pod 'AFNetworking'
+pod 'BDBOAuth1Manager'
