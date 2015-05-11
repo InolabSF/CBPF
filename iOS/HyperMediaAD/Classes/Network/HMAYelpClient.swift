@@ -1,6 +1,7 @@
 import Foundation
 
 
+/// MARK: - HMAYelpClient
 class HMAYelpClient: BDBOAuth1RequestOperationManager {
     var accessToken: String!
     var accessSecret: String!
