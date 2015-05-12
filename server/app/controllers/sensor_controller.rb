@@ -8,13 +8,23 @@ class SensorController < ApplicationController
   @apiName SensorData
   @apiDescription get environmental sensor data close to your location
 
-  @apiParam {Number} lat    Mandatory latitude
-  @apiParam {Number} long   Mandatory longitude
+  @apiParam {Number} lat                        Mandatory latitude
+  @apiParam {Number} long                       Mandatory longitude
+  @apiParam {Number} sensor_type                Mandatory sensor type
+  @apiParam {1} sensor_type.example.humidity
+  @apiParam {2} sensor_type.example.co
+  @apiParam {3} sensor_type.example.co2
+  @apiParam {4} sensor_type.example.no2
+  @apiParam {5} sensor_type.example.pm25
+  @apiParam {6} sensor_type.example.noise
+  @apiParam {7} sensor_type.example.temperature
+  @apiParam {8} sensor_type.example.light
 
   @apiParamExample {json} Request-Example:
     {
       "lat": 37.76681832250885,
       "long": -122.4207906162038
+      "sensor_type": 1, // humidity
     }
 
   @apiSuccess {Number} id SensorData ID
