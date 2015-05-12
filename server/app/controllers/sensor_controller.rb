@@ -11,14 +11,14 @@ class SensorController < ApplicationController
   @apiParam {Number} lat                        Mandatory latitude
   @apiParam {Number} long                       Mandatory longitude
   @apiParam {Number} sensor_type                Mandatory sensor type
-  @apiParam {1} sensor_type.example.humidity
-  @apiParam {2} sensor_type.example.co
-  @apiParam {3} sensor_type.example.co2
-  @apiParam {4} sensor_type.example.no2
-  @apiParam {5} sensor_type.example.pm25
-  @apiParam {6} sensor_type.example.noise
-  @apiParam {7} sensor_type.example.temperature
-  @apiParam {8} sensor_type.example.light
+  @apiParam {example} sensor_type.humidity      1
+  @apiParam {example} sensor_type.co            2
+  @apiParam {example} sensor_type.co2           3
+  @apiParam {example} sensor_type.no2           4
+  @apiParam {example} sensor_type.pm25          5
+  @apiParam {example} sensor_type.noise         6
+  @apiParam {example} sensor_type.temperature   7
+  @apiParam {example} sensor_type.light         8
 
   @apiParamExample {json} Request-Example:
     {
