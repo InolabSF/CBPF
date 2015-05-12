@@ -8,6 +8,10 @@ Future Cycling Platform
 
 [CCPF server API](http://kenzan8000.github.io/CCPF/document/CCPF/server/API/)
 
+local: http://localhost:3000
+
+dev: https://isid-ccpf.herokuapp.com
+
 ### DB
 
 [SensorData Table](http://kenzan8000.github.io/CCPF/document/CCPF/server/DB/SensorData.html)
