@@ -1,6 +1,6 @@
 # CCPF
 
-Future Cycling Platform
+Future City Cycling Platform
 
 ## Documentation
 

@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150508205430) do
   end
 
   create_table "wheel_data", force: :cascade do |t|
-    t.integer  "type"
+    t.integer  "data_type"
     t.float    "value"
     t.float    "lat"
     t.float    "long"
