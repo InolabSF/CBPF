@@ -1,22 +1,26 @@
-# CCPF
+# CBPF
 
+CBPF - Connected Bicycle Platform
 Future City Cycling Platform
+
 
 ## Documentation
 
 ### Server
 
-[CCPF server API](http://kenzan8000.github.io/CCPF/document/CCPF/server/API/)
+[REST API](http://kenzan8000.github.io/CCPF/document/CCPF/server/API/)
 
 local: http://localhost:3000
 
 dev: https://isid-ccpf.herokuapp.com
+
 
 ### DB
 
 [SensorData Table](http://kenzan8000.github.io/CCPF/document/CCPF/server/DB/SensorData.html)
 
 [WheelData Table](http://kenzan8000.github.io/CCPF/document/CCPF/server/DB/WheelData.html)
+
 
 ### iOS
 
