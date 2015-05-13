@@ -22,7 +22,7 @@
 		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
-		<string>../..iOS/HyperMediaAD/Classes/SwiftyJSON/</string>
+		<string>../..iOS/HyperMediaAD/Classes/SwiftyJSON</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/kenzan8000/CCPF.git</string>

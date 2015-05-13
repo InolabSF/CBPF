@@ -3,7 +3,7 @@
 link_with 'HyperMediaAD'
 platform :ios, '8.2'
 
-pod 'Mapbox-iOS-SDK'
+pod 'Mapbox-iOS-SDK', '~> 1.6.0.0'
 pod 'ISHTTPOperation'
 pod 'AFNetworking'
 pod 'BDBOAuth1Manager'

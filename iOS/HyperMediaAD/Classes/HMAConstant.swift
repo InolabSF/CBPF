@@ -41,3 +41,21 @@ let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 
 /// sensor data API
 let kURISensorData =                    kURIBase + "/sensor/data"
+
+
+/// MARK: - Mapbox
+
+/// access token
+let kMapboxAccessToken =                "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
+
+
+/// MARK: - Google Map
+
+/// API key
+let kGoogleMapAPIKey =                  "AIzaSyBiJDnSOSpneOdFUtVu5RUi34rAg0cjWcU"
+
+
+/// MARK: - Gimbal
+
+/// API key
+let kGimbalAPIKey =                     "255f0d96-f44e-44d8-9cac-fb0445171f43"

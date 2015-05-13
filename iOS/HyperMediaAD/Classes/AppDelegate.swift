@@ -16,39 +16,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Mapbox
-        RMConfiguration.sharedInstance().accessToken = "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
+        RMConfiguration.sharedInstance().accessToken = kMapboxAccessToken
 
         // Google Map
-        //GMSServices.provideAPIKey("AIzaSyBiJDnSOSpneOdFUtVu5RUi34rAg0cjWcU")
+        //GMSServices.provideAPIKey(kGoogleMapAPIKey)
         //GMSServices.sharedServices()
 
         // Gimbal
-        Gimbal.setAPIKey("255f0d96-f44e-44d8-9cac-fb0445171f43", options:nil)
+        Gimbal.setAPIKey(kGimbalAPIKey, options:nil)
         self.placeManager = GMBLPlaceManager()
         self.placeManager.delegate = self
         GMBLPlaceManager.startMonitoring()
         HMALOG(String(format: "GMBLPlaceManager.isMonitoring %@", GMBLPlaceManager.isMonitoring()))
 
         // register user
-        if HMAUser.currentUser() == nil { HMAUser.register() }
+        //if HMAUser.currentUser() == nil { HMAUser.register() }
 
         // background fetch
-        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-
-        // test
-/*
-        // sample data
-        let jsonString = "{\"businesses\":[{\"name\":\"SuperDuperBurgers\",\"image_url\":\"http://s3-media3.fl.yelpassets.com/bphoto/CgZ2z_UtHjb_RBUDJjHa2w/ms.jpg\",\"location\":{\"coordinate\":{\"latitude\":\"37.786856\",\"longitude\":\"-122.403905\"}},\"display_phone\":\"+1-415-538-3437\",\"rating\":4}]}"
-        var JSON = NSJSONSerialization.JSONObjectWithData(
-            jsonString.dataUsingEncoding(NSUTF8StringEncoding)!,
-            options: NSJSONReadingOptions.AllowFragments,
-            error: nil
-        ) as! NSDictionary
-        self.updateCurrentAD(response: JSON, title: "Super Duper", body: "Fast Food Burgers...Slow Food Values")
-
-        // check distance
-        self.checkDistance(performFetchWithCompletionHandler: {(UIBackgroundFetchResult) -> Void in })
-*/
+        //UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         return true
     }
@@ -248,3 +233,20 @@ extension AppDelegate: GMBLPlaceManagerDelegate {
     }
 */
 }
+
+
+        // test
+/*
+        // sample data
+        let jsonString = "{\"businesses\":[{\"name\":\"SuperDuperBurgers\",\"image_url\":\"http://s3-media3.fl.yelpassets.com/bphoto/CgZ2z_UtHjb_RBUDJjHa2w/ms.jpg\",\"location\":{\"coordinate\":{\"latitude\":\"37.786856\",\"longitude\":\"-122.403905\"}},\"display_phone\":\"+1-415-538-3437\",\"rating\":4}]}"
+        var JSON = NSJSONSerialization.JSONObjectWithData(
+            jsonString.dataUsingEncoding(NSUTF8StringEncoding)!,
+            options: NSJSONReadingOptions.AllowFragments,
+            error: nil
+        ) as! NSDictionary
+        self.updateCurrentAD(response: JSON, title: "Super Duper", body: "Fast Food Burgers...Slow Food Values")
+
+        // check distance
+        self.checkDistance(performFetchWithCompletionHandler: {(UIBackgroundFetchResult) -> Void in })
+*/
+
