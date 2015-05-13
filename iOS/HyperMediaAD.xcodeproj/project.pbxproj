@@ -40,6 +40,7 @@
 		E66D2C771AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */; };
 		E66D2C811AEAD2D8002F8D48 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66D2C801AEAD2D8002F8D48 /* Images.xcassets */; };
 		E66D2C841AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E66D2C671AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E6C1228C1B03F9C600C9DC71 /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1228B1B03F9C600C9DC71 /* NSURL+Queries.swift */; };
 		E920F2C8F1FF1F235F0B3467 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C1E8119D4D8B753F6A2F76 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HyperMediaAD WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66D2C7C1AEAD2D8002F8D48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E66D2C801AEAD2D8002F8D48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E6C1228B1B03F9C600C9DC71 /* NSURL+Queries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Queries.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				E623B0AB1AFAF14E009705EC /* Map */,
 				E62A6C2D1AF0352100275377 /* Network */,
 				E62A6C2F1AF0352100275377 /* UIKit+Extension */,
+				E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */,
 				E62A6D8A1AF04A5400275377 /* SwiftyJSON */,
 			);
 			path = Classes;
@@ -371,6 +374,14 @@
 				E66D2C801AEAD2D8002F8D48 /* Images.xcassets */,
 			);
 			path = "HyperMediaAD WatchKit App";
+			sourceTree = "<group>";
+		};
+		E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E6C1228B1B03F9C600C9DC71 /* NSURL+Queries.swift */,
+			);
+			path = "NSFoundation+Extension";
 			sourceTree = "<group>";
 		};
 		EC9C83127011F8482B37666C /* Pods */ = {
@@ -611,6 +622,7 @@
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E62A6D8D1AF04A7500275377 /* SwiftyJSON.swift in Sources */,
+				E6C1228C1B03F9C600C9DC71 /* NSURL+Queries.swift in Sources */,
 				E62A6C341AF0352100275377 /* HMAUser.swift in Sources */,
 				E623B0AA1AFAE082009705EC /* HMASensorClient.swift in Sources */,
 			);
