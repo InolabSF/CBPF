@@ -31,9 +31,9 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 #if LOCAL_SERVER
 let kURIBase =                          "http://localhost:3000"
 #elseif DEV_SERVER
-let kURIBase =                          "https://hypermediaad.herokuapp.com"
+let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 #else
-let kURIBase =                          "https://hypermediaad.herokuapp.com"
+let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 #endif
 
 

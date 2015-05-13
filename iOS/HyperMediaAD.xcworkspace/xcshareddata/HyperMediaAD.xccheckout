@@ -10,33 +10,33 @@
 	<string>HyperMediaAD</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>B29A3473589BD3B65D4A201B69A083F4052A6C01</key>
-		<string>https://github.com/kenzan8000/HyperMediaAD.git</string>
+		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
+		<string>https://github.com/kenzan8000/CCPF.git</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
 		<string>https://github.com/SwiftyJSON/SwiftyJSON.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>HyperMediaAD/HyperMediaAD.xcworkspace</string>
+	<string>iOS/HyperMediaAD.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>B29A3473589BD3B65D4A201B69A083F4052A6C01</key>
+		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
-		<string>../..HyperMediaAD/HyperMediaAD/Classes/SwiftyJSON</string>
+		<string>../..iOS/HyperMediaAD/Classes/SwiftyJSON/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/kenzan8000/HyperMediaAD.git</string>
+	<string>https://github.com/kenzan8000/CCPF.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>B29A3473589BD3B65D4A201B69A083F4052A6C01</string>
+	<string>BE553FECF21140B9A5B82BA37DCEF188D31D2638</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B29A3473589BD3B65D4A201B69A083F4052A6C01</string>
+			<string>BE553FECF21140B9A5B82BA37DCEF188D31D2638</string>
 			<key>IDESourceControlWCCName</key>
 			<string>HyperMediaAD</string>
 		</dict>
