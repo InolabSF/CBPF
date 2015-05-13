@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         self.placeManager = GMBLPlaceManager()
         self.placeManager.delegate = self
         GMBLPlaceManager.startMonitoring()
-        HMALOG(String(format: "GMBLPlaceManager.isMonitoring %@", GMBLPlaceManager.isMonitoring()))
+        HMALOG("GMBLPlaceManager.isMonitoring \(GMBLPlaceManager.isMonitoring())")
 
         // register user
         //if HMAUser.currentUser() == nil { HMAUser.register() }
@@ -84,13 +84,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         client.searchWithTerm(
             titleString,
             success: { [unowned self] (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                //HMALOG(String(format: "%@", response as! NSDictionary))
-
                 self.updateCurrentAD(response: response as! NSDictionary, title: titleString, body: bodyString)
                 self.postLocalNotification(title: titleString, body: bodyString)
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                HMALOG(String(format: "%@", error))
+                HMALOG("\(error)")
             }
         )
     }
@@ -205,14 +203,14 @@ extension AppDelegate: GMBLPlaceManagerDelegate {
 
     func placeManager(manager: GMBLPlaceManager,  didBeginVisit visit: GMBLVisit) {
         let beacon_identifier = (visit.place as GMBLPlace).identifier
-        HMALOG(String(format: "place name: %@", (visit.place as GMBLPlace).name))
-        HMALOG(String(format: "place identifier: %@", beacon_identifier))
+        HMALOG("place name: \((visit.place as GMBLPlace).name)")
+        HMALOG("place identifier: \(beacon_identifier)")
 
         let user = HMAUser.currentUser()
         if user == nil { return }
 
         // check if there is an event that matches user profile
-        let URLString = String(format: "https://hypermediaad.herokuapp.com/event?beacon_identifier=%@&user_id=%@", beacon_identifier, user!.userID!)
+        let URLString = "https://hypermediaad.herokuapp.com/event?beacon_identifier=\(beacon_identifier)&user_id=\(user!.userID!)"
         let request = NSMutableURLRequest(URL: NSURL(string: URLString)!)
         ISHTTPOperation.sendRequest(request, handler:{ [unowned self] (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 let responseJSON = JSON(data: object as! NSData)

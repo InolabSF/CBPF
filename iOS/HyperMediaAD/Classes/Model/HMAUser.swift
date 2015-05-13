@@ -33,7 +33,7 @@ class HMAUser: AnyObject {
         let userDefaults = NSUserDefaults(suiteName: "group.org.kenzan8000.HyperMediaAD")!
         let userID = userDefaults.stringForKey("user_id")
         if userID != nil {
-            HMALOG(String(format: "user_id = %@", userID!))
+            HMALOG("user_id = \(userID!)")
             return
         }
 
