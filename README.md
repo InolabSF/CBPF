@@ -1,34 +1,31 @@
-# CBPF
+# CCBF
 
 CBPF - Connected Bicycle Platform
-Future City Cycling Platform
-
 
 ## Documentation
 
 ### Server
 
-[REST API](http://kenzan8000.github.io/CCPF/document/CCPF/server/API/)
+
+[REST API](http://inolabsf.github.io/CBPF/document/CCPF/server/API/)
 
 local: http://localhost:3000
 
 dev: https://isid-ccpf.herokuapp.com
 
-
 ### DB
 
-[SensorData Table](http://kenzan8000.github.io/CCPF/document/CCPF/server/DB/SensorData.html)
+[SensorData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/SensorData.html)
 
-[WheelData Table](http://kenzan8000.github.io/CCPF/document/CCPF/server/DB/WheelData.html)
-
+[WheelData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/WheelData.html)
 
 ### iOS
 
-~~[iOS API](http://kenzan8000.github.io/CCPF/document/AirCasting/iOS/API/)~~
+~~[iOS API](http://inolabsf.github.io/CBPF/document/AirCasting/iOS/API/)~~
 
 
 ### Third Party
 
-[AirCasting private API](http://kenzan8000.github.io/CCPF/document/AirCasting/server/API/)
+[AirCasting private API](http://inolabsf.github.io/CBPF/document/AirCasting/server/API/)
 
-[SmartCitizen private API](http://kenzan8000.github.io/CCPF/document/SmartCitizen/server/API/)
+[SmartCitizen private API](http://inolabsf.github.io/CBPF/document/SmartCitizen/server/API/)

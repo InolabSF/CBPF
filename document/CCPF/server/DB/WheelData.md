@@ -4,9 +4,9 @@
 
 ## Entity
 
-| id      | type    | value | lat   | long  | user_id | timestamp |
-|---------|---------|-------|-------|-------|---------|-----------|
-| Integer | Integer | Float | Float | Float | Integer | DateTime  |
+| id      | data_type | value | lat   | long  | user_id | timestamp |
+|---------|-----------|-------|-------|-------|---------|-----------|
+| Integer | Integer   | Float | Float | Float | Integer | DateTime  |
 
 <br />
 

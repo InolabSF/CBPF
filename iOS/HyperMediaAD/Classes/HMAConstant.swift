@@ -38,24 +38,66 @@ let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 
 
 /// MARK: - sensor
+struct HMASensor {
+    /// MARK: - sensor type
+    struct SensorType {
+        static let Humidity = 1
+        static let Co = 2
+        static let Co2 = 3
+        static let No2 = 4
+        static let Pm25 = 5
+        static let Noise = 6
+        static let Temperature = 7
+        static let Light = 8
+    }
 
-/// sensor data API
-let kURISensorData =                    kURIBase + "/sensor/data"
+    /// MARK: - API
+    struct API {
+        static let Data = kURIBase + "/sensor/data"         /// sensor data API
+    }
+}
+
+/// MARK: - wheel
+struct HMAWheel {
+    /// MARK: - API
+    struct API {
+        static let Data = kURIBase + "/wheel/data"          /// wheel data API
+    }
+}
 
 
 /// MARK: - Mapbox
+struct HMAMapBox {
+    /// map ID
+    static let MapID =                      "kenzan8000.m4484c13"
+    /// access token
+    static let AccessToken =                "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
 
-/// access token
-let kMapboxAccessToken =                "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
+    /// MARK: - Draw
+    struct Draw {
+        static let PixelPerMile: Double =           100.0
+    }
+}
 
 
 /// MARK: - Google Map
 
-/// API key
-let kGoogleMapAPIKey =                  "AIzaSyBiJDnSOSpneOdFUtVu5RUi34rAg0cjWcU"
+/// Base URI
+let kURIGoogleMapAPI =                  "https://maps.googleapis.com/maps/api"
+
+struct HMAGoogleMap {
+    /// API key
+    static let APIKey =                  "AIzaSyBiJDnSOSpneOdFUtVu5RUi34rAg0cjWcU"
+
+    /// MARK: - API
+    struct API {
+        static let Directions =        kURIGoogleMapAPI + "/directions/json" /// directions API
+    }
+}
 
 
 /// MARK: - Gimbal
-
-/// API key
-let kGimbalAPIKey =                     "255f0d96-f44e-44d8-9cac-fb0445171f43"
+struct HMAGimbal {
+    /// API key
+    static let APIKey =                     "255f0d96-f44e-44d8-9cac-fb0445171f43"
+}

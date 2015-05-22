@@ -10,7 +10,10 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     /// CLLocationManager
     var locationManager: CLLocationManager!
     /// mapview
-    var mapView: RMMapView!
+    var mapView: HMAMapView!
+
+    /// test button
+    @IBOutlet var testButton: UIButton!
 
 
     /// MARK: - destruction
@@ -25,13 +28,15 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         super.viewDidLoad()
 
         // mapview
-        self.mapView = RMMapView(frame: self.view.bounds, andTilesource: RMMapboxSource(mapID:"kenzan8000.m4484c13"))
-        self.mapView.zoom = 14
+        self.mapView = HMAMapView(frame: self.view.bounds, andTilesource: RMMapboxSource(mapID:HMAMapBox.MapID))
+
         self.mapView.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
         self.mapView.clusteringEnabled = true
         self.mapView.showsUserLocation = true
         self.mapView.delegate = self;
         self.view.addSubview(self.mapView)
+        //self.mapView.zoom = 15
+        self.mapView.setMetersPerPixel(14.0,  animated: false)
 
         // core location
         self.locationManager = CLLocationManager()
@@ -40,10 +45,47 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.distanceFilter = 300
         self.locationManager.startUpdatingLocation()
+
+        // test
+        self.view.bringSubviewToFront(self.testButton)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+
+    /// MARK: - event listener
+
+    /**
+     * called when touched button
+     * @param button UIButton
+     **/
+    @IBAction func touchedUpInside(#button: UIButton) {
+
+        // route
+        let userCoordinate = self.mapView.userLocation.location.coordinate
+        HMAGoogleMapClient.sharedInstance.removeAllWaypoints()
+        HMAGoogleMapClient.sharedInstance.getRoute(
+            queries: [ "origin" : "\(userCoordinate.latitude),\(userCoordinate.longitude)", "destination" : "37.7932,-122.4145", ],
+            completionHandler: { [unowned self] (json) in
+                self.mapView.setRouteFromGoogleMapAPIDirections(json: json)
+            }
+        )
+/*
+        // get sensor data from CBPF server
+        HMASensorClient.getSensorData(
+            sensorType: 1,
+            coordinate: self.mapView.userLocation.location.coordinate,//newLocation.coordinate,
+            completionHandler: { [unowned self] (json) in
+                // draw map
+                self.mapView.setTempatureAnnotation(json: json)
+                // store core data
+                //HMASensorData.save(json: json)
+            }
+        )
+*/
+
     }
 
 }
@@ -54,27 +96,6 @@ extension HMAViewController: CLLocationManagerDelegate {
 
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         self.mapView.centerCoordinate = newLocation.coordinate
-
-        let annotation = RMPointAnnotation(mapView: self.mapView, coordinate: self.mapView.centerCoordinate, andTitle: "Your Location")
-        self.mapView.addAnnotation(annotation)
-
-        HMASensorClient.getSensorData(
-            sensorType: 1,
-            coordinate: newLocation.coordinate,
-            completionHandler: { [unowned self] (json) in
-                if let sensorDatas = json["sensor_datas"].array {
-                    for sensorData in sensorDatas {
-                        let tempatureAnnotation = HMAClusterAnnotation(
-                            mapView: self.mapView,
-                            coordinate: CLLocationCoordinate2DMake(sensorData["lat"].double!, sensorData["long"].double!),
-                            title: "",
-                            sensorValue: sensorData["value"].double!
-                        )
-                        self.mapView.addAnnotation(tempatureAnnotation)
-                    }
-                }
-            }
-        )
     }
 
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
@@ -86,21 +107,79 @@ extension HMAViewController: CLLocationManagerDelegate {
 /// MARK: - RMMapViewDelegate
 extension HMAViewController: RMMapViewDelegate {
     func mapView(mapView: RMMapView!, layerForAnnotation annotation: RMAnnotation!) -> RMMapLayer? {
-        if !(annotation.isKindOfClass(HMAClusterAnnotation)) { return nil }
-
-        let clusterAnnotation = (annotation as! HMAClusterAnnotation)
-        let clusterValue = clusterAnnotation.sensorValue
-
-        var layer = RMMarker(UIImage: UIImage(named: "map_circle"))
-        layer.opacity = 0.75;
-        layer.bounds = CGRectMake(0, 0, CGFloat(clusterValue), CGFloat(clusterValue))
-        layer.textForegroundColor = UIColor.whiteColor()
-        layer.changeLabelUsingText(String(format: "%.0fF", clusterValue))
-
-        return layer
+        return self.mapView.getLayer(annotation: annotation)
     }
 
     func mapView(mapView: RMMapView, didUpdateUserLocation userLocation: RMUserLocation) {
-        HMALOG("updated")
     }
+
+    func singleTapOnMap(map: RMMapView, at point: CGPoint) {
+        if self.mapView.hasKindOfAnnotationClass(HMARouteAnnotation) {
+            let userCoordinate = self.mapView.userLocation.location.coordinate
+            let coordinate = self.mapView.pixelToCoordinate(point)
+
+            HMAGoogleMapClient.sharedInstance.appendWaypoint(coordinate)
+            HMAGoogleMapClient.sharedInstance.getRoute(
+                queries: [ "origin" : "\(userCoordinate.latitude),\(userCoordinate.longitude)", "destination" : "37.7932,-122.4145", ],
+                completionHandler: { [unowned self] (json) in
+                    self.mapView.setRouteFromGoogleMapAPIDirections(json: json)
+                }
+            )
+
+            //HMALOG("latitude: \(coordinate.latitude) longitude: \(coordinate.longitude)")
+        }
+    }
+
 }
+
+/*
+        let sensorDatas = HMASensorData.fetch(lat: NSNumber(float: 37.766817), long: NSNumber(float: -122.420791))
+        for sensorData in sensorDatas {
+            HMALOG("\(sensorData)")
+        }
+*/
+/*
+        // post WheelData
+        HMAWheelClient.postWheelData(
+            wheelDatas: [
+            	"wheel_datas": [
+                 [
+                 	"data_type": 9,
+                 	"lat": 37.76681832250885,
+                 	"long": -122.4207906162038,
+                 	"user_id": 1,
+                 	"timestamp": "2015-05-07T01:25:39.738Z",
+                 	"value": 13.555334
+                 	],
+                 [
+                 	"data_type": 9,
+                 	"lat": 37.76681832250885,
+                 	"long": -122.4207906162038,
+                 	"user_id": 1,
+                 	"timestamp": "2015-05-07T01:25:39.738Z",
+                 	"value": 13.555334
+                 	],
+                 [
+                 	"data_type": 9,
+                 	"lat": 37.76681832250885,
+                 	"long": -122.4207906162038,
+                 	"user_id": 1,
+                 	"timestamp": "2015-05-07T01:25:39.738Z",
+                 	"value": 13.555334
+                 	],
+                 [
+                 	"data_type": 9,
+                 	"lat": 37.76681832250885,
+                 	"long": -122.4207906162038,
+                 	"user_id": 1,
+                 	"timestamp": "2015-05-07T01:25:39.738Z",
+                 	"value": 13.555334
+                 	]
+            	]
+            ],
+            completionHandler: { [unowned self] (json) in
+                HMALOG("\(json)")
+            }
+        )
+*/
+

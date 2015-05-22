@@ -16,14 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Mapbox
-        RMConfiguration.sharedInstance().accessToken = kMapboxAccessToken
+        RMConfiguration.sharedInstance().accessToken = HMAMapBox.AccessToken
 
         // Google Map
-        GMSServices.provideAPIKey(kGoogleMapAPIKey)
+        GMSServices.provideAPIKey(HMAGoogleMap.APIKey)
         GMSServices.sharedServices()
 /*
         // Gimbal
-        Gimbal.setAPIKey(kGimbalAPIKey, options:nil)
+        Gimbal.setAPIKey(HMAGimbal.APIKey, options:nil)
         self.placeManager = GMBLPlaceManager()
         self.placeManager.delegate = self
         GMBLPlaceManager.startMonitoring()
