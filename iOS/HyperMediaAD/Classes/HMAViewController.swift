@@ -71,7 +71,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             completionHandler: { [unowned self] (json) in
                 self.mapView.setRouteFromGoogleMapAPIDirections(json: json)
             }
-        )
+        )   
 /*
         // get sensor data from CBPF server
         HMASensorClient.getSensorData(
