@@ -28,7 +28,7 @@
 		E62A6DB01AF04E1E00275377 /* PushNotificationPayload.apns in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DAF1AF04E1E00275377 /* PushNotificationPayload.apns */; };
 		E62A6DB21AF04E4300275377 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DB11AF04E4300275377 /* Images.xcassets */; };
 		E62A6DB41AF04EA200275377 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DB31AF04EA200275377 /* Interface.storyboard */; };
-		E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HMA.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HMA.swift */; };
+		E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */; };
 		E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8C1B055B680086EEC2 /* HMAModel.xcdatamodeld */; };
 		E62B9D8F1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8C1B055B680086EEC2 /* HMAModel.xcdatamodeld */; };
 		E62B9D941B055F050086EEC2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62B9D931B055F050086EEC2 /* CoreData.framework */; };
@@ -126,7 +126,7 @@
 		E62A6DAF1AF04E1E00275377 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		E62A6DB11AF04E4300275377 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E62A6DB31AF04EA200275377 /* Interface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
-		E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HMA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+HMA.swift"; sourceTree = "<group>"; };
+		E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+HTTPBody.swift"; sourceTree = "<group>"; };
 		E62B9D8D1B055B680086EEC2 /* HMAModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HMAModel.xcdatamodel; sourceTree = "<group>"; };
 		E62B9D931B055F050086EEC2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACoreDataManager.swift; sourceTree = "<group>"; };
@@ -413,7 +413,7 @@
 		E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */ = {
 			isa = PBXGroup;
 			children = (
-				E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HMA.swift */,
+				E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */,
 				E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */,
 			);
 			path = "NSFoundation+Extension";
@@ -704,7 +704,7 @@
 				E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */,
 				E62A6D081AF048FA00275377 /* HMASale.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
-				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HMA.swift in Sources */,
+				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,

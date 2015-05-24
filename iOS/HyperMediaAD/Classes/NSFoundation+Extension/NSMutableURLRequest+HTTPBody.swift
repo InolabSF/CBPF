@@ -1,7 +1,7 @@
 import Foundation
 
 
-/// MARK: - NSMutableURLRequest+Queries
+/// MARK: - NSMutableURLRequest+HTTPBody
 extension NSMutableURLRequest {
 
     /// MARK: - public api
