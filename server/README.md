@@ -20,7 +20,7 @@ rails generate controller YOUR_CONTROLLER_NAME
 # example (local)
 $ rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
 # example (heroku)
-$ heroku run rails runner -e production Tasks::EnvironmentSensorDataCollectionTask.execute
+$ heroku run rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
 ```
 
 ### automatical cron

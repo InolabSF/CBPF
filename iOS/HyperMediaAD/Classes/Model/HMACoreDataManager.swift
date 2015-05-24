@@ -3,7 +3,7 @@ import CoreData
 
 /// MARK: - HMACoreDataManager
 class HMACoreDataManager {
-    
+
     /// MARK: - class method
     static let sharedInstance = HMACoreDataManager()
 
