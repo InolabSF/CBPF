@@ -55,6 +55,8 @@
 		E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C4C1B1198050055DF6C /* HMAYelpClient.swift */; };
 		E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C4E1B1198100055DF6C /* HMAWheelClient.swift */; };
 		E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C501B1198180055DF6C /* HMASensorClient.swift */; };
+		E6DB7C551B119F4E0055DF6C /* HMACrime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrime.swift */; };
+		E6DB7C561B119F4E0055DF6C /* HMACrime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrime.swift */; };
 		E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
 		E6EC437B1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
 		E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
@@ -151,6 +153,7 @@
 		E6DB7C4C1B1198050055DF6C /* HMAYelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpClient.swift; sourceTree = "<group>"; };
 		E6DB7C4E1B1198100055DF6C /* HMAWheelClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelClient.swift; sourceTree = "<group>"; };
 		E6DB7C501B1198180055DF6C /* HMASensorClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorClient.swift; sourceTree = "<group>"; };
+		E6DB7C541B119F4E0055DF6C /* HMACrime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrime.swift; sourceTree = "<group>"; };
 		E6EC43781B0404D70098FF9A /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = SwiftyJSON/Source/SwiftyJSON.h; sourceTree = "<group>"; };
 		E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Queries.swift"; sourceTree = "<group>"; };
@@ -422,6 +425,7 @@
 		E6DB7C391B1196C60055DF6C /* Crime */ = {
 			isa = PBXGroup;
 			children = (
+				E6DB7C541B119F4E0055DF6C /* HMACrime.swift */,
 			);
 			path = Crime;
 			sourceTree = "<group>";
@@ -696,6 +700,7 @@
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
+				E6DB7C551B119F4E0055DF6C /* HMACrime.swift in Sources */,
 				E62B9D9D1B058E7F0086EEC2 /* HMAMapMath.swift in Sources */,
 				E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
@@ -732,6 +737,7 @@
 				E62A6D091AF048FA00275377 /* HMASale.swift in Sources */,
 				E62A6DA81AF04B7C00275377 /* HMARowController.swift in Sources */,
 				E62B9D9B1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
+				E6DB7C561B119F4E0055DF6C /* HMACrime.swift in Sources */,
 				E6EC437B1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
 				E6DB7C411B11974E0055DF6C /* HMAWheelData.swift in Sources */,
 				E626250D1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
