@@ -108,7 +108,7 @@ class HMACrime: NSManagedObject {
         // insert child
         if children.count == 0 {
             var context = HMACoreDataManager.sharedInstance.managedObjectContext
-            var crime = NSEntityDescription.insertNewObjectForEntityForName("HMACrime", inManagedObjectContext: context) as! DACrime
+            var crime = NSEntityDescription.insertNewObjectForEntityForName("HMACrime", inManagedObjectContext: context) as! HMACrime
             crime.crime_id = json["id"].numberValue
             if let centroid = json["centroid"].dictionary {
                 crime.lat = centroid["lat"]!.numberValue

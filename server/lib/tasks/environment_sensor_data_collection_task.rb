@@ -11,12 +11,7 @@ class Tasks::EnvironmentSensorDataCollectionTask
 
     # request header
     request_header = {}
-#    request_header['Accept'] = 'application/json'
-#    request_header['Referer'] = 'http://aircasting.org/map'
-#    request_header['User-Agent'] = 'Chrome/42.0.2311.90'
-#    request_header['X-Requested-With'] = 'XMLHttpRequest'
-#    request_header['Accept-Encoding'] = 'gzip'
-#    request_header['Accept-Language'] = 'en-US'
+    request_header['Accept'] = 'application/json'
 
     json = HttpClient.get_json(uri.to_s, request_header)
 

@@ -35,7 +35,6 @@
 		E62B9D951B055F150086EEC2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62B9D931B055F050086EEC2 /* CoreData.framework */; };
 		E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */; };
 		E62B9D9B1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */; };
-		E62B9D9D1B058E7F0086EEC2 /* HMAMapMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D9C1B058E7F0086EEC2 /* HMAMapMath.swift */; };
 		E6466BEB1AEB034A001127E0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6466BEA1AEB034A001127E0 /* HealthKit.framework */; };
 		E6466BEC1AEB0358001127E0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6466BEA1AEB034A001127E0 /* HealthKit.framework */; };
 		E65525541AEAD02E0011786A /* HyperMediaADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65525531AEAD02E0011786A /* HyperMediaADTests.swift */; };
@@ -57,6 +56,9 @@
 		E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C501B1198180055DF6C /* HMASensorClient.swift */; };
 		E6DB7C551B119F4E0055DF6C /* HMACrime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrime.swift */; };
 		E6DB7C561B119F4E0055DF6C /* HMACrime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrime.swift */; };
+		E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C571B11A4DC0055DF6C /* HMACrimeClient.swift */; };
+		E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */; };
+		E6DB7C5B1B11A5260055DF6C /* HMAMapMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */; };
 		E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
 		E6EC437B1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
 		E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
@@ -132,7 +134,6 @@
 		E62B9D8D1B055B680086EEC2 /* HMAModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HMAModel.xcdatamodel; sourceTree = "<group>"; };
 		E62B9D931B055F050086EEC2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACoreDataManager.swift; sourceTree = "<group>"; };
-		E62B9D9C1B058E7F0086EEC2 /* HMAMapMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapMath.swift; sourceTree = "<group>"; };
 		E6466BEA1AEB034A001127E0 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E65525381AEAD02D0011786A /* HyperMediaAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperMediaAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E655254D1AEAD02D0011786A /* HyperMediaADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperMediaADTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +155,8 @@
 		E6DB7C4E1B1198100055DF6C /* HMAWheelClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelClient.swift; sourceTree = "<group>"; };
 		E6DB7C501B1198180055DF6C /* HMASensorClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorClient.swift; sourceTree = "<group>"; };
 		E6DB7C541B119F4E0055DF6C /* HMACrime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrime.swift; sourceTree = "<group>"; };
+		E6DB7C571B11A4DC0055DF6C /* HMACrimeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeClient.swift; sourceTree = "<group>"; };
+		E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapMath.swift; sourceTree = "<group>"; };
 		E6EC43781B0404D70098FF9A /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = SwiftyJSON/Source/SwiftyJSON.h; sourceTree = "<group>"; };
 		E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Queries.swift"; sourceTree = "<group>"; };
@@ -205,7 +208,7 @@
 		E623B0AB1AFAF14E009705EC /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				E62B9D9C1B058E7F0086EEC2 /* HMAMapMath.swift */,
+				E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */,
 				E68446FE1B0AABF10094DC04 /* HMAMapView.swift */,
 				E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */,
 				E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */,
@@ -425,6 +428,7 @@
 		E6DB7C391B1196C60055DF6C /* Crime */ = {
 			isa = PBXGroup;
 			children = (
+				E6DB7C571B11A4DC0055DF6C /* HMACrimeClient.swift */,
 				E6DB7C541B119F4E0055DF6C /* HMACrime.swift */,
 			);
 			path = Crime;
@@ -695,13 +699,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */,
 				E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */,
 				E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */,
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrime.swift in Sources */,
-				E62B9D9D1B058E7F0086EEC2 /* HMAMapMath.swift in Sources */,
 				E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
 				E623B0AF1AFAF14E009705EC /* HMAClusterAnnotation.swift in Sources */,
@@ -714,6 +718,7 @@
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E62A6C341AF0352100275377 /* HMAUser.swift in Sources */,
+				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
 				E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */,
 				E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */,
 				E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */,
@@ -735,6 +740,7 @@
 				E6DB7C3E1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E62A6DA61AF04B7C00275377 /* HMAInterfaceController.swift in Sources */,
 				E62A6D091AF048FA00275377 /* HMASale.swift in Sources */,
+				E6DB7C5B1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
 				E62A6DA81AF04B7C00275377 /* HMARowController.swift in Sources */,
 				E62B9D9B1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
 				E6DB7C561B119F4E0055DF6C /* HMACrime.swift in Sources */,
