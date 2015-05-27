@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508205430) do
+ActiveRecord::Schema.define(version: 20150527211116) do
+
+  create_table "crime_data", force: :cascade do |t|
+    t.string   "desc"
+    t.string   "resolution"
+    t.float    "lat"
+    t.float    "long"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sensor_data", force: :cascade do |t|
     t.integer  "sensor_id"

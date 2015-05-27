@@ -2,6 +2,8 @@ require 'uri'
 
 
 module UriGenerator
+
+  # aircasting average API
   def self.aircasting_average(sensor_name, measurement_type, unit_symbol)
     query = {}
 
@@ -27,4 +29,15 @@ module UriGenerator
 
     uri
   end
+
+  # sf government crime API
+  def self.sf_government_crime
+    query = {}
+    query['$where'] = 'date > \'' + 3.months.ago.strftime('%Y-%m-01T00:00:00') + '\' and date < \'' + 2.months.ago.strftime('%Y-%m-01T00:00:00') + '\''
+    uri = URI("https://data.sfgov.org/api/resource/tmnf-yvry.json")
+    uri.query = query.to_param
+
+    uri
+  end
+
 end

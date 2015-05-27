@@ -45,9 +45,7 @@ class Tasks::EnvironmentSensorDataCollectionTask
       #wheel_data.timestamp = DateTime.parse(date_string) if date_string != nil
       sensor_data.timestamp = DateTime.now
 
-      if sensor_data.valid?
-        sensor_data.save
-      end
+      sensor_data.save if sensor_data.valid?
     end
 
   end

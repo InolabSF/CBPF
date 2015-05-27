@@ -4,7 +4,7 @@ require 'json'
 
 
 module HttpClient
-  def self.get_json(location, request_header, limit = 10)
+  def self.get_json(location, request_header, use_ssl = false, limit = 10)
     raise ArgumentError, 'too many HTTP redirects' if limit == 0
     uri = URI.parse(location)
     begin
@@ -14,6 +14,7 @@ module HttpClient
       }
 
       response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+        http.use_ssl = use_ssl
         http.open_timeout = 5
         http.read_timeout = 10
         http.request(request)

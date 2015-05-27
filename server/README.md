@@ -19,6 +19,7 @@ rails generate controller YOUR_CONTROLLER_NAME
 ```
 # example (local)
 $ rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
+$ rails runner Tasks::CrimeDataCollectionTask.execute
 # example (heroku)
 $ heroku run rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
 ```
