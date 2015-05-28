@@ -1,3 +1,6 @@
+require './lib/assets/math_utility'
+
+
 class CrimeController < ApplicationController
 
 =begin

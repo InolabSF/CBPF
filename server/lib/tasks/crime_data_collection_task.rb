@@ -13,8 +13,6 @@ class Tasks::CrimeDataCollectionTask
     request_header['Accept'] = 'application/json'
 
     json = HttpClient.get_json(uri.to_s, request_header)
-    puts json
-
 =begin
     json example
     [
@@ -41,22 +39,21 @@ class Tasks::CrimeDataCollectionTask
       ...
     ]
 =end
-
     # create crime_data
-#    json.each do |crime_json|
-#      crime_data = CrimeData.new
-#
-#      crime_data.desc = crime_json['descript']
-#      crime_data.resolution = crime_json['resolution']
-#      location_json = crime_json['location']
-#      if location_json
-#        crime_data.lat = location_json['latitude']
-#        crime_data.long = location_json['longitude']
-#      end
-#      crime_data.timestamp = DateTime.strptime(crime_json['date'] + crime_json['time'], '%Y-%m-%dT00:00:00%H:%M')
-#
-#      crime_data.save if crime_data.valid?
-#    end
+    json.each do |crime_json|
+      crime_data = CrimeData.new
+
+      crime_data.desc = crime_json['descript']
+      crime_data.resolution = crime_json['resolution']
+      location_json = crime_json['location']
+      if location_json
+        crime_data.lat = location_json['latitude']
+        crime_data.long = location_json['longitude']
+      end
+      crime_data.timestamp = DateTime.strptime(crime_json['date'] + crime_json['time'], '%Y-%m-%dT00:00:00%H:%M')
+
+      crime_data.save if crime_data.valid?
+    end
 
   end
 end

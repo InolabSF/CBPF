@@ -1,2 +1,2 @@
-class CrimeDatum < ActiveRecord::Base
+class CrimeData < ActiveRecord::Base
 end
