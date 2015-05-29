@@ -18,10 +18,11 @@ rails generate controller YOUR_CONTROLLER_NAME
 ### manual cron
 ```
 # example (local)
-$ rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
-$ rails runner Tasks::CrimeDataCollectionTask.execute
+$ rails runner Tasks::EnvironmentSensorDataCollectionTask.executeAll
+$ rails runner Tasks::CrimeDataCollectionTask.executeThreeMonthAgo
 # example (heroku)
-$ heroku run rails runner Tasks::EnvironmentSensorDataCollectionTask.execute
+$ heroku run rails runner Tasks::EnvironmentSensorDataCollectionTask.executeThreeDaysAgo
+$ heroku run rails runner Tasks::CrimeDataCollectionTask.executeThreeMonthAgo
 ```
 
 ### automatical cron

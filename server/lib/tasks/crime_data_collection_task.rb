@@ -4,14 +4,10 @@ require './lib/assets/uri_generator'
 
 
 class Tasks::CrimeDataCollectionTask
-  def self.execute
-    # uri
+
+  def self.executeThreeMonthAgo
     uri = UriGenerator.sf_government_crime
-
-    # request header
     request_header = {}
-    request_header['Accept'] = 'application/json'
-
     json = HttpClient.get_json(uri.to_s, request_header)
 =begin
     json example

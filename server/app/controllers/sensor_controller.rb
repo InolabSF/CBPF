@@ -13,6 +13,7 @@ class SensorController < ApplicationController
 
   @apiParam {Number} lat                        Mandatory latitude
   @apiParam {Number} long                       Mandatory longitude
+  @apiParam {Number} radius                     Mandatory radius of miles to search
   @apiParam {Number} sensor_type                Mandatory sensor type
   @apiParam {example} sensor_type.humidity      1
   @apiParam {example} sensor_type.co            2
@@ -26,7 +27,8 @@ class SensorController < ApplicationController
   @apiParamExample {json} Request-Example:
     {
       "lat": 37.76681832250885,
-      "long": -122.4207906162038
+      "long": -122.4207906162038,
+      "radius": 3.0,
       "sensor_type": 1, // humidity
     }
 
@@ -59,16 +61,17 @@ class SensorController < ApplicationController
     # get latitude, longitude
     lat = params[:lat].to_f
     long = params[:long].to_f
+    radius = params[:radius].to_f
+    sensor_type = params[:sensor_type].to_i
 
     # calculate distance of latitude and longitude degree
-    degree = 3.0
-    lat_3_mile = MathUtility.get_lat_distance(degree)
-    long_3_mile = MathUtility.get_long_distance(degree, lat)
-    is_return_json = !(lat_3_mile == 0 || long_3_mile == 0)
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
 
     # response
     if is_return_json
-      datas = SensorData.where(lat: (lat-lat_3_mile)..(lat+lat_3_mile), long: (long-long_3_mile)..(long+long_3_mile))
+      datas = SensorData.where(sensor_id: sensor_type, lat: (lat-lat_degree)..(lat+lat_degree), long: (long-long_degree)..(long+long_degree))
       json = Jbuilder.encode do |j|
         j.sensor_datas(datas)
       end

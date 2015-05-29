@@ -13,11 +13,13 @@ class CrimeController < ApplicationController
 
   @apiParam {Number} lat                        Mandatory latitude
   @apiParam {Number} long                       Mandatory longitude
+  @apiParam {Number} radius                     Mandatory radius of miles to search
 
   @apiParamExample {json} Request-Example:
     {
       "lat": 37.76681832250885,
-      "long": -122.4207906162038
+      "long": -122.4207906162038,
+      "radius": 3.0
     }
 
   @apiSuccess {Number} id CrimeData ID
@@ -47,16 +49,16 @@ class CrimeController < ApplicationController
     # get latitude, longitude
     lat = params[:lat].to_f
     long = params[:long].to_f
+    radius = params[:radius].to_f
 
     # calculate distance of latitude and longitude degree
-    degree = 3.0
-    lat_3_mile = MathUtility.get_lat_distance(degree)
-    long_3_mile = MathUtility.get_long_distance(degree, lat)
-    is_return_json = !(lat_3_mile == 0 || long_3_mile == 0)
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
 
     # response
     if is_return_json
-      datas = CrimeData.where(lat: (lat-lat_3_mile)..(lat+lat_3_mile), long: (long-long_3_mile)..(long+long_3_mile))
+      datas = CrimeData.where(lat: (lat-lat_degree)..(lat+lat_degree), long: (long-long_degree)..(long+long_degree))
       json = Jbuilder.encode do |j|
         j.crime_datas(datas)
       end

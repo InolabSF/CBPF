@@ -15,6 +15,7 @@ class WheelController < ApplicationController
 
   @apiParam {Number} lat                                                   Mandatory latitude
   @apiParam {Number} long                                                  Mandatory longitude
+  @apiParam {Number} radius                                                Mandatory radius of miles to search
   @apiParam {Number} data_type                                             Mandatory data type
   @apiParam {example} data_type.sensorData_phone_applicationState          1
   @apiParam {example} data_type.sensorData_phone_altitude                  2
@@ -50,7 +51,8 @@ class WheelController < ApplicationController
   @apiParamExample {json} Request-Example:
     {
       "lat": 37.76681832250885,
-      "long": -122.4207906162038
+      "long": -122.4207906162038,
+      "radius: : 3.0,
       "data_type": 9, // data_type.wheelData.speed
     }
 
@@ -126,15 +128,17 @@ class WheelController < ApplicationController
       # get latitude, longitude
       lat = params[:lat].to_f
       long = params[:long].to_f
+      radius = params[:radius].to_i
+      data_type = params[:data_type].to_i
 
       # calculate distance of latitude and longitude degree
-      degree = 3.0
-      lat_3_mile = MathUtility.get_lat_distance(degree)
-      long_3_mile = MathUtility.get_long_distance(degree, lat)
-      is_return_json = !(lat_3_mile == 0 || long_3_mile == 0)
+      lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+      long_degree = MathUtility.get_long_degree(lat, long, radius)
+      is_return_json = !(lat_degree == 0 || long_degree == 0)
 
+      # response
       if is_return_json
-        datas = WheelData.where(lat: (lat-lat_3_mile)..(lat+lat_3_mile), long: (long-long_3_mile)..(long+long_3_mile))
+        datas = WheelData.where(data_type: data_type, lat: (lat-lat_degree)..(lat+lat_degree), long: (long-long_degree)..(long+long_degree))
         json = Jbuilder.encode do |j|
           j.wheel_datas(datas)
         end
