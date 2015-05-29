@@ -14,7 +14,7 @@ CBPF - Connected Bicycle Platform
 
 local: http://localhost:3000
 
-dev: https://isid-ccpf.herokuapp.com
+dev: https://isid-cbpf.herokuapp.com
 
 
 ### DB
