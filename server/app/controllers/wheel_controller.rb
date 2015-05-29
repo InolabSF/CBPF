@@ -52,7 +52,7 @@ class WheelController < ApplicationController
     {
       "lat": 37.76681832250885,
       "long": -122.4207906162038,
-      "radius: : 3.0,
+      "radius": : 3.0,
       "data_type": 9, // data_type.wheelData.speed
     }
 
