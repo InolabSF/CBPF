@@ -53,6 +53,12 @@ dev: https://isid-cbpf.herokuapp.com
 
 ・[Google Map Routing](https://drive.google.com/file/d/0B1jHhm7QuTPRUmxkUlVTZHc2dGc/view?usp=sharing) : Google Map Routings through the points that you tapped
 
+・[Google Map Routing2](https://drive.google.com/file/d/0B1jHhm7QuTPRclhmTl9LWGdRLUU/view?usp=sharing)
+
+
+## Dashboard
+
+・[To Check Database](https://isid-cbpf.herokuapp.com/dashboard/index)
 
 
 ## Sensor and Wheel Data
