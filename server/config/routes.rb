@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get 'wheel/data'
   post 'wheel/data'
   get 'crime/data'
+  get 'dashboard/index'
 end
