@@ -65,6 +65,7 @@
 		E6EC437F1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
 		E6ED26D31B1D18B60076B9F4 /* HMACrimeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */; };
 		E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */; };
+		E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */; };
 		E920F2C8F1FF1F235F0B3467 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C1E8119D4D8B753F6A2F76 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 		E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Queries.swift"; sourceTree = "<group>"; };
 		E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeOperationQueue.swift; sourceTree = "<group>"; };
 		E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAComfort.swift; sourceTree = "<group>"; };
+		E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAComfortParameter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */,
+				E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */,
 			);
 			path = Comfort;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
+				E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E62A6C341AF0352100275377 /* HMAUser.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,

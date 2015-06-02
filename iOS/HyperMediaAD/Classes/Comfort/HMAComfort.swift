@@ -1,7 +1,7 @@
 /// MARK: - constant
 
 /// Discomfort Index
-struct DADiscomfortIndex {
+struct HMADiscomfortIndex {
     static let Cold: Double         = 55.0
     static let Chille: Double       = 57.5
     static let NotChille: Double    = 62.5
@@ -13,7 +13,7 @@ struct DADiscomfortIndex {
 }
 
 /// Noise Level
-struct DANoise {
+struct HMANoise {
     static let Level1: Double   = 10.0      // Breathing
     static let Level2: Double   = 20.0      // Whisper, rustling leaves
     static let Level3: Double   = 30.0      // Quiet rural area
@@ -32,37 +32,8 @@ struct DANoise {
 }
 
 
-/// MARK: - HMAComfortParameter
-class HMAComfortParameter: AnyObject {
-
-    /// MARK: - property
-
-    /// Fahrenheit
-    var temperature: Double!
-    /// Percentage
-    var humidity: Double!
-    /// Sound Level (dB)
-    var soundLevel: Double!
-    /// latitude and longitude
-    var coordinate: CLLocationCoordinate2D!
-
-
-    /// MARK: - property
-
-    /**
-     * get discomfort index
-     * @return discomfort index
-     **/
-    func getDiscomfortIndex() -> Double {
-        let celsius = (temperature - 32.0) / 1.8
-        return 0.81 * celsius + 0.01 * humidity * (0.99 * celsius - 14.3) + 46.3
-    }
-
-}
-
-
 /// MARK: - HMAComfort
-class HMAComfort: AnyObject {
+class HMAComfort: NSObject {
 
     /// MARK: - property
 
@@ -76,31 +47,29 @@ class HMAComfort: AnyObject {
 
     /**
      * Initialization
-     * @param comfortParameters [HMAComfortParameter]
-     * @return Sale
+     * @return HMAComfort
      */
-    convenience init(comfortParameters: [HMAComfortParameter]) {
-        self.init()
-
+    override init() {
+        super.init()
         self.discomfortIndexSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Cold), 1.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Chille), 0.6)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.NotChille), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Comfort), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.NotWarm), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Warm), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Hot), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DADiscomfortIndex.Boiling), 1.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Cold), 1.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Chille), 0.6)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotChille), 0.2)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Comfort), 0.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotWarm), 0.2)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Warm), 0.5)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Hot), 0.7)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Boiling), 1.0)),
         ])
         self.soundLevelSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level1), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level2), 0.05)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level3), 0.1)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level4), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level5), 0.3)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level6), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level7), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(DANoise.Level8), 1.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level1), 0.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level2), 0.05)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level3), 0.1)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level4), 0.2)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level5), 0.3)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level6), 0.5)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level7), 0.7)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level8), 1.0)),
         ])
     }
 
@@ -132,8 +101,6 @@ class HMAComfort: AnyObject {
         if valueB > 1.0 { valueB = 1.0 }
         return valueA * valueB * 100.0
     }
-
-
 
 }
 
