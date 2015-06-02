@@ -7,86 +7,8 @@ html
       #map   height: 100%
     script charset="UTF-8" src="https://maps.google.com/maps/api/js?v=3&sensor=false" type="text/javascript"
     script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
-    javascript:
-      var map;
-      var marker = null;
 
-      function init() {
-
-        var latlng = new google.maps.LatLng(37.7833, -122.4167);
-        var opts = {
-          zoom: 13,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          center: latlng
-        };
-
-        map = new google.maps.Map(document.getElementById("map"), opts);
-
-        google.maps.event.addListener(map, 'click', onClick);
-        marker = createMarker(37.7833, -122.4167);
-      }
-
-      function onClick(event) {
-        $("#lat").text(event.latLng.lat());
-        $("#long").text(event.latLng.lng());
-        if (marker != null) { marker.setMap(null); }
-        marker = createMarker(event.latLng.lat(), event.latLng.lng());
-      }
-
-      function createMarker(lat, long) {
-        return new google.maps.Marker({
-          position: new google.maps.LatLng(lat, long),
-          map: map,
-          title: ""
-        });
-      }
-
-      function showJSON(json, uri) {
-        $("#result").text(uri + "\n\n" + JSON.stringify(json, null, 2));
-      }
-
-      function executeAPI() {
-        var form = $("#form :input");
-        var params = {};
-        form.each(function() {
-          params[this.name] = $(this).val();
-        });
-        params["lat"] = $("#lat").text().replace(/\s+/g, "");
-        params["long"] = $("#long").text().replace(/\s+/g, "");
-        params["api"] = $('input[name=api]:checked', '#form').val();
-        var uri = params["api"]
-        delete params["api"]
-        uri += "?" + $.param(params)
-
-        $.ajax({
-            type: "GET",
-             url: uri,
-         success: function(data) { showJSON(data, uri); },
-         failure: function(error) { console.log(error); }
-        });
-      }
-
-      function getDistance(lat1, long1, lat2, long2) {
-        var y1 = lat1 * Math.PI / 180;
-        var x1 = long1 * Math.PI / 180;
-        var y2 = lat2 * Math.PI / 180;
-        var x2 = long2 * Math.PI / 180;
-        var earth_r = 6378140;
-        var deg = Math.sin(y1) * Math.sin(y2) + Math.cos(y1) * Math.cos(y2) * Math.cos(x2 - x1);
-        return earth_r * (Math.atan(-deg / Math.sqrt(-deg * deg + 1)) + Math.PI / 2) / 1000;
-      }
-
-      function getLatDegree(lat, long, mile) {
-        distance = self.getDistance(lat, long, lat+1.0, long);
-        return mile / distance;
-      }
-
-      function getLongDegree(lat, long, mile) {
-        distance = self.getDistance(lat, long, lat, long+1.0);
-        return mile / distance;
-      }
-
-  body onload="init()"
+  body onload=""
 
     #map style="height:400px"
 
@@ -170,7 +92,7 @@ html
           option value="30" wheelData_batteryPowerNormalized
         br/
 
-    button onclick="executeAPI();" execute API
+    button#executeAPI execute API
 
     hr
 
