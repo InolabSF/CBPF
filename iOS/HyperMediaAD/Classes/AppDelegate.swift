@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         // Google Map
         GMSServices.provideAPIKey(HMAGoogleMap.APIKey)
         GMSServices.sharedServices()
+
 /*
         // Gimbal
         Gimbal.setAPIKey(HMAGimbal.APIKey, options:nil)

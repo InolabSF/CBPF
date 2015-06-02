@@ -9,4 +9,5 @@ pod 'ISHTTPOperation'
 pod 'AFNetworking'
 pod 'BDBOAuth1Manager'
 pod 'SAMCubicSpline'
+pod "FSLineChart"
 pod "LFHeatMap"

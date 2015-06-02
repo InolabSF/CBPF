@@ -71,6 +71,7 @@ class HMAComfort: NSObject {
             NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level7), 0.7)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level8), 1.0)),
         ])
+
     }
 
 
