@@ -14,6 +14,8 @@
 		<string>https://github.com/kenzan8000/CCPF.git</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
 		<string>https://github.com/SwiftyJSON/SwiftyJSON.git</string>
+		<key>F9ECD0A4FDAC664D962229BC7D9F62568020AD65</key>
+		<string>https://github.com/kenzan8000/Avoid-Crime.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>iOS/HyperMediaAD.xcworkspace</string>
@@ -23,6 +25,8 @@
 		<string>../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
 		<string>../..iOS/HyperMediaAD/Classes/SwiftyJSON</string>
+		<key>F9ECD0A4FDAC664D962229BC7D9F62568020AD65</key>
+		<string>../../../../kenzan8000/Destination%20Alarm</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/kenzan8000/CCPF.git</string>
@@ -32,6 +36,14 @@
 	<string>BE553FECF21140B9A5B82BA37DCEF188D31D2638</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F9ECD0A4FDAC664D962229BC7D9F62568020AD65</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Destination%20Alarm</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

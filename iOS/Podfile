@@ -8,4 +8,5 @@ pod 'Google-Maps-iOS-SDK'
 pod 'ISHTTPOperation'
 pod 'AFNetworking'
 pod 'BDBOAuth1Manager'
+pod 'SAMCubicSpline'
 pod "LFHeatMap"

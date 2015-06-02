@@ -25,6 +25,13 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 }
 
 
+/// MARK: - UserDefaults
+
+struct HMAUserDefaults {
+    static let CrimeYearMonth =         "HMAUserDefaults.CrimeYearMonth"
+}
+
+
 /// MARK: - API
 
 /// Base URI
@@ -37,9 +44,18 @@ let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 #endif
 
 
-/// MARK: - sensor
+/// MARK: - Crime
+struct HMACrime {
+    /// MARK: - API
+    struct API {
+        static let Data = kURIBase + "/crime/data"         /// crime data API
+    }
+}
+
+
+/// MARK: - Sensor
 struct HMASensor {
-    /// MARK: - sensor type
+    /// MARK: - type
     struct SensorType {
         static let Humidity = 1
         static let Co = 2
@@ -57,7 +73,8 @@ struct HMASensor {
     }
 }
 
-/// MARK: - wheel
+
+/// MARK: - Wheel
 struct HMAWheel {
     /// MARK: - API
     struct API {
