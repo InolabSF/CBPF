@@ -36,9 +36,9 @@ module UriGenerator
   end
 
   # San Francisco Government Crime API
-  def self.sf_government_crime
+  def self.sf_government_crime(howManyMonthAgo, periodOfMonth)
     query = {}
-    query['$where'] = 'date > \'' + 3.months.ago.strftime('%Y-%m-01T00:00:00') + '\' and date < \'' + 2.months.ago.strftime('%Y-%m-01T00:00:00') + '\''
+    query['$where'] = 'date > \'' + howManyMonthAgo.months.ago.strftime('%Y-%m-01T00:00:00') + '\' and date < \'' + (howManyMonthAgo - periodOfMonth).months.ago.strftime('%Y-%m-01T00:00:00') + '\''
     uri = URI('http://data.sfgov.org/api/resource/tmnf-yvry.json')
     uri.query = query.to_param
 

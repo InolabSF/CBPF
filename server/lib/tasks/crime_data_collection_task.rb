@@ -6,7 +6,7 @@ require './lib/assets/uri_generator'
 class Tasks::CrimeDataCollectionTask
 
   def self.executeThreeMonthAgo
-    uri = UriGenerator.sf_government_crime
+    uri = UriGenerator.sf_government_crime(3, 1)
     request_header = {}
     json = HttpClient.get_json(uri.to_s, request_header)
 =begin
@@ -35,11 +35,19 @@ class Tasks::CrimeDataCollectionTask
       ...
     ]
 =end
+    crime_types = CrimeType.all
     # create crime_data
     json.each do |crime_json|
       crime_data = CrimeData.new
 
       crime_data.desc = crime_json['descript']
+      crime_type_is_relating_cycling = false
+      crime_types.each do |crime_type|
+        crime_type_is_relating_cycling = crime_data.desc.include? crime_type.name
+        break if crime_type_is_relating_cycling
+      end
+      next if !crime_type_is_relating_cycling
+
       crime_data.resolution = crime_json['resolution']
       location_json = crime_json['location']
       if location_json

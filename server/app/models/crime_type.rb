@@ -1,0 +1,31 @@
+class CrimeType < ActiveHash::Base
+  self.data = [
+    { :id =>  1, :name => 'STREET' },
+    { :id =>  2, :name => 'SIDEWALK' },
+    { :id =>  3, :name => 'TRAFFIC' },
+    { :id =>  4, :name => 'OBSTRUCTING' },
+    { :id =>  5, :name => 'LOITERING' },
+    { :id =>  6, :name => 'PEDDLING' },
+    { :id =>  7, :name => 'PARK' },
+    { :id =>  8, :name => 'VEHICLE' },
+    { :id =>  9, :name => 'BICYCLE' },
+    { :id => 10, :name => 'AUTO' },
+    { :id => 11, :name => 'MOTORCYCLE' },
+    { :id => 12, :name => 'TRUCK' },
+    { :id => 13, :name => 'TAXI' },
+    { :id => 14, :name => 'DRIVER' },
+    { :id => 15, :name => 'LICENSE' },
+    { :id => 16, :name => 'ALCOHOL' },
+    { :id => 17, :name => 'DRUNK' },
+    { :id => 18, :name => 'SPEEDING' },
+    { :id => 19, :name => 'FIREARM' },
+    { :id => 20, :name => 'GUN' },
+    { :id => 21, :name => 'SHOOTING' },
+    { :id => 22, :name => 'DRUG' },
+    { :id => 23, :name => 'MISCHIEF' },
+    { :id => 24, :name => 'ATM' },
+    { :id => 25, :name => 'MANNER' },
+    { :id => 26, :name => 'DISTURB' },
+    { :id => 27, :name => 'INDECENT' }
+  ]
+end

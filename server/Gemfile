@@ -3,6 +3,8 @@ ruby '2.1.2'
 
 gem 'rails', '4.2.1'
 
+gem 'active_hash'
+
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'jquery-rails'
