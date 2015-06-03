@@ -34,7 +34,7 @@ Temperature (Celsius), Humidity (%)
 
 ##### Evaluation Function
 
-Make an evaluation function by using spline curve. Pick some arbitrary points that the curve pass.
+Make an evaluation function by using spline curve. Pick some arbitrary points that the curve passes.
 
 ### Example
 
@@ -69,7 +69,7 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 
 ##### Evaluation Function
 
-Make an evaluation function by using spline curve. Pick some arbitrary points that the curve pass.
+Make an evaluation function by using spline curve. Pick some arbitrary points that the curve passes.
 
 ### Example
 
