@@ -96,7 +96,7 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 <br />
 
 
-## A rough indication
+## Reference
 
 ### Heat Index
 
