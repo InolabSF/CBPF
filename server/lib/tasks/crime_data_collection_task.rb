@@ -40,20 +40,23 @@ class Tasks::CrimeDataCollectionTask
     json.each do |crime_json|
       crime_data = CrimeData.new
 
+      # description
       crime_data.desc = crime_json['descript']
-      crime_type_is_relating_cycling = false
+      crime_type_is_relating_to_cycling = false
       crime_types.each do |crime_type|
-        crime_type_is_relating_cycling = crime_data.desc.include? crime_type.name
-        break if crime_type_is_relating_cycling
+        crime_type_is_relating_to_cycling = crime_data.desc.include? crime_type.name
+        break if crime_type_is_relating_to_cycling
       end
-      next if !crime_type_is_relating_cycling
-
+      next if !crime_type_is_relating_to_cycling
+      # resolution
       crime_data.resolution = crime_json['resolution']
+      # location
       location_json = crime_json['location']
       if location_json
         crime_data.lat = location_json['latitude']
         crime_data.long = location_json['longitude']
       end
+      # timestamp
       crime_data.timestamp = DateTime.strptime(crime_json['date'] + crime_json['time'], '%Y-%m-%dT00:00:00%H:%M')
 
       crime_data.save if crime_data.valid?
