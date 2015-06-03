@@ -8,7 +8,7 @@ apidoc -i document/SmartCitizen/server/API -o document/SmartCitizen/server/API
 chmod 755 document/SmartCitizen/server/API/index.html
 
 cd iOS
-jazzy -o ../document/CCPF/iOS/iPhone -x -workspace,HyperMediaAD.xcworkspace,-scheme,HyperMediaAD
+#jazzy -o ../document/CCPF/iOS/iPhone -x -workspace,HyperMediaAD.xcworkspace,-scheme,HyperMediaAD
 #jazzy -o ../document/CCPF/iOS/AppleWatch -x -workspace,HyperMediaAD.xcworkspace,-scheme,HyperMediaAD\ WatchKit\ App
 cd ../
 

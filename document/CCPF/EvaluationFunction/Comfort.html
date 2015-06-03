@@ -1,0 +1,476 @@
+<!doctype html>
+<!-- Created with GFM2HTML: https://github.com/rvagg/gfm2html -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created-with" content="https://github.com/rvagg/gfm2html">
+
+    <style type="text/css">
+/* most of normalize.css */
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}[hidden],template{display:none;}html{font-family:sans-serif;/*1*/-ms-text-size-adjust:100%;/*2*/-webkit-text-size-adjust:100%;/*2*/}body{margin:0;}a{background:transparent;}a:focus{outline:thindotted;}a:active,a:hover{outline:0;}h1{font-size:2em;margin:0.67em0;}abbr[title]{border-bottom:1pxdotted;}b,strong{font-weight:bold;}dfn{font-style:italic;}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em;}pre{white-space:pre-wrap;}q{quotes:"\201C""\201D""\2018""\2019";}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-0.5em;}sub{bottom:-0.25em;}img{border:0;}svg:not(:root){overflow:hidden;}table{border-collapse:collapse;border-spacing:0;}
+
+html {
+  font: 14px 'Helvetica Neue', Helvetica, arial, freesans, clean, sans-serif;
+}
+
+.container {
+  line-height: 1.6;
+  color: #333;
+  background: #eee;
+  border-radius: 3px;
+  padding: 3px;
+  width: 790px;
+  margin: 10px auto;
+}
+
+.body-content {
+  background-color: #fff;
+  border: 1px solid #CACACA;
+  padding: 30px;
+}
+
+.body-content > *:first-child {
+  margin-top: 0 !important;
+}
+
+a, a:visited {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+  .markdown-body h1
+, .markdown-body h2
+, .markdown-body h3
+, .markdown-body h4
+, .markdown-body h5
+, .markdown-body h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+}
+
+h2 {
+  font-size: 2em;
+  border-bottom: 1px solid #eee;
+  color: #000;
+}
+
+img {
+  max-width: 100%;
+}
+
+hr {
+  background: transparent url("/img/hr.png") repeat-x 0 0;
+  border: 0 none;
+  color: #ccc;
+  height: 4px;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+th {
+  font-weight: bold;
+}
+
+blockquote {
+  border-left: 4px solid #ddd;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote > :last-child, blockquote > :first-child {
+  margin-bottom: 0px;
+}
+
+pre, code {
+  font-size: 13px;
+  font-family: 'UbuntuMono', monospace;
+  white-space: nowrap;
+  margin: 0 2px;
+  padding: 0px 5px;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre > code {
+  white-space: pre;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre;
+  padding: 10px;
+  line-height: 150%;
+  background-color: #f8f8f8;
+  border-color: #ccc;
+}
+
+pre code, pre tt {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  border: none;
+}
+
+  .highlight .c
+, .highlight .cm
+, .highlight .cp
+, .highlight .c1 {
+    color:#999988;
+    font-style:italic;
+}
+
+.highlight .err {
+  color:#a61717;
+  background-color:#e3d2d2
+}
+
+  .highlight .o
+, .highlight .gs
+, .highlight .kc
+, .highlight .kd
+, .highlight .kn
+, .highlight .kp
+, .highlight .kr {
+    font-weight:bold
+}
+
+.highlight .cs {
+  color:#999999;
+  font-weight:bold;
+  font-style:italic
+}
+
+.highlight .gd {
+  color:#000000;
+  background-color:#ffdddd
+}
+
+.highlight .gd .x {
+  color:#000000;
+  background-color:#ffaaaa
+}
+
+.highlight .ge {
+  font-style:italic
+}
+
+  .highlight .gr
+, .highlight .gt {
+    color:#aa0000
+}
+
+  .highlight .gh
+, .highlight .bp {
+    color:#999999
+}
+
+.highlight .gi {
+  color:#000000;
+  background-color:#ddffdd
+}
+
+.highlight .gi .x {
+  color:#000000;
+  background-color:#aaffaa
+}
+
+.highlight .go {
+  color:#888888
+}
+
+  .highlight .gp
+, .highlight .nn {
+    color:#555555
+}
+
+
+.highlight .gu {
+  color:#800080;
+  font-weight:bold
+}
+
+
+.highlight .kt {
+  color:#445588;
+  font-weight:bold
+}
+
+  .highlight .m
+, .highlight .mf
+, .highlight .mh
+, .highlight .mi
+, .highlight .mo
+, .highlight .il {
+    color:#009999
+}
+
+  .highlight .s
+, .highlight .sb
+, .highlight .sc
+, .highlight .sd
+, .highlight .s2
+, .highlight .se
+, .highlight .sh
+, .highlight .si
+, .highlight .sx
+, .highlight .s1 {
+    color:#d14
+}
+
+.highlight .n {
+  color:#333333
+}
+
+  .highlight .na
+, .highlight .no
+, .highlight .nv
+, .highlight .vc
+, .highlight .vg
+, .highlight .vi
+, .highlight .nb {
+    color:#0086B3
+}
+
+.highlight .nc {
+  color:#445588;
+  font-weight:bold
+}
+
+.highlight .ni {
+  color:#800080
+}
+
+  .highlight .ne
+, .highlight .nf {
+    color:#990000;
+    font-weight:bold
+}
+
+.highlight .nt {
+  color:#000080
+}
+
+.highlight .ow {
+  font-weight:bold
+}
+
+.highlight .w {
+  color:#bbbbbb
+}
+
+.highlight .sr {
+  color:#009926
+}
+
+.highlight .ss {
+  color:#990073
+}
+
+.highlight .gc {
+  color:#999;
+  background-color:#EAF2F5
+}</style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="body-content"><h1 id="comfort">Comfort</h1>
+<p><br /></p>
+<h2 id="method">Method</h2>
+<ol>
+<li>Get sensor data (Temperature, Humidity, Sound Level) and Location (Latitude, Longitude)</li>
+<li><a href="#calculate_heat_index">Calculate Heat Index</a> from Temperature and Humidity</li>
+<li><a href="#evaluate_heat_index">Evaluate Heat Index</a></li>
+<li><a href="#evaluate_sound_level">Evaluate Sound Level</a></li>
+<li><a href="#evaluate_uncomfortable_location">Evaluate Uncomfortable Location</a></li>
+</ol>
+<p><br /></p>
+<p><a name="calculate_heat_index"> </a></p>
+<h2 id="calculate-heat-index">Calculate Heat Index</h2>
+<h3 id="formula">Formula</h3>
+<pre><code>HeatIndex = 0.81 * Temperature + 0.01 * Humidity * (0.99 * Temperature - 14.3) + 46.3</code></pre>
+<p>Temperature (Celsius), Humidity (%)</p>
+<p><br /></p>
+<p><a name="evaluate_heat_index"> </a></p>
+<h2 id="evaluate-heat-index">Evaluate Heat Index</h2>
+<h5 id="definition">Definition</h5>
+<p>0.0 is comfortable. 1.0 is uncomfortable.</p>
+<h5 id="evaluation-function">Evaluation Function</h5>
+<p>Make an evaluation function by using spline curve. Pick some arbitrary points that the curve pass.</p>
+<h3 id="example">Example</h3>
+<h5 id="pick-some-arbitrary-points">Pick some arbitrary points</h5>
+<pre><code>[
+    { &quot;heat index&quot;: 55.0, &quot;evaluation&quot;: 1.00 },
+    { &quot;heat index&quot;: 57.5, &quot;evaluation&quot;: 0.35 },
+    { &quot;heat index&quot;: 62.5, &quot;evaluation&quot;: 0.05 },
+    { &quot;heat index&quot;: 67.5, &quot;evaluation&quot;: 0.00 },
+    { &quot;heat index&quot;: 72.5, &quot;evaluation&quot;: 0.05 },
+    { &quot;heat index&quot;: 77.5, &quot;evaluation&quot;: 0.20 },
+    { &quot;heat index&quot;: 82.5, &quot;evaluation&quot;: 0.50 },
+    { &quot;heat index&quot;: 85.0, &quot;evaluation&quot;: 1.00 }
+]</code></pre>
+<h5 id="make-a-spline-curve-from-the-points">Make a spline curve from the points</h5>
+<p><img src="graph_example_comfort.png" alt=""></p>
+<p><br /></p>
+<p><a name="evaluate_sound_level"> </a></p>
+<h2 id="evaluate-sound-level">Evaluate Sound Level</h2>
+<h5 id="definition">Definition</h5>
+<p>0.0 is comfortable. 1.0 is uncomfortable.</p>
+<h5 id="evaluation-function">Evaluation Function</h5>
+<p>Make an evaluation function by using spline curve. Pick some arbitrary points that the curve pass.</p>
+<h3 id="example">Example</h3>
+<h5 id="pick-some-arbitrary-points">Pick some arbitrary points</h5>
+<pre><code>[
+    { &quot;sound level (dB)&quot;: 10.0, &quot;evaluation&quot;: 0.00 },
+    { &quot;sound level (dB)&quot;: 20.0, &quot;evaluation&quot;: 0.01 },
+    { &quot;sound level (dB)&quot;: 30.0, &quot;evaluation&quot;: 0.03 },
+    { &quot;sound level (dB)&quot;: 40.0, &quot;evaluation&quot;: 0.05 },
+    { &quot;sound level (dB)&quot;: 50.0, &quot;evaluation&quot;: 0.10 },
+    { &quot;sound level (dB)&quot;: 60.0, &quot;evaluation&quot;: 0.20 },
+    { &quot;sound level (dB)&quot;: 70.0, &quot;evaluation&quot;: 0.35 },
+    { &quot;sound level (dB)&quot;: 80.0, &quot;evaluation&quot;: 0.60 },
+    { &quot;sound level (dB)&quot;: 90.0, &quot;evaluation&quot;: 1.00 }
+]</code></pre>
+<h5 id="make-a-spline-curve-from-the-points">Make a spline curve from the points</h5>
+<p><img src="graph_example_sound_level.png" alt=""></p>
+<p><br /></p>
+<p><a name="evaluate_uncomfortable_location"> </a></p>
+<h2 id="evaluate-uncomfortable-location">Evaluate Uncomfortable Location</h2>
+<p><br /></p>
+<h2 id="a-rough-indication">A rough indication</h2>
+<h3 id="heat-index">Heat Index</h3>
+<blockquote>
+<p>SOURCE: <a href="http://keisan.casio.jp/exec/system/1202883065">http://keisan.casio.jp/exec/system/1202883065</a></p>
+</blockquote>
+<h3 id="sound-level">Sound Level</h3>
+<table>
+<thead>
+<tr>
+<th>Noise Source</th>
+<th>Value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jet take-off (at 25 meters)</td>
+<td>150</td>
+<td>Eardrum rupture</td>
+</tr>
+<tr>
+<td>Aircraft carrier deck</td>
+<td>140</td>
+<td></td>
+</tr>
+<tr>
+<td>Military jet aircraft take-off from aircraft carrier with afterburner at 50 ft (130 dB).</td>
+<td>130</td>
+<td></td>
+</tr>
+<tr>
+<td>Thunderclap, chain saw. Oxygen torch (121 dB).</td>
+<td>120</td>
+<td>Painful. 32 times as loud as 70 dB.</td>
+</tr>
+<tr>
+<td>Steel mill, auto horn at 1 meter. Turbo-fan aircraft at takeoff power at 200 ft (118 dB). Riveting machine (110 dB); live rock music (108 - 114 dB).</td>
+<td>110</td>
+<td>Average human pain threshold. 16 times as loud as 70 dB.</td>
+</tr>
+<tr>
+<td>Jet take-off (at 305 meters), use of outboard motor, power lawn mower, motorcycle, farm tractor, jackhammer, garbage truck. Boeing 707 or DC-8 aircraft at one nautical mile (6080 ft) before landing (106 dB); jet flyover at 1000 feet (103 dB); Bell J-2A helicopter at 100 ft (100 dB).</td>
+<td>100</td>
+<td>8 times as loud as 70 dB. Serious damage possible in 8 hr exposure</td>
+</tr>
+<tr>
+<td>Boeing 737 or DC-9 aircraft at one nautical mile (6080 ft) before landing (97 dB); power mower (96 dB); motorcycle at 25 ft (90 dB). Newspaper press (97 dB).</td>
+<td>90</td>
+<td>4 times as loud as 70 dB. Likely damage 8 hr exp</td>
+</tr>
+<tr>
+<td>Garbage disposal, dishwasher, average factory, freight train (at 15 meters). Car wash at 20 ft (89 dB); propeller plane flyover at 1000 ft (88 dB); diesel truck 40 mph at 50 ft (84 dB); diesel train at 45 mph at 100 ft (83 dB). Food blender (88 dB); milling machine (85 dB); garbage disposal (80 dB).</td>
+<td>80</td>
+<td>2 times as loud as 70 dB. Possible damage in 8 hr exposure.</td>
+</tr>
+<tr>
+<td>Passenger car at 65 mph at 25 ft (77 dB); freeway at 50 ft from pavement edge 10 a.m. (76 dB). Living room music (76 dB); radio or TV-audio, vacuum cleaner (70 dB).</td>
+<td>70</td>
+<td>Arbitrary base of comparison. Upper 70s are annoyingly loud to some people.</td>
+</tr>
+<tr>
+<td>Conversation in restaurant, office, background music, Air conditioning unit at 100 ft</td>
+<td>60</td>
+<td>Half as loud as 70 dB. Fairly quiet</td>
+</tr>
+<tr>
+<td>Quiet suburb, conversation at home. Large electrical transformers at 100 ft</td>
+<td>50</td>
+<td>One-fourth as loud as 70 dB.</td>
+</tr>
+<tr>
+<td>Library, bird calls (44 dB); lowest limit of urban ambient sound</td>
+<td>40</td>
+<td>One-eighth as loud as 70 dB.</td>
+</tr>
+<tr>
+<td>Quiet rural area</td>
+<td>30</td>
+<td>One-sixteenth as loud as 70 dB. Very Quiet</td>
+</tr>
+<tr>
+<td>Whisper, rustling leaves</td>
+<td>20</td>
+<td></td>
+</tr>
+<tr>
+<td>Breathing</td>
+<td>10</td>
+<td>Barely audible</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>SOURCES: Temple University Department of Civil/Environmental Engineering (www.temple.edu/departments/CETP/environ10.html), and Federal Agency Review of Selected Airport Noise Analysis Issues, Federal Interagency Committee on Noise (August 1992). Source of the information is attributed to Outdoor Noise and the Metropolitan Environment, M.C. Branch et al., Department of City Planning, City of Los Angeles, 1970.</p>
+</blockquote>
+</div>
+    </div>
+  </body>
+</html>

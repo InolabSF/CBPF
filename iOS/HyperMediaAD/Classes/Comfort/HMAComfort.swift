@@ -1,7 +1,7 @@
 /// MARK: - constant
 
-/// Discomfort Index
-struct HMADiscomfortIndex {
+/// Heat Index
+struct HMAHeatIndex {
     static let Cold: Double         = 55.0
     static let Chille: Double       = 57.5
     static let NotChille: Double    = 62.5
@@ -12,8 +12,8 @@ struct HMADiscomfortIndex {
     static let Boiling: Double      = 85.0
 }
 
-/// Noise Level
-struct HMANoise {
+/// Sound Level
+struct HMASound {
     static let Level1: Double   = 10.0      // Breathing
     static let Level2: Double   = 20.0      // Whisper, rustling leaves
     static let Level3: Double   = 30.0      // Quiet rural area
@@ -37,8 +37,8 @@ class HMAComfort: NSObject {
 
     /// MARK: - property
 
-    /// evaluation function from discomfort index
-    var discomfortIndexSplineCurve: SAMCubicSpline!
+    /// evaluation function from heat index
+    var heatIndexSplineCurve: SAMCubicSpline!
     /// evaluation function from sound level
     var soundLevelSplineCurve: SAMCubicSpline!
 
@@ -51,25 +51,26 @@ class HMAComfort: NSObject {
      */
     override init() {
         super.init()
-        self.discomfortIndexSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Cold), 1.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Chille), 0.6)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotChille), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Comfort), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotWarm), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Warm), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Hot), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Boiling), 1.0)),
+        self.heatIndexSplineCurve = SAMCubicSpline(points: [
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Cold), 1.00)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Chille), 0.35)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.NotChille), 0.05)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Comfort), 0.00)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.NotWarm), 0.05)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Warm), 0.20)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Hot), 0.50)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Boiling), 1.00)),
         ])
         self.soundLevelSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level1), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level2), 0.05)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level3), 0.1)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level4), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level5), 0.3)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level6), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level7), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level8), 1.0)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level1), 0.00)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level2), 0.01)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level3), 0.03)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level4), 0.05)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level5), 0.10)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level6), 0.20)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level7), 0.35)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level8), 0.60)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level9), 1.00)),
         ])
 
     }
@@ -78,29 +79,81 @@ class HMAComfort: NSObject {
     /// MARK: - public api
 
     /**
-     * get longitude degree from miles
-     * @param radius mile
-     * @param location CLLocation
-     * @return degree
+     * get  evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
+     * @param parameter comfort parameter
+     * @return comfort evaluation
      */
-    func getComforts(radius: Double, location: CLLocation) -> [HMAComfort]{
-        var comforts: [HMAComfort] = []
-        return comforts
+    func getHeatIndexWeight(parameter: HMAComfortParameter) -> Double{
+        var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(parameter.getHeatIndex())))
+        if weight < 0.0 { return 0.0 }
+        if weight > 1.0 { return 1.0 }
+        return weight
     }
 
     /**
-     * get weight from evaluation function -> soundLevelSplineCurve(0.0~1.0) * discomfortIndexSplineCurve(0.0~1.0) * 100.0
-     * @param comfortParameter HMAComfortParameter
-     * @return weight (0 ~ 100)
+     * get sound level evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
+     * @param parameter comfort parameter
+     * @return sound level evaluation
+     */
+    func getWeight(parameter: HMAComfortParameter) -> Double{
+        var weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(parameter.soundLevel)))
+        if weight < 0.0 { return 0.0 }
+        if weight > 1.0 { return 1.0 }
+        return weight
+    }
+
+    /**
+     * get heat index graph view
+     * @return heat index graph view
      **/
-    func getWeight(comfortParameter: HMAComfortParameter) -> Double {
-        var valueA = Double(self.soundLevelSplineCurve.interpolate(CGFloat(comfortParameter.soundLevel)))
-        var valueB = Double(self.discomfortIndexSplineCurve.interpolate(CGFloat(comfortParameter.getDiscomfortIndex())))
-        if valueA < 0.0 { valueA = 0.0 }
-        if valueA > 1.0 { valueA = 1.0 }
-        if valueB < 0.0 { valueB = 0.0 }
-        if valueB > 1.0 { valueB = 1.0 }
-        return valueA * valueB * 100.0
+    func heatIndexGraphView() -> FSLineChart {
+        var chartData: [CGFloat] = []
+        let min = CGFloat(HMAHeatIndex.Cold)
+        let max = CGFloat(HMAHeatIndex.Boiling)
+        for var x = min; x <= max; x += 1.0 {
+            var y = self.heatIndexSplineCurve.interpolate(x)
+            if y < 0 { y = 0 }
+            if y > 1.0 { y = 1.0 }
+            chartData.append(y)
+        }
+        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
+        lineChart.verticalGridStep = 5
+        lineChart.horizontalGridStep = 9
+        lineChart.labelForIndex = { (item) in
+            return "\(item)"
+        }
+        lineChart.labelForValue = { (value) in
+            return "\(value)"
+        }
+        lineChart.setChartData(chartData)
+        return lineChart
+    }
+
+    /**
+     * get sound level graph view
+     * @return sound level graph view
+     **/
+    func soundLevelGraphView() -> FSLineChart {
+        var chartData: [CGFloat] = []
+        let min = CGFloat(HMASound.Level1)
+        let max = CGFloat(HMASound.Level9)
+        for var x = min; x <= max; x += 1.0 {
+            var y = self.soundLevelSplineCurve.interpolate(x)
+            if y < 0 { y = 0 }
+            if y > 1.0 { y = 1.0 }
+            chartData.append(y)
+        }
+        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
+        lineChart.verticalGridStep = 5
+        lineChart.horizontalGridStep = 9
+        lineChart.labelForIndex = { (item) in
+            return "\(item)"
+        }
+        lineChart.labelForValue = { (value) in
+            return "\(value)"
+        }
+        lineChart.setChartData(chartData)
+        return lineChart
     }
 
 }

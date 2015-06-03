@@ -48,14 +48,14 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
 
         // test
         self.view.bringSubviewToFront(self.testButton)
-/*
-        let chartView = self.chart()
-        self.view.addSubview(chartView)
-        self.view.bringSubviewToFront(chartView)
-        let chartView2 = self.chart2()
-        self.view.addSubview(chartView2)
-        self.view.bringSubviewToFront(chartView2)
-*/
+
+        let comfort = HMAComfort()
+        var heatIndexGraphView = comfort.heatIndexGraphView()
+        heatIndexGraphView.frame = CGRectMake(0, 20, heatIndexGraphView.frame.size.width, heatIndexGraphView.frame.size.height)
+        self.view.addSubview(heatIndexGraphView)
+        var soundLevelGraphView = comfort.soundLevelGraphView()
+        soundLevelGraphView.frame = CGRectMake(0, 20+heatIndexGraphView.frame.size.height, soundLevelGraphView.frame.size.width, soundLevelGraphView.frame.size.height)
+        self.view.addSubview(soundLevelGraphView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,77 +97,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
     }
 
 
-    /// MARK: - private api
-/*
-    private func chart() -> FSLineChart {
-        //
-        var discomfortIndexSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Cold), 1.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Chille), 0.6)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotChille), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Comfort), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.NotWarm), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Warm), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Hot), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMADiscomfortIndex.Boiling), 1.0)),
-        ])
-
-        var chartData: [CGFloat] = []
-        let min = CGFloat(HMADiscomfortIndex.Cold)
-        let max = CGFloat(HMADiscomfortIndex.Boiling)
-        for var x = min; x <= max; x += 1.0 {
-            var y = discomfortIndexSplineCurve.interpolate(x)
-            if y < 0 { y = 0 }
-            if y > 1.0 { y = 1.0 }
-            chartData.append(y)
-        }
-        let lineChart = FSLineChart(frame: CGRectMake(20, 60, UIScreen.mainScreen().bounds.size.width - 40, 166))
-        lineChart.verticalGridStep = 5
-        lineChart.horizontalGridStep = 9
-        lineChart.labelForIndex = { (item) in
-            return "\(item)"
-        }
-        lineChart.labelForValue = { (value) in
-            return "\(value)"
-        }
-        lineChart.setChartData(chartData)
-        return lineChart
-    }
-
-    private func chart2() -> FSLineChart {
-        //
-        var soundLevelSplineCurve = SAMCubicSpline(points: [
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level1), 0.0)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level2), 0.05)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level3), 0.1)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level4), 0.2)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level5), 0.3)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level6), 0.5)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level7), 0.7)),
-            NSValue(CGPoint: CGPointMake(CGFloat(HMANoise.Level8), 1.0)),
-        ])
-        var chartData: [CGFloat] = []
-        let min = CGFloat(HMANoise.Level1)
-        let max = CGFloat(HMANoise.Level8)
-        for var x = min; x <= max; x += 1.0 {
-            var y = soundLevelSplineCurve.interpolate(x)
-            if y < 0 { y = 0 }
-            if y > 1.0 { y = 1.0 }
-            chartData.append(y)
-        }
-        let lineChart = FSLineChart(frame: CGRectMake(20, 60+166+40, UIScreen.mainScreen().bounds.size.width - 40, 166))
-        lineChart.verticalGridStep = 5
-        lineChart.horizontalGridStep = 9
-        lineChart.labelForIndex = { (item) in
-            return "\(item)"
-        }
-        lineChart.labelForValue = { (value) in
-            return "\(value)"
-        }
-        lineChart.setChartData(chartData)
-        return lineChart
-    }
-*/
 }
 
 

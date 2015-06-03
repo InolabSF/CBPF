@@ -16,10 +16,10 @@ class HMAComfortParameter: AnyObject {
     /// MARK: - property
 
     /**
-     * get discomfort index
-     * @return discomfort index
+     * get heat index
+     * @return heat index
      **/
-    func getDiscomfortIndex() -> Double {
+    func getHeatIndex() -> Double {
         let celsius = (temperature - 32.0) / 1.8
         return 0.81 * celsius + 0.01 * humidity * (0.99 * celsius - 14.3) + 46.3
     }

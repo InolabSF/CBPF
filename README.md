@@ -26,6 +26,11 @@ dev: https://isid-cbpf.herokuapp.com
 ・[CrimeData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/CrimeData.html)
 
 
+### Evaluation Function
+
+・[Comfort](http://inolabsf.github.io/CBPF/document/CCPF/EvaluationFunction/Comfort.html)
+
+
 ### iOS
 
 ・~~[iOS API](http://inolabsf.github.io/CBPF/document/AirCasting/iOS/API/)~~
