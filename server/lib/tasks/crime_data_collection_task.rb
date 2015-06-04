@@ -5,8 +5,23 @@ require './lib/assets/uri_generator'
 
 class Tasks::CrimeDataCollectionTask
 
-  def self.executeThreeMonthAgo
-    uri = UriGenerator.sf_government_crime(3, 1)
+  def self.execute_all
+    start_date = Date.new(2004, 1, 1)
+    end_date = 3.month.ago
+    start_month = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
+    end_month = 3
+    (end_month..start_month).each do |month|
+      self.execute_sf_government_crime(month, 1)
+    end
+  end
+
+  def self.execute_three_month_ago
+    self.execute_sf_government_crime(3, 1)
+  end
+
+
+  def self.execute_sf_government_crime(how_many_month_ago, period_of_month)
+    uri = UriGenerator.sf_government_crime(how_many_month_ago, period_of_month)
     request_header = {}
     json = HttpClient.get_json(uri.to_s, request_header)
 =begin
@@ -61,6 +76,7 @@ class Tasks::CrimeDataCollectionTask
 
       crime_data.save if crime_data.valid?
     end
+
 
   end
 end
