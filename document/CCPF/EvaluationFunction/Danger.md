@@ -52,6 +52,16 @@ Store crime data if crime description includes these words because they relate t
 <a name="display_crime_data"> </a>
 ## Display Crime Data
 
-![]()
+##### Example
+
+Display as dots (2015/01~2015/04)
+
+![](danger_demo_201506040711_crime_dots_2015.01~04.png)
+
+##### Example
+
+Display as heatmap (2015/03~2015/04)
+
+![](danger_demo_201506040711_crime_heatmap_2015.03~04.png)
 
 <br />

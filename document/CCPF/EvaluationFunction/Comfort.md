@@ -55,7 +55,7 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 
 ##### Make a spline curve from the points
 
-![](graph_example_comfort.png)
+![](comfort_graph_example_comfort.png)
 
 <br />
 
@@ -91,7 +91,7 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 
 ##### Make a spline curve from the points
 
-![](graph_example_sound_level.png)
+![](comfort_graph_example_sound_level.png)
 
 <br />
 
