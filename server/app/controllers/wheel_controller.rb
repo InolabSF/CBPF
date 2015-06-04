@@ -136,9 +136,18 @@ class WheelController < ApplicationController
       long_degree = MathUtility.get_long_degree(lat, long, radius)
       is_return_json = !(lat_degree == 0 || long_degree == 0)
 
+      #start_date = 1.month.ago
+      #end_date = 0.month.ago
+
       # response
       if is_return_json
-        datas = WheelData.where(data_type: data_type, lat: (lat-lat_degree)..(lat+lat_degree), long: (long-long_degree)..(long+long_degree))
+        datas = WheelData.where(
+          data_type: data_type,
+          lat: (lat-lat_degree)..(lat+lat_degree),
+          long: (long-long_degree)..(long+long_degree)
+          #long: (long-long_degree)..(long+long_degree),
+          #timestamp: DateTime.new(start_date.year, start_date.month, 1)..DateTime.new(end_date.year, end_date.month, 1)
+        )
         json = Jbuilder.encode do |j|
           j.wheel_datas(datas)
         end

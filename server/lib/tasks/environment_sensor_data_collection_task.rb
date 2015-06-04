@@ -5,17 +5,17 @@ require './lib/assets/uri_generator'
 
 class Tasks::EnvironmentSensorDataCollectionTask
   def self.execute_all
-    self.executeAirCasting(Date.new(2011, 1, 1), Date.today)
+    self.execute_aircasting(Date.new(2011, 1, 1), Date.today)
   end
 
   def self.execute_three_days_ago
-    self.executeAirCasting(3.days.ago, 2.days.ago)
+    self.execute_aircasting(3.days.ago, 2.days.ago)
   end
 
   def self.execute_aircasting(date_from, date_to)
     sensor_params = [
       # Humidity
-      { 'type' => 1, 'sensor_name' => 'AirBeam-RH', 'measurement_type' => 'Humidity', 'unit_symbol' => 'dB' },
+      { 'type' => 1, 'sensor_name' => 'AirBeam-RH', 'measurement_type' => 'Humidity', 'unit_symbol' => '%' },
       # CO
       # CO2
       # NO2

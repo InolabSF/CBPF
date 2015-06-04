@@ -13,8 +13,10 @@ module UriGenerator
     query['q[north]'] = 37.815
     query['q[south]'] = 37.7
     # grid size
-    query['q[grid_size_x]'] = 68.59464627151051
-    query['q[grid_size_y]'] = 25
+    #query['q[grid_size_x]'] = 68.59464627151051
+    #query['q[grid_size_y]'] = 25
+    query['q[grid_size_x]'] = 274.37858508604204
+    query['q[grid_size_y]'] = 100.0
     # time
     query['q[time_from]'] = 420
     query['q[time_to]'] = 419
