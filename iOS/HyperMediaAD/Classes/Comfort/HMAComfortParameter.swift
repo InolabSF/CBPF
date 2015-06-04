@@ -7,6 +7,8 @@ class HMAComfortParameter: AnyObject {
     var temperature: Double!
     /// Percentage
     var humidity: Double!
+    /// µg/m³
+    var pm25: Double!
     /// Sound Level (dB)
     var soundLevel: Double!
     /// latitude and longitude

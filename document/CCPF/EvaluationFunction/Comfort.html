@@ -316,9 +316,10 @@ pre code, pre tt {
 <p><br /></p>
 <h2 id="method">Method</h2>
 <ol>
-<li>Get sensor data (Temperature, Humidity, Sound Level) and Location (Latitude, Longitude)</li>
+<li>Get sensor data (Temperature, Humidity, PM2.5, Sound Level) and Location (Latitude, Longitude)</li>
 <li><a href="#calculate_heat_index">Calculate Heat Index</a> from Temperature and Humidity</li>
 <li><a href="#evaluate_heat_index">Evaluate Heat Index</a></li>
+<li><a href="#evaluate_pm25">Evaluate PM2.5</a></li>
 <li><a href="#evaluate_sound_level">Evaluate Sound Level</a></li>
 </ol>
 <p><br /></p>
@@ -349,6 +350,23 @@ pre code, pre tt {
 <h5 id="make-a-spline-curve-from-the-points">Make a spline curve from the points</h5>
 <p><img src="comfort_graph_example_comfort.png" alt=""></p>
 <p><br /></p>
+<p><a name="evaluate_pm25"> </a></p>
+<h2 id="evaluate-pm2-5">Evaluate PM2.5</h2>
+<h5 id="definition">Definition</h5>
+<p>0.0 is comfortable. 1.0 is uncomfortable.</p>
+<h3 id="example">Example</h3>
+<h5 id="pick-some-arbitrary-points">Pick some arbitrary points</h5>
+<pre><code>[
+    { &quot;PM2.5(µg/m³)&quot;:  0.0, &quot;evaluation&quot;: 0.00 },
+    { &quot;PM2.5(µg/m³)&quot;: 12.0, &quot;evaluation&quot;: 0.05 },
+    { &quot;PM2.5(µg/m³)&quot;: 23.5, &quot;evaluation&quot;: 0.20 },
+    { &quot;PM2.5(µg/m³)&quot;: 35.0, &quot;evaluation&quot;: 0.50 },
+    { &quot;PM2.5(µg/m³)&quot;: 45.0, &quot;evaluation&quot;: 0.90 },
+    { &quot;PM2.5(µg/m³)&quot;: 55.0, &quot;evaluation&quot;: 1.00 }
+]</code></pre>
+<h5 id="make-a-spline-curve-from-the-points">Make a spline curve from the points</h5>
+<p><img src="comfort_graph_example_pm25.png" alt=""></p>
+<p><br /></p>
 <p><a name="evaluate_sound_level"> </a></p>
 <h2 id="evaluate-sound-level">Evaluate Sound Level</h2>
 <h5 id="definition">Definition</h5>
@@ -375,6 +393,51 @@ pre code, pre tt {
 <h3 id="heat-index">Heat Index</h3>
 <blockquote>
 <p>SOURCE: <a href="http://keisan.casio.jp/exec/system/1202883065">http://keisan.casio.jp/exec/system/1202883065</a></p>
+</blockquote>
+<h3 id="pm2-5">PM2.5</h3>
+<table>
+<thead>
+<tr>
+<th>Values</th>
+<th>Air Quality Descriptor</th>
+<th>Health Concerns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 - 50</td>
+<td>Good</td>
+<td>None</td>
+</tr>
+<tr>
+<td>51 - 100</td>
+<td>Moderate</td>
+<td>None</td>
+</tr>
+<tr>
+<td>101 - 150</td>
+<td>Unhealthy for Sensitive Groups</td>
+<td>People with respiratory or heart disease, the elderly, and children should limit prolonged exertion.</td>
+</tr>
+<tr>
+<td>151 - 200</td>
+<td>Unhealthy</td>
+<td>People with respiratory or heart disease, the elderly, and children should avoid prolonged exertion; everyone else should limit prolonged exertion.</td>
+</tr>
+<tr>
+<td>201 - 300</td>
+<td>Very Unhealthy</td>
+<td>People with respiratory or heart disease, the elderly, and children should avoid any outdoor activity; everyone else should avoid prolonged exertion.</td>
+</tr>
+<tr>
+<td>301 - 500</td>
+<td>Hazardous</td>
+<td>Everyone should avoid any outdoor exertion; people with respiratory or heart disease, the elderly, and children should remain indoors.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>SOURCE: <a href="http://www.airinfonow.org/html/ed_particulate.html">http://www.airinfonow.org/html/ed_particulate.html</a></p>
 </blockquote>
 <h3 id="sound-level">Sound Level</h3>
 <table>

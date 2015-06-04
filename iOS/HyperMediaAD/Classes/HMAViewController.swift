@@ -49,13 +49,16 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         // test
         self.view.bringSubviewToFront(self.testButton)
 /*
+        // display comfort evaluation graph
         let comfort = HMAComfort()
-        var heatIndexGraphView = comfort.heatIndexGraphView()
-        heatIndexGraphView.frame = CGRectMake(0, 20, heatIndexGraphView.frame.size.width, heatIndexGraphView.frame.size.height)
-        self.view.addSubview(heatIndexGraphView)
-        var soundLevelGraphView = comfort.soundLevelGraphView()
-        soundLevelGraphView.frame = CGRectMake(0, 20+heatIndexGraphView.frame.size.height, soundLevelGraphView.frame.size.width, soundLevelGraphView.frame.size.height)
-        self.view.addSubview(soundLevelGraphView)
+        let graphs = [ comfort.heatIndexGraphView(), comfort.pm25GraphView(), comfort.soundLevelGraphView(), ]
+        var offsetY: CGFloat = 20.0
+        for var i = 0; i < graphs.count; i++ {
+            let graph = graphs[i]
+            graph.frame = CGRectMake(0, offsetY, graph.frame.size.width, graph.frame.size.height)
+            self.view.addSubview(graph)
+            offsetY += graph.frame.size.height
+        }
 */
     }
 

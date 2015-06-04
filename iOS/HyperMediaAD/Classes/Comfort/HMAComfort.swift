@@ -12,6 +12,16 @@ struct HMAHeatIndex {
     static let Boiling: Double      = 85.0
 }
 
+/// PM2.5
+struct HMAPM25 {
+    static let Level1: Double       = 0.0
+    static let Level2: Double       = 12.0
+    static let Level3: Double       = 23.5
+    static let Level4: Double       = 35.0
+    static let Level5: Double       = 45.0
+    static let Level6: Double       = 55.0
+}
+
 /// Sound Level
 struct HMASound {
     static let Level1: Double   = 10.0      // Breathing
@@ -39,6 +49,8 @@ class HMAComfort: NSObject {
 
     /// evaluation function from heat index
     var heatIndexSplineCurve: SAMCubicSpline!
+    /// evaluation function from PM2.5
+    var pm25SplineCurve: SAMCubicSpline!
     /// evaluation function from sound level
     var soundLevelSplineCurve: SAMCubicSpline!
 
@@ -61,6 +73,14 @@ class HMAComfort: NSObject {
             NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Hot), 0.50)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMAHeatIndex.Boiling), 1.00)),
         ])
+        self.pm25SplineCurve = SAMCubicSpline(points: [
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level1), 0.00)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level2), 0.05)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level3), 0.20)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level4), 0.50)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level5), 0.90)),
+            NSValue(CGPoint: CGPointMake(CGFloat(HMAPM25.Level6), 1.00)),
+        ])
         self.soundLevelSplineCurve = SAMCubicSpline(points: [
             NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level1), 0.00)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level2), 0.01)),
@@ -72,19 +92,30 @@ class HMAComfort: NSObject {
             NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level8), 0.60)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMASound.Level9), 1.00)),
         ])
-
     }
 
 
     /// MARK: - public api
 
     /**
-     * get  evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
+     * get heat index evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
      * @param parameter comfort parameter
      * @return comfort evaluation
      */
     func getHeatIndexWeight(parameter: HMAComfortParameter) -> Double{
         var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(parameter.getHeatIndex())))
+        if weight < 0.0 { return 0.0 }
+        if weight > 1.0 { return 1.0 }
+        return weight
+    }
+
+    /**
+     * get evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
+     * @param parameter comfort parameter
+     * @return comfort evaluation
+     */
+    func getPM25Weight(parameter: HMAComfortParameter) -> Double{
+        var weight = Double(self.pm25SplineCurve.interpolate(CGFloat(parameter.pm25)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -129,6 +160,32 @@ class HMAComfort: NSObject {
         return lineChart
     }
 
+    /**
+     * get PM2.5 graph view
+     * @return PM2.5 graph view
+     **/
+    func pm25GraphView() -> FSLineChart {
+        var chartData: [CGFloat] = []
+        let min = CGFloat(HMAPM25.Level1)
+        let max = CGFloat(HMAPM25.Level6)
+        for var x = min; x <= max; x += 1.0 {
+            var y = self.pm25SplineCurve.interpolate(x)
+            if y < 0 { y = 0 }
+            if y > 1.0 { y = 1.0 }
+            chartData.append(y)
+        }
+        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
+        lineChart.verticalGridStep = 5
+        lineChart.horizontalGridStep = 9
+        lineChart.labelForIndex = { (item) in
+            return "\(item)"
+        }
+        lineChart.labelForValue = { (value) in
+            return "\(value)"
+        }
+        lineChart.setChartData(chartData)
+        return lineChart
+    }
     /**
      * get sound level graph view
      * @return sound level graph view

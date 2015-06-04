@@ -4,10 +4,11 @@
 
 ## Method
 
-1. Get sensor data (Temperature, Humidity, Sound Level) and Location (Latitude, Longitude)
+1. Get sensor data (Temperature, Humidity, PM2.5, Sound Level) and Location (Latitude, Longitude)
 2. [Calculate Heat Index](#calculate_heat_index) from Temperature and Humidity
 3. [Evaluate Heat Index](#evaluate_heat_index)
-4. [Evaluate Sound Level](#evaluate_sound_level)
+4. [Evaluate PM2.5](#evaluate_pm25)
+5. [Evaluate Sound Level](#evaluate_sound_level)
 
 <br />
 
@@ -60,6 +61,35 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 <br />
 
 
+<a name="evaluate_pm25"> </a>
+## Evaluate PM2.5
+
+##### Definition
+
+0.0 is comfortable. 1.0 is uncomfortable.
+
+### Example
+
+##### Pick some arbitrary points
+
+```
+[
+    { "PM2.5(µg/m³)":  0.0, "evaluation": 0.00 },
+    { "PM2.5(µg/m³)": 12.0, "evaluation": 0.05 },
+    { "PM2.5(µg/m³)": 23.5, "evaluation": 0.20 },
+    { "PM2.5(µg/m³)": 35.0, "evaluation": 0.50 },
+    { "PM2.5(µg/m³)": 45.0, "evaluation": 0.90 },
+    { "PM2.5(µg/m³)": 55.0, "evaluation": 1.00 }
+]
+```
+
+##### Make a spline curve from the points
+
+![](comfort_graph_example_pm25.png)
+
+<br />
+
+
 <a name="evaluate_sound_level"> </a>
 ## Evaluate Sound Level
 
@@ -101,6 +131,19 @@ Make an evaluation function by using spline curve. Pick some arbitrary points th
 ### Heat Index
 
 > SOURCE: http://keisan.casio.jp/exec/system/1202883065
+
+### PM2.5
+
+| Values | Air Quality Descriptor | Health Concerns |
+|-|-|-|
+| 0 - 50 | Good | None |
+| 51 - 100 | Moderate | None | 
+| 101 - 150 | Unhealthy for Sensitive Groups | People with respiratory or heart disease, the elderly, and children should limit prolonged exertion. | 
+| 151 - 200 | Unhealthy | People with respiratory or heart disease, the elderly, and children should avoid prolonged exertion; everyone else should limit prolonged exertion. | 
+| 201 - 300 | Very Unhealthy | People with respiratory or heart disease, the elderly, and children should avoid any outdoor activity; everyone else should avoid prolonged exertion. | 
+| 301 - 500 | Hazardous | Everyone should avoid any outdoor exertion; people with respiratory or heart disease, the elderly, and children should remain indoors. | 
+
+> SOURCE: http://www.airinfonow.org/html/ed_particulate.html
 
 ### Sound Level
 
