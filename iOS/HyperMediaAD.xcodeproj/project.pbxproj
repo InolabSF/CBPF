@@ -46,6 +46,7 @@
 		E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */; };
 		E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
+		E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
 		E6DB7C3E1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
 		E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3F1B11974E0055DF6C /* HMAWheelData.swift */; };
@@ -151,6 +152,7 @@
 		E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHeatMapAnnotation.swift; sourceTree = "<group>"; };
 		E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMARouteAnnotation.swift; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
+		E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeAnnotation.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
 		E6DB7C3F1B11974E0055DF6C /* HMAWheelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelData.swift; sourceTree = "<group>"; };
 		E6DB7C4A1B1197F60055DF6C /* HMAGoogleMapClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAGoogleMapClient.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */,
 				E68446FE1B0AABF10094DC04 /* HMAMapView.swift */,
 				E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */,
+				E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */,
 				E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */,
 				E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */,
 			);
@@ -732,6 +735,7 @@
 				E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */,
 				E62A6D081AF048FA00275377 /* HMASale.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
+				E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */,
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,

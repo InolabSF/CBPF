@@ -32,5 +32,4 @@ class HMAMapMath {
         return radius / mile
     }
 
-
 }

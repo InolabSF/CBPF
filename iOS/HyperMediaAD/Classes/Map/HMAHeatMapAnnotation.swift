@@ -98,5 +98,4 @@ class HMAHeatMapAnnotation: RMAnnotation {
         return shape
     }
 
-
 }

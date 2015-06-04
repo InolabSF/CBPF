@@ -1,19 +1,28 @@
 import CoreLocation
 
 
-/// MARK: - HMAClusterAnnotation
-class HMAClusterAnnotation: RMAnnotation {
+/// MARK: - HMACrimeAnnotation
+class HMACrimeAnnotation: RMAnnotation {
 
     /// MARK: - property
-    var sensorType: Int!
-    var sensorValue: Double!
+    var desc: String!
+    var resolution: String!
 
 
     /// MARK: - initialization
-    init(mapView: RMMapView, coordinate: CLLocationCoordinate2D, title: String, sensorType: Int, sensorValue: Double) {
+
+    /**
+     * initialization
+     * @param mapView mapView
+     * @param coordinate coordinate
+     * @param title title
+     * @param desc desc
+     * @param resolution resolution
+     **/
+    init(mapView: RMMapView, coordinate: CLLocationCoordinate2D, title: String, desc: String, resolution: String) {
         super.init(mapView: mapView, coordinate: coordinate, andTitle: title)
-        self.sensorType = sensorType
-        self.sensorValue = sensorValue
+        self.desc = desc
+        self.resolution = resolution
 
         let longOffset = HMAMapMath.degreeOfLongitudePerRadius(
             HMAMapBox.MilesForBoundingbox,
@@ -37,15 +46,25 @@ class HMAClusterAnnotation: RMAnnotation {
      * @return layer
      */
     func getLayer() -> RMMapLayer? {
-        let clusterValue = self.sensorValue
-
-        var layer = RMMarker(UIImage: UIImage(named: "map_circle"))
-        layer.opacity = 0.75;
-        layer.bounds = CGRectMake(0, 0, CGFloat(clusterValue), CGFloat(clusterValue))
+        var circle = RMCircle(view: mapView, radiusInMeters: 10.0)
+        let color = UIColor.redColor()
+        circle.lineColor = color
+        circle.fillColor = color
+        return circle;
+/*
+        var layer = RMMarker(UIImage: UIImage(named: "map_crime"))
+        layer.opacity = 0.05;
+        layer.bounds = CGRectMake(0, 0, 100, 100)
         layer.textForegroundColor = UIColor.whiteColor()
-        layer.changeLabelUsingText(String(format: "%.0fF", clusterValue))
         return layer
+*/
+/*
+        var circle = RMCircle(view: mapView, radiusInMeters: 250.0)
+        let color = UIColor.redColor()
+        circle.lineColor = color.colorWithAlphaComponent(0.2)
+        circle.fillColor = color.colorWithAlphaComponent(0.2)
+        return circle;
+*/
     }
-
 
 }

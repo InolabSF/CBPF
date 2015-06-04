@@ -48,7 +48,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
 
         // test
         self.view.bringSubviewToFront(self.testButton)
-
+/*
         let comfort = HMAComfort()
         var heatIndexGraphView = comfort.heatIndexGraphView()
         heatIndexGraphView.frame = CGRectMake(0, 20, heatIndexGraphView.frame.size.width, heatIndexGraphView.frame.size.height)
@@ -56,6 +56,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
         var soundLevelGraphView = comfort.soundLevelGraphView()
         soundLevelGraphView.frame = CGRectMake(0, 20+heatIndexGraphView.frame.size.height, soundLevelGraphView.frame.size.width, soundLevelGraphView.frame.size.height)
         self.view.addSubview(soundLevelGraphView)
+*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,7 +71,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
      * @param button UIButton
      **/
     @IBAction func touchedUpInside(#button: UIButton) {
-
+/*
         // route
         let userCoordinate = self.mapView.userLocation.location.coordinate
         HMAGoogleMapClient.sharedInstance.removeAllWaypoints()
@@ -80,11 +81,12 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
                 self.mapView.setRouteFromGoogleMapAPIDirections(json: json)
             }
         )
+*/
 /*
         // get sensor data from CBPF server
         HMASensorClient.getSensorData(
             sensorType: 1,
-            coordinate: self.mapView.userLocation.location.coordinate,//newLocation.coordinate,
+            coordinate: self.mapView.userLocation.location.coordinate,
             completionHandler: { [unowned self] (json) in
                 // draw map
                 self.mapView.setTempatureAnnotation(json: json)
@@ -93,9 +95,15 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate, RMMapViewD
             }
         )
 */
-
+        HMACrimeClient.sharedInstance.cancelGetCrime()
+        HMACrimeClient.sharedInstance.getCrime(
+            radius: 12.5,
+        coordinate: CLLocationCoordinate2DMake(37.7932, -122.4145),
+ completionHandler: { [unowned self] (json) in
+                self.mapView.setCrimeAnnotation(json: json)
+            }
+        )
     }
-
 
 }
 

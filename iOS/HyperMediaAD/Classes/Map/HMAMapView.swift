@@ -27,6 +27,11 @@ class HMAMapView: RMMapView {
             let clusterAnnotation = annotation as! HMAClusterAnnotation
             layer = clusterAnnotation.getLayer()
         }
+        // crime
+        else if annotation.isKindOfClass(HMACrimeAnnotation) {
+            let crimeAnnotation = annotation as! HMACrimeAnnotation
+            layer = crimeAnnotation.getLayer()
+        }
 
         return layer
     }
@@ -59,7 +64,6 @@ class HMAMapView: RMMapView {
      * @param json json
      **/
     func setTempatureAnnotation(#json: JSON) {
-
         let sensorDatas = json["sensor_datas"].arrayValue
         if sensorDatas.count == 0 { return }
 
@@ -92,8 +96,29 @@ class HMAMapView: RMMapView {
             )
             self.addAnnotation(annotation)
         }
-
 */
+    }
+
+    /**
+     * set crime annotation
+     * @param json json
+     **/
+    func setCrimeAnnotation(#json: JSON) {
+        self.removeKindOfAnnotationClass(HMACrimeAnnotation)
+
+        let crimeDatas = json["crime_datas"].arrayValue
+        if crimeDatas.count == 0 { return }
+
+        for crimeData in crimeDatas {
+            let annotation = HMACrimeAnnotation(
+                mapView: self,
+                coordinate: CLLocationCoordinate2DMake(crimeData["lat"].doubleValue, crimeData["long"].doubleValue),
+                title: crimeData["desc"].stringValue,
+                desc: crimeData["desc"].stringValue,
+                resolution: crimeData["resolution"].stringValue
+            )
+            self.addAnnotation(annotation)
+        }
     }
 
     /**
@@ -117,6 +142,7 @@ class HMAMapView: RMMapView {
             if annotation.isKindOfClass(annotationClass) { self.removeAnnotation(annotation as! RMAnnotation) }
         }
     }
+
 
     /// MARK: - private api
 
