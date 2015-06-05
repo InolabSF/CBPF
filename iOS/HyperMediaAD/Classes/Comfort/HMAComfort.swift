@@ -10,6 +10,9 @@ struct HMAHeatIndex {
     static let Warm: Double         = 77.5
     static let Hot: Double          = 82.5
     static let Boiling: Double      = 85.0
+
+    static let Min: Double          = HMAHeatIndex.Cold
+    static let Max: Double          = HMAHeatIndex.Boiling
 }
 
 /// PM2.5
@@ -20,6 +23,9 @@ struct HMAPM25 {
     static let Level4: Double       = 35.0
     static let Level5: Double       = 45.0
     static let Level6: Double       = 55.0
+
+    static let Min: Double          = HMAPM25.Level1
+    static let Max: Double          = HMAPM25.Level6
 }
 
 /// Sound Level
@@ -39,6 +45,9 @@ struct HMASound {
     static let Level13: Double  = 130.0     // Military jet aircraft take-off from aircraft carrier with afterburner at 50 ft (130 dB).
     static let Level14: Double  = 140.0     // Aircraft carrier deck
     static let Level15: Double  = 150.0     // Jet take-off (at 25 meters)
+
+    static let Min: Double          = HMASound.Level1
+    static let Max: Double          = HMASound.Level9
 }
 
 
@@ -103,7 +112,10 @@ class HMAComfort: NSObject {
      * @return comfort evaluation
      */
     func getHeatIndexWeight(parameter: HMAComfortParameter) -> Double{
-        var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(parameter.getHeatIndex())))
+        let heatIndex = parameter.getHeatIndex()
+        if heatIndex < HMAHeatIndex.Min { return 0.0 }
+        if heatIndex > HMAHeatIndex.Max { return 1.0 }
+        var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(heatIndex)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -115,7 +127,10 @@ class HMAComfort: NSObject {
      * @return comfort evaluation
      */
     func getPM25Weight(parameter: HMAComfortParameter) -> Double{
-        var weight = Double(self.pm25SplineCurve.interpolate(CGFloat(parameter.pm25)))
+        let pm25 = parameter.pm25
+        if pm25 < HMAPM25.Min { return 0.0 }
+        if pm25 > HMAPM25.Max { return 1.0 }
+        var weight = Double(self.pm25SplineCurve.interpolate(CGFloat(pm25)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -127,7 +142,10 @@ class HMAComfort: NSObject {
      * @return sound level evaluation
      */
     func getWeight(parameter: HMAComfortParameter) -> Double{
-        var weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(parameter.soundLevel)))
+        let soundLevel = parameter.soundLevel
+        if soundLevel < HMASound.Min { return 0.0 }
+        if soundLevel > HMASound.Max { return 1.0 }
+        var weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(soundLevel)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -139,12 +157,12 @@ class HMAComfort: NSObject {
      **/
     func heatIndexGraphView() -> FSLineChart {
         var chartData: [CGFloat] = []
-        let min = CGFloat(HMAHeatIndex.Cold)
-        let max = CGFloat(HMAHeatIndex.Boiling)
+        let min = CGFloat(HMAHeatIndex.Min)
+        let max = CGFloat(HMAHeatIndex.Max)
         for var x = min; x <= max; x += 1.0 {
             var y = self.heatIndexSplineCurve.interpolate(x)
             if y < 0 { y = 0 }
-            if y > 1.0 { y = 1.0 }
+            else if y > 1.0 { y = 1.0 }
             chartData.append(y)
         }
         let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
@@ -166,12 +184,12 @@ class HMAComfort: NSObject {
      **/
     func pm25GraphView() -> FSLineChart {
         var chartData: [CGFloat] = []
-        let min = CGFloat(HMAPM25.Level1)
-        let max = CGFloat(HMAPM25.Level6)
+        let min = CGFloat(HMAPM25.Min)
+        let max = CGFloat(HMAPM25.Max)
         for var x = min; x <= max; x += 1.0 {
             var y = self.pm25SplineCurve.interpolate(x)
             if y < 0 { y = 0 }
-            if y > 1.0 { y = 1.0 }
+            else if y > 1.0 { y = 1.0 }
             chartData.append(y)
         }
         let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
@@ -192,12 +210,12 @@ class HMAComfort: NSObject {
      **/
     func soundLevelGraphView() -> FSLineChart {
         var chartData: [CGFloat] = []
-        let min = CGFloat(HMASound.Level1)
-        let max = CGFloat(HMASound.Level9)
+        let min = CGFloat(HMASound.Min)
+        let max = CGFloat(HMASound.Max)
         for var x = min; x <= max; x += 1.0 {
             var y = self.soundLevelSplineCurve.interpolate(x)
             if y < 0 { y = 0 }
-            if y > 1.0 { y = 1.0 }
+            else if y > 1.0 { y = 1.0 }
             chartData.append(y)
         }
         let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
