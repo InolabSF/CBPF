@@ -17,13 +17,8 @@
 Store crime data if crime description includes these words because they relate to cycling.
 
 ```ruby
-'STREET'
-'SIDEWALK'
+# Strict vehicle crimes:
 'TRAFFIC'
-'OBSTRUCTING'
-'LOITERING'
-'PEDDLING'
-'PARK'
 'VEHICLE'
 'BICYCLE'
 'AUTO'
@@ -31,10 +26,14 @@ Store crime data if crime description includes these words because they relate t
 'TRUCK'
 'TAXI'
 'DRIVER'
+'SPEEDING'
+'TIRE'
+'DRIVING'
+'DISTURB'
+# Other crimes (can now ignore these):
 'LICENSE'
 'ALCOHOL'
 'DRUNK'
-'SPEEDING'
 'FIREARM'
 'GUN'
 'SHOOTING'
@@ -42,8 +41,13 @@ Store crime data if crime description includes these words because they relate t
 'MISCHIEF'
 'ATM'
 'MANNER'
-'DISTURB'
 'INDECENT'
+'STREET'
+'SIDEWALK'
+'OBSTRUCTING'
+'LOITERING'
+'PEDDLING'
+'PARK'
 ```
 
 <br />
