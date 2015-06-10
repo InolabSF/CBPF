@@ -214,10 +214,14 @@ extension HMAViewController: HMASearchResultViewDelegate {
 extension HMAViewController: HMAHorizontalTableViewDelegate {
 
     func tableView(tableView: HMAHorizontalTableView, indexPath: NSIndexPath, wasOn: Bool) {
+        let markerType = tableView.dataSource[indexPath.row].markerType
+        self.mapView.setCrimeMarkerType(markerType)
+
         let location = self.mapView.myLocation
         let on = wasOn && (location != nil)
         let crimes = HMACrimeData.fetch(minimumCoordinate: self.mapView.minimumCoordinate(), maximumCoordinate: self.mapView.maximumCoordinate())
         self.mapView.setCrimes(on ? crimes : nil)
+
         self.mapView.draw()
     }
 

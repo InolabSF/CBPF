@@ -13,7 +13,8 @@ class HMAMapView: GMSMapView {
     private var routeJSON: JSON?
     /// crimes
     private var crimes: [HMACrimeData]?
-
+    /// crime marker type
+    private var crimeMarkerType = HMAGoogleMap.Visualization.None
     /// heatmap ImageView
     private var heatmapImageView: HMAHeatmapImageView?
 
@@ -31,8 +32,24 @@ class HMAMapView: GMSMapView {
             self.heatmapImageView = nil
         }
 
-        if self.crimes != nil { self.drawCrimeMakers() }
-        if self.routeJSON != nil { self.drawRoute() }
+        // crime
+        if self.crimes != nil {
+            switch (self.crimeMarkerType) {
+                case HMAGoogleMap.Visualization.CrimePoint:
+                    self.drawCrimeMakers()
+                    break
+                case HMAGoogleMap.Visualization.CrimeHeatmap:
+                    self.drawCrimeHeatmap()
+                    break
+                default:
+                    break
+            }
+        }
+
+        // route
+        if self.routeJSON != nil {
+            self.drawRoute()
+        }
     }
 
     /**
@@ -50,6 +67,16 @@ class HMAMapView: GMSMapView {
      **/
     func setCrimes(crimes: [HMACrimeData]?) {
         self.crimes = crimes
+        if self.crimes == nil { self.crimeMarkerType = HMAGoogleMap.Visualization.None }
+        else if self.crimes!.count == 0 { self.crimeMarkerType = HMAGoogleMap.Visualization.None }
+    }
+
+    /**
+     * set crime marker type
+     * @param markerType DAMarker
+     **/
+    func setCrimeMarkerType(markerType: HMAGoogleMap.Visualization) {
+        self.crimeMarkerType = markerType
     }
 
     /**
@@ -191,7 +218,6 @@ class HMAMapView: GMSMapView {
      * draw crimes
      **/
     private func drawCrimeMakers() {
-/*
         if self.crimes == nil { return }
 
         let drawingCrimes = self.crimes as [HMACrimeData]!
@@ -200,8 +226,6 @@ class HMAMapView: GMSMapView {
         for crime in drawingCrimes {
             self.drawCrimeMaker(crime: crime)
         }
-*/
-        self.drawCrimeHeatmap()
     }
 
     /**

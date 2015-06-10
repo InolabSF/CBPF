@@ -144,6 +144,15 @@ struct HMAGoogleMap {
         static let Walking =           "walking"
         static let Bicycling =         "bicycling"
     }
+
+    /// MARK: - visualization
+    enum Visualization {
+        case None
+        case Destination
+        case Waypoint
+        case CrimePoint
+        case CrimeHeatmap
+    }
 }
 
 
