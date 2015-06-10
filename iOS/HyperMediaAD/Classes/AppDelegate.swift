@@ -53,14 +53,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     func applicationDidBecomeActive(application: UIApplication) {
         // crime API
         if HMACrimeData.hasData() { return }
+
+        let location = HMAMapView.sharedInstance.myLocation
+        if location == nil { return }
+
         HMACrimeClient.sharedInstance.cancelGetCrime()
-/*
         HMACrimeClient.sharedInstance.getCrime(
+            radius: 15.0,
+            coordinate: location.coordinate,
             completionHandler: { [unowned self] (json) in
                 HMACrimeData.save(json: json)
             }
         )
-*/
     }
 
     func applicationWillTerminate(application: UIApplication) {

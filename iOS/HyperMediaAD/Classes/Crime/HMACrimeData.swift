@@ -46,7 +46,7 @@ class HMACrimeData: NSManagedObject {
         let latOffset = HMAMapMath.degreeOfLatitudePerRadius(radius, location: location)
         let longOffset = HMAMapMath.degreeOfLongitudePerRadius(radius, location: location)
         let predicaets = [
-            NSPredicate(format: "(timestamp >= %@) AND (timestamp < %@)", startDate!, endDate!),
+            //NSPredicate(format: "(timestamp >= %@) AND (timestamp < %@)", startDate!, endDate!),
             NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: coordinate.latitude + latOffset), NSNumber(double: coordinate.latitude - latOffset)),
             NSPredicate(format: "(long <= %@) AND (long > %@)", NSNumber(double: coordinate.longitude + longOffset), NSNumber(double: coordinate.longitude - longOffset)),
         ]
@@ -68,24 +68,12 @@ class HMACrimeData: NSManagedObject {
      * @param json JSON
      * [
      *   {
-     *     "time" : "08:42",
      *     "category" : "LARCENY/THEFT",
-     *     "pddistrict" : "SOUTHERN",
-     *     "pdid" : "13054930206362",
-     *     "location" : {
-     *       "needs_recoding" : false,
-     *       "longitude" : "-122.407633520742",
-     *       "latitude" : "37.7841893501425",
-     *       "human_address" : "{\"address\":\"\",\"city\":\"\",\"state\":\"\",\"zip\":\"\"}"
-     *     },
-     *     "address" : "800 Block of MARKET ST",
-     *     "descript" : "PETTY THEFT SHOPLIFTING",
-     *     "dayofweek" : "Tuesday",
+     *     "lat" : "37.7841893501425",
+     *     "long" : "-122.407633520742",
+     *     "desc" : "PETTY THEFT SHOPLIFTING",
      *     "resolution" : "ARREST, BOOKED",
-     *     "date" : "2015-02-03T00:00:00",
-     *     "y" : "37.7841893501425",
-     *     "x" : "-122.407633520742",
-     *     "incidntnum" : "130549302"
+     *     "timestamp" : "2015-02-03T00:00:00",
      *   },
      *   ...
      * ]
@@ -93,23 +81,21 @@ class HMACrimeData: NSManagedObject {
     class func save(#json: JSON) {
         if HMACrimeData.hasData() { return }
 
-        let crimeDatas: Array<JSON> = json.arrayValue
+        let crimeDatas: Array<JSON> = json["crime_datas"].arrayValue
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         let dateFormatter = NSDateFormatter()
 
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         for crimeData in crimeDatas {
-            let yyyymmddhhmm = (crimeData["date"].stringValue).stringByReplacingOccurrencesOfString("T00:00:00", withString: " ") + crimeData["time"].stringValue
-            let timestamp = dateFormatter.dateFromString(yyyymmddhhmm)
+            let yyyymmddhhmmssSSS = crimeData["timestamp"].stringValue
+            let timestamp = dateFormatter.dateFromString(yyyymmddhhmmssSSS)
             if timestamp == nil { continue }
 
             var crime = NSEntityDescription.insertNewObjectForEntityForName("HMACrimeData", inManagedObjectContext: context) as! HMACrimeData
             crime.category = crimeData["category"].stringValue
-            if let location = crimeData["location"].dictionary {
-                crime.lat = location["latitude"]!.numberValue
-                crime.long = location["longitude"]!.numberValue
-            }
+            crime.lat = crimeData["lat"].numberValue
+            crime.long = crimeData["long"].numberValue
             crime.timestamp = timestamp!
         }
 
