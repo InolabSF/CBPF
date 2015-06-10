@@ -1,6 +1,7 @@
 class CreateCrimeData < ActiveRecord::Migration
   def change
     create_table :crime_data do |t|
+      t.string :category
       t.string :desc
       t.string :resolution
       t.float :lat

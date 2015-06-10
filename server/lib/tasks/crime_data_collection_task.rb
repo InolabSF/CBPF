@@ -55,6 +55,8 @@ class Tasks::CrimeDataCollectionTask
     json.each do |crime_json|
       crime_data = CrimeData.new
 
+      # category
+      crime_data.category = crime_json['category']
       # description
       crime_data.desc = crime_json['descript']
       crime_type_is_relating_to_cycling = false
@@ -76,7 +78,6 @@ class Tasks::CrimeDataCollectionTask
 
       crime_data.save if crime_data.valid?
     end
-
 
   end
 end

@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(version: 20150527211116) do
 
   create_table "crime_data", force: :cascade do |t|
+    t.string   "category"
     t.string   "desc"
     t.string   "resolution"
     t.float    "lat"
