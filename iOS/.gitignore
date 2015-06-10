@@ -32,3 +32,6 @@ DerivedData
 *.swo
 Thumbs.db
 .gitconfig
+
+
+HyperMediaAD/Classes/DAConstant-Private.swift
