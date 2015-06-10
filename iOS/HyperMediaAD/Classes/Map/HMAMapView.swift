@@ -145,7 +145,38 @@ class HMAMapView: GMSMapView {
      **/
     private func drawCrimes() {
         if self.crimes == nil { return }
+
         let drawingCrimes = self.crimes as [HMACrimeData]!
+
+
+/*
+        var min = CLLocationCoordinate2DMake(drawingCrimes[0].lat.doubleValue, drawingCrimes[0].long.doubleValue)
+        var max = CLLocationCoordinate2DMake(drawingCrimes[0].lat.doubleValue, drawingCrimes[0].long.doubleValue)
+
+        var locations: [CLLocation] = []
+        var weights: [NSNumber] = []
+        for crime in drawingCrimes {
+            let lat = crime.lat.doubleValue
+            let long = crime.long.doubleValue
+            locations.append(CLLocation(latitude: lat, longitude: long))
+            weights.append(NSNumber(double: 1.0))
+            if lat < min.latitude { min.latitude = lat }
+            if long < min.longitude { min.longitude = long }
+            if lat > max.latitude { max.latitude = lat }
+            if long > max.longitude { max.longitude = long }
+        }
+        //let center = CLLocationCoordinate2DMake((min.latitude + max.latitude) / 2.0, (min.longitude + max.longitude) / 2.0)
+        let center = self.projection.coordinateForPoint(CGPointMake(self.frame.size.width/2.0, self.frame.size.height))
+        var marker = HMAHeatmapMarker(position: center)
+        marker.map = self
+        marker.draggable = false
+        marker.boost = 1.0
+        marker.weights = weights
+        marker.locations = locations
+        marker.updateHeatmap()
+*/
+
+
         for crime in drawingCrimes {
             self.drawCrime(crime)
         }

@@ -88,7 +88,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.locationManager.distanceFilter = 300
         self.locationManager.startUpdatingLocation()
 
-        //self.view.bringSubviewToFront(self.crimeCheckBoxView)
         self.view.bringSubviewToFront(self.horizontalTableView)
         self.view.bringSubviewToFront(self.searchResultView)
         self.view.bringSubviewToFront(self.searchBoxView)
