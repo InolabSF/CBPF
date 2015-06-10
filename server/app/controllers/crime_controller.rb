@@ -23,6 +23,7 @@ class CrimeController < ApplicationController
     }
 
   @apiSuccess {Number} id CrimeData ID
+  @apiSuccess {String} category category of the crime. e.g. "VEHICLE THEFT"
   @apiSuccess {String} desc description of the crime. e.g. "PETTY THEFT SHOPLIFTING"
   @apiSuccess {String} resolution resolution of the crime. e.g. "ARREST, BOOKED"
   @apiSuccess {Number} lat Latitude
@@ -39,6 +40,7 @@ class CrimeController < ApplicationController
           "long": -122.43528085596421,
           "timestamp": "2015-05-07T01:25:39.738Z",
           "updated_at": "2015-05-07T01:25:39.744Z",
+          "category": "VEHICLE THEFT",
           "desc": "PETTY THEFT SHOPLIFTING",
           "resolution" : "ARREST, BOOKED"
         }

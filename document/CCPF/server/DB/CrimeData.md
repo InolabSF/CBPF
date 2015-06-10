@@ -4,13 +4,17 @@
 
 ## Entity
 
-| id     | desc   | resolution | lat   | long  | timestamp |
-|--------|--------|------------|-------|-------|-----------|
-| Integer| String | String     | Float | Float | DateTime  |
+| id     | category | desc   | resolution | lat   | long  | timestamp |
+|--------|----------|--------|------------|-------|-------|-----------|
+| Integer| String   | String | String     | Float | Float | DateTime  |
 
 <br />
 
 ## Attributes
+
+### category
+
+category of the crime. e.g. "VEHICLE THEFT"
 
 ### desc
 
