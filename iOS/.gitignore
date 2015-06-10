@@ -34,4 +34,4 @@ Thumbs.db
 .gitconfig
 
 
-HyperMediaAD/Classes/DAConstant-Private.swift
+/HyperMediaAD/Classes/HMAConstant-Private.swift

@@ -9,61 +9,53 @@
 /* Begin PBXBuildFile section */
 		E623B0AF1AFAF14E009705EC /* HMAClusterAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */; };
 		E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
-		E626250D1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
 		E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C291AF0352100275377 /* AppDelegate.swift */; };
-		E62A6C341AF0352100275377 /* HMAUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C2C1AF0352100275377 /* HMAUser.swift */; };
 		E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C321AF0352100275377 /* HMAViewController.swift */; };
 		E62A6C3A1AF0356400275377 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E62A6C381AF0356400275377 /* LaunchScreen.xib */; };
 		E62A6C3B1AF0356400275377 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E62A6C391AF0356400275377 /* Main.storyboard */; };
 		E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = E62A6C9D1AF0378C00275377 /* HyperMediaAD.entitlements */; };
 		E62A6CA31AF0382F00275377 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E62A6CA21AF0382F00275377 /* Images.xcassets */; };
-		E62A6D081AF048FA00275377 /* HMASale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6D071AF048FA00275377 /* HMASale.swift */; };
-		E62A6D091AF048FA00275377 /* HMASale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6D071AF048FA00275377 /* HMASale.swift */; };
-		E62A6DA41AF04B7C00275377 /* HMADetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6D9F1AF04B7C00275377 /* HMADetailInterfaceController.swift */; };
-		E62A6DA51AF04B7C00275377 /* HMAGlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6DA01AF04B7C00275377 /* HMAGlanceController.swift */; };
-		E62A6DA61AF04B7C00275377 /* HMAInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6DA11AF04B7C00275377 /* HMAInterfaceController.swift */; };
-		E62A6DA71AF04B7C00275377 /* HMANotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6DA21AF04B7C00275377 /* HMANotificationController.swift */; };
-		E62A6DA81AF04B7C00275377 /* HMARowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6DA31AF04B7C00275377 /* HMARowController.swift */; };
-		E62A6DAE1AF04DC100275377 /* HyperMediaAD WatchKit Extension.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DAD1AF04DC100275377 /* HyperMediaAD WatchKit Extension.entitlements */; };
-		E62A6DB01AF04E1E00275377 /* PushNotificationPayload.apns in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DAF1AF04E1E00275377 /* PushNotificationPayload.apns */; };
-		E62A6DB21AF04E4300275377 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DB11AF04E4300275377 /* Images.xcassets */; };
-		E62A6DB41AF04EA200275377 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E62A6DB31AF04EA200275377 /* Interface.storyboard */; };
 		E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */; };
 		E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8C1B055B680086EEC2 /* HMAModel.xcdatamodeld */; };
-		E62B9D8F1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D8C1B055B680086EEC2 /* HMAModel.xcdatamodeld */; };
 		E62B9D941B055F050086EEC2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62B9D931B055F050086EEC2 /* CoreData.framework */; };
-		E62B9D951B055F150086EEC2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62B9D931B055F050086EEC2 /* CoreData.framework */; };
 		E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */; };
-		E62B9D9B1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */; };
-		E6466BEB1AEB034A001127E0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6466BEA1AEB034A001127E0 /* HealthKit.framework */; };
 		E6466BEC1AEB0358001127E0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6466BEA1AEB034A001127E0 /* HealthKit.framework */; };
+		E64B70FF1B2122DA00230383 /* HMANoiseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */; };
 		E65525541AEAD02E0011786A /* HyperMediaADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65525531AEAD02E0011786A /* HyperMediaADTests.swift */; };
+		E656420E1B27CB0200F955BC /* HMAConstant-Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */; };
+		E65642111B27D10200F955BC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642101B27D10200F955BC /* main.swift */; };
+		E65642141B27D22F00F955BC /* HMADestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642131B27D22F00F955BC /* HMADestination.swift */; };
+		E65642161B27D27100F955BC /* HMASearchBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642151B27D27100F955BC /* HMASearchBoxView.swift */; };
+		E65642181B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642171B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift */; };
+		E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642191B27D4AD00F955BC /* HMASearchResultView.swift */; };
+		E656421C1B27D50400F955BC /* HMAWaypointMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656421B1B27D50400F955BC /* HMAWaypointMarker.swift */; };
+		E656421E1B27D53400F955BC /* HMADestinationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656421D1B27D53400F955BC /* HMADestinationMarker.swift */; };
+		E65642291B27D68D00F955BC /* HMAHorizontalTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642231B27D68D00F955BC /* HMAHorizontalTableView.swift */; };
+		E656422A1B27D68D00F955BC /* HMAHorizontalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642241B27D68D00F955BC /* HMAHorizontalTableViewCell.swift */; };
+		E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642251B27D68D00F955BC /* HMAHorizontalTableViewData.swift */; };
+		E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656422C1B27D6FA00F955BC /* NSDate+Ago.swift */; };
+		E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656422E1B27D7EA00F955BC /* HMACrimeMarker.swift */; };
+		E65642321B27DAA800F955BC /* HMASearchBoxView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642301B27DAA800F955BC /* HMASearchBoxView.xib */; };
+		E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642311B27DAA800F955BC /* HMASearchResultView.xib */; };
+		E65642361B27DB2700F955BC /* HMAHorizontalTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */; };
+		E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */; };
 		E6678FD11AF9DC2400B59B64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */; };
 		E66D2C621AEAD27D002F8D48 /* Gimbal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66D2C611AEAD27D002F8D48 /* Gimbal.framework */; };
-		E66D2C771AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */; };
-		E66D2C811AEAD2D8002F8D48 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66D2C801AEAD2D8002F8D48 /* Images.xcassets */; };
-		E66D2C841AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E66D2C671AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */; };
 		E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
 		E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
-		E6DB7C3E1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
 		E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3F1B11974E0055DF6C /* HMAWheelData.swift */; };
-		E6DB7C411B11974E0055DF6C /* HMAWheelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3F1B11974E0055DF6C /* HMAWheelData.swift */; };
 		E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C4A1B1197F60055DF6C /* HMAGoogleMapClient.swift */; };
 		E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C4C1B1198050055DF6C /* HMAYelpClient.swift */; };
 		E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C4E1B1198100055DF6C /* HMAWheelClient.swift */; };
 		E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C501B1198180055DF6C /* HMASensorClient.swift */; };
 		E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrimeData.swift */; };
-		E6DB7C561B119F4E0055DF6C /* HMACrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C541B119F4E0055DF6C /* HMACrimeData.swift */; };
 		E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C571B11A4DC0055DF6C /* HMACrimeClient.swift */; };
 		E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */; };
-		E6DB7C5B1B11A5260055DF6C /* HMAMapMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */; };
 		E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
-		E6EC437B1B0404D70098FF9A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC43791B0404D70098FF9A /* SwiftyJSON.swift */; };
 		E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
-		E6EC437F1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
 		E6ED26D31B1D18B60076B9F4 /* HMACrimeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */; };
 		E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */; };
 		E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */; };
@@ -78,20 +70,6 @@
 			remoteGlobalIDString = E65525371AEAD02D0011786A;
 			remoteInfo = HyperMediaAD;
 		};
-		E66D2C781AEAD2D8002F8D48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E65525301AEAD02D0011786A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E66D2C751AEAD2D8002F8D48;
-			remoteInfo = "HyperMediaAD WatchKit App";
-		};
-		E66D2C821AEAD2D8002F8D48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E65525301AEAD02D0011786A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E66D2C661AEAD2D8002F8D48;
-			remoteInfo = "HyperMediaAD WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,7 +79,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E66D2C841AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,37 +95,40 @@
 		E626250B1AF9A53300F7F722 /* HMAConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAConstant.swift; sourceTree = "<group>"; };
 		E62A6C291AF0352100275377 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyperMediaAD-Bridging-Header.h"; sourceTree = "<group>"; };
-		E62A6C2C1AF0352100275377 /* HMAUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAUser.swift; sourceTree = "<group>"; };
 		E62A6C321AF0352100275377 /* HMAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAViewController.swift; sourceTree = "<group>"; };
 		E62A6C381AF0356400275377 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		E62A6C391AF0356400275377 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E62A6C9D1AF0378C00275377 /* HyperMediaAD.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HyperMediaAD.entitlements; sourceTree = "<group>"; };
 		E62A6CA21AF0382F00275377 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E62A6D071AF048FA00275377 /* HMASale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASale.swift; sourceTree = "<group>"; };
-		E62A6D9F1AF04B7C00275377 /* HMADetailInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADetailInterfaceController.swift; sourceTree = "<group>"; };
-		E62A6DA01AF04B7C00275377 /* HMAGlanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAGlanceController.swift; sourceTree = "<group>"; };
-		E62A6DA11AF04B7C00275377 /* HMAInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAInterfaceController.swift; sourceTree = "<group>"; };
-		E62A6DA21AF04B7C00275377 /* HMANotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMANotificationController.swift; sourceTree = "<group>"; };
-		E62A6DA31AF04B7C00275377 /* HMARowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMARowController.swift; sourceTree = "<group>"; };
-		E62A6DAD1AF04DC100275377 /* HyperMediaAD WatchKit Extension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "HyperMediaAD WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		E62A6DAF1AF04E1E00275377 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		E62A6DB11AF04E4300275377 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E62A6DB31AF04EA200275377 /* Interface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
 		E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+HTTPBody.swift"; sourceTree = "<group>"; };
 		E62B9D8D1B055B680086EEC2 /* HMAModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HMAModel.xcdatamodel; sourceTree = "<group>"; };
 		E62B9D931B055F050086EEC2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACoreDataManager.swift; sourceTree = "<group>"; };
 		E6466BEA1AEB034A001127E0 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMANoiseAnnotation.swift; sourceTree = "<group>"; };
 		E65525381AEAD02D0011786A /* HyperMediaAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperMediaAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E655254D1AEAD02D0011786A /* HyperMediaADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperMediaADTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E65525521AEAD02E0011786A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E65525531AEAD02E0011786A /* HyperMediaADTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperMediaADTests.swift; sourceTree = "<group>"; };
+		E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMAConstant-Private.swift"; sourceTree = "<group>"; };
+		E65642101B27D10200F955BC /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		E65642131B27D22F00F955BC /* HMADestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADestination.swift; sourceTree = "<group>"; };
+		E65642151B27D27100F955BC /* HMASearchBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASearchBoxView.swift; sourceTree = "<group>"; };
+		E65642171B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAGoogleMapOperationQueue.swift; sourceTree = "<group>"; };
+		E65642191B27D4AD00F955BC /* HMASearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASearchResultView.swift; sourceTree = "<group>"; };
+		E656421B1B27D50400F955BC /* HMAWaypointMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWaypointMarker.swift; sourceTree = "<group>"; };
+		E656421D1B27D53400F955BC /* HMADestinationMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADestinationMarker.swift; sourceTree = "<group>"; };
+		E65642231B27D68D00F955BC /* HMAHorizontalTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHorizontalTableView.swift; sourceTree = "<group>"; };
+		E65642241B27D68D00F955BC /* HMAHorizontalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHorizontalTableViewCell.swift; sourceTree = "<group>"; };
+		E65642251B27D68D00F955BC /* HMAHorizontalTableViewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHorizontalTableViewData.swift; sourceTree = "<group>"; };
+		E656422C1B27D6FA00F955BC /* NSDate+Ago.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Ago.swift"; sourceTree = "<group>"; };
+		E656422E1B27D7EA00F955BC /* HMACrimeMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeMarker.swift; sourceTree = "<group>"; };
+		E65642301B27DAA800F955BC /* HMASearchBoxView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASearchBoxView.xib; sourceTree = "<group>"; };
+		E65642311B27DAA800F955BC /* HMASearchResultView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASearchResultView.xib; sourceTree = "<group>"; };
+		E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAHorizontalTableView.xib; sourceTree = "<group>"; };
+		E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAHorizontalTableViewCell.xib; sourceTree = "<group>"; };
 		E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E66D2C611AEAD27D002F8D48 /* Gimbal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gimbal.framework; sourceTree = "<group>"; };
-		E66D2C671AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "HyperMediaAD WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HyperMediaAD WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E66D2C7C1AEAD2D8002F8D48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E66D2C801AEAD2D8002F8D48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHeatMapAnnotation.swift; sourceTree = "<group>"; };
 		E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMARouteAnnotation.swift; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
@@ -190,15 +170,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E66D2C641AEAD2D8002F8D48 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E62B9D951B055F150086EEC2 /* CoreData.framework in Frameworks */,
-				E6466BEB1AEB034A001127E0 /* HealthKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -221,6 +192,7 @@
 				E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */,
 				E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */,
 				E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */,
+				E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */,
 				E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */,
 			);
 			path = Map;
@@ -230,11 +202,14 @@
 			isa = PBXGroup;
 			children = (
 				E626250B1AF9A53300F7F722 /* HMAConstant.swift */,
+				E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */,
 				E62A6C291AF0352100275377 /* AppDelegate.swift */,
 				E62A6C321AF0352100275377 /* HMAViewController.swift */,
 				E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */,
+				E65642101B27D10200F955BC /* main.swift */,
 				E62A6C381AF0356400275377 /* LaunchScreen.xib */,
 				E62A6C391AF0356400275377 /* Main.storyboard */,
+				E65642121B27D22F00F955BC /* Search */,
 				E623B0AB1AFAF14E009705EC /* Map */,
 				E6DB7C3A1B1196C60055DF6C /* Sensor */,
 				E6DB7C3B1B1196C60055DF6C /* Wheel */,
@@ -243,6 +218,7 @@
 				E6DB7C421B1197DC0055DF6C /* Google */,
 				E6DB7C441B1197DC0055DF6C /* Yelp */,
 				E62A6C2F1AF0352100275377 /* UIKit+Extension */,
+				E656421F1B27D68D00F955BC /* UI */,
 				E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */,
 				E62A6C2B1AF0352100275377 /* Model */,
 				E62A6D8A1AF04A5400275377 /* SwiftyJSON */,
@@ -255,8 +231,6 @@
 			children = (
 				E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */,
 				E62B9D8C1B055B680086EEC2 /* HMAModel.xcdatamodeld */,
-				E62A6D071AF048FA00275377 /* HMASale.swift */,
-				E62A6C2C1AF0352100275377 /* HMAUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -302,58 +276,10 @@
 			name = SwiftyJSON;
 			sourceTree = "<group>";
 		};
-		E62A6D8F1AF04AEA00275377 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6DA11AF04B7C00275377 /* HMAInterfaceController.swift */,
-				E62A6DA31AF04B7C00275377 /* HMARowController.swift */,
-				E62A6D9F1AF04B7C00275377 /* HMADetailInterfaceController.swift */,
-				E62A6DA01AF04B7C00275377 /* HMAGlanceController.swift */,
-				E62A6DA21AF04B7C00275377 /* HMANotificationController.swift */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		E62A6DA91AF04D7200275377 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6DB11AF04E4300275377 /* Images.xcassets */,
-				E62A6DAA1AF04D7200275377 /* APNS */,
-				E62A6DAB1AF04D7200275377 /* Entitlements */,
-				E62A6DAC1AF04D7200275377 /* Plists */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		E62A6DAA1AF04D7200275377 /* APNS */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6DAF1AF04E1E00275377 /* PushNotificationPayload.apns */,
-			);
-			path = APNS;
-			sourceTree = "<group>";
-		};
-		E62A6DAB1AF04D7200275377 /* Entitlements */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6DAD1AF04DC100275377 /* HyperMediaAD WatchKit Extension.entitlements */,
-			);
-			path = Entitlements;
-			sourceTree = "<group>";
-		};
-		E62A6DAC1AF04D7200275377 /* Plists */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Plists;
-			sourceTree = "<group>";
-		};
 		E655252F1AEAD02D0011786A = {
 			isa = PBXGroup;
 			children = (
 				E655253A1AEAD02D0011786A /* HyperMediaAD */,
-				E66D2C681AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension */,
-				E66D2C7A1AEAD2D8002F8D48 /* HyperMediaAD WatchKit App */,
 				E65525391AEAD02D0011786A /* Products */,
 				EC9C83127011F8482B37666C /* Pods */,
 				553FD32A0956B01CEE8A31C3 /* Frameworks */,
@@ -366,8 +292,6 @@
 			children = (
 				E65525381AEAD02D0011786A /* HyperMediaAD.app */,
 				E655254D1AEAD02D0011786A /* HyperMediaADTests.xctest */,
-				E66D2C671AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex */,
-				E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,6 +323,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E65642121B27D22F00F955BC /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E65642131B27D22F00F955BC /* HMADestination.swift */,
+				E65642151B27D27100F955BC /* HMASearchBoxView.swift */,
+				E65642301B27DAA800F955BC /* HMASearchBoxView.xib */,
+				E65642191B27D4AD00F955BC /* HMASearchResultView.swift */,
+				E65642311B27DAA800F955BC /* HMASearchResultView.xib */,
+				E656421B1B27D50400F955BC /* HMAWaypointMarker.swift */,
+				E656421D1B27D53400F955BC /* HMADestinationMarker.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		E656421F1B27D68D00F955BC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E65642231B27D68D00F955BC /* HMAHorizontalTableView.swift */,
+				E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */,
+				E65642241B27D68D00F955BC /* HMAHorizontalTableViewCell.swift */,
+				E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */,
+				E65642251B27D68D00F955BC /* HMAHorizontalTableViewData.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		E66D2C601AEAD27D002F8D48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -407,28 +357,10 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		E66D2C681AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6D8F1AF04AEA00275377 /* Classes */,
-				E62A6DA91AF04D7200275377 /* Resources */,
-			);
-			path = "HyperMediaAD WatchKit Extension";
-			sourceTree = "<group>";
-		};
-		E66D2C7A1AEAD2D8002F8D48 /* HyperMediaAD WatchKit App */ = {
-			isa = PBXGroup;
-			children = (
-				E62A6DB31AF04EA200275377 /* Interface.storyboard */,
-				E66D2C7C1AEAD2D8002F8D48 /* Info.plist */,
-				E66D2C801AEAD2D8002F8D48 /* Images.xcassets */,
-			);
-			path = "HyperMediaAD WatchKit App";
-			sourceTree = "<group>";
-		};
 		E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */ = {
 			isa = PBXGroup;
 			children = (
+				E656422C1B27D6FA00F955BC /* NSDate+Ago.swift */,
 				E62B9D8A1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift */,
 				E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */,
 			);
@@ -441,6 +373,7 @@
 				E6DB7C541B119F4E0055DF6C /* HMACrimeData.swift */,
 				E6DB7C571B11A4DC0055DF6C /* HMACrimeClient.swift */,
 				E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */,
+				E656422E1B27D7EA00F955BC /* HMACrimeMarker.swift */,
 			);
 			path = Crime;
 			sourceTree = "<group>";
@@ -467,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				E6DB7C4A1B1197F60055DF6C /* HMAGoogleMapClient.swift */,
+				E65642171B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift */,
 			);
 			path = Google;
 			sourceTree = "<group>";
@@ -516,7 +450,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E66D2C831AEAD2D8002F8D48 /* PBXTargetDependency */,
 			);
 			name = HyperMediaAD;
 			productName = HyperMediaAD;
@@ -540,39 +473,6 @@
 			productName = HyperMediaADTests;
 			productReference = E655254D1AEAD02D0011786A /* HyperMediaADTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		E66D2C661AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E66D2C881AEAD2D8002F8D48 /* Build configuration list for PBXNativeTarget "HyperMediaAD WatchKit Extension" */;
-			buildPhases = (
-				E66D2C631AEAD2D8002F8D48 /* Sources */,
-				E66D2C641AEAD2D8002F8D48 /* Frameworks */,
-				E66D2C651AEAD2D8002F8D48 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E66D2C791AEAD2D8002F8D48 /* PBXTargetDependency */,
-			);
-			name = "HyperMediaAD WatchKit Extension";
-			productName = "HyperMediaAD WatchKit Extension";
-			productReference = E66D2C671AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit-extension";
-		};
-		E66D2C751AEAD2D8002F8D48 /* HyperMediaAD WatchKit App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E66D2C851AEAD2D8002F8D48 /* Build configuration list for PBXNativeTarget "HyperMediaAD WatchKit App" */;
-			buildPhases = (
-				E66D2C741AEAD2D8002F8D48 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "HyperMediaAD WatchKit App";
-			productName = "HyperMediaAD WatchKit App";
-			productReference = E66D2C761AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp";
 		};
 /* End PBXNativeTarget section */
 
@@ -602,21 +502,6 @@
 						CreatedOnToolsVersion = 6.3.1;
 						TestTargetID = E65525371AEAD02D0011786A;
 					};
-					E66D2C661AEAD2D8002F8D48 = {
-						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 6RYZ4RB738;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-							com.apple.HealthKit = {
-								enabled = 1;
-							};
-						};
-					};
-					E66D2C751AEAD2D8002F8D48 = {
-						CreatedOnToolsVersion = 6.3.1;
-					};
 				};
 			};
 			buildConfigurationList = E65525331AEAD02D0011786A /* Build configuration list for PBXProject "HyperMediaAD" */;
@@ -634,8 +519,6 @@
 			targets = (
 				E65525371AEAD02D0011786A /* HyperMediaAD */,
 				E655254C1AEAD02D0011786A /* HyperMediaADTests */,
-				E66D2C661AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension */,
-				E66D2C751AEAD2D8002F8D48 /* HyperMediaAD WatchKit App */,
 			);
 		};
 /* End PBXProject section */
@@ -646,8 +529,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */,
+				E65642361B27DB2700F955BC /* HMAHorizontalTableView.xib in Resources */,
+				E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */,
 				E62A6CA31AF0382F00275377 /* Images.xcassets in Resources */,
+				E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */,
 				E62A6C3B1AF0356400275377 /* Main.storyboard in Resources */,
+				E65642321B27DAA800F955BC /* HMASearchBoxView.xib in Resources */,
 				E62A6C3A1AF0356400275377 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -656,26 +543,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E66D2C651AEAD2D8002F8D48 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E62A6DB21AF04E4300275377 /* Images.xcassets in Resources */,
-				E62A6DB01AF04E1E00275377 /* PushNotificationPayload.apns in Resources */,
-				E62A6DAE1AF04DC100275377 /* HyperMediaAD WatchKit Extension.entitlements in Resources */,
-				E66D2C771AEAD2D8002F8D48 /* HyperMediaAD WatchKit App.app in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E66D2C741AEAD2D8002F8D48 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E62A6DB41AF04EA200275377 /* Interface.storyboard in Resources */,
-				E66D2C811AEAD2D8002F8D48 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,30 +587,42 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */,
+				E656421C1B27D50400F955BC /* HMAWaypointMarker.swift in Sources */,
+				E65642161B27D27100F955BC /* HMASearchBoxView.swift in Sources */,
 				E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */,
 				E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */,
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
+				E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
+				E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */,
+				E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
+				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
 				E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
 				E623B0AF1AFAF14E009705EC /* HMAClusterAnnotation.swift in Sources */,
 				E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
 				E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */,
+				E65642181B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift in Sources */,
 				E6ED26D31B1D18B60076B9F4 /* HMACrimeOperationQueue.swift in Sources */,
 				E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */,
-				E62A6D081AF048FA00275377 /* HMASale.swift in Sources */,
+				E65642291B27D68D00F955BC /* HMAHorizontalTableView.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
 				E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */,
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
+				E656421E1B27D53400F955BC /* HMADestinationMarker.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
+				E656420E1B27CB0200F955BC /* HMAConstant-Private.swift in Sources */,
 				E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
-				E62A6C341AF0352100275377 /* HMAUser.swift in Sources */,
+				E656422A1B27D68D00F955BC /* HMAHorizontalTableViewCell.swift in Sources */,
+				E64B70FF1B2122DA00230383 /* HMANoiseAnnotation.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
+				E65642111B27D10200F955BC /* main.swift in Sources */,
 				E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */,
+				E65642141B27D22F00F955BC /* HMADestination.swift in Sources */,
 				E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */,
 				E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */,
 			);
@@ -757,28 +636,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E66D2C631AEAD2D8002F8D48 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E6DB7C3E1B1197420055DF6C /* HMASensorData.swift in Sources */,
-				E62A6DA61AF04B7C00275377 /* HMAInterfaceController.swift in Sources */,
-				E62A6D091AF048FA00275377 /* HMASale.swift in Sources */,
-				E6DB7C5B1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
-				E62A6DA81AF04B7C00275377 /* HMARowController.swift in Sources */,
-				E62B9D9B1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
-				E6DB7C561B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
-				E6EC437B1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
-				E6DB7C411B11974E0055DF6C /* HMAWheelData.swift in Sources */,
-				E626250D1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
-				E62A6DA41AF04B7C00275377 /* HMADetailInterfaceController.swift in Sources */,
-				E6EC437F1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
-				E62A6DA71AF04B7C00275377 /* HMANotificationController.swift in Sources */,
-				E62B9D8F1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
-				E62A6DA51AF04B7C00275377 /* HMAGlanceController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -786,16 +643,6 @@
 			isa = PBXTargetDependency;
 			target = E65525371AEAD02D0011786A /* HyperMediaAD */;
 			targetProxy = E655254E1AEAD02D0011786A /* PBXContainerItemProxy */;
-		};
-		E66D2C791AEAD2D8002F8D48 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E66D2C751AEAD2D8002F8D48 /* HyperMediaAD WatchKit App */;
-			targetProxy = E66D2C781AEAD2D8002F8D48 /* PBXContainerItemProxy */;
-		};
-		E66D2C831AEAD2D8002F8D48 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E66D2C661AEAD2D8002F8D48 /* HyperMediaAD WatchKit Extension */;
-			targetProxy = E66D2C821AEAD2D8002F8D48 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -869,34 +716,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HyperMediaAD.app/HyperMediaAD";
-			};
-			name = Release;
-		};
-		E66D2C871AEAD2D8002F8D48 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				IBSC_MODULE = HyperMediaAD_WatchKit_Extension;
-				INFOPLIST_FILE = "HyperMediaAD WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
-			};
-			name = Release;
-		};
-		E66D2C8A1AEAD2D8002F8D48 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "HyperMediaAD WatchKit Extension/Resources/Entitlements/HyperMediaAD WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "HyperMediaAD WatchKit Extension/Resources/Plists/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -984,42 +803,6 @@
 			};
 			name = Local;
 		};
-		E66E5FB41AF9A9F800E514D1 /* Local */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "HyperMediaAD WatchKit Extension/Resources/Entitlements/HyperMediaAD WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "HyperMediaAD WatchKit Extension/Resources/Plists/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Local;
-		};
-		E66E5FB51AF9A9F800E514D1 /* Local */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				IBSC_MODULE = HyperMediaAD_WatchKit_Extension;
-				INFOPLIST_FILE = "HyperMediaAD WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
-			};
-			name = Local;
-		};
 		E66E5FB61AF9AA0700E514D1 /* Develop */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1104,42 +887,6 @@
 			};
 			name = Develop;
 		};
-		E66E5FB91AF9AA0700E514D1 /* Develop */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "HyperMediaAD WatchKit Extension/Resources/Entitlements/HyperMediaAD WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "HyperMediaAD WatchKit Extension/Resources/Plists/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Develop;
-		};
-		E66E5FBA1AF9AA0700E514D1 /* Develop */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				IBSC_MODULE = HyperMediaAD_WatchKit_Extension;
-				INFOPLIST_FILE = "HyperMediaAD WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
-			};
-			name = Develop;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1169,26 +916,6 @@
 				E66E5FB31AF9A9F800E514D1 /* Local */,
 				E66E5FB81AF9AA0700E514D1 /* Develop */,
 				E655255C1AEAD02E0011786A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E66D2C851AEAD2D8002F8D48 /* Build configuration list for PBXNativeTarget "HyperMediaAD WatchKit App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E66E5FB51AF9A9F800E514D1 /* Local */,
-				E66E5FBA1AF9AA0700E514D1 /* Develop */,
-				E66D2C871AEAD2D8002F8D48 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E66D2C881AEAD2D8002F8D48 /* Build configuration list for PBXNativeTarget "HyperMediaAD WatchKit Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E66E5FB41AF9A9F800E514D1 /* Local */,
-				E66E5FB91AF9AA0700E514D1 /* Develop */,
-				E66D2C8A1AEAD2D8002F8D48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

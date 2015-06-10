@@ -50,6 +50,10 @@ struct HMACrime {
     struct API {
         static let Data = kURIBase + "/crime/data"         /// crime data API
     }
+
+    /// reference date when iPhone searches from coredata
+    static let Days =                     1
+    static let MonthsAgo =                1
 }
 
 
@@ -82,7 +86,7 @@ struct HMAWheel {
     }
 }
 
-
+/*
 /// MARK: - Mapbox
 struct HMAMapBox {
     /// map ID
@@ -98,7 +102,7 @@ struct HMAMapBox {
         static let PixelPerMile: Double =           100.0
     }
 }
-
+*/
 
 /// MARK: - Google Map
 
@@ -107,11 +111,38 @@ let kURIGoogleMapAPI =                  "https://maps.googleapis.com/maps/api"
 
 struct HMAGoogleMap {
     /// API key
-    static let APIKey =                  "AIzaSyBiJDnSOSpneOdFUtVu5RUi34rAg0cjWcU"
+    static let APIKey =                 kHMAGoogleMapAPIKey
+    static let BrowserAPIKey =          kHMAGoogleMapBrowserAPIKey
+
+    /// zoom
+    static let Zoom: Float =            13.0
 
     /// MARK: - API
     struct API {
         static let Directions =        kURIGoogleMapAPI + "/directions/json" /// directions API
+        static let GeoCode =           kURIGoogleMapAPI + "/geocode/json" /// geocode API
+        static let PlaceAutoComplete = kURIGoogleMapAPI + "/place/autocomplete/json" /// autocomplete API
+    }
+
+    /// MARK: - status code
+    static let Status =                     "status"
+    struct Statuses {
+        static let OK =                     "OK"
+        static let NotFound =               "NOT_FOUND"
+        static let ZeroResults =            "ZERO_RESULTS"
+        static let MaxWayPointsExceeded =   "MAX_WAYPOINTS_EXCEEDED"
+        static let InvalidRequest =         "INVALID_REQUEST"
+        static let OverQueryLimit =         "OVER_QUERY_LIMIT"
+        static let RequestDenied =          "REQUEST_DENIED"
+        static let UnknownError =           "UNKNOWN_ERROR"
+    }
+
+    /// MARK: - travel mode
+    static let TravelMode =            "mode"
+    struct TravelModes {
+        static let Driving =           "driving"
+        static let Walking =           "walking"
+        static let Bicycling =         "bicycling"
     }
 }
 
@@ -119,5 +150,5 @@ struct HMAGoogleMap {
 /// MARK: - Gimbal
 struct HMAGimbal {
     /// API key
-    static let APIKey =                     "255f0d96-f44e-44d8-9cac-fb0445171f43"
+    static let APIKey =                     kHMAGimbalAPIKey
 }

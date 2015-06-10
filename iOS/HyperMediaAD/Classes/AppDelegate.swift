@@ -4,7 +4,6 @@ import HealthKit
 
 
 /// MARK: - AppDelegate
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate {
 
     /// MARK: - property
@@ -16,12 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Mapbox
-        RMConfiguration.sharedInstance().accessToken = HMAMapBox.AccessToken
+//        RMConfiguration.sharedInstance().accessToken = HMAMapBox.AccessToken
 
         // Google Map
         GMSServices.provideAPIKey(HMAGoogleMap.APIKey)
         GMSServices.sharedServices()
 
+        // UI setting
+        (application as! QTouchposeApplication).alwaysShowTouches = true
+        (application as! QTouchposeApplication).touchEndAnimationDuration = 0.50
 /*
         // Gimbal
         Gimbal.setAPIKey(HMAGimbal.APIKey, options:nil)
@@ -49,6 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+        // crime API
+        if HMACrimeData.hasData() { return }
+        HMACrimeClient.sharedInstance.cancelGetCrime()
+/*
+        HMACrimeClient.sharedInstance.getCrime(
+            completionHandler: { [unowned self] (json) in
+                HMACrimeData.save(json: json)
+            }
+        )
+*/
     }
 
     func applicationWillTerminate(application: UIApplication) {

@@ -6,9 +6,9 @@ import CoreLocation
 /// MARK: - HMACrimeData
 class HMACrimeData: NSManagedObject {
 
+
     /// MARK: - property
-    @NSManaged var desc: String
-    @NSManaged var resolution: String
+    @NSManaged var category: String
     @NSManaged var lat: NSNumber
     @NSManaged var long: NSNumber
     @NSManaged var timestamp: NSDate
@@ -25,25 +25,42 @@ class HMACrimeData: NSManagedObject {
     class func fetch(#location: CLLocation, radius: Double) -> Array<HMACrimeData> {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
+        // make fetch request
         var fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMACrimeData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
-
+            // time
+        let currentDate = NSDate()
+        var startDate = currentDate.hma_monthAgo(months: HMACrime.MonthsAgo)
+        var endDate = startDate!.hma_daysLater(days: HMACrime.Days)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let startDateString = dateFormatter.stringFromDate(startDate!)
+        let endDateString = dateFormatter.stringFromDate(endDate!)
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        startDate = dateFormatter.dateFromString(startDateString+" 00:00:00")
+        endDate = dateFormatter.dateFromString(endDateString+" 00:00:00")
+            // rect
         let coordinate = location.coordinate
         let latOffset = HMAMapMath.degreeOfLatitudePerRadius(radius, location: location)
         let longOffset = HMAMapMath.degreeOfLongitudePerRadius(radius, location: location)
         let predicaets = [
-            NSPredicate(format: "lat < %@", NSNumber(double: coordinate.latitude + latOffset)),
-            NSPredicate(format: "lat > %@", NSNumber(double: coordinate.latitude - latOffset)),
-            NSPredicate(format: "long < %@", NSNumber(double: coordinate.longitude + longOffset)),
-            NSPredicate(format: "long > %@", NSNumber(double: coordinate.longitude - longOffset)),
+            NSPredicate(format: "(timestamp >= %@) AND (timestamp < %@)", startDate!, endDate!),
+            NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: coordinate.latitude + latOffset), NSNumber(double: coordinate.latitude - latOffset)),
+            NSPredicate(format: "(long <= %@) AND (long > %@)", NSNumber(double: coordinate.longitude + longOffset), NSNumber(double: coordinate.longitude - longOffset)),
         ]
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
 
+        // return crimes
         var error: NSError? = nil
-        let crimes = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMACrimeData>
-        return crimes
+        let crimes = context.executeFetchRequest(fetchRequest, error: &error)
+        if error != nil || crimes == nil {
+            NSUserDefaults().setObject("", forKey: HMAUserDefaults.CrimeYearMonth)
+            NSUserDefaults().synchronize()
+            return []
+        }
+        return crimes as! Array<HMACrimeData>
     }
 
     /**
@@ -73,7 +90,6 @@ class HMACrimeData: NSManagedObject {
      *   ...
      * ]
      */
-/*
     class func save(#json: JSON) {
         if HMACrimeData.hasData() { return }
 
@@ -84,28 +100,29 @@ class HMACrimeData: NSManagedObject {
 
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         for crimeData in crimeDatas {
+            let yyyymmddhhmm = (crimeData["date"].stringValue).stringByReplacingOccurrencesOfString("T00:00:00", withString: " ") + crimeData["time"].stringValue
+            let timestamp = dateFormatter.dateFromString(yyyymmddhhmm)
+            if timestamp == nil { continue }
+
             var crime = NSEntityDescription.insertNewObjectForEntityForName("HMACrimeData", inManagedObjectContext: context) as! HMACrimeData
-            crime.desc = crimeData["descript"].stringValue
-            crime.resolution = crimeData["resolution"].stringValue
+            crime.category = crimeData["category"].stringValue
             if let location = crimeData["location"].dictionary {
                 crime.lat = location["latitude"]!.numberValue
                 crime.long = location["longitude"]!.numberValue
             }
-            let yyyymmddhhmm = (crimeData["date"].stringValue).stringByReplacingOccurrencesOfString("T00:00:00", withString: " ") + crimeData["time"].stringValue
-            crime.timestamp = dateFormatter.dateFromString(yyyymmddhhmm)!
+            crime.timestamp = timestamp!
         }
 
         var error: NSError? = nil
         !context.save(&error)
 
         if error == nil {
-            dateFormatter.dateFormat = "yyyy/MM"
+            dateFormatter.dateFormat = "yyyy-MM-dd"
             let currentYearMonth = dateFormatter.stringFromDate(NSDate())
             NSUserDefaults().setObject(currentYearMonth, forKey: HMAUserDefaults.CrimeYearMonth)
             NSUserDefaults().synchronize()
         }
     }
-*/
 
     /**
      * check if client needs to get new crime data
@@ -115,11 +132,12 @@ class HMACrimeData: NSManagedObject {
         let crimeYearMonth = NSUserDefaults().stringForKey(HMAUserDefaults.CrimeYearMonth)
 
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentYearMonth = dateFormatter.stringFromDate(NSDate())
 
         return (crimeYearMonth == currentYearMonth)
     }
+
 
 
 }

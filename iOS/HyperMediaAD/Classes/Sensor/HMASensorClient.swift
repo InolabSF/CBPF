@@ -13,16 +13,18 @@ class HMASensorClient: AnyObject {
 
     /**
      * GET /sensor/data
+     * @param radius radius of miles to search
      * @param sensorType sensorType
      * @param coordinate latitude and longitude
      * @param completionHandler (json: JSON) -> Void
      */
-    func getSensorData(#sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getSensorData(#radius: Double, sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
         var queries: Dictionary<String, AnyObject> = [
-            "sensorType": "\(sensorType)",
+            "sensor_type": "\(sensorType)",
             "lat": "\(coordinate.latitude)",
             "long": "\(coordinate.longitude)",
+            "radius": "\(radius)",
         ]
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMASensor.API.Data, queries: queries)!)
 

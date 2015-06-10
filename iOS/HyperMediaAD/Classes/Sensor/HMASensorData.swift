@@ -23,7 +23,6 @@ class HMASensorData: NSManagedObject {
      * @return Array<HMASensorData>
      */
     class func fetch(#lat: NSNumber, long: NSNumber) -> Array<HMASensorData> {
-
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         var fetchRequest = NSFetchRequest()
