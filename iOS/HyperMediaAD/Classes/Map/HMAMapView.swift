@@ -14,6 +14,9 @@ class HMAMapView: GMSMapView {
     /// crimes
     private var crimes: [HMACrimeData]?
 
+    /// heatmap ImageView
+    private var heatmapImageView: HMAHeatmapImageView?
+
 
     /// MARK: - public api
 
@@ -21,8 +24,14 @@ class HMAMapView: GMSMapView {
      * draw all markers, route, overlays and something like that
      **/
     func draw() {
+        // clear
         self.clear()
-        if self.crimes != nil { self.drawCrimes() }
+        if self.heatmapImageView != nil {
+            self.heatmapImageView!.removeFromSuperview()
+            self.heatmapImageView = nil
+        }
+
+        if self.crimes != nil { self.drawCrimeMakers() }
         if self.routeJSON != nil { self.drawRoute() }
     }
 
@@ -41,6 +50,44 @@ class HMAMapView: GMSMapView {
      **/
     func setCrimes(crimes: [HMACrimeData]?) {
         self.crimes = crimes
+    }
+
+    /**
+     * get minimumCoordinate
+     * @return CLLocationCoordinate2D
+     **/
+    func minimumCoordinate() -> CLLocationCoordinate2D {
+        var min = self.projection.coordinateForPoint(CGPointMake(0, 0))
+        let points = [
+            CGPointMake(0, self.frame.size.height),
+            CGPointMake(self.frame.size.width, 0),
+            CGPointMake(self.frame.size.width, self.frame.size.height),
+        ]
+        for point in points {
+            let coordinate = self.projection.coordinateForPoint(point)
+            if min.latitude > coordinate.latitude { min.latitude = coordinate.latitude }
+            if min.longitude > coordinate.longitude { min.longitude = coordinate.longitude }
+        }
+        return min
+    }
+
+    /**
+     * get maximumCoordinate
+     * @return CLLocationCoordinate2D
+     **/
+    func maximumCoordinate() -> CLLocationCoordinate2D {
+        var max = self.projection.coordinateForPoint(CGPointMake(0, 0))
+        let points = [
+            CGPointMake(0, self.frame.size.height),
+            CGPointMake(self.frame.size.width, 0),
+            CGPointMake(self.frame.size.width, self.frame.size.height),
+        ]
+        for point in points {
+            let coordinate = self.projection.coordinateForPoint(point)
+            if max.latitude < coordinate.latitude { max.latitude = coordinate.latitude }
+            if max.longitude < coordinate.longitude { max.longitude = coordinate.longitude }
+        }
+        return max
     }
 
     /**
@@ -143,53 +190,52 @@ class HMAMapView: GMSMapView {
     /**
      * draw crimes
      **/
-    private func drawCrimes() {
+    private func drawCrimeMakers() {
+/*
         if self.crimes == nil { return }
 
         let drawingCrimes = self.crimes as [HMACrimeData]!
+        if drawingCrimes.count == 0 { return }
 
-
-/*
-        var min = CLLocationCoordinate2DMake(drawingCrimes[0].lat.doubleValue, drawingCrimes[0].long.doubleValue)
-        var max = CLLocationCoordinate2DMake(drawingCrimes[0].lat.doubleValue, drawingCrimes[0].long.doubleValue)
-
-        var locations: [CLLocation] = []
-        var weights: [NSNumber] = []
         for crime in drawingCrimes {
-            let lat = crime.lat.doubleValue
-            let long = crime.long.doubleValue
-            locations.append(CLLocation(latitude: lat, longitude: long))
-            weights.append(NSNumber(double: 1.0))
-            if lat < min.latitude { min.latitude = lat }
-            if long < min.longitude { min.longitude = long }
-            if lat > max.latitude { max.latitude = lat }
-            if long > max.longitude { max.longitude = long }
+            self.drawCrimeMaker(crime: crime)
         }
-        //let center = CLLocationCoordinate2DMake((min.latitude + max.latitude) / 2.0, (min.longitude + max.longitude) / 2.0)
-        let center = self.projection.coordinateForPoint(CGPointMake(self.frame.size.width/2.0, self.frame.size.height))
-        var marker = HMAHeatmapMarker(position: center)
-        marker.map = self
-        marker.draggable = false
-        marker.boost = 1.0
-        marker.weights = weights
-        marker.locations = locations
-        marker.updateHeatmap()
 */
-
-
-        for crime in drawingCrimes {
-            self.drawCrime(crime)
-        }
+        self.drawCrimeHeatmap()
     }
 
     /**
      * draw crime marker
      * @param crime HMACrimeData
      **/
-    private func drawCrime(crime: HMACrimeData) {
+    private func drawCrimeMaker(#crime: HMACrimeData) {
         var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue))
         marker.doSettings(crime: crime)
         marker.map = self
+    }
+
+    /**
+     * draw crime heatmap
+     **/
+    private func drawCrimeHeatmap() {
+        if self.crimes == nil { return }
+
+        let drawingCrimes = self.crimes as [HMACrimeData]!
+        if drawingCrimes.count == 0 { return }
+
+        var min = self.minimumCoordinate()
+        var max = self.maximumCoordinate()
+
+        var locations: [CLLocation] = []
+        var weights: [NSNumber] = []
+        let boost: Float = 1.0
+        for crime in drawingCrimes {
+            locations.append(CLLocation(latitude: crime.lat.doubleValue, longitude: crime.long.doubleValue))
+            weights.append(NSNumber(double: 1.0))
+        }
+
+        self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
+        self.addSubview(self.heatmapImageView!)
     }
 
     /**

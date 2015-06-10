@@ -157,6 +157,12 @@ extension HMAViewController: GMSMapViewDelegate {
         self.requestDirectoin()
     }
 
+    func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
+        let crimes = HMACrimeData.fetch(minimumCoordinate: self.mapView.minimumCoordinate(), maximumCoordinate: self.mapView.maximumCoordinate())
+        if crimes.count > 0 { self.mapView.setCrimes(crimes) }
+        self.mapView.draw()
+    }
+
     func mapView(mapView: GMSMapView,  didDragMarker marker:GMSMarker) {
     }
 
@@ -210,7 +216,8 @@ extension HMAViewController: HMAHorizontalTableViewDelegate {
     func tableView(tableView: HMAHorizontalTableView, indexPath: NSIndexPath, wasOn: Bool) {
         let location = self.mapView.myLocation
         let on = wasOn && (location != nil)
-        self.mapView.setCrimes(on ? HMACrimeData.fetch(location: location, radius: 15.0) : nil)
+        let crimes = HMACrimeData.fetch(minimumCoordinate: self.mapView.minimumCoordinate(), maximumCoordinate: self.mapView.maximumCoordinate())
+        self.mapView.setCrimes(on ? crimes : nil)
         self.mapView.draw()
     }
 

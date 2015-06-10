@@ -18,6 +18,50 @@ class HMACrimeData: NSManagedObject {
 
     /**
      * fetch datas from coredata
+     * @param minimumCoordinate CLLocationCoordinate2D
+     * @param maximumCoordinate CLLocationCoordinate2D
+     * @return Array<HMACrimeData>
+     */
+    class func fetch(#minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMACrimeData> {
+        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+
+        // make fetch request
+        var fetchRequest = NSFetchRequest()
+        let entity = NSEntityDescription.entityForName("HMACrimeData", inManagedObjectContext:context)
+        fetchRequest.entity = entity
+        fetchRequest.fetchBatchSize = 20
+            // time
+        let currentDate = NSDate()
+        var startDate = currentDate.hma_monthAgo(months: HMACrime.MonthsAgo)
+        var endDate = startDate!.hma_daysLater(days: HMACrime.Days)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let startDateString = dateFormatter.stringFromDate(startDate!)
+        let endDateString = dateFormatter.stringFromDate(endDate!)
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        startDate = dateFormatter.dateFromString(startDateString+" 00:00:00")
+        endDate = dateFormatter.dateFromString(endDateString+" 00:00:00")
+            // rect
+        let predicaets = [
+            //NSPredicate(format: "(timestamp >= %@) AND (timestamp < %@)", startDate!, endDate!),
+            NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: maximumCoordinate.latitude), NSNumber(double: minimumCoordinate.latitude)),
+            NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
+        ]
+        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+
+        // return crimes
+        var error: NSError? = nil
+        let crimes = context.executeFetchRequest(fetchRequest, error: &error)
+        if error != nil || crimes == nil {
+            NSUserDefaults().setObject("", forKey: HMAUserDefaults.CrimeYearMonth)
+            NSUserDefaults().synchronize()
+            return []
+        }
+        return crimes as! Array<HMACrimeData>
+    }
+
+    /**
+     * fetch datas from coredata
      * @param location location
      * @param radius radius of miles
      * @return Array<HMACrimeData>
