@@ -9,10 +9,13 @@ class HMASensorMarker: GMSMarker {
      **/
     func doSettings(#sensorData: HMASensorData) {
         let sensorType = sensorData.sensor_id.integerValue
-        var iconName = "noise"
+        var iconName = ""
         switch (sensorType) {
             case HMASensor.SensorType.Noise:
                 iconName = "noise"
+                break
+            case HMASensor.SensorType.Pm25:
+                iconName = "pm25"
                 break
             default:
                 break

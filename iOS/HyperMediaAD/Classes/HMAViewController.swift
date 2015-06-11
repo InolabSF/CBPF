@@ -159,8 +159,8 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
-        let crimes = HMACrimeData.fetch(minimumCoordinate: self.mapView.minimumCoordinate(), maximumCoordinate: self.mapView.maximumCoordinate())
-        if crimes.count > 0 { self.mapView.setCrimes(crimes) }
+        self.mapView.updateWhatMapDraws()
+
         self.mapView.draw()
     }
 
@@ -217,16 +217,7 @@ extension HMAViewController: HMAHorizontalTableViewDelegate {
     func tableView(tableView: HMAHorizontalTableView, indexPath: NSIndexPath, wasOn: Bool) {
         let visualizationType = tableView.dataSource[indexPath.row].visualizationType
         self.mapView.setVisualizationType(wasOn ? visualizationType : HMAGoogleMap.Visualization.None)
-
-        let min = self.mapView.minimumCoordinate()
-        let max = self.mapView.maximumCoordinate()
-        // crimes
-        let crimes = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
-        self.mapView.setCrimes(crimes)
-        // sensor data
-        let sensorDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Noise, minimumCoordinate: min, maximumCoordinate: max)
-        self.mapView.setSensorDatas(sensorDatas)
-
+        self.mapView.updateWhatMapDraws()
         self.mapView.draw()
     }
 

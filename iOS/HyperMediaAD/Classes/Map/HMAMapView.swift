@@ -25,6 +25,35 @@ class HMAMapView: GMSMapView {
     /// MARK: - public api
 
     /**
+     * update what map draws
+     **/
+    func updateWhatMapDraws() {
+        let min = self.minimumCoordinate()
+        let max = self.maximumCoordinate()
+
+        // crime
+        let crimes = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
+        self.setCrimes(crimes)
+
+        // sensor data
+        var sensorType = HMASensor.SensorType.None
+        switch (self.visualizationType) {
+            // noise
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+                sensorType = HMASensor.SensorType.Noise
+                break
+            // PM2.5
+            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+                sensorType = HMASensor.SensorType.Pm25
+                break
+            default:
+                break
+        }
+        let sensorDatas = HMASensorData.fetch(sensorType: sensorType, minimumCoordinate: min, maximumCoordinate: max)
+        self.setSensorDatas(sensorDatas)
+    }
+
+    /**
      * draw all markers, route, overlays and something like that
      **/
     func draw() {
@@ -44,13 +73,15 @@ class HMAMapView: GMSMapView {
                 self.drawCrimeHeatmap()
                 break
             // sensor data
-            case HMAGoogleMap.Visualization.NoisePoint:
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.Pm25Point:
                 self.drawSensorMakers()
+                break
+            case HMAGoogleMap.Visualization.NoiseHeatmap, HMAGoogleMap.Visualization.Pm25Heatmap:
+                self.drawSensorHeatmap()
                 break
             default:
                 break
         }
-
 
         // route
         if self.routeJSON != nil {
@@ -96,15 +127,18 @@ class HMAMapView: GMSMapView {
                 break
             case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
 //                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Noise)
-//HMASensor.SensorType.Humidity
-//HMASensor.SensorType.Pm25
-//HMASensor.SensorType.Temperature
+                break
+            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Pm25)
                 break
             default:
                 self.crimes = []
                 self.sensorDatas = []
                 break
         }
+//HMASensor.SensorType.Humidity
+//HMASensor.SensorType.Pm25
+//HMASensor.SensorType.Temperature
     }
 
     /**
@@ -308,6 +342,30 @@ class HMAMapView: GMSMapView {
         for crime in drawingCrimes {
             locations.append(CLLocation(latitude: crime.lat.doubleValue, longitude: crime.long.doubleValue))
             weights.append(NSNumber(double: 1.0))
+        }
+
+        self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
+        self.addSubview(self.heatmapImageView!)
+    }
+
+    /**
+     * draw sensor heatmap
+     **/
+    private func drawSensorHeatmap() {
+        if self.sensorDatas == nil { return }
+
+        let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
+        if drawingSensorDatas.count == 0 { return }
+
+        var min = self.minimumCoordinate()
+        var max = self.maximumCoordinate()
+
+        var locations: [CLLocation] = []
+        var weights: [NSNumber] = []
+        let boost: Float = 1.0
+        for sensorData in drawingSensorDatas {
+            locations.append(CLLocation(latitude: sensorData.lat.doubleValue, longitude: sensorData.long.doubleValue))
+            weights.append(sensorData.value)
         }
 
         self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)

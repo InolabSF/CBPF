@@ -61,6 +61,7 @@ struct HMACrime {
 struct HMASensor {
     /// MARK: - type
     struct SensorType {
+        static let None =           0
         static let Humidity =       1
         static let Co =             2
         static let Co2 =            3
