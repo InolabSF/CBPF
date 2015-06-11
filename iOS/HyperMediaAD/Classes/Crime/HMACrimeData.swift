@@ -17,6 +17,26 @@ class HMACrimeData: NSManagedObject {
     /// MARK: - class method
 
     /**
+     * request to get crime data to server
+     **/
+    class func requestToGetCrimeData() {
+        // crime API
+        if HMACrimeData.hasData() { return }
+
+        let location = HMAMapView.sharedInstance.myLocation
+        if location == nil { return }
+
+        HMACrimeClient.sharedInstance.cancelGetCrime()
+        HMACrimeClient.sharedInstance.getCrime(
+            radius: 15.0,
+            coordinate: location.coordinate,
+            completionHandler: { (json) in
+                HMACrimeData.save(json: json)
+            }
+        )
+    }
+
+    /**
      * fetch datas from coredata
      * @param minimumCoordinate CLLocationCoordinate2D
      * @param maximumCoordinate CLLocationCoordinate2D

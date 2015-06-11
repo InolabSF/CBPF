@@ -61,14 +61,14 @@ struct HMACrime {
 struct HMASensor {
     /// MARK: - type
     struct SensorType {
-        static let Humidity = 1
-        static let Co = 2
-        static let Co2 = 3
-        static let No2 = 4
-        static let Pm25 = 5
-        static let Noise = 6
-        static let Temperature = 7
-        static let Light = 8
+        static let Humidity =       1
+        static let Co =             2
+        static let Co2 =            3
+        static let No2 =            4
+        static let Pm25 =           5
+        static let Noise =          6
+        static let Temperature =    7
+        static let Light =          8
     }
 
     /// MARK: - API
@@ -85,6 +85,7 @@ struct HMAWheel {
         static let Data = kURIBase + "/wheel/data"          /// wheel data API
     }
 }
+
 
 /*
 /// MARK: - Mapbox
@@ -103,6 +104,7 @@ struct HMAMapBox {
     }
 }
 */
+
 
 /// MARK: - Google Map
 
@@ -152,6 +154,12 @@ struct HMAGoogleMap {
         case Waypoint
         case CrimePoint
         case CrimeHeatmap
+        case NoisePoint
+        case NoiseHeatmap
+        case HeatIndexPoint
+        case HeatIndexHeatmap
+        case Pm25Point
+        case Pm25Heatmap
     }
 }
 

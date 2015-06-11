@@ -6,7 +6,6 @@ import CoreLocation
 class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     /// MARK: - property
-    @IBOutlet weak var testButton: UIButton!
     var destinationString: String = ""
 
     var mapView: HMAMapView!
@@ -21,6 +20,18 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
 
         self.doSettings()
+/*
+        // display comfort evaluation graph
+        let comfort = HMAComfort()
+        let graphs = [ comfort.heatIndexGraphView(), comfort.pm25GraphView(), comfort.soundLevelGraphView(), ]
+        var offsetY: CGFloat = 20.0
+        for var i = 0; i < graphs.count; i++ {
+            let graph = graphs[i]
+            graph.frame = CGRectMake(0, offsetY, graph.frame.size.width, graph.frame.size.height)
+            self.view.addSubview(graph)
+            offsetY += graph.frame.size.height
+        }
+*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,15 +40,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
 
     /// MARK: - event listener
-
-    /**
-     * called when touched button
-     * @param button UIButton
-     **/
-    @IBAction func touchedUpInside(#button: UIButton) {
-        self.mapView.removeAllWaypoints()
-        self.requestDirectoin()
-    }
 
 
     /// MARK: - private api
@@ -91,7 +93,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.view.bringSubviewToFront(self.horizontalTableView)
         self.view.bringSubviewToFront(self.searchResultView)
         self.view.bringSubviewToFront(self.searchBoxView)
-        self.view.bringSubviewToFront(self.testButton)
     }
 
     /**
@@ -214,13 +215,17 @@ extension HMAViewController: HMASearchResultViewDelegate {
 extension HMAViewController: HMAHorizontalTableViewDelegate {
 
     func tableView(tableView: HMAHorizontalTableView, indexPath: NSIndexPath, wasOn: Bool) {
-        let markerType = tableView.dataSource[indexPath.row].markerType
-        self.mapView.setCrimeMarkerType(markerType)
+        let visualizationType = tableView.dataSource[indexPath.row].visualizationType
+        self.mapView.setVisualizationType(wasOn ? visualizationType : HMAGoogleMap.Visualization.None)
 
-        let location = self.mapView.myLocation
-        let on = wasOn && (location != nil)
-        let crimes = HMACrimeData.fetch(minimumCoordinate: self.mapView.minimumCoordinate(), maximumCoordinate: self.mapView.maximumCoordinate())
-        self.mapView.setCrimes(on ? crimes : nil)
+        let min = self.mapView.minimumCoordinate()
+        let max = self.mapView.maximumCoordinate()
+        // crimes
+        let crimes = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
+        self.mapView.setCrimes(crimes)
+        // sensor data
+        let sensorDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Noise, minimumCoordinate: min, maximumCoordinate: max)
+        self.mapView.setSensorDatas(sensorDatas)
 
         self.mapView.draw()
     }

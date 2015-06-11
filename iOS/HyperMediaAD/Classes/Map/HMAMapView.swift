@@ -5,18 +5,21 @@ class HMAMapView: GMSMapView {
 
     static let sharedInstance = HMAMapView()
 
+    /// heatmap ImageView
+    private var heatmapImageView: HMAHeatmapImageView?
+
     /// dragging waypoint
     private var draggingWaypoint: CLLocationCoordinate2D!
     /// waypoints for routing
     var waypoints: [CLLocationCoordinate2D] = []
     /// route json
     private var routeJSON: JSON?
+    /// visualization type
+    private var visualizationType = HMAGoogleMap.Visualization.None
     /// crimes
     private var crimes: [HMACrimeData]?
-    /// crime marker type
-    private var crimeMarkerType = HMAGoogleMap.Visualization.None
-    /// heatmap ImageView
-    private var heatmapImageView: HMAHeatmapImageView?
+    /// sensorDatas
+    private var sensorDatas: [HMASensorData]?
 
 
     /// MARK: - public api
@@ -32,19 +35,22 @@ class HMAMapView: GMSMapView {
             self.heatmapImageView = nil
         }
 
-        // crime
-        if self.crimes != nil {
-            switch (self.crimeMarkerType) {
-                case HMAGoogleMap.Visualization.CrimePoint:
-                    self.drawCrimeMakers()
-                    break
-                case HMAGoogleMap.Visualization.CrimeHeatmap:
-                    self.drawCrimeHeatmap()
-                    break
-                default:
-                    break
-            }
+        switch (self.visualizationType) {
+            // crime
+            case HMAGoogleMap.Visualization.CrimePoint:
+                self.drawCrimeMakers()
+                break
+            case HMAGoogleMap.Visualization.CrimeHeatmap:
+                self.drawCrimeHeatmap()
+                break
+            // sensor data
+            case HMAGoogleMap.Visualization.NoisePoint:
+                self.drawSensorMakers()
+                break
+            default:
+                break
         }
+
 
         // route
         if self.routeJSON != nil {
@@ -63,20 +69,42 @@ class HMAMapView: GMSMapView {
 
     /**
      * set crimes
-     * @param crimes [HMACrime]
+     * @param crimes [HMACrimeData]
      **/
     func setCrimes(crimes: [HMACrimeData]?) {
         self.crimes = crimes
-        if self.crimes == nil { self.crimeMarkerType = HMAGoogleMap.Visualization.None }
-        else if self.crimes!.count == 0 { self.crimeMarkerType = HMAGoogleMap.Visualization.None }
     }
 
     /**
-     * set crime marker type
-     * @param markerType DAMarker
+     * set sensorDatas
+     * @param sensorDatas [HMASensorData]
      **/
-    func setCrimeMarkerType(markerType: HMAGoogleMap.Visualization) {
-        self.crimeMarkerType = markerType
+    func setSensorDatas(sensorDatas: [HMASensorData]?) {
+        self.sensorDatas = sensorDatas
+    }
+
+    /**
+     * set visualization Type
+     * @param visualizationType HMAGoogleMap.Visualization
+     **/
+    func setVisualizationType(visualizationType: HMAGoogleMap.Visualization) {
+        self.visualizationType = visualizationType
+
+        switch (self.visualizationType) {
+            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap:
+                HMACrimeData.requestToGetCrimeData()
+                break
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Noise)
+//HMASensor.SensorType.Humidity
+//HMASensor.SensorType.Pm25
+//HMASensor.SensorType.Temperature
+                break
+            default:
+                self.crimes = []
+                self.sensorDatas = []
+                break
+        }
     }
 
     /**
@@ -235,6 +263,30 @@ class HMAMapView: GMSMapView {
     private func drawCrimeMaker(#crime: HMACrimeData) {
         var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue))
         marker.doSettings(crime: crime)
+        marker.map = self
+    }
+
+    /**
+     * draw sensorDatas
+     **/
+    private func drawSensorMakers() {
+        if self.sensorDatas == nil { return }
+
+        let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
+        if drawingSensorDatas.count == 0 { return }
+
+        for sensorData in drawingSensorDatas {
+            self.drawSensorMaker(sensorData: sensorData)
+        }
+    }
+
+    /**
+     * draw sensorData marker
+     * @param sensorData HMASensorData
+     **/
+    private func drawSensorMaker(#sensorData: HMASensorData) {
+        var marker = HMASensorMarker(position: CLLocationCoordinate2DMake(sensorData.lat.doubleValue, sensorData.long.doubleValue))
+        marker.doSettings(sensorData: sensorData)
         marker.map = self
     }
 

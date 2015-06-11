@@ -29,7 +29,9 @@ class HMASensorClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMASensor.API.Data, queries: queries)!)
 
         // request
-        ISHTTPOperation.sendRequest(request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
+        var operation = ISHTTPOperation(
+            request: request,
+            handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 dispatch_async(dispatch_get_main_queue(), {
@@ -37,6 +39,14 @@ class HMASensorClient: AnyObject {
                 })
             }
         )
+        HMASensorOperationQueue.defaultQueue().addOperation(operation)
+    }
+
+    /**
+     * cancel GET sensor/data
+     **/
+    func cancelGetSensorData() {
+        HMASensorOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMASensor.API.Data)!.path)
     }
 
 }

@@ -17,12 +17,34 @@ class HMASensorData: NSManagedObject {
     /// MARK: - class method
 
     /**
+     * request to get sensor data to server
+     * @param sensorType HMASensor.SensorType(Int)
+     **/
+    class func requestToGetSensorData(#sensorType: Int) {
+        let location = HMAMapView.sharedInstance.myLocation
+        if location == nil { return }
+
+        HMASensorClient.sharedInstance.cancelGetSensorData()
+
+        // get sensor data from CBPF server
+        HMASensorClient.sharedInstance.getSensorData(
+            radius: 12.5,
+            sensorType: sensorType,
+            coordinate: location.coordinate,
+            completionHandler: { (json) in
+                HMASensorData.save(json: json)
+            }
+        )
+    }
+
+    /**
      * fetch datas from coredata
-     * @param lat latitude
-     * @param long longitude
-     * @return Array<HMASensorData>
+     * @param sensorType HMASensor.SensorType(Int)
+     * @param minimumCoordinate CLLocationCoordinate2D
+     * @param maximumCoordinate CLLocationCoordinate2D
+     * @return Array<HMACrimeData>
      */
-    class func fetch(#lat: NSNumber, long: NSNumber) -> Array<HMASensorData> {
+    class func fetch(#sensorType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMASensorData> {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         var fetchRequest = NSFetchRequest()
@@ -30,10 +52,9 @@ class HMASensorData: NSManagedObject {
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
         let predicaets = [
-            NSPredicate(format: "lat < %@", NSNumber(float: lat.floatValue + 1.0)),
-            NSPredicate(format: "lat > %@", NSNumber(float: lat.floatValue - 1.0)),
-            NSPredicate(format: "long < %@", NSNumber(float: long.floatValue + 1.0)),
-            NSPredicate(format: "long > %@", NSNumber(float: long.floatValue - 1.0)),
+            NSPredicate(format: "sensor_id = %d", sensorType),
+            NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: maximumCoordinate.latitude), NSNumber(double: minimumCoordinate.latitude)),
+            NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
 
@@ -41,7 +62,6 @@ class HMASensorData: NSManagedObject {
         let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMASensorData>
         return sensorDatas
     }
-
 
     /**
      * save json datas to coredata

@@ -21,7 +21,8 @@ class HMAHorizontalTableViewCell: UIView {
 
     var delegate: HMAHorizontalTableViewCellDelegate?
 
-    @IBOutlet weak var checkBoxButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var checkBoxButton: BFPaperButton!
     @IBOutlet weak var checkBoxButtonBackgroundView: UIView!
 
 
@@ -29,6 +30,8 @@ class HMAHorizontalTableViewCell: UIView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        self.checkBoxButton.isRaised = false
 
         // shadow
         self.checkBoxButtonBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)

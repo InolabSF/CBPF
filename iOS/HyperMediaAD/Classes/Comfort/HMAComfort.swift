@@ -141,7 +141,7 @@ class HMAComfort: NSObject {
      * @param parameter comfort parameter
      * @return sound level evaluation
      */
-    func getWeight(parameter: HMAComfortParameter) -> Double{
+    func getSoundLevelWeight(parameter: HMAComfortParameter) -> Double{
         let soundLevel = parameter.soundLevel
         if soundLevel < HMASound.Min { return 0.0 }
         if soundLevel > HMASound.Max { return 1.0 }
@@ -232,4 +232,3 @@ class HMAComfort: NSObject {
     }
 
 }
-

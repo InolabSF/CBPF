@@ -41,21 +41,38 @@ class HMAHorizontalTableView: UIView {
     func doSettings() {
         // cells
         var offset: CGFloat = 0.0
-        let markerTypes = [
+        let visualizationTypes = [
             HMAGoogleMap.Visualization.CrimePoint,
             HMAGoogleMap.Visualization.CrimeHeatmap,
+            HMAGoogleMap.Visualization.NoisePoint,
+            HMAGoogleMap.Visualization.NoiseHeatmap,
+            HMAGoogleMap.Visualization.HeatIndexPoint,
+            HMAGoogleMap.Visualization.HeatIndexHeatmap,
+            HMAGoogleMap.Visualization.Pm25Point,
+            HMAGoogleMap.Visualization.Pm25Heatmap,
+        ]
+        let titles = [
+            "Crime Point",
+            "Crime Heatmap",
+            "Noise Point",
+            "Noise Heatmap",
+            "Heat Index Point",
+            "Heat Index Heatmap",
+            "PM2.5 Point",
+            "PM2.5 Heatmap",
         ]
 
-        for var i = 0; i < markerTypes.count; i++ {
+        for var i = 0; i < visualizationTypes.count; i++ {
             var data = HMAHorizontalTableViewData()
             data.isOn = false
-            data.markerType = markerTypes[i]
+            data.visualizationType = visualizationTypes[i]
 
             self.dataSource.append(data)
             let nib = UINib(nibName: HMANSStringFromClass(HMAHorizontalTableViewCell), bundle:nil)
             let views = nib.instantiateWithOwner(nil, options: nil)
             var cell = views[0] as! HMAHorizontalTableViewCell
             cell.frame = CGRectMake(offset, 0, cell.frame.size.width, self.scrollView.frame.size.height)
+            cell.titleLabel.text = titles[i]
             cell.delegate = self
             self.scrollView.addSubview(cell)
             offset += cell.frame.size.width
