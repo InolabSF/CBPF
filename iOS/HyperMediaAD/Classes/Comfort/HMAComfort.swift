@@ -107,11 +107,36 @@ class HMAComfort: NSObject {
     /// MARK: - public api
 
     /**
+     * get weight
+     * @param visualization HMAGoogleMap.Visualization
+     * @param value value
+     * @return evaluation (Double)
+     **/
+    func getWeight(#visualization: HMAGoogleMap.Visualization, value: Double) -> Double {
+        var weight = 0.0
+
+        switch (visualization) {
+            // noise
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+                weight = self.getSoundLevelWeight(parameter: value)
+                break
+            // PM2.5
+            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+                weight = self.getPM25Weight(parameter: value)
+                break
+            default:
+                break
+        }
+
+        return weight
+    }
+
+    /**
      * get heat index evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
      * @param parameter comfort parameter
      * @return comfort evaluation
      */
-    func getHeatIndexWeight(parameter: HMAComfortParameter) -> Double{
+    func getHeatIndexWeight(#parameter: HMAComfortParameter) -> Double{
         let heatIndex = parameter.getHeatIndex()
         if heatIndex < HMAHeatIndex.Min { return 0.0 }
         if heatIndex > HMAHeatIndex.Max { return 1.0 }
@@ -126,8 +151,8 @@ class HMAComfort: NSObject {
      * @param parameter comfort parameter
      * @return comfort evaluation
      */
-    func getPM25Weight(parameter: HMAComfortParameter) -> Double{
-        let pm25 = parameter.pm25
+    func getPM25Weight(#parameter: Double) -> Double{
+        let pm25 = parameter
         if pm25 < HMAPM25.Min { return 0.0 }
         if pm25 > HMAPM25.Max { return 1.0 }
         var weight = Double(self.pm25SplineCurve.interpolate(CGFloat(pm25)))
@@ -141,8 +166,8 @@ class HMAComfort: NSObject {
      * @param parameter comfort parameter
      * @return sound level evaluation
      */
-    func getSoundLevelWeight(parameter: HMAComfortParameter) -> Double{
-        let soundLevel = parameter.soundLevel
+    func getSoundLevelWeight(#parameter: Double) -> Double{
+        let soundLevel = parameter
         if soundLevel < HMASound.Min { return 0.0 }
         if soundLevel > HMASound.Max { return 1.0 }
         var weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(soundLevel)))

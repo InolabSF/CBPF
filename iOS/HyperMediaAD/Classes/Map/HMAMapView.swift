@@ -16,6 +16,9 @@ class HMAMapView: GMSMapView {
     private var routeJSON: JSON?
     /// visualization type
     private var visualizationType = HMAGoogleMap.Visualization.None
+    /// comfort
+    private let comfort = HMAComfort()
+
     /// crimes
     private var crimes: [HMACrimeData]?
     /// sensorDatas
@@ -36,19 +39,7 @@ class HMAMapView: GMSMapView {
         self.setCrimes(crimes)
 
         // sensor data
-        var sensorType = HMASensor.SensorType.None
-        switch (self.visualizationType) {
-            // noise
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-                sensorType = HMASensor.SensorType.Noise
-                break
-            // PM2.5
-            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-                sensorType = HMASensor.SensorType.Pm25
-                break
-            default:
-                break
-        }
+        var sensorType = self.getSensorType()
         let sensorDatas = HMASensorData.fetch(sensorType: sensorType, minimumCoordinate: min, maximumCoordinate: max)
         self.setSensorDatas(sensorDatas)
     }
@@ -365,11 +356,34 @@ class HMAMapView: GMSMapView {
         let boost: Float = 1.0
         for sensorData in drawingSensorDatas {
             locations.append(CLLocation(latitude: sensorData.lat.doubleValue, longitude: sensorData.long.doubleValue))
-            weights.append(sensorData.value)
+            //weights.append(sensorData.value)
+            weights.append(NSNumber(double: self.comfort.getWeight(visualization: self.visualizationType, value: sensorData.value.doubleValue)))
         }
 
         self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
         self.addSubview(self.heatmapImageView!)
+    }
+
+    /**
+     * get sensorType from visualizationType
+     * @return HMASensor.SensorType
+     **/
+    private func getSensorType() -> Int {
+        // sensor data
+        var sensorType = HMASensor.SensorType.None
+        switch (self.visualizationType) {
+            // noise
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+                sensorType = HMASensor.SensorType.Noise
+                break
+            // PM2.5
+            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+                sensorType = HMASensor.SensorType.Pm25
+                break
+            default:
+                break
+        }
+        return sensorType
     }
 
     /**
