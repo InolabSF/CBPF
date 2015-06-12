@@ -5,9 +5,6 @@ class HMAMapView: GMSMapView {
 
     static let sharedInstance = HMAMapView()
 
-    /// heatmap ImageView
-    private var heatmapImageView: HMAHeatmapImageView?
-
     /// dragging waypoint
     private var draggingWaypoint: CLLocationCoordinate2D!
     /// waypoints for routing
@@ -50,10 +47,12 @@ class HMAMapView: GMSMapView {
     func draw() {
         // clear
         self.clear()
+/*
         if self.heatmapImageView != nil {
             self.heatmapImageView!.removeFromSuperview()
             self.heatmapImageView = nil
         }
+*/
 
         switch (self.visualizationType) {
             // crime
@@ -330,8 +329,12 @@ class HMAMapView: GMSMapView {
             weights.append(NSNumber(double: 1.0))
         }
 
-        self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
-        self.addSubview(self.heatmapImageView!)
+        let overlay = GMSGroundOverlay(
+            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+        )
+        overlay.bearing = 0
+        overlay.map = self
     }
 
     /**
@@ -355,8 +358,12 @@ class HMAMapView: GMSMapView {
             weights.append(NSNumber(double: self.comfort.getWeight(visualization: self.visualizationType, value: sensorData.value.doubleValue)))
         }
 
-        self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
-        self.addSubview(self.heatmapImageView!)
+        let overlay = GMSGroundOverlay(
+            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+        )
+        overlay.bearing = 0
+        overlay.map = self
     }
 
     /**
