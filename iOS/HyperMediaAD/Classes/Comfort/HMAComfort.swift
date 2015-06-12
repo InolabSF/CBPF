@@ -229,6 +229,7 @@ class HMAComfort: NSObject {
         lineChart.setChartData(chartData)
         return lineChart
     }
+
     /**
      * get sound level graph view
      * @return sound level graph view

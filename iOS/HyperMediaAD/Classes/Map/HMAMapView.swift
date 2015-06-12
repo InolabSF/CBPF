@@ -31,8 +31,8 @@ class HMAMapView: GMSMapView {
      * update what map draws
      **/
     func updateWhatMapDraws() {
-        let min = self.minimumCoordinate()
-        let max = self.maximumCoordinate()
+        let min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        let max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
 
         // crime
         let crimes = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
@@ -62,6 +62,9 @@ class HMAMapView: GMSMapView {
                 break
             case HMAGoogleMap.Visualization.CrimeHeatmap:
                 self.drawCrimeHeatmap()
+                break
+            case HMAGoogleMap.Visualization.CrimeCluster:
+                self.drawCrimeCluster()
                 break
             // sensor data
             case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.Pm25Point:
@@ -113,7 +116,7 @@ class HMAMapView: GMSMapView {
         self.visualizationType = visualizationType
 
         switch (self.visualizationType) {
-            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap:
+            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap, HMAGoogleMap.Visualization.CrimeCluster:
                 HMACrimeData.requestToGetCrimeData()
                 break
             case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
@@ -134,16 +137,12 @@ class HMAMapView: GMSMapView {
 
     /**
      * get minimumCoordinate
+     * @param mapViewPoints coordinates on GMSMapView
      * @return CLLocationCoordinate2D
      **/
-    func minimumCoordinate() -> CLLocationCoordinate2D {
-        var min = self.projection.coordinateForPoint(CGPointMake(0, 0))
-        let points = [
-            CGPointMake(0, self.frame.size.height),
-            CGPointMake(self.frame.size.width, 0),
-            CGPointMake(self.frame.size.width, self.frame.size.height),
-        ]
-        for point in points {
+    func minimumCoordinate(#mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
+        var min = self.projection.coordinateForPoint(mapViewPoints[0])
+        for point in mapViewPoints {
             let coordinate = self.projection.coordinateForPoint(point)
             if min.latitude > coordinate.latitude { min.latitude = coordinate.latitude }
             if min.longitude > coordinate.longitude { min.longitude = coordinate.longitude }
@@ -153,16 +152,12 @@ class HMAMapView: GMSMapView {
 
     /**
      * get maximumCoordinate
+     * @param mapViewPoints coordinates on GMSMapView
      * @return CLLocationCoordinate2D
      **/
-    func maximumCoordinate() -> CLLocationCoordinate2D {
-        var max = self.projection.coordinateForPoint(CGPointMake(0, 0))
-        let points = [
-            CGPointMake(0, self.frame.size.height),
-            CGPointMake(self.frame.size.width, 0),
-            CGPointMake(self.frame.size.width, self.frame.size.height),
-        ]
-        for point in points {
+    func maximumCoordinate(#mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
+        var max = self.projection.coordinateForPoint(mapViewPoints[0])
+        for point in mapViewPoints {
             let coordinate = self.projection.coordinateForPoint(point)
             if max.latitude < coordinate.latitude { max.latitude = coordinate.latitude }
             if max.longitude < coordinate.longitude { max.longitude = coordinate.longitude }
@@ -324,8 +319,8 @@ class HMAMapView: GMSMapView {
         let drawingCrimes = self.crimes as [HMACrimeData]!
         if drawingCrimes.count == 0 { return }
 
-        var min = self.minimumCoordinate()
-        var max = self.maximumCoordinate()
+        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
 
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
@@ -348,8 +343,8 @@ class HMAMapView: GMSMapView {
         let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
         if drawingSensorDatas.count == 0 { return }
 
-        var min = self.minimumCoordinate()
-        var max = self.maximumCoordinate()
+        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
 
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
@@ -362,6 +357,75 @@ class HMAMapView: GMSMapView {
 
         self.heatmapImageView = HMAHeatmapImageView(mapView: self, locations: locations, weights: weights, boost: boost)
         self.addSubview(self.heatmapImageView!)
+    }
+
+    /**
+     * draw crime cluster
+     **/
+    private func drawCrimeCluster() {
+        if self.crimes == nil { return }
+
+        let drawingCrimes = self.crimes as [HMACrimeData]!
+        if drawingCrimes.count == 0 { return }
+
+        let column = 4
+        let row = 6
+
+        let startColumn = 0 - column / 2
+        let startRow = 0 - row / 2
+        let endColumn = column + column / 2
+        let endRow = row + row / 2
+
+        // grid
+        self.drawGrid(column: column, row: row)
+
+        // marker
+        for var x = startColumn; x < endColumn; x++ {
+            let minX = self.frame.size.width * CGFloat(x) / CGFloat(column)
+            let maxX = self.frame.size.width * CGFloat(x + 1) / CGFloat(column)
+            for var y = startRow; y < endRow; y++ {
+                let minY = self.frame.size.height * CGFloat(y) / CGFloat(row)
+                let maxY = self.frame.size.height * CGFloat(y + 1) / CGFloat(row)
+                var marker = HMAClusterMarker(mapView: self, minimumPoint: CGPointMake(minX, minY), maximumPoint: CGPointMake(maxX, maxY), crimes: drawingCrimes)
+                marker.map = self
+            }
+        }
+
+    }
+
+    /**
+     * draw grid
+     * @param column grid number of column
+     * @param row grid number of row
+     **/
+    private func drawGrid(#column: Int, row: Int) {
+        let startColumn = 0 - column / 2
+        let startRow = 0 - row / 2
+        let endColumn = column + column / 2
+        let endRow = row + row / 2
+
+        for var x = startColumn; x < endColumn; x++ {
+            let offsetX = self.frame.size.width * CGFloat(x) / CGFloat(column)
+            var path = GMSMutablePath()
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, 0)))
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, self.frame.size.height)))
+            var line = GMSPolyline(path: path)
+            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
+            line.strokeWidth = 1.0
+            line.tappable = false
+            line.map = self
+        }
+        for var y = startRow; y < endRow; y++ {
+            let yOffset = self.frame.size.height * CGFloat(y) / CGFloat(row)
+            var path = GMSMutablePath()
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(0, yOffset)))
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(self.frame.size.width, yOffset)))
+            var line = GMSPolyline(path: path)
+            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
+            line.strokeWidth = 1.0
+            line.tappable = false
+            line.map = self
+        }
     }
 
     /**

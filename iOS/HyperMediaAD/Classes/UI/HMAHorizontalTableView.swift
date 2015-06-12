@@ -44,6 +44,7 @@ class HMAHorizontalTableView: UIView {
         let visualizationTypes = [
             HMAGoogleMap.Visualization.CrimePoint,
             HMAGoogleMap.Visualization.CrimeHeatmap,
+            HMAGoogleMap.Visualization.CrimeCluster,
             HMAGoogleMap.Visualization.NoisePoint,
             HMAGoogleMap.Visualization.NoiseHeatmap,
             HMAGoogleMap.Visualization.HeatIndexPoint,
@@ -54,6 +55,7 @@ class HMAHorizontalTableView: UIView {
         let titles = [
             "Crime Point",
             "Crime Heatmap",
+            "Crime Cluster",
             "Noise Point",
             "Noise Heatmap",
             "Heat Index Point",

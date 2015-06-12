@@ -51,6 +51,9 @@ struct HMACrime {
         static let Data = kURIBase + "/crime/data"         /// crime data API
     }
 
+    /// standard crime numbers per square miles
+    static let NumberPerSquareMiles: Double = 100.0
+
     /// reference date when iPhone searches from coredata
     static let Days =                     1
     static let MonthsAgo =                1
@@ -155,6 +158,7 @@ struct HMAGoogleMap {
         case Waypoint
         case CrimePoint
         case CrimeHeatmap
+        case CrimeCluster
         case NoisePoint
         case NoiseHeatmap
         case HeatIndexPoint
