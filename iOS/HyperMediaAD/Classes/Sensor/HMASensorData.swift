@@ -24,7 +24,7 @@ class HMASensorData: NSManagedObject {
         let location = HMAMapView.sharedInstance.myLocation
         if location == nil { return }
 
-        HMASensorClient.sharedInstance.cancelGetSensorData()
+        HMASensorClient.sharedInstance.cancelGetSensorData(sensorType: sensorType)
 
         // get sensor data from CBPF server
         HMASensorClient.sharedInstance.getSensorData(

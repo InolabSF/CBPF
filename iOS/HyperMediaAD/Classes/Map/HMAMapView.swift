@@ -36,8 +36,12 @@ class HMAMapView: GMSMapView {
         self.setCrimes(crimes)
 
         // sensor data
-        var sensorType = self.getSensorType()
-        let sensorDatas = HMASensorData.fetch(sensorType: sensorType, minimumCoordinate: min, maximumCoordinate: max)
+        var sensorTypes = self.getSensorTypes()
+        var sensorDatas: [HMASensorData] = []
+        for sensorType in sensorTypes {
+            let datas = HMASensorData.fetch(sensorType: sensorType, minimumCoordinate: min, maximumCoordinate: max)
+            sensorDatas += datas
+        }
         self.setSensorDatas(sensorDatas)
     }
 
@@ -47,12 +51,6 @@ class HMAMapView: GMSMapView {
     func draw() {
         // clear
         self.clear()
-/*
-        if self.heatmapImageView != nil {
-            self.heatmapImageView!.removeFromSuperview()
-            self.heatmapImageView = nil
-        }
-*/
 
         switch (self.visualizationType) {
             // crime
@@ -66,7 +64,7 @@ class HMAMapView: GMSMapView {
                 self.drawCrimeCluster()
                 break
             // sensor data
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.Pm25Point:
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.HeatIndexPoint:
                 self.drawSensorMakers()
                 break
             case HMAGoogleMap.Visualization.NoiseHeatmap, HMAGoogleMap.Visualization.Pm25Heatmap:
@@ -124,14 +122,15 @@ class HMAMapView: GMSMapView {
             case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
 //                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Pm25)
                 break
+            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
+//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
+                break
             default:
                 self.crimes = []
                 self.sensorDatas = []
                 break
         }
-//HMASensor.SensorType.Humidity
-//HMASensor.SensorType.Pm25
-//HMASensor.SensorType.Temperature
     }
 
     /**
@@ -294,8 +293,14 @@ class HMAMapView: GMSMapView {
         let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
         if drawingSensorDatas.count == 0 { return }
 
-        for sensorData in drawingSensorDatas {
-            self.drawSensorMaker(sensorData: sensorData)
+        switch (self.visualizationType) {
+            case HMAGoogleMap.Visualization.HeatIndexPoint:
+                break
+            default:
+                for sensorData in drawingSensorDatas {
+                    self.drawSensorMaker(sensorData: sensorData)
+                }
+                break
         }
     }
 
@@ -330,10 +335,11 @@ class HMAMapView: GMSMapView {
         }
 
         let overlay = GMSGroundOverlay(
-            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
-            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+            position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
+            zoomLevel: CGFloat(self.camera.zoom)
         )
-        overlay.bearing = 0
+        overlay.bearing = self.camera.bearing
         overlay.map = self
     }
 
@@ -436,10 +442,10 @@ class HMAMapView: GMSMapView {
     }
 
     /**
-     * get sensorType from visualizationType
-     * @return HMASensor.SensorType
+     * get sensorTypes from visualizationType
+     * @return [HMASensor.SensorType]
      **/
-    private func getSensorType() -> Int {
+    private func getSensorTypes() -> [Int] {
         // sensor data
         var sensorType = HMASensor.SensorType.None
         switch (self.visualizationType) {
@@ -451,10 +457,13 @@ class HMAMapView: GMSMapView {
             case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
                 sensorType = HMASensor.SensorType.Pm25
                 break
+            // HeatIndexPoint, HeatIndexHeatmap
+            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
+                return [HMASensor.SensorType.Humidity, HMASensor.SensorType.Temperature]
             default:
                 break
         }
-        return sensorType
+        return [sensorType]
     }
 
     /**

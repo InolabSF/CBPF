@@ -44,9 +44,12 @@ class HMASensorClient: AnyObject {
 
     /**
      * cancel GET sensor/data
+     * @param sensorType sensor type
      **/
-    func cancelGetSensorData() {
-        HMASensorOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMASensor.API.Data)!.path)
+    func cancelGetSensorData(#sensorType: Int) {
+        //HMASensorOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMASensor.API.Data)!.path)
+        let predicate = NSPredicate(format: "request.URL.absoluteString CONTAINS[c] %@", "sensor_type=\(sensorType)")
+        HMASensorOperationQueue.defaultQueue().cancelOperationsUsingPredicate(predicate)
     }
 
 }

@@ -145,7 +145,6 @@ class WheelController < ApplicationController
           data_type: data_type,
           lat: (lat-lat_degree)..(lat+lat_degree),
           long: (long-long_degree)..(long+long_degree)
-          #long: (long-long_degree)..(long+long_degree),
           #timestamp: DateTime.new(start_date.year, start_date.month, 1)..DateTime.new(end_date.year, end_date.month, 1)
         )
         json = Jbuilder.encode do |j|
