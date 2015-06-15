@@ -133,11 +133,13 @@ class HMAComfort: NSObject {
 
     /**
      * get heat index evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.
-     * @param parameter comfort parameter
+     * @param humidity Double
+     * @param temperature Double
      * @return comfort evaluation
      */
-    func getHeatIndexWeight(#parameter: HMAComfortParameter) -> Double{
-        let heatIndex = parameter.getHeatIndex()
+    func getHeatIndexWeight(#humidity: Double, temperature: Double) -> Double {
+        let celsius = (temperature - 32.0) / 1.8
+        let heatIndex = 0.81 * celsius + 0.01 * humidity * (0.99 * celsius - 14.3) + 46.3
         if heatIndex < HMAHeatIndex.Min { return 0.0 }
         if heatIndex > HMAHeatIndex.Max { return 1.0 }
         var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(heatIndex)))

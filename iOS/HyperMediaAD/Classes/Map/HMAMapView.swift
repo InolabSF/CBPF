@@ -67,7 +67,7 @@ class HMAMapView: GMSMapView {
             case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.HeatIndexPoint:
                 self.drawSensorMakers()
                 break
-            case HMAGoogleMap.Visualization.NoiseHeatmap, HMAGoogleMap.Visualization.Pm25Heatmap:
+            case HMAGoogleMap.Visualization.NoiseHeatmap, HMAGoogleMap.Visualization.Pm25Heatmap, HMAGoogleMap.Visualization.HeatIndexHeatmap:
                 self.drawSensorHeatmap()
                 break
             default:
@@ -290,17 +290,16 @@ class HMAMapView: GMSMapView {
     private func drawSensorMakers() {
         if self.sensorDatas == nil { return }
 
-        let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
+        var drawingSensorDatas = self.sensorDatas as [HMASensorData]!
         if drawingSensorDatas.count == 0 { return }
 
-        switch (self.visualizationType) {
-            case HMAGoogleMap.Visualization.HeatIndexPoint:
-                break
-            default:
-                for sensorData in drawingSensorDatas {
-                    self.drawSensorMaker(sensorData: sensorData)
-                }
-                break
+        if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
+            self.drawHeatIndexMarkers()
+        }
+        else {
+            for sensorData in drawingSensorDatas {
+                self.drawSensorMaker(sensorData: sensorData)
+            }
         }
     }
 
@@ -312,6 +311,14 @@ class HMAMapView: GMSMapView {
         var marker = HMASensorMarker(position: CLLocationCoordinate2DMake(sensorData.lat.doubleValue, sensorData.long.doubleValue))
         marker.doSettings(sensorData: sensorData)
         marker.map = self
+    }
+
+    /**
+     * draw heat index marker
+     **/
+    private func drawHeatIndexMarkers() {
+//        let humidityDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
+//        let temperatureDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
     }
 
     /**
@@ -352,6 +359,11 @@ class HMAMapView: GMSMapView {
         let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
         if drawingSensorDatas.count == 0 { return }
 
+        if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
+            self.drawHeatIndexHeatmap()
+            return
+        }
+
         var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
         var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
 
@@ -360,8 +372,38 @@ class HMAMapView: GMSMapView {
         let boost: Float = 1.0
         for sensorData in drawingSensorDatas {
             locations.append(CLLocation(latitude: sensorData.lat.doubleValue, longitude: sensorData.long.doubleValue))
-            //weights.append(sensorData.value)
             weights.append(NSNumber(double: self.comfort.getWeight(visualization: self.visualizationType, value: sensorData.value.doubleValue)))
+        }
+
+        let overlay = GMSGroundOverlay(
+            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+        )
+        overlay.bearing = 0
+        overlay.map = self
+    }
+
+    /**
+     * draw heat index heatmap
+     **/
+    private func drawHeatIndexHeatmap() {
+        let humidityDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
+        let temperatureDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
+
+        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+
+        var locations: [CLLocation] = []
+        var weights: [NSNumber] = []
+        let boost: Float = 1.0
+        for humidityData in humidityDatas {
+            let temperatures = temperatureDatas.filter({ (sensorData: HMASensorData) -> Bool in
+                return (sensorData.lat == humidityData.lat && sensorData.long == humidityData.long && sensorData.timestamp == humidityData.timestamp)
+            })
+            for temperatureData in temperatures {
+                locations.append(CLLocation(latitude: humidityData.lat.doubleValue, longitude: humidityData.long.doubleValue))
+                weights.append(NSNumber(double: self.comfort.getHeatIndexWeight(humidity: humidityData.value.doubleValue, temperature: temperatureData.value.doubleValue)))
+            }
         }
 
         let overlay = GMSGroundOverlay(
