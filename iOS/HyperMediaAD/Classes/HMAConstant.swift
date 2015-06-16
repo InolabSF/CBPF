@@ -91,25 +91,6 @@ struct HMAWheel {
 }
 
 
-/*
-/// MARK: - Mapbox
-struct HMAMapBox {
-    /// map ID
-    static let MapID =                      "kenzan8000.m4484c13"
-    /// access token
-    static let AccessToken =                "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
-
-    /// miles for bounding box
-    static let MilesForBoundingbox: Double = 12.5
-
-    /// MARK: - Draw
-    struct Draw {
-        static let PixelPerMile: Double =           100.0
-    }
-}
-*/
-
-
 /// MARK: - Google Map
 
 /// Base URI
