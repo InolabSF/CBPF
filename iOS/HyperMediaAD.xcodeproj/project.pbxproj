@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E623B0AF1AFAF14E009705EC /* HMAClusterAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */; };
 		E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
 		E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C291AF0352100275377 /* AppDelegate.swift */; };
 		E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C321AF0352100275377 /* HMAViewController.swift */; };
@@ -21,7 +20,6 @@
 		E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */; };
 		E63E417B1B2A364200B3C4F4 /* HMAClusterMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63E417A1B2A364200B3C4F4 /* HMAClusterMarker.swift */; };
 		E6466BEC1AEB0358001127E0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6466BEA1AEB034A001127E0 /* HealthKit.framework */; };
-		E64B70FF1B2122DA00230383 /* HMANoiseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */; };
 		E65525541AEAD02E0011786A /* HyperMediaADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65525531AEAD02E0011786A /* HyperMediaADTests.swift */; };
 		E656420E1B27CB0200F955BC /* HMAConstant-Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */; };
 		E65642111B27D10200F955BC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65642101B27D10200F955BC /* main.swift */; };
@@ -42,11 +40,8 @@
 		E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */; };
 		E6678FD11AF9DC2400B59B64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */; };
 		E66D2C621AEAD27D002F8D48 /* Gimbal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66D2C611AEAD27D002F8D48 /* Gimbal.framework */; };
-		E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */; };
-		E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
-		E68A07B31B27EB0800C26C5B /* HMAHeatmapImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A07B21B27EB0800C26C5B /* HMAHeatmapImageView.swift */; };
-		E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */; };
+		E68A07B31B27EB0800C26C5B /* UIImage+HMAHeatmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -95,7 +90,6 @@
 		6091AD0811BDBA27103A10E1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6EF818F2CB43A152D88519C6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		93C1E8119D4D8B753F6A2F76 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAClusterAnnotation.swift; sourceTree = "<group>"; };
 		E626250B1AF9A53300F7F722 /* HMAConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAConstant.swift; sourceTree = "<group>"; };
 		E62A6C291AF0352100275377 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyperMediaAD-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -110,7 +104,6 @@
 		E62B9D991B0561E60086EEC2 /* HMACoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACoreDataManager.swift; sourceTree = "<group>"; };
 		E63E417A1B2A364200B3C4F4 /* HMAClusterMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAClusterMarker.swift; sourceTree = "<group>"; };
 		E6466BEA1AEB034A001127E0 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMANoiseAnnotation.swift; sourceTree = "<group>"; };
 		E65525381AEAD02D0011786A /* HyperMediaAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperMediaAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E655254D1AEAD02D0011786A /* HyperMediaADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperMediaADTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E65525521AEAD02E0011786A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -134,11 +127,8 @@
 		E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAHorizontalTableViewCell.xib; sourceTree = "<group>"; };
 		E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E66D2C611AEAD27D002F8D48 /* Gimbal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gimbal.framework; sourceTree = "<group>"; };
-		E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHeatMapAnnotation.swift; sourceTree = "<group>"; };
-		E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMARouteAnnotation.swift; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
-		E68A07B21B27EB0800C26C5B /* HMAHeatmapImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHeatmapImageView.swift; sourceTree = "<group>"; };
-		E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeAnnotation.swift; sourceTree = "<group>"; };
+		E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAHeatmap.swift"; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
@@ -197,13 +187,8 @@
 			children = (
 				E68446FE1B0AABF10094DC04 /* HMAMapView.swift */,
 				E63E417A1B2A364200B3C4F4 /* HMAClusterMarker.swift */,
-				E68A07B21B27EB0800C26C5B /* HMAHeatmapImageView.swift */,
 				E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */,
-				E623B0AD1AFAF14E009705EC /* HMAClusterAnnotation.swift */,
-				E6BEAAFD1B1FC8800075228A /* HMACrimeAnnotation.swift */,
-				E680238A1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift */,
-				E64B70FE1B2122DA00230383 /* HMANoiseAnnotation.swift */,
-				E68446FC1B0AA5F40094DC04 /* HMARouteAnnotation.swift */,
+				E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -611,9 +596,7 @@
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
 				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
-				E680238B1B0C0D1600A31FFE /* HMAHeatMapAnnotation.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
-				E623B0AF1AFAF14E009705EC /* HMAClusterAnnotation.swift in Sources */,
 				E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
 				E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */,
 				E65642181B27D32C00F955BC /* HMAGoogleMapOperationQueue.swift in Sources */,
@@ -622,9 +605,8 @@
 				E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */,
 				E65642291B27D68D00F955BC /* HMAHorizontalTableView.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
-				E6BEAAFE1B1FC8800075228A /* HMACrimeAnnotation.swift in Sources */,
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
-				E68A07B31B27EB0800C26C5B /* HMAHeatmapImageView.swift in Sources */,
+				E68A07B31B27EB0800C26C5B /* UIImage+HMAHeatmap.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E656421E1B27D53400F955BC /* HMADestinationMarker.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
@@ -634,10 +616,8 @@
 				E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E656422A1B27D68D00F955BC /* HMAHorizontalTableViewCell.swift in Sources */,
-				E64B70FF1B2122DA00230383 /* HMANoiseAnnotation.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
 				E65642111B27D10200F955BC /* main.swift in Sources */,
-				E68446FD1B0AA5F40094DC04 /* HMARouteAnnotation.swift in Sources */,
 				E65642141B27D22F00F955BC /* HMADestination.swift in Sources */,
 				E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */,
 				E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */,

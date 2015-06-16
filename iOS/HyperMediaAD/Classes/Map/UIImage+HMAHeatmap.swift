@@ -21,31 +21,3 @@ extension UIImage {
     }
 
 }
-
-/// MARK: - HMAHeatmapImageView
-class HMAHeatmapImageView: UIImageView {
-
-    /// MARK: - property
-
-
-    /// MARK: - initialization
-
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    /**
-     * make heatmap imageView for GMSMapView
-     * @param mapView GMSMapView
-     * @param locations [CLLocation]
-     * @param weights [NSNumber]
-     * @param boost Float
-     * @return HMAHeatmapImageView
-     **/
-    init(mapView: GMSMapView, locations: [CLLocation], weights: [NSNumber], boost: Float) {
-        super.init(frame: mapView.frame)
-
-        self.image = UIImage.heatmapImage(mapView: mapView, locations: locations, weights: weights, boost: boost)
-    }
-
-}
