@@ -7,7 +7,8 @@
 #import "QTouchposeApplication.h"
 #import "BFPaperButton.h"
 #import "TYMActivityIndicatorView.h"
-#import "LFHeatMap.h"
+//#import "LFHeatMap.h"
+#import "HMAHeatMap.h"
 #import "FSLineChart.h"
 /// network
 #import "ISHTTPOperation.h"

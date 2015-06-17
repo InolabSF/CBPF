@@ -1,4 +1,4 @@
-/// MARK: - UIImage+HMAHeatmap
+/// MARK: - UIImage+HMAHeatMap
 extension UIImage {
 
     /// MARK: - initialization
@@ -9,7 +9,7 @@ extension UIImage {
      * @param locations [CLLocation]
      * @param weights [NSNumber]
      * @param boost Float
-     * @return HMAHeatmapImageView
+     * @return HMAHeatMapImageView
      **/
     class func heatmapImage(#mapView: GMSMapView, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
         var points: [NSValue] = []
@@ -17,7 +17,7 @@ extension UIImage {
             let location = locations[i]
             points.append(NSValue(CGPoint: mapView.projection.pointForCoordinate(location.coordinate)))
         }
-        return LFHeatMap.heatMapWithRect(mapView.frame, boost: boost, points: points, weights: weights)
+        return HMAHeatMap.heatMapWithRect(mapView.frame, boost: boost, points: points, weights: weights)
     }
 
 }

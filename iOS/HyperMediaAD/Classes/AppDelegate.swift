@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         (application as! QTouchposeApplication).alwaysShowTouches = true
         (application as! QTouchposeApplication).touchEndAnimationDuration = 0.50
 
+        // Yelp
+        HMAYelpCategory.create()
+
         return true
     }
 

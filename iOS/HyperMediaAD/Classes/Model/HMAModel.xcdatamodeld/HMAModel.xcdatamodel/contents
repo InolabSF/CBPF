@@ -14,7 +14,7 @@
         <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
-    <entity name="HMAWheelData" representedClassName="HyperMediaAD. HMAWheelData" syncable="YES">
+    <entity name="HMAWheelData" representedClassName="HyperMediaAD.HMAWheelData" syncable="YES">
         <attribute name="data_type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="long" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -22,9 +22,15 @@
         <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
+    <entity name="HMAYelpCategory" representedClassName="HyperMediaAD.HMAYelpCategory" syncable="YES">
+        <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="HMACrimeData" positionX="-54" positionY="36" width="128" height="105"/>
         <element name="HMASensorData" positionX="-54" positionY="-9" width="128" height="135"/>
         <element name="HMAWheelData" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="HMAYelpCategory" positionX="-54" positionY="36" width="128" height="90"/>
     </elements>
 </model>

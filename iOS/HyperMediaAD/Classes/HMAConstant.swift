@@ -29,6 +29,7 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 
 struct HMAUserDefaults {
     static let CrimeYearMonth =         "HMAUserDefaults.CrimeYearMonth"
+    static let YelpCategory =           "HMAUserDefaults.YelpCategory"
 }
 
 
@@ -150,7 +151,19 @@ struct HMAGoogleMap {
 }
 
 
+/// MARK: - Yelp
+
+struct HMAYelp {
+    /// API key
+    static let ConsumerKey              = kHMAYelpCosumerKey
+    static let ConsumerSecret           = kHMAYelpConsumerSecret
+    static let AccessToken              = kHMAYelpAccessToken
+    static let AccessSecret             = kHMAYelpAccessSecret
+}
+
+
 /// MARK: - Gimbal
+
 struct HMAGimbal {
     /// API key
     static let APIKey =                     kHMAGimbalAPIKey

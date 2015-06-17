@@ -39,9 +39,12 @@
 		E65642361B27DB2700F955BC /* HMAHorizontalTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */; };
 		E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */; };
 		E6678FD11AF9DC2400B59B64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */; };
+		E66B098D1B2FA78E00971339 /* UIImage+HMAHeatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */; };
+		E66B09901B2FA88500971339 /* HMAHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B098F1B2FA88500971339 /* HMAHeatMap.m */; };
 		E66D2C621AEAD27D002F8D48 /* Gimbal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66D2C611AEAD27D002F8D48 /* Gimbal.framework */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
-		E68A07B31B27EB0800C26C5B /* UIImage+HMAHeatmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */; };
+		E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */; };
+		E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */ = {isa = PBXBuildFile; fileRef = E68E31141B30F2CA00B820C0 /* yelp_categories.json */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -126,9 +129,13 @@
 		E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAHorizontalTableView.xib; sourceTree = "<group>"; };
 		E65642351B27DB2700F955BC /* HMAHorizontalTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAHorizontalTableViewCell.xib; sourceTree = "<group>"; };
 		E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAHeatMap.swift"; sourceTree = "<group>"; };
+		E66B098E1B2FA88500971339 /* HMAHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAHeatMap.h; sourceTree = "<group>"; };
+		E66B098F1B2FA88500971339 /* HMAHeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMAHeatMap.m; sourceTree = "<group>"; };
 		E66D2C611AEAD27D002F8D48 /* Gimbal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gimbal.framework; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
-		E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAHeatmap.swift"; sourceTree = "<group>"; };
+		E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpCategory.swift; sourceTree = "<group>"; };
+		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
@@ -188,7 +195,6 @@
 				E68446FE1B0AABF10094DC04 /* HMAMapView.swift */,
 				E63E417A1B2A364200B3C4F4 /* HMAClusterMarker.swift */,
 				E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */,
-				E68A07B21B27EB0800C26C5B /* UIImage+HMAHeatmap.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -212,8 +218,8 @@
 				E6ED26D41B1D22B10076B9F4 /* Comfort */,
 				E6DB7C421B1197DC0055DF6C /* Google */,
 				E6DB7C441B1197DC0055DF6C /* Yelp */,
-				E62A6C2F1AF0352100275377 /* UIKit+Extension */,
 				E656421F1B27D68D00F955BC /* UI */,
+				E66B098B1B2FA78E00971339 /* UIKit+Extension */,
 				E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */,
 				E62A6C2B1AF0352100275377 /* Model */,
 				E62A6D8A1AF04A5400275377 /* SwiftyJSON */,
@@ -230,18 +236,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		E62A6C2F1AF0352100275377 /* UIKit+Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "UIKit+Extension";
-			sourceTree = "<group>";
-		};
 		E62A6C9B1AF0378C00275377 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				E62A6CA21AF0382F00275377 /* Images.xcassets */,
 				E62A6C9F1AF037CD00275377 /* Plists */,
+				E68E31131B30F2CA00B820C0 /* JSON */,
 				E62A6C9C1AF0378C00275377 /* Entitlements */,
 			);
 			path = Resources;
@@ -344,12 +344,30 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		E66B098B1B2FA78E00971339 /* UIKit+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E66B098E1B2FA88500971339 /* HMAHeatMap.h */,
+				E66B098F1B2FA88500971339 /* HMAHeatMap.m */,
+				E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */,
+			);
+			path = "UIKit+Extension";
+			sourceTree = "<group>";
+		};
 		E66D2C601AEAD27D002F8D48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E66D2C611AEAD27D002F8D48 /* Gimbal.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		E68E31131B30F2CA00B820C0 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				E68E31141B30F2CA00B820C0 /* yelp_categories.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */ = {
@@ -406,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				E6DB7C4C1B1198050055DF6C /* HMAYelpClient.swift */,
+				E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */,
 			);
 			path = Yelp;
 			sourceTree = "<group>";
@@ -527,6 +546,7 @@
 			files = (
 				E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */,
 				E65642361B27DB2700F955BC /* HMAHorizontalTableView.xib in Resources */,
+				E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */,
 				E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */,
 				E62A6CA31AF0382F00275377 /* Images.xcassets in Resources */,
 				E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */,
@@ -584,6 +604,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */,
+				E66B09901B2FA88500971339 /* HMAHeatMap.m in Sources */,
+				E66B098D1B2FA78E00971339 /* UIImage+HMAHeatMap.swift in Sources */,
 				E656421C1B27D50400F955BC /* HMAWaypointMarker.swift in Sources */,
 				E65642161B27D27100F955BC /* HMASearchBoxView.swift in Sources */,
 				E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */,
@@ -595,6 +617,7 @@
 				E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
 				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,
+				E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
 				E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
@@ -606,7 +629,6 @@
 				E65642291B27D68D00F955BC /* HMAHorizontalTableView.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
-				E68A07B31B27EB0800C26C5B /* UIImage+HMAHeatmap.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
 				E656421E1B27D53400F955BC /* HMADestinationMarker.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,

@@ -32,6 +32,13 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             offsetY += graph.frame.size.height
         }
 */
+/*
+        HMAYelpClient.sharedInstance.getSearchResult(
+            term: "",
+            completionHandler: { [unowned self] (json) in
+            }
+        )
+*/
     }
 
     override func didReceiveMemoryWarning() {
