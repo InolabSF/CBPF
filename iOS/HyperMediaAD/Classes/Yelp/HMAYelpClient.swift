@@ -6,6 +6,10 @@ class HMAYelpClient: AnyObject {
 
     /// MARK: - property
 
+    /// yelp
+    var yelpDatas: [HMAYelpData]?
+
+
     /// MARK: - class method
 
     static let sharedInstance = HMAYelpClient()
@@ -34,6 +38,13 @@ class HMAYelpClient: AnyObject {
                 //println(JSON(response))
                 var responseJSON = JSON([:])
                 if response != nil { responseJSON = JSON(response) }
+
+                self.yelpDatas = []
+                let jsons = responseJSON["businesses"].arrayValue
+                for json in jsons {
+                    self.yelpDatas!.append(HMAYelpData(json: json))
+                }
+                if self.yelpDatas!.count == 0 { self.yelpDatas = nil }
 
                 dispatch_async(dispatch_get_main_queue(), {
                     completionHandler(json: responseJSON)

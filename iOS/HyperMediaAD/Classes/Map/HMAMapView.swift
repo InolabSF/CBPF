@@ -74,6 +74,9 @@ class HMAMapView: GMSMapView {
                 break
         }
 
+        // yelp
+        self.drawYelp()
+
         // route
         if self.routeJSON != nil {
             self.drawRoute()
@@ -327,6 +330,20 @@ class HMAMapView: GMSMapView {
     private func drawHeatIndexMarkers() {
 //        let humidityDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
 //        let temperatureDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
+    }
+
+    /**
+     * draw yelp
+     **/
+    private func drawYelp() {
+        let yelpDatas = HMAYelpClient.sharedInstance.yelpDatas
+        if yelpDatas == nil { return }
+
+        for yelpData in yelpDatas! {
+            var marker = HMAYelpMaker(position: yelpData.coordinate)
+            marker.doSettings(yelpData: yelpData)
+            marker.map = self
+        }
     }
 
     /**

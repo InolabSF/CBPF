@@ -60,7 +60,7 @@ class HMAYelpCategory: NSManagedObject {
      * @json JSON
      */
     class func save(#json: JSON) {
-        if (HMAYelpCategory.hasData()) { return }
+        if HMAYelpCategory.hasData() { return }
 
         let categories = json.arrayValue
 
@@ -77,7 +77,7 @@ class HMAYelpCategory: NSManagedObject {
 
         var error: NSError? = nil
         !context.save(&error)
-        if error == nil {
+        if error == nil && !(HMAYelpCategory.hasData()) {
             NSUserDefaults().setBool(true, forKey: HMAUserDefaults.YelpCategory)
             NSUserDefaults().synchronize()
         }
@@ -91,3 +91,4 @@ class HMAYelpCategory: NSManagedObject {
         return NSUserDefaults().boolForKey(HMAUserDefaults.YelpCategory)
     }
 }
+

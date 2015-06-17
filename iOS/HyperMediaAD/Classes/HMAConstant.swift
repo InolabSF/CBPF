@@ -159,6 +159,28 @@ struct HMAYelp {
     static let ConsumerSecret           = kHMAYelpConsumerSecret
     static let AccessToken              = kHMAYelpAccessToken
     static let AccessSecret             = kHMAYelpAccessSecret
+
+    // restaurant category
+    static let Restaurants = [
+        "african",
+        "brazilian",
+        "caribbean",
+        "chinese",
+        "donburi",
+        "french",
+        "german",
+        "italian",
+        "japanese",
+        "latin",
+        "malaysian",
+        "mediterranean",
+        "mexican",
+        "mideastern",
+        "polish",
+        "portuguese",
+        "spanish",
+        "turkish",
+    ]
 }
 
 

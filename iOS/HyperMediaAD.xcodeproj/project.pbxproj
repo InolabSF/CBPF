@@ -45,6 +45,8 @@
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
 		E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */; };
 		E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */ = {isa = PBXBuildFile; fileRef = E68E31141B30F2CA00B820C0 /* yelp_categories.json */; };
+		E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31161B3108E200B820C0 /* HMAYelpData.swift */; };
+		E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -136,6 +138,8 @@
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
 		E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpCategory.swift; sourceTree = "<group>"; };
 		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
+		E68E31161B3108E200B820C0 /* HMAYelpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpData.swift; sourceTree = "<group>"; };
+		E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpMaker.swift; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
@@ -425,6 +429,8 @@
 			children = (
 				E6DB7C4C1B1198050055DF6C /* HMAYelpClient.swift */,
 				E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */,
+				E68E31161B3108E200B820C0 /* HMAYelpData.swift */,
+				E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */,
 			);
 			path = Yelp;
 			sourceTree = "<group>";
@@ -612,6 +618,7 @@
 				E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */,
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */,
+				E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */,
 				E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */,
@@ -619,6 +626,7 @@
 				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,
 				E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
+				E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
 				E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
 				E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */,
