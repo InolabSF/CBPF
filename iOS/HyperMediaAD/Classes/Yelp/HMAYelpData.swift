@@ -45,9 +45,9 @@ class HMAYelpData: NSObject {
             self.coordinate = CLLocationCoordinate2DMake(coordinate["latitude"].doubleValue, coordinate["longitude"].doubleValue)
         }
 
-        let categoryLists = json["categories"]
-        if categoryLists == nil { return }
-        let categories = categoryLists.arrayValue
+        let categoryLists = json["categories"].arrayValue
+        if categoryLists.count == 0 { return }
+        let categories = categoryLists[0].arrayValue
         if categories.count == 0 { return }
         self.category = categories[0].stringValue
     }

@@ -8,8 +8,19 @@ class HMAYelpMaker: GMSMarker {
      * @param yelpData HMAYelpData
      **/
     func doSettings(#yelpData: HMAYelpData) {
-        var iconName = yelpData.category
-        var image = UIImage(named: "marker_yelp_"+iconName)
+        let categoryName = yelpData.category//.lowercaseString
+
+        var image: UIImage?
+        let categories = HMAYelpCategory.fetch(category: categoryName)
+        if HMAYelp.Restaurants[categoryName] != nil {
+            image = UIImage(named: "marker_yelp_" + HMAYelp.Restaurants[categoryName]!)
+        }
+        else {
+            for category in categories {
+                image = UIImage(named: "marker_yelp_" + category.parent)
+                if image != nil { break }
+            }
+        }
         if image == nil { image = UIImage(named: "marker_question") }
         self.icon = image
         self.draggable = false
