@@ -1,0 +1,46 @@
+import UIKit
+
+
+/// MARK: - HMAWebViewController
+class HMAWebViewController: UIViewController {
+
+    /// MARK: - property
+    var initialURL: NSURL?
+
+    @IBOutlet weak var webView: UIWebView!
+
+
+    /// MARK: - life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        if self.initialURL != nil {
+            let request: NSURLRequest = NSURLRequest(URL: self.initialURL!)
+            self.webView.loadRequest(request)
+        }
+
+        var leftBarButtonItem = self.navigationController!.navigationItem.leftBarButtonItem
+        if leftBarButtonItem != nil {
+            leftBarButtonItem.action = Selector("touchedUpInside:")
+        }
+    }
+
+
+    /// MARK: - event listener
+    @IBAction func touchedUpInside(#barButtonItem: UIBarButtonItem) {
+    }
+
+}
+
+
+
+/// MARK: - UIWebViewDelegate
+extension HMAWebViewController: UIWebViewDelegate {
+
+    func webViewDidStartLoad(webView: UIWebView) {
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+    }
+
+}

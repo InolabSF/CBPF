@@ -34,6 +34,14 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 */
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == HMANSStringFromClass(HMAWebViewController)) {
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.viewControllers[0] as! HMAWebViewController
+            vc.initialURL = sender as? NSURL
+        }
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -167,6 +175,16 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView,  didDragMarker marker:GMSMarker) {
+    }
+
+    func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
+        // yelp
+        if marker.isKindOfClass(HMAYelpMaker) {
+            let m = marker as! HMAYelpMaker
+            if m.yelpData.mobile_url != nil {
+                self.performSegueWithIdentifier(HMANSStringFromClass(HMAWebViewController), sender: m.yelpData.mobile_url)
+            }
+        }
     }
 
 }

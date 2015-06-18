@@ -115,6 +115,7 @@ class HMAMapView: GMSMapView {
     func setVisualizationType(visualizationType: HMAGoogleMap.Visualization) {
         self.visualizationType = visualizationType
 
+        HMAYelpClient.sharedInstance.yelpDatas = nil
         switch (self.visualizationType) {
             case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap, HMAGoogleMap.Visualization.CrimeCluster:
                 HMACrimeData.requestToGetCrimeData()
@@ -130,7 +131,6 @@ class HMAMapView: GMSMapView {
 //                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
                 break
             default:
-                HMAYelpClient.sharedInstance.yelpDatas = nil
                 self.crimes = []
                 self.sensorDatas = []
                 break

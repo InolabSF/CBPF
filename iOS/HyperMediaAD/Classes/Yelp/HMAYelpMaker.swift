@@ -1,6 +1,12 @@
 /// MARK: - HMAYelpMaker
 class HMAYelpMaker: GMSMarker {
 
+    /// MARK: - property
+
+    /// yelp
+    var yelpData: HMAYelpData!
+
+
     /// MARK: - public api
 
     /**
@@ -25,6 +31,8 @@ class HMAYelpMaker: GMSMarker {
         self.draggable = false
         self.title = yelpData.name
         self.snippet = yelpData.category
+
+        self.yelpData = yelpData
     }
 
 }

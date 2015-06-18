@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6151FF91B325B410085A992 /* HMAWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6151FF81B325B410085A992 /* HMAWebViewController.swift */; };
 		E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
 		E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C291AF0352100275377 /* AppDelegate.swift */; };
 		E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C321AF0352100275377 /* HMAViewController.swift */; };
@@ -95,6 +96,7 @@
 		6091AD0811BDBA27103A10E1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6EF818F2CB43A152D88519C6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		93C1E8119D4D8B753F6A2F76 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6151FF81B325B410085A992 /* HMAWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWebViewController.swift; sourceTree = "<group>"; };
 		E626250B1AF9A53300F7F722 /* HMAConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAConstant.swift; sourceTree = "<group>"; };
 		E62A6C291AF0352100275377 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyperMediaAD-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */,
 				E62A6C291AF0352100275377 /* AppDelegate.swift */,
 				E62A6C321AF0352100275377 /* HMAViewController.swift */,
+				E6151FF81B325B410085A992 /* HMAWebViewController.swift */,
 				E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */,
 				E65642101B27D10200F955BC /* main.swift */,
 				E62A6C381AF0356400275377 /* LaunchScreen.xib */,
@@ -621,6 +624,7 @@
 				E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */,
+				E6151FF91B325B410085A992 /* HMAWebViewController.swift in Sources */,
 				E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
 				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,

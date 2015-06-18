@@ -13,10 +13,63 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="qc7-gK-ni9" kind="modal" identifier="HMAWebViewController" id="eWL-Ft-kns"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXa-Fc-66E" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="170.13333333333333" y="300.09333333333331"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Isf-Vs-Gaq">
+            <objects>
+                <navigationController id="qc7-gK-ni9" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="c4L-n8-Bno">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vYW-Nb-akB" kind="relationship" relationship="rootViewController" id="zJS-Fv-7ss"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I6M-gL-eCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="170" y="984"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="B65-p8-4Ic">
+            <objects>
+                <viewController id="vYW-Nb-akB" customClass="HMAWebViewController" customModule="HyperMediaAD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j0t-PT-tXA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" id="aYl-Qt-07k">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vYW-Nb-akB" id="PSv-CW-6Io"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="g5r-kz-rgN">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="oLc-fr-yNh">
+                            <connections>
+                                <action selector="touchedUpInsideBarButtonItem:" destination="vYW-Nb-akB" id="SyI-13-5L9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="aYl-Qt-07k" id="m19-d6-AoS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CfU-8d-76Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="544" y="984"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
