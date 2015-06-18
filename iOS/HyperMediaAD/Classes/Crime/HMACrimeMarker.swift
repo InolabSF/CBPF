@@ -14,6 +14,8 @@ class HMACrimeMarker: GMSMarker {
         if image == nil { image = UIImage(named: "marker_question") }
         self.icon = image
         self.draggable = false
+        self.title = crime.category
+        self.snippet = crime.desc
     }
 
 }

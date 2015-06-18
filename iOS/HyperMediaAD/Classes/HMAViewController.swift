@@ -32,12 +32,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             offsetY += graph.frame.size.height
         }
 */
-        HMAYelpClient.sharedInstance.getSearchResult(
-            term: "",
-            completionHandler: { [unowned self] (json) in
-                self.mapView.draw()
-            }
-        )
     }
 
     override func didReceiveMemoryWarning() {
@@ -152,6 +146,7 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
+        self.mapView.selectedMarker = marker
         return true
     }
 
@@ -226,6 +221,16 @@ extension HMAViewController: HMAHorizontalTableViewDelegate {
         self.mapView.setVisualizationType(wasOn ? visualizationType : HMAGoogleMap.Visualization.None)
         self.mapView.updateWhatMapDraws()
         self.mapView.draw()
+
+        // yelp
+        if visualizationType == HMAGoogleMap.Visualization.Yelp && wasOn {
+            HMAYelpClient.sharedInstance.getSearchResult(
+                term: "",
+                completionHandler: { [unowned self] (json) in
+                    self.mapView.draw()
+                }
+            )
+        }
     }
 
 }

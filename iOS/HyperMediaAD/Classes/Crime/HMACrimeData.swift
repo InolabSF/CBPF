@@ -9,6 +9,7 @@ class HMACrimeData: NSManagedObject {
 
     /// MARK: - property
     @NSManaged var category: String
+    @NSManaged var desc: String
     @NSManaged var lat: NSNumber
     @NSManaged var long: NSNumber
     @NSManaged var timestamp: NSDate
@@ -158,6 +159,7 @@ class HMACrimeData: NSManagedObject {
 
             var crime = NSEntityDescription.insertNewObjectForEntityForName("HMACrimeData", inManagedObjectContext: context) as! HMACrimeData
             crime.category = crimeData["category"].stringValue
+            crime.desc = crimeData["desc"].stringValue
             crime.lat = crimeData["lat"].numberValue
             crime.long = crimeData["long"].numberValue
             crime.timestamp = timestamp!

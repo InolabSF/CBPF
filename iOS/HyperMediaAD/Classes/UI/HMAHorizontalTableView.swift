@@ -42,6 +42,7 @@ class HMAHorizontalTableView: UIView {
         // cells
         var offset: CGFloat = 0.0
         let visualizationTypes = [
+            HMAGoogleMap.Visualization.Yelp,
             HMAGoogleMap.Visualization.CrimePoint,
             HMAGoogleMap.Visualization.CrimeHeatmap,
             HMAGoogleMap.Visualization.CrimeCluster,
@@ -53,6 +54,7 @@ class HMAHorizontalTableView: UIView {
             HMAGoogleMap.Visualization.Pm25Heatmap,
         ]
         let titles = [
+            "Yelp",
             "Crime Point",
             "Crime Heatmap",
             "Crime Cluster",

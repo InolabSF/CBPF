@@ -136,6 +136,7 @@ struct HMAGoogleMap {
     /// MARK: - visualization
     enum Visualization {
         case None
+        case Yelp
         case Destination
         case Waypoint
         case CrimePoint
@@ -167,6 +168,7 @@ struct HMAYelp {
         "caribbean" : "restaurants",
         "chinese" : "restaurants",
         "donburi" : "restaurants",
+        "ethiopian" : "restaurants",
         "french" : "restaurants",
         "german" : "restaurants",
         "italian" : "restaurants",
@@ -177,6 +179,7 @@ struct HMAYelp {
         "mexican" : "restaurants",
         "mideastern" : "restaurants",
         "polish" : "restaurants",
+        "vietnamese" : "restaurants",
         "portuguese" : "restaurants",
         "spanish" : "restaurants",
         "turkish" : "restaurants",

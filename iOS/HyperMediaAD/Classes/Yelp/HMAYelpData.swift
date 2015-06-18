@@ -49,6 +49,7 @@ class HMAYelpData: NSObject {
         if categoryLists.count == 0 { return }
         let categories = categoryLists[0].arrayValue
         if categories.count == 0 { return }
-        self.category = categories[0].stringValue
+        if categories.count > 1 { self.category = categories[1].stringValue }
+        else { self.category = categories[0].stringValue }
     }
 }
