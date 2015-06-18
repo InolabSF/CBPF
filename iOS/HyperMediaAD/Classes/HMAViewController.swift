@@ -223,9 +223,25 @@ extension HMAViewController: HMAHorizontalTableViewDelegate {
         self.mapView.draw()
 
         // yelp
-        if visualizationType == HMAGoogleMap.Visualization.Yelp && wasOn {
+        if wasOn {
+            var term = ""
+            switch visualizationType {
+                case HMAGoogleMap.Visualization.Yelp:
+                    break
+                case HMAGoogleMap.Visualization.YelpCafe:
+                    term = "cafe"
+                    break
+                case HMAGoogleMap.Visualization.YelpRestaurant:
+                    term = "restaurant"
+                    break
+                case HMAGoogleMap.Visualization.YelpBicycle:
+                    term = "bicycle"
+                    break
+                default:
+                    return
+            }
             HMAYelpClient.sharedInstance.getSearchResult(
-                term: "",
+                term: term,
                 completionHandler: { [unowned self] (json) in
                     self.mapView.draw()
                 }

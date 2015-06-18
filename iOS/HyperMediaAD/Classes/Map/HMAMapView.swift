@@ -130,6 +130,7 @@ class HMAMapView: GMSMapView {
 //                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
                 break
             default:
+                HMAYelpClient.sharedInstance.yelpDatas = nil
                 self.crimes = []
                 self.sensorDatas = []
                 break

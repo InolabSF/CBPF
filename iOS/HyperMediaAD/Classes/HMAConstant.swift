@@ -137,6 +137,9 @@ struct HMAGoogleMap {
     enum Visualization {
         case None
         case Yelp
+        case YelpCafe
+        case YelpRestaurant
+        case YelpBicycle
         case Destination
         case Waypoint
         case CrimePoint
