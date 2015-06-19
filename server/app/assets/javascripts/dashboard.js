@@ -314,12 +314,9 @@
                 "GET",
                 uri,
                 function(data) {
-                    // clear polyline
+                    // marker and response
                     g_renderer.clearPolyline();
-
-                    // draw markers
                     g_renderer.drawAllMakers(data);
-                    // draw response
                     g_renderer.drawResponse(uri, data);
 
                     // elevation
