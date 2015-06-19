@@ -2,14 +2,17 @@
     "use strict;"
 
     /// constant
-    var SF_LATITUDE = 42.2355854279;
-    var SF_LONGITUDE = -71.5235686675;
-//    var SF_LATITUDE = 37.7833;
-//    var SF_LONGITUDE = -122.4167;
+    var LATITUDE = 42.2355854279;
+    var LONGITUDE = -71.5235686675;
+//    var LATITUDE = 37.7833;
+//    var LONGITUDE = -122.4167;
+    var RADIUS = 50.0;
+    var WHEEL_LOCATIONS = "wheel_locations";
 
     /// global variable
     var g_map;
-    var g_renderer = null;
+    var g_renderer;
+
 
     /**************************************************
      *             MapMath                            *
@@ -18,6 +21,7 @@
     };
 
     /// Member
+    MapMath.prototype.getDistance = MapMath_getDistance;     // MapMath#getDistance
     MapMath.prototype.getLatDegree = MapMath_getLatDegree;   // MapMath#getLatDegree get latitude degree from latitude, longitude, mile
     MapMath.prototype.getLongDegree = MapMath_getLongDegree; // MapMath#getLongDegree get longitude degree from latitude, longitude, mile
 
@@ -42,6 +46,7 @@
         return mile / distance;
     }
 
+
     /**************************************************
      *              APIClient                         *
      **************************************************/
@@ -50,19 +55,63 @@
 
     /// Member
     APIClient.prototype.executeAPI = APIClient_executeAPI;                                    // APIClient#executeAPI
+    APIClient.prototype.executeElevationAPI = APIClient_executeElevationAPI;                  // APIClient#executeElevationAPI
     APIClient.prototype.getFormParameters = APIClient_getFormParameters;                      // APIClient#getFormParameters
+    APIClient.prototype.needsElevation = APIClient_needsElevation;                            // APIClient#needsElevation
 
     /// Implementation
     function APIClient_executeAPI(method, path, success, failure) {
         var params = this.getFormParameters();
         var API_URI = path + "?" + $.param(params)
-        console.log(API_URI);
         $.ajax({
                 type: method,
                  url: API_URI,
-             success: success,
-             failure: failure
+             success: function(data) { success(data); },
+             failure: function(error) { failure(error); }
         });
+    }
+
+    function APIClient_executeElevationAPI(json, success, failure) {
+        var locations = json[WHEEL_LOCATIONS];
+        if (locations == null || locations == undefined) { return; }
+
+        // make elevation path
+        var mapMath = new MapMath();
+        var unit = 200;
+
+        for (var i = 0; i < locations.length; i += unit) {
+            var start = i;
+            var end = (i + unit > locations.length) ? locations.length : i + unit;
+            var previousLat = locations[i]["lat"];
+            var previousLong = locations[i]["long"];
+            var path = [];
+
+            for (var j = start; j < end; j++) {
+                var distance = mapMath.getDistance(previousLat, previousLong, locations[j]["lat"], locations[j]["long"]);
+                if (distance < 0.05) { continue; }
+
+                path.push(new google.maps.LatLng(locations[j]["lat"], locations[j]["long"]))
+                previousLat = locations[j]["lat"];
+                previousLong = locations[j]["long"];
+            }
+            if (path.length < 2) { continue; }
+            var pathRequest = {
+                "path" : path,
+                "samples" : path.length
+            };
+            var elevationService = new google.maps.ElevationService()
+            elevationService.getElevationAlongPath(
+                pathRequest,
+                function (results, status) {
+                    if (status != google.maps.ElevationStatus.OK) {
+                        failure(status);
+                        return;
+                    }
+                    var elevations = results;
+                    success(elevations);
+                }
+            );
+        }
     }
 
     function APIClient_getFormParameters() {
@@ -77,6 +126,12 @@
         return params;
     }
 
+    function APIClient_needsElevation() {
+        var uri = $('input[name=api]:checked', '#form').val();
+        return uri == "/wheel/accel_torque";
+    }
+
+
     /**************************************************
      *                    Renderer                    *
      **************************************************/
@@ -84,14 +139,35 @@
     };
 
     /// Member
+    Renderer.prototype.drawAllMakers = Renderer_drawAllMakers;                            // Renderer#drawAllMakers
     Renderer.prototype.drawMakers = Renderer_drawMakers;                                  // Renderer#drawMakers
     Renderer.prototype.drawResponse = Renderer_drawResponse;                              // Renderer#drawResponse
     Renderer.prototype.drawRangeRect = Renderer_drawRangeRect;                            // Renderer#drawRangeRect
     Renderer.prototype.drawMyLocation = Renderer_drawMyLocation;                          // Renderer#drawMyLocation
+    Renderer.prototype.drawPolyline = Renderer_drawPolyline;                              // Renderer#drawPolyline
+    Renderer.prototype.clearPolyline = Renderer_clearPolyline;                            // Renderer#clearPolyline
+
     Renderer.prototype.rangeRect = null;
     Renderer.prototype.myLocationMarker = null;
+    Renderer.prototype.polylines = [];
+    Renderer.prototype.markers = [];
 
     /// Implementation
+    function Renderer_drawAllMakers(json) {
+        for (var i = 0; i < this.markers.length; i++) {
+            this.markers[i].setMap(null);
+        }
+        this.markers = [];
+
+        var index = 0;
+        var colors = ["FF3333", "33FF33", "3333FF", "FFFF33", "33FFFF", "FF33FF", "FFFFFF", "333333"]
+        for (key in json) {
+            if (key == WHEEL_LOCATIONS) { continue; }
+            this.drawMakers(json[key], colors[index]);
+            index = (index + 1) % colors.length;
+        }
+    }
+
     function Renderer_drawMakers(json, color) {
         var pinImage = new google.maps.MarkerImage(
             "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
@@ -115,6 +191,7 @@
                     icon: pinImage,
                     shadow: pinShadow
             });
+            this.markers.push(marker);
         }
     }
 
@@ -155,12 +232,61 @@
         });
     }
 
+    function Renderer_clearPolyline() {
+        // clear
+        for (var i = 0; i < this.polylines.length; i++) {
+            this.polylines[i].setMap(null);
+        }
+        this.polylines = [];
+    }
+
+    function Renderer_drawPolyline(elevations) {
+
+        // draw
+        var mapMath = new MapMath();
+        for (var i = 0; i < elevations.length-1; i++) {
+            var routePath = [
+                new google.maps.LatLng(elevations[i].location.A, elevations[i].location.F),
+                new google.maps.LatLng(elevations[i+1].location.A, elevations[i+1].location.F)
+            ];
+            var distance = mapMath.getDistance(elevations[i].location.A, elevations[i].location.F, elevations[i+1].location.A, elevations[i+1].location.F);
+            var slope = Math.abs(
+                //(elevations[i+1].elevation - elevations[i].elevation) / (distance * 1609.344) * 100
+                (elevations[i+1].elevation - elevations[i].elevation) / (distance * 1609.344) * 1000
+            );
+            console.log(slope);
+            var pathColor = "#000000";
+            if (slope <= 5) { pathColor = "#3CB371"; }
+            else if (slope <= 10) { pathColor = "#FFFF00"; }
+            else if (slope <= 15) { pathColor = "#3366FF"; }
+            else if (slope <= 20) { pathColor = "#FF0000"; }
+            var polyline = new google.maps.Polyline({
+                path: routePath,
+                strokeColor: pathColor,
+                strokeOpacity: 0.5,
+                strokeWeight: 5,
+                draggable: false,
+                map: g_map
+            });
+            polyline.setMap(g_map);
+            this.polylines.push(polyline)
+        }
+    }
+
+
+    /**************************************************
+     *                  Main                          *
+     **************************************************/
     $(function() {
+        // initialization
         g_renderer = new Renderer();
         g_map = new google.maps.Map(
             document.getElementById("map"),
-            { zoom: 13, mapTypeId: google.maps.MapTypeId.ROADMAP, center: new google.maps.LatLng(SF_LATITUDE, SF_LONGITUDE) }
+            { zoom: 13, mapTypeId: google.maps.MapTypeId.ROADMAP, center: new google.maps.LatLng(LATITUDE, LONGITUDE) }
         );
+        $("#radius").val(RADIUS);
+        $("#lat").text(LATITUDE);
+        $("#long").text(LONGITUDE);
         var params = (new APIClient()).getFormParameters();
         g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
 
@@ -176,7 +302,7 @@
             var params = (new APIClient()).getFormParameters();
             g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
         });
-        g_renderer.drawMyLocation(SF_LATITUDE, SF_LONGITUDE)
+        g_renderer.drawMyLocation(LATITUDE, LONGITUDE)
 
         // click on the form
         $("#executeAPI").on("click", function() {
@@ -188,12 +314,26 @@
                 "GET",
                 uri,
                 function(data) {
+                    // clear polyline
+                    g_renderer.clearPolyline();
+
                     // draw markers
-                    var index = 0;
-                    var colors = ["FF3333", "33FF33", "3333FF", "FFFF33", "33FFFF", "FF33FF", "FFFFFF", "333333"]
-                    for (key in data) { g_renderer.drawMakers(data[key], colors[index++]); }
+                    g_renderer.drawAllMakers(data);
                     // draw response
                     g_renderer.drawResponse(uri, data);
+
+                    // elevation
+                    if (!apiClient.needsElevation()) { return; }
+                    apiClient.executeElevationAPI(
+                        data,
+                        function(data) {
+                            //console.log(data);
+                            g_renderer.drawPolyline(data);
+                        },
+                        function(error) {
+                            console.log(error);
+                        }
+                    );
                 },
                 function(error) {
                     console.log(error);

@@ -318,9 +318,14 @@ class WheelController < ApplicationController
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
+      location_datas = WheelLocation.where(
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
       json = Jbuilder.encode do |j|
         j.wheel_accels(accel_datas)
         j.wheel_torques(torque_datas)
+        j.wheel_locations(location_datas)
       end
 
       # response
