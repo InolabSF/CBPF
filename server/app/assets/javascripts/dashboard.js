@@ -2,14 +2,14 @@
     "use strict;"
 
     /// constant
-    var SF_LATITUDE = 37.7833;
-    var SF_LONGITUDE = -122.4167;
+    var SF_LATITUDE = 42.2355854279;
+    var SF_LONGITUDE = -71.5235686675;
+//    var SF_LATITUDE = 37.7833;
+//    var SF_LONGITUDE = -122.4167;
 
     /// global variable
     var g_map;
-    var g_marker = null;
-    var g_rect = null;
-    var g_dots = [];
+    var g_renderer = null;
 
     /**************************************************
      *             MapMath                            *
@@ -49,85 +49,23 @@
     };
 
     /// Member
-    APIClient.prototype.executeGETCrimeData = APIClient_executeGETCrimeData;   // APIClient#executeGETCrimeData
-    APIClient.prototype.executeGETSensorData = APIClient_executeGETSensorData; // APIClient#executeGETSensorData
-    APIClient.prototype.executeGETWheelData = APIClient_executeGETWheelData;   // APIClient#executeGETWheelData
+    APIClient.prototype.executeAPI = APIClient_executeAPI;                                    // APIClient#executeAPI
+    APIClient.prototype.getFormParameters = APIClient_getFormParameters;                      // APIClient#getFormParameters
 
     /// Implementation
-    function APIClient_executeAPI(method, path, params) {
+    function APIClient_executeAPI(method, path, success, failure) {
+        var params = this.getFormParameters();
         var API_URI = path + "?" + $.param(params)
+        console.log(API_URI);
         $.ajax({
                 type: method,
                  url: API_URI,
-             success: function(data) { console.log(data); },
-             failure: function(error) { }
+             success: success,
+             failure: failure
         });
     }
 
-    function APIClient_executeGETCrimeData() {
-    }
-
-    function APIClient_executeGETSensorData() {
-    }
-
-    function APIClient_executeGETWheelData() {
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function createMarker(lat, long) {
-        return new google.maps.Marker({
-            position: new google.maps.LatLng(lat, long),
-            map: g_map,
-            title: ""
-        });
-    }
-
-    function showJSON(json, uri) {
-        $("#result").text(uri + "\n\n" + JSON.stringify(json, null, 2));
-        drawDots(json);
-    }
-
-    function executeAPI() {
+    function APIClient_getFormParameters() {
         var form = $("#form :input");
         var params = {};
         form.each(function() {
@@ -135,32 +73,64 @@
         });
         params["lat"] = $("#lat").text().replace(/\s+/g, "");
         params["long"] = $("#long").text().replace(/\s+/g, "");
-        params["api"] = $('input[name=api]:checked', '#form').val();
-        var uri = params["api"]
         delete params["api"]
-        uri += "?" + $.param(params)
-
-        $.ajax({
-                type: "GET",
-                 url: uri,
-         success: function(data) { showJSON(data, uri); },
-         failure: function(error) { console.log(error); }
-        });
+        return params;
     }
 
-    function drawRect() {
-        if (g_rect != null) { g_rect.setMap(null); }
-        var form = $("#form :input");
-        var params = {};
-        form.each(function() {
-            params[this.name] = $(this).val();
-        });
-        var radius = params["radius"]
-        var lat = parseFloat($("#lat").text().replace(/\s+/g, ""));
-        var long = parseFloat($("#long").text().replace(/\s+/g, ""));
+    /**************************************************
+     *                    Renderer                    *
+     **************************************************/
+    function Renderer() {
+    };
+
+    /// Member
+    Renderer.prototype.drawMakers = Renderer_drawMakers;                                  // Renderer#drawMakers
+    Renderer.prototype.drawResponse = Renderer_drawResponse;                              // Renderer#drawResponse
+    Renderer.prototype.drawRangeRect = Renderer_drawRangeRect;                            // Renderer#drawRangeRect
+    Renderer.prototype.drawMyLocation = Renderer_drawMyLocation;                          // Renderer#drawMyLocation
+    Renderer.prototype.rangeRect = null;
+    Renderer.prototype.myLocationMarker = null;
+
+    /// Implementation
+    function Renderer_drawMakers(json, color) {
+        var pinImage = new google.maps.MarkerImage(
+            "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34)
+        );
+        var pinShadow = new google.maps.MarkerImage(
+            "http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+            new google.maps.Size(40, 37),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(12, 35)
+        );
+        for (var i = 0; i < json.length; i++) {
+            var lat = json[i]["lat"];
+            var long = json[i]["long"];
+            var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, long),
+                    map: g_map,
+                    title: "",
+                    icon: pinImage,
+                    shadow: pinShadow
+            });
+        }
+    }
+
+    function Renderer_drawResponse(path, json) {
+        $("#result").text(path + "\n\n" + JSON.stringify(json, null, 2));
+    }
+
+    function Renderer_drawRangeRect(lat, long, radius) {
+        if (this.rangeRect != null) { this.rangeRect.setMap(null); }
+
+        lat = parseFloat(lat.replace(/\s+/g, ""));
+        long = parseFloat(long.replace(/\s+/g, ""));
         var mapMath = new MapMath();
         var latOffset = mapMath.getLatDegree(lat, long, radius);
         var longOffset = mapMath.getLongDegree(lat, long, radius);
+
         var rectangle = new google.maps.Rectangle({
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
@@ -172,86 +142,63 @@
                 new google.maps.LatLng(lat-latOffset, long-longOffset),
                 new google.maps.LatLng(lat+latOffset, long+longOffset))
         });
-        g_rect = rectangle
-        g_rect.setMap(g_map);
+        this.rangeRect = rectangle
+        this.rangeRect.setMap(g_map);
     }
 
-    function attachMessage(marker, msg) {
-        google.maps.event.addListener(marker, 'click', function(event) {
-            new google.maps.InfoWindow({
-                content: msg
-            }).open(marker.getMap(), marker);
+    function Renderer_drawMyLocation(lat, long) {
+        if (this.myLocationMarker != null) { this.myLocationMarker.setMap(null); }
+        this.myLocationMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, long),
+            map: g_map,
+            title: ""
         });
     }
 
-    function drawDots(json) {
-        for (var i = 0; i < g_dots.length; i++) {
-            var dot = g_dots[i];
-            dot.setMap(null);
-        }
-        g_dots = [];
-
-        var datas = [];
-        var api = $('input[name=api]:checked', '#form').val();
-        switch (api) {
-                case "/crime/data":
-                        datas = json["crime_datas"];
-                        break;
-                case "/sensor/data":
-                        datas = json["sensor_datas"];
-                        break;
-                case "/wheel/data":
-                        datas = json["wheel_datas"];
-                        break;
-                default:
-        }
-        var pinColor = "00C000";
-        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor, new google.maps.Size(21, 34), new google.maps.Point(0,0), new google.maps.Point(10, 34));
-        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow", new google.maps.Size(40, 37), new google.maps.Point(0, 0), new google.maps.Point(12, 35));
-        for (var i = 0; i < datas.length; i++) {
-            var lat = datas[i]["lat"];
-            var long = datas[i]["long"];
-            var dot = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, long),
-                    map: g_map,
-                    title: "",
-                    icon: pinImage,
-                    shadow: pinShadow
-            });
-            var title = datas[i]["desc"];
-            if (title != null) {
-                attachMessage(dot, title)
-            }
-            dot.setMap(g_map);
-        }
-    }
-
     $(function() {
-
+        g_renderer = new Renderer();
         g_map = new google.maps.Map(
             document.getElementById("map"),
             { zoom: 13, mapTypeId: google.maps.MapTypeId.ROADMAP, center: new google.maps.LatLng(SF_LATITUDE, SF_LONGITUDE) }
         );
+        var params = (new APIClient()).getFormParameters();
+        g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
 
+        // click on the map
         google.maps.event.addListener(g_map, 'click', function(event) {
-            $("#lat").text(event.latLng.lat());
-            $("#long").text(event.latLng.lng());
-            if (g_marker != null) { g_marker.setMap(null); }
-            g_marker = createMarker(event.latLng.lat(), event.latLng.lng());
-            drawRect();
+            // my location
+            var lat = event.latLng.lat();
+            var long = event.latLng.lng();
+            $("#lat").text(lat);
+            $("#long").text(long);
+            g_renderer.drawMyLocation(lat, long)
+            // range rect
+            var params = (new APIClient()).getFormParameters();
+            g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
         });
+        g_renderer.drawMyLocation(SF_LATITUDE, SF_LONGITUDE)
 
-        g_marker = createMarker(SF_LATITUDE, SF_LONGITUDE);
-
+        // click on the form
         $("#executeAPI").on("click", function() {
-            var API = $('input[name=api]:checked', '#form').val();
-            var params = {
-                "lat" : $("#lat").text().replace(/\s+/g, ""),
-                "long" : $("#long").text().replace(/\s+/g, ""),
-            };
-            executeAPI();
+            // form datas
+            var uri = $('input[name=api]:checked', '#form').val();
+            // request
+            var apiClient = new APIClient();
+            apiClient.executeAPI(
+                "GET",
+                uri,
+                function(data) {
+                    // draw markers
+                    var index = 0;
+                    var colors = ["FF3333", "33FF33", "3333FF", "FFFF33", "33FFFF", "FF33FF", "FFFFFF", "333333"]
+                    for (key in data) { g_renderer.drawMakers(data[key], colors[index++]); }
+                    // draw response
+                    g_renderer.drawResponse(uri, data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         });
-
-        drawRect();
     });
 })((this || 0).self || global);

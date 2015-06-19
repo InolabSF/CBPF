@@ -192,4 +192,145 @@ class WheelController < ApplicationController
     end
   end
 
+  def location
+    is_return_json = false
+
+    # get latitude, longitude
+    lat = params[:lat].to_f
+    long = params[:long].to_f
+    radius = params[:radius].to_i
+
+    # calculate distance of latitude and longitude degree
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
+
+    # response
+    if is_return_json
+      datas = WheelLocation.where(
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
+      json = Jbuilder.encode do |j|
+        j.wheel_locations(datas)
+      end
+
+      # response
+      render json: json
+    end
+
+    # response
+    if !is_return_json
+      render json: { }
+    end
+  end
+
+  def torque
+    is_return_json = false
+
+    # get latitude, longitude
+    lat = params[:lat].to_f
+    long = params[:long].to_f
+    radius = params[:radius].to_i
+
+    # calculate distance of latitude and longitude degree
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
+
+    # response
+    if is_return_json
+      datas = WheelLocation.where(
+        torque: (10.0)..(1000.0),
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
+      json = Jbuilder.encode do |j|
+        j.wheel_torques(datas)
+      end
+
+      # response
+      render json: json
+    end
+
+    # response
+    if !is_return_json
+      render json: { }
+    end
+  end
+
+  def accel
+    is_return_json = false
+
+    # get latitude, longitude
+    lat = params[:lat].to_f
+    long = params[:long].to_f
+    radius = params[:radius].to_i
+
+    # calculate distance of latitude and longitude degree
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
+
+    # response
+    if is_return_json
+      datas = WheelLocation.where(
+        accel: (-100.0)..(-2.0),
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
+      json = Jbuilder.encode do |j|
+        j.wheel_accels(datas)
+      end
+
+      # response
+      render json: json
+    end
+
+    # response
+    if !is_return_json
+      render json: { }
+    end
+  end
+
+  def accel_torque
+    is_return_json = false
+
+    # get latitude, longitude
+    lat = params[:lat].to_f
+    long = params[:long].to_f
+    radius = params[:radius].to_i
+
+    # calculate distance of latitude and longitude degree
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0)
+
+    # response
+    if is_return_json
+      accel_datas = WheelLocation.where(
+        accel: (-100.0)..(-2.0),
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
+      torque_datas = WheelLocation.where(
+        torque: (10.0)..(1000.0),
+        lat: (lat-lat_degree)..(lat+lat_degree),
+        long: (long-long_degree)..(long+long_degree)
+      )
+      json = Jbuilder.encode do |j|
+        j.wheel_accels(accel_datas)
+        j.wheel_torques(torque_datas)
+      end
+
+      # response
+      render json: json
+    end
+
+    # response
+    if !is_return_json
+      render json: { }
+    end
+  end
+
 end

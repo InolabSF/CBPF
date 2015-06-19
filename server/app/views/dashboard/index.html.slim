@@ -16,11 +16,13 @@ html
       tr
         th latitude
         td#lat
-          | 37.7833
+          | 42.2355854279
+          //| 37.7833
       tr
         th longitude
         td#long
-          | -122.4167
+          | -71.5235686675
+          //| -122.4167
       tr
 
     form#form
@@ -36,11 +38,23 @@ html
         input type="radio" name="api" value="/wheel/data"
         span wheel
         span &nbsp
+        input type="radio" name="api" value="/wheel/location"
+        span wheel_location
+        span &nbsp
+        input type="radio" name="api" value="/wheel/accel"
+        span wheel_accel
+        span &nbsp
+        input type="radio" name="api" value="/wheel/torque"
+        span wheel_torque
+        span &nbsp
+        input type="radio" name="api" value="/wheel/accel_torque"
+        span wheel_accel_torque
+        span &nbsp
         br/
 
         label radius (miles)
         | :
-        input type="number" name="radius" step="0.1" min="0.1" value="1.0"
+        input type="number" name="radius" step="0.1" min="0.1" value="30.0"
         span miles
         br/
 
