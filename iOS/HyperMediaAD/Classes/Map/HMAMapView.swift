@@ -19,7 +19,7 @@ class HMAMapView: GMSMapView {
     /// crimes
     private var crimeDatas: [HMACrimeData]?
     /// sensorDatas
-//    private var sensorDatas: [HMASensorData]?
+    private var sensorDatas: [HMASensorData]?
 
     /// should draw crime
     var shouldDrawCrimes = false
@@ -45,6 +45,9 @@ class HMAMapView: GMSMapView {
 
         // comfort
         if self.shouldDrawComfort {
+            self.sensorDatas = []
+            self.sensorDatas += HMASensorData.fetch(sensorType: HMASensor.SensorType.Temperature, minimumCoordinate: min, maximumCoordinate: max)
+            self.sensorDatas += HMASensorData.fetch(sensorType: HMASensor.SensorType.Humidity, minimumCoordinate: min, maximumCoordinate: max)
         }
 
         // bike
@@ -72,6 +75,11 @@ class HMAMapView: GMSMapView {
         // crime
         if self.shouldDrawCrimes {
             self.drawCrimeMakers()
+        }
+
+        // comfort
+        if self.shouldDrawComfort {
+            self.drawHeatIndexHeatmap()
         }
 /*
         switch (self.visualizationType) {
@@ -324,42 +332,42 @@ class HMAMapView: GMSMapView {
     /**
      * draw sensorDatas
      **/
-    private func drawSensorMakers() {
-/*
-        if self.sensorDatas == nil { return }
+//    private func drawSensorMakers() {
+///*
+//        if self.sensorDatas == nil { return }
+//
+//        var drawingSensorDatas = self.sensorDatas as [HMASensorData]!
+//        if drawingSensorDatas.count == 0 { return }
+//*/
+///*
+//        if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
+//            self.drawHeatIndexMarkers()
+//        }
+//        else {
+//            for sensorData in drawingSensorDatas {
+//                self.drawSensorMaker(sensorData: sensorData)
+//            }
+//        }
+//*/
+//    }
 
-        var drawingSensorDatas = self.sensorDatas as [HMASensorData]!
-        if drawingSensorDatas.count == 0 { return }
-*/
-/*
-        if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
-            self.drawHeatIndexMarkers()
-        }
-        else {
-            for sensorData in drawingSensorDatas {
-                self.drawSensorMaker(sensorData: sensorData)
-            }
-        }
-*/
-    }
+//    /**
+//     * draw sensorData marker
+//     * @param sensorData HMASensorData
+//     **/
+//    private func drawSensorMaker(#sensorData: HMASensorData) {
+//        var marker = HMASensorMarker(position: CLLocationCoordinate2DMake(sensorData.lat.doubleValue, sensorData.long.doubleValue))
+//        marker.doSettings(sensorData: sensorData)
+//        marker.map = self
+//    }
 
-    /**
-     * draw sensorData marker
-     * @param sensorData HMASensorData
-     **/
-    private func drawSensorMaker(#sensorData: HMASensorData) {
-        var marker = HMASensorMarker(position: CLLocationCoordinate2DMake(sensorData.lat.doubleValue, sensorData.long.doubleValue))
-        marker.doSettings(sensorData: sensorData)
-        marker.map = self
-    }
-
-    /**
-     * draw heat index marker
-     **/
-    private func drawHeatIndexMarkers() {
-//        let humidityDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
-//        let temperatureDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
-    }
+//    /**
+//     * draw heat index marker
+//     **/
+//    private func drawHeatIndexMarkers() {
+////        let humidityDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
+////        let temperatureDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
+//    }
 
     /**
      * draw yelp

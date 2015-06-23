@@ -275,7 +275,7 @@ class WheelController < ApplicationController
     # response
     if is_return_json
       datas = WheelLocation.where(
-        accel: (-100.0)..(-2.0),
+        accel: (-100.0)..(-3.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
@@ -309,7 +309,7 @@ class WheelController < ApplicationController
     # response
     if is_return_json
       accel_datas = WheelLocation.where(
-        accel: (-100.0)..(-2.0),
+        accel: (-100.0)..(-3.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
