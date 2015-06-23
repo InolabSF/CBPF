@@ -269,9 +269,14 @@ extension HMAViewController: HMACircleButtonDelegate {
     func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
         if circleButton == self.crimeButton {
             self.mapView.shouldDrawCrimes = wasOn
+            if wasOn { HMACrimeData.requestToGetCrimeData() }
         }
         else if circleButton == self.comfortButton {
             self.mapView.shouldDrawComfort = wasOn
+            if wasOn {
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
+            }
         }
         else if circleButton == self.bikeButton {
             self.mapView.shouldDrawBike = wasOn

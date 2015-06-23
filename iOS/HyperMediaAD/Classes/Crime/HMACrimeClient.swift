@@ -36,8 +36,11 @@ class HMACrimeClient: AnyObject {
         var operation = ISHTTPOperation(
             request: request,
             handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
+                if error != nil { return }
+
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
+                else { return }
 
                 dispatch_async(dispatch_get_main_queue(), {
                     completionHandler(json: responseJSON)

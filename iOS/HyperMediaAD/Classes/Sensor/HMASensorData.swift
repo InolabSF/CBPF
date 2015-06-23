@@ -109,17 +109,25 @@ class HMASensorData: NSManagedObject {
 
         var error: NSError? = nil
         !context.save(&error)
+
+        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
+        if error == nil && key != nil {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
+            NSUserDefaults().setObject(currentYearMonthDay, forKey: key!)
+            NSUserDefaults().synchronize()
+        }
     }
 
 
     /// MARK: - private class method
 
     /**
-     * check if client needs to get new sensor data
+     * get NSUserDefaults key
      * @param sensorType HMASensor.SensorType(Int)
-     * @return Bool
+     * @return key(String?)
      **/
-    private class func hasData(#sensorType: Int) -> Bool {
+    private class func getUserDefaultsKey(#sensorType: Int) -> String? {
         var keys = [
             HMASensor.SensorType.Humidity : HMAUserDefaults.SensorHumidityYearMonthDay,
             HMASensor.SensorType.Co : HMAUserDefaults.SensorCoYearMonthDay,
@@ -130,7 +138,16 @@ class HMASensorData: NSManagedObject {
             HMASensor.SensorType.Temperature : HMAUserDefaults.SensorTemperatureYearMonthDay,
             HMASensor.SensorType.Light : HMAUserDefaults.SensorLightYearMonthDay,
         ]
-        var key: String? = keys[sensorType]
+        return keys[sensorType]
+    }
+
+    /**
+     * check if client needs to get new sensor data
+     * @param sensorType HMASensor.SensorType(Int)
+     * @return Bool
+     **/
+    private class func hasData(#sensorType: Int) -> Bool {
+        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
         if key == nil { return true } // invalid sensor type
 
         // saved

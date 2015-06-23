@@ -37,6 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+        HMACrimeData.requestToGetCrimeData()
+        HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+        HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
     }
 
     func applicationWillTerminate(application: UIApplication) {

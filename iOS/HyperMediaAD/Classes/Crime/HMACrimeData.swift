@@ -74,8 +74,6 @@ class HMACrimeData: NSManagedObject {
         var error: NSError? = nil
         let crimes = context.executeFetchRequest(fetchRequest, error: &error)
         if error != nil || crimes == nil {
-            NSUserDefaults().setObject("", forKey: HMAUserDefaults.CrimeYearMonth)
-            NSUserDefaults().synchronize()
             return []
         }
         return crimes as! Array<HMACrimeData>
@@ -120,9 +118,7 @@ class HMACrimeData: NSManagedObject {
         // return crimes
         var error: NSError? = nil
         let crimes = context.executeFetchRequest(fetchRequest, error: &error)
-        if error != nil || crimes == nil || crimes!.count == 0 {
-            NSUserDefaults().setObject("", forKey: HMAUserDefaults.CrimeYearMonth)
-            NSUserDefaults().synchronize()
+        if error != nil || crimes == nil {
             return []
         }
         return crimes as! Array<HMACrimeData>
