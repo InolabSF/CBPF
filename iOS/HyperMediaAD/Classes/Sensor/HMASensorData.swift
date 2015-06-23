@@ -14,13 +14,14 @@ class HMASensorData: NSManagedObject {
     @NSManaged var timestamp: NSDate
 
 
-    /// MARK: - class method
+    /// MARK: - public class method
 
     /**
      * request to get sensor data to server
      * @param sensorType HMASensor.SensorType(Int)
      **/
     class func requestToGetSensorData(#sensorType: Int) {
+        if HMASensorData.hasData(sensorType: sensorType) { return }
         let location = HMAMapView.sharedInstance.myLocation
         if location == nil { return }
 
@@ -28,11 +29,11 @@ class HMASensorData: NSManagedObject {
 
         // get sensor data from CBPF server
         HMASensorClient.sharedInstance.getSensorData(
-            radius: 12.5,
+            radius: 50.0,
             sensorType: sensorType,
             coordinate: location.coordinate,
             completionHandler: { (json) in
-                HMASensorData.save(json: json)
+                HMASensorData.save(sensorType: sensorType, json: json)
             }
         )
     }
@@ -65,6 +66,7 @@ class HMASensorData: NSManagedObject {
 
     /**
      * save json datas to coredata
+     * @param sensorType  HMASensor.SensorType(Int)
      * @param json JSON
      *  {
      *    "sensor_datas": [
@@ -83,7 +85,9 @@ class HMASensorData: NSManagedObject {
      *    ]
      *  }
      */
-    class func save(#json: JSON) {
+    class func save(#sensorType: Int, json: JSON) {
+        if HMASensorData.hasData(sensorType: sensorType) { return }
+
         let sensorDatas: Array<JSON> = json["sensor_datas"].arrayValue
 
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
@@ -106,4 +110,37 @@ class HMASensorData: NSManagedObject {
         var error: NSError? = nil
         !context.save(&error)
     }
+
+
+    /// MARK: - private class method
+
+    /**
+     * check if client needs to get new sensor data
+     * @param sensorType HMASensor.SensorType(Int)
+     * @return Bool
+     **/
+    private class func hasData(#sensorType: Int) -> Bool {
+        var keys = [
+            HMASensor.SensorType.Humidity : HMAUserDefaults.SensorHumidityYearMonthDay,
+            HMASensor.SensorType.Co : HMAUserDefaults.SensorCoYearMonthDay,
+            HMASensor.SensorType.Co2 : HMAUserDefaults.SensorCo2YearMonthDay,
+            HMASensor.SensorType.No2 : HMAUserDefaults.SensorNo2YearMonthDay,
+            HMASensor.SensorType.Pm25 : HMAUserDefaults.SensorPm25YearMonthDay,
+            HMASensor.SensorType.Noise : HMAUserDefaults.SensorNoiseYearMonthDay,
+            HMASensor.SensorType.Temperature : HMAUserDefaults.SensorTemperatureYearMonthDay,
+            HMASensor.SensorType.Light : HMAUserDefaults.SensorLightYearMonthDay,
+        ]
+        var key: String? = keys[sensorType]
+        if key == nil { return true } // invalid sensor type
+
+        // saved
+        let savedYearMonthDay = NSUserDefaults().stringForKey(key!)
+        // current
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
+
+        return (savedYearMonthDay == currentYearMonthDay)
+    }
+
 }

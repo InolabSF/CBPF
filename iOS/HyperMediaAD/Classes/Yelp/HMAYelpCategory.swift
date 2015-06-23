@@ -12,7 +12,7 @@ class HMAYelpCategory: NSManagedObject {
     @NSManaged var parent: String
 
 
-    /// MARK: - class method
+    /// MARK: - public class method
 
     /**
      * create coredata
@@ -83,11 +83,14 @@ class HMAYelpCategory: NSManagedObject {
         }
     }
 
+
+    /// MARK: - private class method
+
     /**
      * check if app has yelp category type
      * @return Bool
      **/
-    class func hasData() -> Bool {
+    private class func hasData() -> Bool {
         return NSUserDefaults().boolForKey(HMAUserDefaults.YelpCategory)
     }
 }

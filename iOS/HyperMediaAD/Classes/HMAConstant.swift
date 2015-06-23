@@ -28,8 +28,19 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 /// MARK: - UserDefaults
 
 struct HMAUserDefaults {
-    static let CrimeYearMonth =         "HMAUserDefaults.CrimeYearMonth"
-    static let YelpCategory =           "HMAUserDefaults.YelpCategory"
+    // crime
+    static let CrimeYearMonth =                     "HMAUserDefaults.CrimeYearMonth"
+    // sensor
+    static let SensorHumidityYearMonthDay =         "HMAUserDefaults.SensorHumidityYearMonthDay"
+    static let SensorCoYearMonthDay =               "HMAUserDefaults.SensorCoYearMonthDay"
+    static let SensorCo2YearMonthDay =              "HMAUserDefaults.SensorCo2YearMonthDay"
+    static let SensorNo2YearMonthDay =              "HMAUserDefaults.SensorNo2YearMonthDay"
+    static let SensorPm25YearMonthDay =             "HMAUserDefaults.SensorPm25YearMonthDay"
+    static let SensorNoiseYearMonthDay =            "HMAUserDefaults.SensorNoiseYearMonthDay"
+    static let SensorTemperatureYearMonthDay =      "HMAUserDefaults.SensorTemperatureYearMonthDay"
+    static let SensorLightYearMonthDay =            "HMAUserDefaults.CrimeYearMonth"
+    // yelp
+    static let YelpCategory =                       "HMAUserDefaults.YelpCategory"
 }
 
 

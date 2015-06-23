@@ -15,7 +15,7 @@ class HMACrimeData: NSManagedObject {
     @NSManaged var timestamp: NSDate
 
 
-    /// MARK: - class method
+    /// MARK: - public class method
 
     /**
      * request to get crime data to server
@@ -29,7 +29,7 @@ class HMACrimeData: NSManagedObject {
 
         HMACrimeClient.sharedInstance.cancelGetCrime()
         HMACrimeClient.sharedInstance.getCrime(
-            radius: 15.0,
+            radius: 50.0,
             coordinate: location.coordinate,
             completionHandler: { (json) in
                 HMACrimeData.save(json: json)
@@ -176,11 +176,14 @@ class HMACrimeData: NSManagedObject {
         }
     }
 
+
+    /// MARK: - private class method
+
     /**
      * check if client needs to get new crime data
      * @return Bool
      **/
-    class func hasData() -> Bool {
+    private class func hasData() -> Bool {
         let crimeYearMonth = NSUserDefaults().stringForKey(HMAUserDefaults.CrimeYearMonth)
 
         let dateFormatter = NSDateFormatter()
@@ -189,7 +192,5 @@ class HMACrimeData: NSManagedObject {
 
         return (crimeYearMonth == currentYearMonth)
     }
-
-
 
 }
