@@ -7,12 +7,16 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     /// MARK: - property
     var destinationString: String = ""
+    var locationManager: CLLocationManager!
 
     var mapView: HMAMapView!
     var searchBoxView: HMASearchBoxView!
     var searchResultView: HMASearchResultView!
-    var horizontalTableView: HMAHorizontalTableView!
-    var locationManager: CLLocationManager!
+
+    var crimeButton: HMACircleButton!
+    var comfortButton: HMACircleButton!
+    var bikeButton: HMACircleButton!
+    var yelpButton: HMABottomButton!
 
 
     /// MARK: - life cycle
@@ -81,14 +85,41 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.view.addSubview(self.searchBoxView)
         self.searchBoxView.design(parentView: self.view)
 
-        // horizontal table view
-        let horizontalTableViewNib = UINib(nibName: HMANSStringFromClass(HMAHorizontalTableView), bundle:nil)
-        let horizontalTableViews = horizontalTableViewNib.instantiateWithOwner(nil, options: nil)
-        self.horizontalTableView = horizontalTableViews[0] as! HMAHorizontalTableView
-        self.horizontalTableView.frame = CGRectMake(0, self.view.frame.size.height-self.horizontalTableView.frame.size.height, self.view.frame.size.width, self.horizontalTableView.frame.size.height)
-        self.view.addSubview(self.horizontalTableView)
-        self.horizontalTableView.doSettings()
-        self.horizontalTableView.delegate = self
+        // yelp
+        let yelpButtonNib = UINib(nibName: HMANSStringFromClass(HMABottomButton), bundle:nil)
+        let yelpButtonViews = yelpButtonNib.instantiateWithOwner(nil, options: nil)
+        self.yelpButton = yelpButtonViews[0] as! HMABottomButton
+        self.yelpButton.frame = CGRectMake(
+            0, self.view.frame.size.height - self.yelpButton.frame.size.height,
+            self.view.frame.size.width, self.yelpButton.frame.size.height
+        )
+        self.view.addSubview(self.yelpButton)
+        self.yelpButton.design()
+
+        // circle buttons
+        let xOffset: CGFloat = 20.0
+        let yOffset: CGFloat = 10.0
+        var circleButtons: [HMACircleButton] = []
+        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_bike")!]
+        for var i = 0; i < circleButtonImages.count; i++ {
+            let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
+            let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
+            let circleButtonView = circleButtonViews[0] as! HMACircleButton
+            circleButtonView.frame = CGRectMake(
+                self.view.frame.size.width - circleButtonView.frame.size.width - xOffset,
+                self.view.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1) - self.yelpButton.frame.size.height,
+                circleButtonView.frame.size.width,
+                circleButtonView.frame.size.height
+            )
+            circleButtonView.setImage(circleButtonImages[i])
+            self.view.addSubview(circleButtonView)
+            circleButtonView.delegate = self
+
+            circleButtons.append(circleButtonView)
+        }
+        self.crimeButton = circleButtons[0]
+        self.comfortButton = circleButtons[1]
+        self.bikeButton = circleButtons[2]
 
         // location manager
         self.locationManager = CLLocationManager()
@@ -98,7 +129,8 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.locationManager.distanceFilter = 300
         self.locationManager.startUpdatingLocation()
 
-        self.view.bringSubviewToFront(self.horizontalTableView)
+        self.view.bringSubviewToFront(self.yelpButton)
+        for circleButton in circleButtons { self.view.bringSubviewToFront(circleButton) }
         self.view.bringSubviewToFront(self.searchResultView)
         self.view.bringSubviewToFront(self.searchBoxView)
     }
@@ -231,6 +263,36 @@ extension HMAViewController: HMASearchResultViewDelegate {
 }
 
 
+/// MARK: - HMACircleButtonDelegate
+extension HMAViewController: HMACircleButtonDelegate {
+
+    func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
+        if circleButton == self.crimeButton {
+            self.mapView.shouldDrawCrimes = wasOn
+        }
+        else if circleButton == self.comfortButton {
+            self.mapView.shouldDrawComfort = wasOn
+        }
+        else if circleButton == self.bikeButton {
+            self.mapView.shouldDrawBike = wasOn
+        }
+
+        self.mapView.updateWhatMapDraws()
+        self.mapView.draw()
+    }
+
+}
+
+
+/// MARK: - HMABottomButtonDelegate
+extension HMAViewController: HMABottomButtonDelegate {
+
+    func bottomButtonWasClicked(#bottomButton: HMABottomButton) {
+    }
+
+}
+
+/*
 /// MARK: - HMAHorizontalTableViewDelegate
 extension HMAViewController: HMAHorizontalTableViewDelegate {
 
@@ -268,3 +330,4 @@ extension HMAViewController: HMAHorizontalTableViewDelegate {
     }
 
 }
+*/

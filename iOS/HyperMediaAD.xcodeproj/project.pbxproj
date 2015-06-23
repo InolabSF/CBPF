@@ -63,6 +63,10 @@
 		E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */; };
 		E6ED26D31B1D18B60076B9F4 /* HMACrimeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */; };
 		E6ED26D81B1D23DE0076B9F4 /* HMAComfort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */; };
+		E6EEB37F1B38BA350070E5DC /* HMACircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EEB37D1B38BA350070E5DC /* HMACircleButton.swift */; };
+		E6EEB3801B38BA350070E5DC /* HMACircleButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6EEB37E1B38BA350070E5DC /* HMACircleButton.xib */; };
+		E6EEB3831B38D5060070E5DC /* HMABottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EEB3811B38D5060070E5DC /* HMABottomButton.swift */; };
+		E6EEB3841B38D5060070E5DC /* HMABottomButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6EEB3821B38D5060070E5DC /* HMABottomButton.xib */; };
 		E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */; };
 		E920F2C8F1FF1F235F0B3467 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C1E8119D4D8B753F6A2F76 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -158,6 +162,10 @@
 		E6EC437C1B0404F30098FF9A /* NSURL+Queries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Queries.swift"; sourceTree = "<group>"; };
 		E6ED26D21B1D18B60076B9F4 /* HMACrimeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeOperationQueue.swift; sourceTree = "<group>"; };
 		E6ED26D71B1D23DE0076B9F4 /* HMAComfort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAComfort.swift; sourceTree = "<group>"; };
+		E6EEB37D1B38BA350070E5DC /* HMACircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACircleButton.swift; sourceTree = "<group>"; };
+		E6EEB37E1B38BA350070E5DC /* HMACircleButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMACircleButton.xib; sourceTree = "<group>"; };
+		E6EEB3811B38D5060070E5DC /* HMABottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMABottomButton.swift; sourceTree = "<group>"; };
+		E6EEB3821B38D5060070E5DC /* HMABottomButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMABottomButton.xib; sourceTree = "<group>"; };
 		E6F2C90E1B1D36DC0054C6CF /* HMAComfortParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAComfortParameter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -342,6 +350,10 @@
 		E656421F1B27D68D00F955BC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E6EEB3811B38D5060070E5DC /* HMABottomButton.swift */,
+				E6EEB3821B38D5060070E5DC /* HMABottomButton.xib */,
+				E6EEB37D1B38BA350070E5DC /* HMACircleButton.swift */,
+				E6EEB37E1B38BA350070E5DC /* HMACircleButton.xib */,
 				E65642231B27D68D00F955BC /* HMAHorizontalTableView.swift */,
 				E65642341B27DB2700F955BC /* HMAHorizontalTableView.xib */,
 				E65642241B27D68D00F955BC /* HMAHorizontalTableViewCell.swift */,
@@ -557,6 +569,8 @@
 				E65642361B27DB2700F955BC /* HMAHorizontalTableView.xib in Resources */,
 				E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */,
 				E65642371B27DB2700F955BC /* HMAHorizontalTableViewCell.xib in Resources */,
+				E6EEB3801B38BA350070E5DC /* HMACircleButton.xib in Resources */,
+				E6EEB3841B38D5060070E5DC /* HMABottomButton.xib in Resources */,
 				E62A6CA31AF0382F00275377 /* Images.xcassets in Resources */,
 				E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */,
 				E62A6C3B1AF0356400275377 /* Main.storyboard in Resources */,
@@ -628,6 +642,7 @@
 				E656422B1B27D68D00F955BC /* HMAHorizontalTableViewData.swift in Sources */,
 				E62B9D8E1B055B680086EEC2 /* HMAModel.xcdatamodeld in Sources */,
 				E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */,
+				E6EEB37F1B38BA350070E5DC /* HMACircleButton.swift in Sources */,
 				E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
 				E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */,
@@ -645,6 +660,7 @@
 				E656421E1B27D53400F955BC /* HMADestinationMarker.swift in Sources */,
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
 				E656420E1B27CB0200F955BC /* HMAConstant-Private.swift in Sources */,
+				E6EEB3831B38D5060070E5DC /* HMABottomButton.swift in Sources */,
 				E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */,
 				E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */,
 				E6F2C90F1B1D36DC0054C6CF /* HMAComfortParameter.swift in Sources */,

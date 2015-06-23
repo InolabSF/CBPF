@@ -12,14 +12,21 @@ class HMAMapView: GMSMapView {
     /// route json
     private var routeJSON: JSON?
     /// visualization type
-    private var visualizationType = HMAGoogleMap.Visualization.None
+//    private var visualizationType = HMAGoogleMap.Visualization.None
     /// comfort
-    private let comfort = HMAComfort()
+//    private let comfort = HMAComfort()
 
     /// crimes
-    private var crimes: [HMACrimeData]?
+    private var crimeDatas: [HMACrimeData]?
     /// sensorDatas
-    private var sensorDatas: [HMASensorData]?
+//    private var sensorDatas: [HMASensorData]?
+
+    /// should draw crime
+    var shouldDrawCrimes = false
+    /// should draw comfort
+    var shouldDrawComfort = false
+    /// should draw bike
+    var shouldDrawBike = false
 
 
     /// MARK: - public api
@@ -32,9 +39,18 @@ class HMAMapView: GMSMapView {
         let max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
 
         // crime
-        let crimes = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
-        self.setCrimes(crimes)
+        if self.shouldDrawCrimes {
+            self.crimeDatas = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
+        }
 
+        // comfort
+        if self.shouldDrawComfort {
+        }
+
+        // bike
+        if self.shouldDrawBike {
+        }
+/*
         // sensor data
         var sensorTypes = self.getSensorTypes()
         var sensorDatas: [HMASensorData] = []
@@ -43,6 +59,7 @@ class HMAMapView: GMSMapView {
             sensorDatas += datas
         }
         self.setSensorDatas(sensorDatas)
+*/
     }
 
     /**
@@ -52,6 +69,11 @@ class HMAMapView: GMSMapView {
         // clear
         self.clear()
 
+        // crime
+        if self.shouldDrawCrimes {
+            self.drawCrimeMakers()
+        }
+/*
         switch (self.visualizationType) {
             // crime
             case HMAGoogleMap.Visualization.CrimePoint:
@@ -73,7 +95,7 @@ class HMAMapView: GMSMapView {
             default:
                 break
         }
-
+*/
         // yelp
         self.drawYelp()
 
@@ -96,46 +118,49 @@ class HMAMapView: GMSMapView {
      * set crimes
      * @param crimes [HMACrimeData]
      **/
+/*
     func setCrimes(crimes: [HMACrimeData]?) {
         self.crimes = crimes
     }
-
+*/
     /**
      * set sensorDatas
      * @param sensorDatas [HMASensorData]
      **/
+/*
     func setSensorDatas(sensorDatas: [HMASensorData]?) {
         self.sensorDatas = sensorDatas
     }
+*/
 
-    /**
-     * set visualization Type
-     * @param visualizationType HMAGoogleMap.Visualization
-     **/
-    func setVisualizationType(visualizationType: HMAGoogleMap.Visualization) {
-        self.visualizationType = visualizationType
-
-        HMAYelpClient.sharedInstance.yelpDatas = nil
-        switch (self.visualizationType) {
-            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap, HMAGoogleMap.Visualization.CrimeCluster:
-                HMACrimeData.requestToGetCrimeData()
-                break
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Noise)
-                break
-            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Pm25)
-                break
-            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
-//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
-//                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
-                break
-            default:
-                self.crimes = []
-                self.sensorDatas = []
-                break
-        }
-    }
+//    /**
+//     * set visualization Type
+//     * @param visualizationType HMAGoogleMap.Visualization
+//     **/
+//    func setVisualizationType(visualizationType: HMAGoogleMap.Visualization) {
+//        self.visualizationType = visualizationType
+//
+//        HMAYelpClient.sharedInstance.yelpDatas = nil
+//        switch (self.visualizationType) {
+//            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap, HMAGoogleMap.Visualization.CrimeCluster:
+//                HMACrimeData.requestToGetCrimeData()
+//                break
+//            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Noise)
+//                break
+//            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Pm25)
+//                break
+//            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
+////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
+//                break
+//            default:
+//                self.crimeDatas = []
+//                self.sensorDatas = []
+//                break
+//        }
+//    }
 
     /**
      * get minimumCoordinate
@@ -276,9 +301,9 @@ class HMAMapView: GMSMapView {
      * draw crimes
      **/
     private func drawCrimeMakers() {
-        if self.crimes == nil { return }
+        if self.crimeDatas == nil { return }
 
-        let drawingCrimes = self.crimes as [HMACrimeData]!
+        let drawingCrimes = self.crimeDatas as [HMACrimeData]!
         if drawingCrimes.count == 0 { return }
 
         for crime in drawingCrimes {
@@ -300,11 +325,13 @@ class HMAMapView: GMSMapView {
      * draw sensorDatas
      **/
     private func drawSensorMakers() {
+/*
         if self.sensorDatas == nil { return }
 
         var drawingSensorDatas = self.sensorDatas as [HMASensorData]!
         if drawingSensorDatas.count == 0 { return }
-
+*/
+/*
         if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
             self.drawHeatIndexMarkers()
         }
@@ -313,6 +340,7 @@ class HMAMapView: GMSMapView {
                 self.drawSensorMaker(sensorData: sensorData)
             }
         }
+*/
     }
 
     /**
@@ -351,9 +379,9 @@ class HMAMapView: GMSMapView {
      * draw crime heatmap
      **/
     private func drawCrimeHeatmap() {
-        if self.crimes == nil { return }
+        if self.crimeDatas == nil { return }
 
-        let drawingCrimes = self.crimes as [HMACrimeData]!
+        let drawingCrimes = self.crimeDatas as [HMACrimeData]!
         if drawingCrimes.count == 0 { return }
 
         var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
@@ -380,6 +408,7 @@ class HMAMapView: GMSMapView {
      * draw sensor heatmap
      **/
     private func drawSensorHeatmap() {
+/*
         if self.sensorDatas == nil { return }
 
         let drawingSensorDatas = self.sensorDatas as [HMASensorData]!
@@ -407,12 +436,14 @@ class HMAMapView: GMSMapView {
         )
         overlay.bearing = 0
         overlay.map = self
+*/
     }
 
     /**
      * draw heat index heatmap
      **/
     private func drawHeatIndexHeatmap() {
+/*
         let humidityDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
         let temperatureDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
 
@@ -438,15 +469,17 @@ class HMAMapView: GMSMapView {
         )
         overlay.bearing = 0
         overlay.map = self
+*/
     }
 
     /**
      * draw crime cluster
      **/
+/*
     private func drawCrimeCluster() {
-        if self.crimes == nil { return }
+        if self.crimeDatas == nil { return }
 
-        let drawingCrimes = self.crimes as [HMACrimeData]!
+        let drawingCrimes = self.crimeDatas as [HMACrimeData]!
         if drawingCrimes.count == 0 { return }
 
         let column = 4
@@ -471,8 +504,8 @@ class HMAMapView: GMSMapView {
                 marker.map = self
             }
         }
-
     }
+*/
 
     /**
      * draw grid
@@ -513,6 +546,7 @@ class HMAMapView: GMSMapView {
      * get sensorTypes from visualizationType
      * @return [HMASensor.SensorType]
      **/
+/*
     private func getSensorTypes() -> [Int] {
         // sensor data
         var sensorType = HMASensor.SensorType.None
@@ -533,7 +567,7 @@ class HMAMapView: GMSMapView {
         }
         return [sensorType]
     }
-
+*/
     /**
      * return encodedPath
      * @return [String]
