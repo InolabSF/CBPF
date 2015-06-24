@@ -18,7 +18,7 @@ class HMASensorClient: AnyObject {
      * @param coordinate latitude and longitude
      * @param completionHandler (json: JSON) -> Void
      */
-    func getSensorData(#radius: Double, sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getSensorData(#radius: Float, sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
         var queries: Dictionary<String, AnyObject> = [
             "sensor_type": "\(sensorType)",

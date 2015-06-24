@@ -28,9 +28,9 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 /// MARK: - UserDefaults
 
 struct HMAUserDefaults {
-    // crime
+    /// crime
     static let CrimeYearMonth =                     "HMAUserDefaults.CrimeYearMonth"
-    // sensor
+    /// sensor
     static let SensorHumidityYearMonthDay =         "HMAUserDefaults.SensorHumidityYearMonthDay"
     static let SensorCoYearMonthDay =               "HMAUserDefaults.SensorCoYearMonthDay"
     static let SensorCo2YearMonthDay =              "HMAUserDefaults.SensorCo2YearMonthDay"
@@ -39,7 +39,7 @@ struct HMAUserDefaults {
     static let SensorNoiseYearMonthDay =            "HMAUserDefaults.SensorNoiseYearMonthDay"
     static let SensorTemperatureYearMonthDay =      "HMAUserDefaults.SensorTemperatureYearMonthDay"
     static let SensorLightYearMonthDay =            "HMAUserDefaults.CrimeYearMonth"
-    // yelp
+    /// yelp
     static let YelpCategory =                       "HMAUserDefaults.YelpCategory"
 }
 
@@ -54,6 +54,14 @@ let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 #else
 let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 #endif
+
+
+/// MARK: - HMAAPI
+
+struct HMAAPI {
+    /// the furthest distance that client requests server to get datas
+    static let Radius: Float = 50.0
+}
 
 
 /// MARK: - Crime

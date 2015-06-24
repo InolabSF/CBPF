@@ -29,7 +29,7 @@ class HMASensorData: NSManagedObject {
 
         // get sensor data from CBPF server
         HMASensorClient.sharedInstance.getSensorData(
-            radius: 50.0,
+            radius: HMAAPI.Radius,
             sensorType: sensorType,
             coordinate: location.coordinate,
             completionHandler: { (json) in
@@ -89,6 +89,8 @@ class HMASensorData: NSManagedObject {
     class func save(#sensorType: Int, json: JSON) {
         if HMASensorData.hasData(sensorType: sensorType) { return }
 
+        HMASensorData.delete()
+
         let sensorDatas: Array<JSON> = json["sensor_datas"].arrayValue
 
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
@@ -117,6 +119,31 @@ class HMASensorData: NSManagedObject {
             let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
             NSUserDefaults().setObject(currentYearMonthDay, forKey: key!)
             NSUserDefaults().synchronize()
+        }
+    }
+
+    /**
+     * delete all crimeDatas
+     **/
+    class func delete() {
+        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+
+        // make fetch request
+        var fetchRequest = NSFetchRequest()
+        let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
+        fetchRequest.entity = entity
+        fetchRequest.fetchBatchSize = 20
+
+        // get all sensor datas
+        var error: NSError? = nil
+        let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as? [HMASensorData]
+        if error != nil || sensorDatas == nil {
+            return
+        }
+
+        // delete
+        for sensorData in sensorDatas! {
+            context.deleteObject(sensorData)
         }
     }
 
@@ -158,9 +185,6 @@ class HMASensorData: NSManagedObject {
         dateFormatter.timeZone = NSTimeZone(name: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
-        if savedYearMonthDay != nil {
-            println(savedYearMonthDay! + " == " + currentYearMonthDay)
-        }
         return (savedYearMonthDay == currentYearMonthDay)
     }
 

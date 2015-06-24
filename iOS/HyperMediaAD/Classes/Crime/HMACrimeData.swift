@@ -29,7 +29,7 @@ class HMACrimeData: NSManagedObject {
 
         HMACrimeClient.sharedInstance.cancelGetCrime()
         HMACrimeClient.sharedInstance.getCrime(
-            radius: 50.0,
+            radius: HMAAPI.Radius,
             coordinate: location.coordinate,
             completionHandler: { (json) in
                 HMACrimeData.save(json: json)
@@ -72,11 +72,11 @@ class HMACrimeData: NSManagedObject {
 
         // return crimes
         var error: NSError? = nil
-        let crimes = context.executeFetchRequest(fetchRequest, error: &error)
-        if error != nil || crimes == nil {
+        let crimeDatas = context.executeFetchRequest(fetchRequest, error: &error)
+        if error != nil || crimeDatas == nil {
             return []
         }
-        return crimes as! Array<HMACrimeData>
+        return crimeDatas as! Array<HMACrimeData>
     }
 
     /**
@@ -142,6 +142,8 @@ class HMACrimeData: NSManagedObject {
     class func save(#json: JSON) {
         if HMACrimeData.hasData() { return }
 
+        HMACrimeData.delete()
+
         let crimeDatas: Array<JSON> = json["crime_datas"].arrayValue
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
@@ -169,6 +171,31 @@ class HMACrimeData: NSManagedObject {
             let currentYearMonth = dateFormatter.stringFromDate(NSDate())
             NSUserDefaults().setObject(currentYearMonth, forKey: HMAUserDefaults.CrimeYearMonth)
             NSUserDefaults().synchronize()
+        }
+    }
+
+    /**
+     * delete all crimeDatas
+     **/
+    class func delete() {
+        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+
+        // make fetch request
+        var fetchRequest = NSFetchRequest()
+        let entity = NSEntityDescription.entityForName("HMACrimeData", inManagedObjectContext:context)
+        fetchRequest.entity = entity
+        fetchRequest.fetchBatchSize = 20
+
+        // get all crimes
+        var error: NSError? = nil
+        let crimeDatas = context.executeFetchRequest(fetchRequest, error: &error) as? [HMACrimeData]
+        if error != nil || crimeDatas == nil {
+            return
+        }
+
+        // delete
+        for crimeData in crimeDatas! {
+            context.deleteObject(crimeData)
         }
     }
 

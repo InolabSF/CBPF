@@ -50,4 +50,14 @@ class HMAMapMath {
         return radius / mile
     }
 
+    /**
+     * get distance between two locations
+     * @param locationA CLLocation
+     * @param locationB CLLocation
+     * @return miles
+     **/
+    class func miles(#locationA: CLLocation, locationB: CLLocation) -> Double {
+        return locationA.distanceFromLocation(locationB) * 0.000621371
+    }
+
 }

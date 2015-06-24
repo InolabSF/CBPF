@@ -15,7 +15,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     var crimeButton: HMACircleButton!
     var comfortButton: HMACircleButton!
-    var bikeButton: HMACircleButton!
+    var wheelButton: HMACircleButton!
     var yelpButton: HMABottomButton!
 
 
@@ -100,7 +100,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         let xOffset: CGFloat = 20.0
         let yOffset: CGFloat = 10.0
         var circleButtons: [HMACircleButton] = []
-        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_bike")!]
+        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
         for var i = 0; i < circleButtonImages.count; i++ {
             let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
             let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
@@ -119,7 +119,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         }
         self.crimeButton = circleButtons[0]
         self.comfortButton = circleButtons[1]
-        self.bikeButton = circleButtons[2]
+        self.wheelButton = circleButtons[2]
 
         // location manager
         self.locationManager = CLLocationManager()
@@ -278,8 +278,8 @@ extension HMAViewController: HMACircleButtonDelegate {
                 HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
             }
         }
-        else if circleButton == self.bikeButton {
-            self.mapView.shouldDrawBike = wasOn
+        else if circleButton == self.wheelButton {
+            self.mapView.shouldDrawWheel = wasOn
         }
 
         self.mapView.updateWhatMapDraws()

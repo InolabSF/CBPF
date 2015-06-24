@@ -25,8 +25,8 @@ class HMAMapView: GMSMapView {
     var shouldDrawCrimes = false
     /// should draw comfort
     var shouldDrawComfort = false
-    /// should draw bike
-    var shouldDrawBike = false
+    /// should draw wheel
+    var shouldDrawWheel = false
 
 
     /// MARK: - public api
@@ -42,15 +42,13 @@ class HMAMapView: GMSMapView {
         if self.shouldDrawCrimes {
             self.crimeDatas = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
         }
-
         // comfort
         if self.shouldDrawComfort {
             self.humidityDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Humidity, minimumCoordinate: min, maximumCoordinate: max)
             self.temperatureDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Temperature, minimumCoordinate: min, maximumCoordinate: max)
         }
-
-        // bike
-        if self.shouldDrawBike {
+        // wheel
+        if self.shouldDrawWheel {
         }
     }
 
@@ -65,12 +63,13 @@ class HMAMapView: GMSMapView {
         if self.shouldDrawCrimes {
             self.drawCrimeMakers()
         }
-
         // comfort
         if self.shouldDrawComfort {
             self.drawHeatIndexHeatmap()
         }
-
+        // wheel
+        if self.shouldDrawWheel {
+        }
         // yelp
         self.drawYelp()
 
