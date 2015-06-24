@@ -27,6 +27,7 @@ class Tasks::WheelLocationCollectionTask
       file_name = "public/test_#{file_count}.csv"
     end
 
+    puts 'Tasks::WheelLocationCollectionTask#execute done'
   end
 
 end

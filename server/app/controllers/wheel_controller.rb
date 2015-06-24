@@ -16,52 +16,30 @@ class WheelController < ApplicationController
   @apiParam {Number} lat                                                   Mandatory latitude
   @apiParam {Number} long                                                  Mandatory longitude
   @apiParam {Number} radius                                                Mandatory radius of miles to search
-  @apiParam {Number} data_type                                             Mandatory data type
-  @apiParam {example} data_type.sensorData_phone_applicationState          1
-  @apiParam {example} data_type.sensorData_phone_altitude                  2
-  @apiParam {example} data_type.sensorData_phone_networkState              3
-  @apiParam {example} data_type.sensorData_phone_speed                     4
-  @apiParam {example} data_type.sensorData_phone_gpsHorizontalAccuracy     5
-  @apiParam {example} data_type.sensorData_phone_gpsVerticalAccuracy       6
-  @apiParam {example} data_type.sensorData_phone_batteryLevel              7
-  @apiParam {example} data_type.sensorData_phone_gpsStrength               8
-  @apiParam {example} data_type.wheelData_speed                            9
-  @apiParam {example} data_type.wheelData_slope                            10
-  @apiParam {example} data_type.wheelData_energyEfficiency                 11
-  @apiParam {example} data_type.wheelData_totalOdometer                    12
-  @apiParam {example} data_type.wheelData_tripOdometer                     13
-  @apiParam {example} data_type.wheelData_tripAverageSpeed                 14
-  @apiParam {example} data_type.wheelData_tripEnergyEfficiency             15
-  @apiParam {example} data_type.wheelData_motorTemperature                 16
-  @apiParam {example} data_type.wheelData_motorDriveTemperature            17
-  @apiParam {example} data_type.wheelData_riderTorque                      18
-  @apiParam {example} data_type.wheelData_riderPower                       19
-  @apiParam {example} data_type.wheelData_batteryCharge                    20
-  @apiParam {example} data_type.wheelData_batteryHealth                    21
-  @apiParam {example} data_type.wheelData_batteryPower                     22
-  @apiParam {example} data_type.wheelData_batteryVoltage                   23
-  @apiParam {example} data_type.wheelData_batteryCurrent                   24
-  @apiParam {example} data_type.wheelData_batteryTemperature               25
-  @apiParam {example} data_type.wheelData_batteryTimeToFull                26
-  @apiParam {example} data_type.wheelData_batteryTimeToEmpty               27
-  @apiParam {example} data_type.wheelData_batteryRange                     28
-  @apiParam {example} data_type.wheelData_rawDebugData                     29
-  @apiParam {example} data_type.wheelData_batteryPowerNormalized           30
+  @apiParam {Number} maxAccel                                              Optional smaller accel datas will return (maxAccel or minTorque needs)
+  @apiParam {Number} minTorque                                             Optional bigger torque datas will return (maxAccel or minTorque needs)
 
-  @apiParamExample {json} Request-Example:
+  @apiParamExample {json} Request-Example with maxAccel:
     {
       "lat": 37.76681832250885,
       "long": -122.4207906162038,
-      "radius": : 3.0,
-      "data_type": 9, // data_type.wheelData.speed
+      "radius": 3.0,
+      "maxAccel": -2.0
     }
 
-  @apiSuccess {Number} id WheelData ID
-  @apiSuccess {Number} data_type WheelData type
-  @apiSuccess {Number} value WheelData value
+  @apiParamExample {json} Request-Example with minTorque:
+    {
+      "lat": 37.76681832250885,
+      "long": -122.4207906162038,
+      "radius": 3.0,
+      "minTorque": 20.0
+    }
+
+  @apiSuccess {Number} torque torque
+  @apiSuccess {Number} velocity velocity
+  @apiSuccess {Number} accel acceleration
   @apiSuccess {Number} lat Latitude
   @apiSuccess {Number} long Longitude
-  @apiSuccess {Number} user_id User ID
   @apiSuccess {String} timestamp Timestamp
 
   @apiSuccessExample {json} Success-Response:
@@ -70,120 +48,64 @@ class WheelController < ApplicationController
         {
           "created_at": "2015-05-07T01:25:39.744Z",
           "id": 1,
-          "data_type": 1,
+          "torque": 1.0353324,
+          "velocity": 8.3435,
+          "accel": -3.32324,
           "lat": 37.792097317369965,
           "long": -122.43528085596421,
           "timestamp": "2015-05-07T01:25:39.738Z",
           "updated_at": "2015-05-07T01:25:39.744Z",
-          "user_id": null,
-          "value": 13.555334
         }
       ]
-    }
-=end
-=begin
-  @apiVersion 0.1.0
-
-  @apiGroup Wheel
-  @api {post} /wheel/data
-  @apiName WheelData(POST)
-  @apiDescription post wheel sensor data or something
-
-  @apiParam {Hash} wheel_datas                                      Mandatory
-  @apiParam {Array} wheel_datas.array                               Mandatory
-  @apiParam {Hash} wheel_datas.array.wheel_data                     Mandatory
-  @apiParam {Number} wheel_datas.array.wheel_data.data_type         Mandatory data type
-  @apiParam {Number} wheel_datas.array.wheel_data.value             Mandatory value
-  @apiParam {Number} wheel_datas.array.wheel_data.lat               Mandatory latitude
-  @apiParam {Number} wheel_datas.array.wheel_data.long              Mandatory longitude
-  @apiParam {Number} wheel_datas.array.wheel_data.user_id           Mandatory user id
-  @apiParam {String} wheel_datas.array.wheel_data.timestamp         Mandatory timestamp
-
-  @apiParamExample {json} Request-Example:
-    {
-      "wheel_datas": [
-        {
-          "data_type": 9,
-          "lat": 37.76681832250885,
-          "long": -122.4207906162038,
-          "user_id": 1,
-          "timestamp": "2015-05-07T01:25:39.738Z",
-          "value": 13.555334
-        }
-      ]
-    }
-
-  @apiSuccess {Number} application_code 200
-
-  @apiSuccessExample {json} Success-Response:
-    {
-      "application_code": 200
     }
 =end
   def data
     is_return_json = false
 
-    # GET
-    if request.get?
-      # get latitude, longitude
-      lat = params[:lat].to_f
-      long = params[:long].to_f
-      radius = params[:radius].to_i
-      data_type = params[:data_type].to_i
+    # get latitude, longitude
+    lat = params[:lat].to_f
+    long = params[:long].to_f
+    radius = params[:radius].to_i
+    maxAccel = (params[:maxAccel]) ? params[:maxAccel].to_f : nil
+    minTorque = (params[:minTorque]) ? params[:minTorque].to_f : nil
 
-      # calculate distance of latitude and longitude degree
-      lat_degree = MathUtility.get_lat_degree(lat, long, radius)
-      long_degree = MathUtility.get_long_degree(lat, long, radius)
-      is_return_json = !(lat_degree == 0 || long_degree == 0)
+    # calculate distance of latitude and longitude degree
+    lat_degree = MathUtility.get_lat_degree(lat, long, radius)
+    long_degree = MathUtility.get_long_degree(lat, long, radius)
+    is_return_json = !(lat_degree == 0 || long_degree == 0) && (maxAccel || minTorque)
 
-      #start_date = 1.month.ago
-      #end_date = 0.month.ago
+    #start_date = 1.month.ago
+    #end_date = 0.month.ago
 
-      # response
-      if is_return_json
-        datas = WheelData.where(
-          data_type: data_type,
-          lat: (lat-lat_degree)..(lat+lat_degree),
-          long: (long-long_degree)..(long+long_degree)
-          #timestamp: DateTime.new(start_date.year, start_date.month, 1)..DateTime.new(end_date.year, end_date.month, 1)
-        )
+    # response
+    if is_return_json
+      #datas = WheelData.where(
+      #  lat: (lat-lat_degree)..(lat+lat_degree),
+      #  long: (long-long_degree)..(long+long_degree)
+      #  #timestamp: DateTime.new(start_date.year, start_date.month, 1)..DateTime.new(end_date.year, end_date.month, 1)
+      #)
+
+      where = nil
+      if maxAccel && minTorque
+        where = "lat > #{lat-lat_degree} and lat < #{lat+lat_degree} and long > #{long-long_degree} and long < #{long+long_degree} and (accel < #{maxAccel} or torque > #{minTorque})"
+      elsif maxAccel
+        where = "lat > #{lat-lat_degree} and lat < #{lat+lat_degree} and long > #{long-long_degree} and long < #{long+long_degree} and accel < #{maxAccel}"
+      elsif minTorque
+        where = "lat > #{lat-lat_degree} and lat < #{lat+lat_degree} and long > #{long-long_degree} and long < #{long+long_degree} and torque > #{minTorque}"
+      end
+
+      json = nil
+      if where
+        datas = WheelData.where(where)
         json = Jbuilder.encode do |j|
           j.wheel_datas(datas)
         end
-
-        # response
-        render json: json
-      end
-
-    # POST
-    elsif request.post?
-      wheel_jsons = []
-      wheel_jsons = params[:wheel_datas] if params[:wheel_datas].is_a?(Array)
-
-      wheel_jsons.each do |wheel_json|
-        wheel_data = WheelData.new
-        # data_type
-        wheel_data.data_type = wheel_json['data_type'].to_i
-        # value
-        wheel_data.value = wheel_json['value'] if wheel_json['value']
-        # latitude
-        wheel_data.lat = wheel_json['lat'].to_f
-        # longitude
-        wheel_data.long = wheel_json['long'].to_f
-        # user id
-        wheel_data.user_id = wheel_json['user_id'] if wheel_json['user_id']
-        # timestamp
-        date_string = (wheel_json['timestamp']) ? wheel_json['timestamp'] : nil
-        wheel_data.timestamp = DateTime.parse(date_string) if date_string != nil
-
-        if wheel_data.valid?
-          wheel_data.save
-          is_return_json = true
-        end
+      else
+        json = { }
       end
 
       # response
-      render json: { "application_code" => 200 } if is_return_json
+      render json: json
     end
 
     # response
@@ -241,7 +163,7 @@ class WheelController < ApplicationController
     # response
     if is_return_json
       datas = WheelLocation.where(
-        torque: (10.0)..(1000.0),
+        torque: (15.0)..(1000.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
@@ -275,7 +197,7 @@ class WheelController < ApplicationController
     # response
     if is_return_json
       datas = WheelLocation.where(
-        accel: (-100.0)..(-3.0),
+        accel: (-100.0)..(-2.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
@@ -309,12 +231,12 @@ class WheelController < ApplicationController
     # response
     if is_return_json
       accel_datas = WheelLocation.where(
-        accel: (-100.0)..(-3.0),
+        accel: (-100.0)..(-2.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )
       torque_datas = WheelLocation.where(
-        torque: (10.0)..(1000.0),
+        torque: (15.0)..(1000.0),
         lat: (lat-lat_degree)..(lat+lat_degree),
         long: (long-long_degree)..(long+long_degree)
       )

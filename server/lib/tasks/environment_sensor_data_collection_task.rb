@@ -6,10 +6,12 @@ require './lib/assets/uri_generator'
 class Tasks::EnvironmentSensorDataCollectionTask
   def self.execute_all
     self.execute_aircasting(Date.new(2011, 1, 1), Date.today)
+    puts 'Tasks::EnvironmentSensorDataCollectionTask#execute_all done'
   end
 
   def self.execute_three_days_ago
     self.execute_aircasting(3.days.ago, 2.days.ago)
+    puts 'Tasks::EnvironmentSensorDataCollectionTask#execute_three_days_ago done'
   end
 
   def self.execute_aircasting(date_from, date_to)

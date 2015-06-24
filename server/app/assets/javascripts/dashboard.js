@@ -144,7 +144,9 @@
     Renderer.prototype.drawResponse = Renderer_drawResponse;                              // Renderer#drawResponse
     Renderer.prototype.drawRangeRect = Renderer_drawRangeRect;                            // Renderer#drawRangeRect
     Renderer.prototype.drawMyLocation = Renderer_drawMyLocation;                          // Renderer#drawMyLocation
-    Renderer.prototype.drawPolyline = Renderer_drawPolyline;                              // Renderer#drawPolyline
+    Renderer.prototype.drawElevationLine = Renderer_drawElevationLine;                    // Renderer#drawElevationLine
+    Renderer.prototype.drawAccelLine = Renderer_drawAccelLine;                            // Renderer#drawAccelLine
+    Renderer.prototype.drawTorqueLine = Renderer_drawTorqueLine;                          // Renderer#drawTorqueLine
     Renderer.prototype.clearPolyline = Renderer_clearPolyline;                            // Renderer#clearPolyline
 
     Renderer.prototype.rangeRect = null;
@@ -240,8 +242,7 @@
         this.polylines = [];
     }
 
-    function Renderer_drawPolyline(elevations) {
-
+    function Renderer_drawElevationLine(elevations) {
         // draw
         var mapMath = new MapMath();
         for (var i = 0; i < elevations.length-1; i++) {
@@ -254,12 +255,82 @@
                 //(elevations[i+1].elevation - elevations[i].elevation) / (distance * 1609.344) * 100
                 (elevations[i+1].elevation - elevations[i].elevation) / (distance * 1609.344) * 1000
             );
-            console.log(slope);
+            //console.log(slope);
             var pathColor = "#000000";
             if (slope <= 5) { pathColor = "#3CB371"; }
             else if (slope <= 10) { pathColor = "#FFFF00"; }
             else if (slope <= 15) { pathColor = "#3366FF"; }
             else if (slope <= 20) { pathColor = "#FF0000"; }
+            var polyline = new google.maps.Polyline({
+                path: routePath,
+                strokeColor: pathColor,
+                strokeOpacity: 0.5,
+                strokeWeight: 5,
+                draggable: false,
+                map: g_map
+            });
+            polyline.setMap(g_map);
+            this.polylines.push(polyline)
+        }
+    }
+
+    function Renderer_drawAccelLine(json) {
+        if (json === undefined || json == null) { return; }
+
+        var mapMath = new MapMath();
+        for (var i = 0; i < json.length-1; i++) {
+            // calculate distance between 2 points
+            var distance = mapMath.getDistance(json[i].lat, json[i].long, json[i+1].lat, json[i+1].long);
+            if (distance > 0.1) { continue; }
+
+            var routePath = [
+                new google.maps.LatLng(json[i].lat, json[i].long),
+                new google.maps.LatLng(json[i+1].lat, json[i+1].long)
+            ];
+
+            // decide color
+            var accelSum = json[i].accel + json[i+1].accel
+            var pathColor = "#88000000";
+            if (accelSum > -5.0) { pathColor = "#FFFF00"; }
+            else if (accelSum > -6.5) { pathColor = "#FF8800"; }
+            else if (accelSum > -8.0) { pathColor = "#FF0000"; }
+
+            // draw polyline
+            var polyline = new google.maps.Polyline({
+                path: routePath,
+                strokeColor: pathColor,
+                strokeOpacity: 0.5,
+                strokeWeight: 5,
+                draggable: false,
+                map: g_map
+            });
+            polyline.setMap(g_map);
+            this.polylines.push(polyline)
+        }
+    }
+
+    function Renderer_drawTorqueLine(json) {
+        if (json === undefined || json == null) { return; }
+
+        var mapMath = new MapMath();
+        for (var i = 0; i < json.length-1; i++) {
+            // calculate distance between 2 points
+            var distance = mapMath.getDistance(json[i].lat, json[i].long, json[i+1].lat, json[i+1].long);
+            if (distance > 0.1) { continue; }
+
+            var routePath = [
+                new google.maps.LatLng(json[i].lat, json[i].long),
+                new google.maps.LatLng(json[i+1].lat, json[i+1].long)
+            ];
+
+            // decide color
+            var torqueSum = json[i].torque + json[i+1].torque
+            var pathColor = "#000088";
+            if (torqueSum < 32.0) { pathColor = "#00FFFF"; }
+            else if (torqueSum < 34.0) { pathColor = "#0088FF"; }
+            else if (torqueSum < 36.0) { pathColor = "#0000FF"; }
+
+            // draw polyline
             var polyline = new google.maps.Polyline({
                 path: routePath,
                 strokeColor: pathColor,
@@ -288,7 +359,7 @@
         $("#lat").text(LATITUDE);
         $("#long").text(LONGITUDE);
         var params = (new APIClient()).getFormParameters();
-        g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
+        //g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
 
         // click on the map
         google.maps.event.addListener(g_map, 'click', function(event) {
@@ -300,7 +371,7 @@
             g_renderer.drawMyLocation(lat, long)
             // range rect
             var params = (new APIClient()).getFormParameters();
-            g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
+            //g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
         });
         g_renderer.drawMyLocation(LATITUDE, LONGITUDE)
 
@@ -316,21 +387,24 @@
                 function(data) {
                     // marker and response
                     g_renderer.clearPolyline();
-                    g_renderer.drawAllMakers(data);
+                    //g_renderer.drawAllMakers(data);
                     g_renderer.drawResponse(uri, data);
 
+                    g_renderer.drawAccelLine(data["wheel_accels"]);
+                    g_renderer.drawTorqueLine(data["wheel_torques"])
+/*
                     // elevation
                     if (!apiClient.needsElevation()) { return; }
                     apiClient.executeElevationAPI(
                         data,
                         function(data) {
-                            //console.log(data);
-                            g_renderer.drawPolyline(data);
+                            g_renderer.drawElevationLine(data);
                         },
                         function(error) {
                             console.log(error);
                         }
                     );
+*/
                 },
                 function(error) {
                     console.log(error);

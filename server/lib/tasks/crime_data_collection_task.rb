@@ -13,10 +13,12 @@ class Tasks::CrimeDataCollectionTask
     (end_month..start_month).each do |month|
       self.execute_sf_government_crime(month, 1)
     end
+    puts 'Tasks::CrimeDataCollectionTask#execute_all done'
   end
 
   def self.execute_three_month_ago
     self.execute_sf_government_crime(3, 1)
+    puts 'Tasks::CrimeDataCollectionTask#execute_three_month_ago done'
   end
 
 

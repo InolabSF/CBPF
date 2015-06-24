@@ -36,11 +36,11 @@ ActiveRecord::Schema.define(version: 20150618220745) do
   end
 
   create_table "wheel_data", force: :cascade do |t|
-    t.integer  "data_type"
-    t.float    "value"
+    t.float    "torque"
+    t.float    "velocity"
+    t.float    "accel"
     t.float    "lat"
     t.float    "long"
-    t.float    "user_id"
     t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
