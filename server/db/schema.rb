@@ -36,9 +36,8 @@ ActiveRecord::Schema.define(version: 20150618220745) do
   end
 
   create_table "wheel_data", force: :cascade do |t|
-    t.float    "torque"
-    t.float    "velocity"
-    t.float    "accel"
+    t.integer  "data_type"
+    t.float    "value"
     t.float    "lat"
     t.float    "long"
     t.datetime "timestamp"
