@@ -16,8 +16,8 @@ class WheelController < ApplicationController
   @apiParam {Number} lat                                                   Mandatory latitude
   @apiParam {Number} long                                                  Mandatory longitude
   @apiParam {Number} radius                                                Mandatory radius of miles to search
-  @apiParam {Number} maxAccel                                              Optional smaller accel datas will return (maxAccel or minTorque needs)
-  @apiParam {Number} minTorque                                             Optional bigger torque datas will return (maxAccel or minTorque needs)
+  @apiParam {Number} maxAccel                                              Optional smaller accel datas will return (either maxAccel or minTorque needs)
+  @apiParam {Number} minTorque                                             Optional bigger torque datas will return (either maxAccel or minTorque needs)
 
   @apiParamExample {json} Request-Example with maxAccel:
     {
@@ -32,6 +32,15 @@ class WheelController < ApplicationController
       "lat": 37.76681832250885,
       "long": -122.4207906162038,
       "radius": 3.0,
+      "minTorque": 20.0
+    }
+
+  @apiParamExample {json} Request-Example with maxAccel and minTorque:
+    {
+      "lat": 37.76681832250885,
+      "long": -122.4207906162038,
+      "radius": 3.0,
+      "maxAccel": -2.0,
       "minTorque": 20.0
     }
 
