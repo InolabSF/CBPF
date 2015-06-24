@@ -54,6 +54,7 @@ data type that we can get from copenhagen wheel
 | 28 | wheelData.batteryRange |
 | 29 | wheelData.rawDebugData |
 | 30 | wheelData.batteryPowerNormalized |
+| 31 | wheelData.acceleration |
 
 ### value
 
