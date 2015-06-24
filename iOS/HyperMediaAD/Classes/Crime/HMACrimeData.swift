@@ -183,6 +183,7 @@ class HMACrimeData: NSManagedObject {
         let crimeYearMonth = NSUserDefaults().stringForKey(HMAUserDefaults.CrimeYearMonth)
 
         let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentYearMonth = dateFormatter.stringFromDate(NSDate())
 

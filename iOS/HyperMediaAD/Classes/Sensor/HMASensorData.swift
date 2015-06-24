@@ -58,6 +58,7 @@ class HMASensorData: NSManagedObject {
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
         var error: NSError? = nil
         let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMASensorData>
@@ -154,9 +155,12 @@ class HMASensorData: NSManagedObject {
         let savedYearMonthDay = NSUserDefaults().stringForKey(key!)
         // current
         let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
-
+        if savedYearMonthDay != nil {
+            println(savedYearMonthDay! + " == " + currentYearMonthDay)
+        }
         return (savedYearMonthDay == currentYearMonthDay)
     }
 

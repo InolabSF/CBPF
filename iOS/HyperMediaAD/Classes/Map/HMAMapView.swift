@@ -12,7 +12,7 @@ class HMAMapView: GMSMapView {
     /// route json
     private var routeJSON: JSON?
     /// comfort
-//    private let comfort = HMAComfort()
+    private let comfort = HMAComfort()
 
     /// crimes
     private var crimeDatas: [HMACrimeData]! = []
@@ -289,18 +289,47 @@ class HMAMapView: GMSMapView {
      * draw heat index heatmap
      **/
     private func drawHeatIndexHeatmap() {
-/*
-        let humidityDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
-        let temperatureDatas = self.sensorDatas!.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
+        // make heat index list
+        var heatIndexDatas: [HMASensorData] = []
+        var humidityIndex = 0
+        for var i = 0; i < self.temperatureDatas.count; i++ {
+            var temperatureData = self.temperatureDatas[i]
+            for var j = humidityIndex; j < self.humidityDatas.count; j++ {
+                var humidityData = self.humidityDatas[i]
+                if temperatureData.lat != humidityData.lat ||
+                   temperatureData.long != humidityData.long ||
+                   temperatureData.timestamp != humidityData.timestamp {
+                       continue
+                }
+                humidityIndex = j
+                heatIndexDatas.append(temperatureData)
+                heatIndexDatas.append(humidityData)
+                break
+            }
+        }
 
-        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-
+        // make heatmap
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
         let boost: Float = 1.0
-        for humidityData in humidityDatas {
-            let temperatures = temperatureDatas.filter({ (sensorData: HMASensorData) -> Bool in
+        for var i = 0; i < heatIndexDatas.count; i += 2 {
+            locations.append(CLLocation(latitude: heatIndexDatas[i].lat.doubleValue, longitude: heatIndexDatas[i].long.doubleValue))
+            weights.append(NSNumber(double: self.comfort.getHeatIndexWeight(humidity: heatIndexDatas[i+1].value.doubleValue, temperature: heatIndexDatas[i].value.doubleValue)))
+        }
+        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        let overlay = GMSGroundOverlay(
+            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+        )
+        overlay.bearing = 0
+        overlay.map = self
+/*
+        var locations: [CLLocation] = []
+        var weights: [NSNumber] = []
+        let boost: Float = 1.0
+        for humidityData in self.humidityDatas {
+            let temperatures = self.temperatureDatas.filter({ (sensorData: HMASensorData) -> Bool in
                 return (sensorData.lat == humidityData.lat && sensorData.long == humidityData.long && sensorData.timestamp == humidityData.timestamp)
             })
             for temperatureData in temperatures {
@@ -309,6 +338,8 @@ class HMAMapView: GMSMapView {
             }
         }
 
+        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
         let overlay = GMSGroundOverlay(
             bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
             icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
@@ -318,67 +349,6 @@ class HMAMapView: GMSMapView {
 */
     }
 
-    /**
-     * draw grid
-     * @param column grid number of column
-     * @param row grid number of row
-     **/
-    private func drawGrid(#column: Int, row: Int) {
-        let startColumn = 0 - column / 2
-        let startRow = 0 - row / 2
-        let endColumn = column + column / 2
-        let endRow = row + row / 2
-
-        for var x = startColumn; x < endColumn; x++ {
-            let offsetX = self.frame.size.width * CGFloat(x) / CGFloat(column)
-            var path = GMSMutablePath()
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, 0)))
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, self.frame.size.height)))
-            var line = GMSPolyline(path: path)
-            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
-            line.strokeWidth = 1.0
-            line.tappable = false
-            line.map = self
-        }
-        for var y = startRow; y < endRow; y++ {
-            let yOffset = self.frame.size.height * CGFloat(y) / CGFloat(row)
-            var path = GMSMutablePath()
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(0, yOffset)))
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(self.frame.size.width, yOffset)))
-            var line = GMSPolyline(path: path)
-            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
-            line.strokeWidth = 1.0
-            line.tappable = false
-            line.map = self
-        }
-    }
-
-    /**
-     * get sensorTypes from visualizationType
-     * @return [HMASensor.SensorType]
-     **/
-/*
-    private func getSensorTypes() -> [Int] {
-        // sensor data
-        var sensorType = HMASensor.SensorType.None
-        switch (self.visualizationType) {
-            // noise
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-                sensorType = HMASensor.SensorType.Noise
-                break
-            // PM2.5
-            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-                sensorType = HMASensor.SensorType.Pm25
-                break
-            // HeatIndexPoint, HeatIndexHeatmap
-            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
-                return [HMASensor.SensorType.Humidity, HMASensor.SensorType.Temperature]
-            default:
-                break
-        }
-        return [sensorType]
-    }
-*/
     /**
      * return encodedPath
      * @return [String]
@@ -525,6 +495,68 @@ class HMAMapView: GMSMapView {
                 var marker = HMAClusterMarker(mapView: self, minimumPoint: CGPointMake(minX, minY), maximumPoint: CGPointMake(maxX, maxY), crimes: drawingCrimes)
                 marker.map = self
             }
+        }
+    }
+*/
+    /**
+     * get sensorTypes from visualizationType
+     * @return [HMASensor.SensorType]
+     **/
+/*
+    private func getSensorTypes() -> [Int] {
+        // sensor data
+        var sensorType = HMASensor.SensorType.None
+        switch (self.visualizationType) {
+            // noise
+            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
+                sensorType = HMASensor.SensorType.Noise
+                break
+            // PM2.5
+            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
+                sensorType = HMASensor.SensorType.Pm25
+                break
+            // HeatIndexPoint, HeatIndexHeatmap
+            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
+                return [HMASensor.SensorType.Humidity, HMASensor.SensorType.Temperature]
+            default:
+                break
+        }
+        return [sensorType]
+    }
+*/
+    /**
+     * draw grid
+     * @param column grid number of column
+     * @param row grid number of row
+     **/
+/*
+    private func drawGrid(#column: Int, row: Int) {
+        let startColumn = 0 - column / 2
+        let startRow = 0 - row / 2
+        let endColumn = column + column / 2
+        let endRow = row + row / 2
+
+        for var x = startColumn; x < endColumn; x++ {
+            let offsetX = self.frame.size.width * CGFloat(x) / CGFloat(column)
+            var path = GMSMutablePath()
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, 0)))
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, self.frame.size.height)))
+            var line = GMSPolyline(path: path)
+            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
+            line.strokeWidth = 1.0
+            line.tappable = false
+            line.map = self
+        }
+        for var y = startRow; y < endRow; y++ {
+            let yOffset = self.frame.size.height * CGFloat(y) / CGFloat(row)
+            var path = GMSMutablePath()
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(0, yOffset)))
+            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(self.frame.size.width, yOffset)))
+            var line = GMSPolyline(path: path)
+            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
+            line.strokeWidth = 1.0
+            line.tappable = false
+            line.map = self
         }
     }
 */
