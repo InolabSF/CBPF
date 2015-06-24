@@ -1,9 +1,8 @@
 class CreateWheelData < ActiveRecord::Migration
   def change
     create_table :wheel_data do |t|
-      t.float :torque
-      t.float :velocity
-      t.float :accel
+      t.integer :data_type
+      t.float :value
       t.float :lat
       t.float :long
       t.datetime :timestamp
