@@ -162,16 +162,16 @@ struct HMAWheel {
 
     /// max value when client requests to get datas from server
     struct Max {
-        static let RiderTorque: Float =                        -2.0
+        static let Acceleration: Float =                      -2.0
     }
 
     /// min value when client requests to get datas from server
     struct Min {
-        static let Acceleration: Float =                       20.0
+        static let RiderTorque: Float =                       12.0
     }
 
     /// max distance for visualization (miles)
-    static let MaxDistanceForVisualization: Double =           0.1
+    static let MaxDistanceForVisualization: Double =           0.08
 }
 
 

@@ -369,7 +369,7 @@ class HMAMapView: GMSMapView {
             path.addCoordinate(coordinateB)
             var line = GMSPolyline(path: path)
             line.strokeColor = color
-            line.strokeWidth = 5.0
+            line.strokeWidth = 7.5
             line.tappable = false
             line.map = map
         }
@@ -387,7 +387,6 @@ class HMAMapView: GMSMapView {
                 self.wheelEvaluation.getMinusAccelerationColor(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
             )
         }
-/*
         // RiderTorque
         for var i = 0; i < self.torqueDatas.count - 1; i++ {
             let locationA = CLLocation(latitude: self.torqueDatas[i].lat.doubleValue, longitude: self.torqueDatas[i].long.doubleValue)
@@ -398,10 +397,9 @@ class HMAMapView: GMSMapView {
                 map: self,
                 locationA.coordinate,
                 locationB.coordinate,
-                UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.wheelEvaluation.getRiderTorqueColor(torqueA: self.torqueDatas[i].value.doubleValue, torqueB: self.torqueDatas[i+1].value.doubleValue)
             )
         }
-*/
     }
 
     /**

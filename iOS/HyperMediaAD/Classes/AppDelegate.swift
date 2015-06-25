@@ -40,8 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         HMACrimeData.requestToGetCrimeData()
         HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
         HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
-        HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: HMAWheel.Max.RiderTorque, min: nil)
-        HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: nil, min: HMAWheel.Min.Acceleration)
+        HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: nil, min: HMAWheel.Min.RiderTorque)
+        HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: HMAWheel.Max.Acceleration, min: nil)
     }
 
     func applicationWillTerminate(application: UIApplication) {
