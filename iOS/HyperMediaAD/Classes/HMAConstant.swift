@@ -39,6 +39,30 @@ struct HMAUserDefaults {
     static let SensorNoiseYearMonthDay =            "HMAUserDefaults.SensorNoiseYearMonthDay"
     static let SensorTemperatureYearMonthDay =      "HMAUserDefaults.SensorTemperatureYearMonthDay"
     static let SensorLightYearMonthDay =            "HMAUserDefaults.CrimeYearMonth"
+    /// wheel
+    static let WheelSpeedYearMonthDay                       = "WheelSpeedYearMonthDay"
+    static let WheelSlopeYearMonthDay                       = "WheelSlopeYearMonthDay"
+    static let WheelEnergyEfficiencyYearMonthDay            = "WheelEnergyEfficiencyYearMonthDay"
+    static let WheelTotalOdometerYearMonthDay               = "WheelTotalOdometerYearMonthDay"
+    static let WheelTripOdometerYearMonthDay                = "WheelTripOdometerYearMonthDay"
+    static let WheelTripAverageSpeedYearMonthDay            = "WheelTripAverageSpeedYearMonthDay"
+    static let WheelTripEnergyEfficiencyYearMonthDay        = "WheelTripEnergyEfficiencyYearMonthDay"
+    static let WheelMotorTemperatureYearMonthDay            = "WheelMotorTemperatureYearMonthDay"
+    static let WheelMotorDriveTemperatureYearMonthDay       = "WheelMotorDriveTemperatureYearMonthDay"
+    static let WheelRiderTorqueYearMonthDay                 = "WheelRiderTorqueYearMonthDay"
+    static let WheelRiderPowerYearMonthDay                  = "WheelRiderPowerYearMonthDay"
+    static let WheelBatteryChargeYearMonthDay               = "WheelBatteryChargeYearMonthDay"
+    static let WheelBatteryHealthYearMonthDay               = "WheelBatteryHealthYearMonthDay"
+    static let WheelBatteryPowerYearMonthDay                = "WheelBatteryPowerYearMonthDay"
+    static let WheelBatteryVoltageYearMonthDay              = "WheelBatteryVoltageYearMonthDay"
+    static let WheelBatteryCurrentYearMonthDay              = "WheelBatteryCurrentYearMonthDay"
+    static let WheelBatteryTemperatureYearMonthDay          = "WheelBatteryTemperatureYearMonthDay"
+    static let WheelBatteryTimeToFullYearMonthDay           = "WheelBatteryTimeToFullYearMonthDay"
+    static let WheelBatteryTimeToEmptyYearMonthDay          = "WheelBatteryTimeToEmptyYearMonthDay"
+    static let WheelBatteryRangeYearMonthDay                = "WheelBatteryRangeYearMonthDay"
+    static let WheelRawDebugDataYearMonthDay                = "WheelRawDebugDataYearMonthDay"
+    static let WheelBatteryPowerNormalizedYearMonthDay      = "WheelBatteryPowerNormalizedYearMonthDay"
+    static let WheelAccelerationYearMonthDay                = "WheelAccelerationYearMonthDay"
     /// yelp
     static let YelpCategory =                       "HMAUserDefaults.YelpCategory"
 }
@@ -107,6 +131,31 @@ struct HMAWheel {
     /// MARK: - API
     struct API {
         static let Data = kURIBase + "/wheel/data"          /// wheel data API
+    }
+    struct DataType {
+        static let Speed =                              9
+        static let Slope =                              10
+        static let EnergyEfficiency =                   11
+        static let TotalOdometer =                      12
+        static let TripOdometer =                       13
+        static let TripAverageSpeed =                   14
+        static let TripEnergyEfficiency =               15
+        static let MotorTemperature =                   16
+        static let MotorDriveTemperature =              17
+        static let RiderTorque =                        18
+        static let RiderPower =                         19
+        static let BatteryCharge =                      20
+        static let BatteryHealth =                      21
+        static let BatteryPower =                       22
+        static let BatteryVoltage =                     23
+        static let BatteryCurrent =                     24
+        static let BatteryTemperature =                 25
+        static let BatteryTimeToFull =                  26
+        static let BatteryTimeToEmpty =                 27
+        static let BatteryRange =                       28
+        static let RawDebugData =                       29
+        static let BatteryPowerNormalized =             30
+        static let Acceleration =                       31
     }
 }
 

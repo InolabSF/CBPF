@@ -123,7 +123,7 @@ class HMASensorData: NSManagedObject {
     }
 
     /**
-     * delete all crimeDatas
+     * delete all datas
      **/
     class func delete() {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
