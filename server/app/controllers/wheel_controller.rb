@@ -48,8 +48,8 @@ class WheelController < ApplicationController
   @apiParam {example} data_type.wheelData_rawDebugData                     29
   @apiParam {example} data_type.wheelData_batteryPowerNormalized           30
   @apiParam {example} data_type.wheelData_acceleration                     31
-  @apiParam {Number} maxValue                                              Optional smaller accel datas will return (either maxValue or minValue needs)
-  @apiParam {Number} minValue                                              Optional bigger torque datas will return (either maxValue or minValue needs)
+  @apiParam {Number} max                                                   Optional smaller accel datas will return (either maxValue or minValue needs)
+  @apiParam {Number} min                                                   Optional bigger torque datas will return (either maxValue or minValue needs)
 
   @apiParamExample {json} Request-Example (torque):
     {
@@ -99,8 +99,8 @@ class WheelController < ApplicationController
     lat = (params[:lat]) ? params[:lat].to_f : nil
     long = (params[:long]) ? params[:long].to_f : nil
     radius = (params[:radius]) ? params[:radius].to_i : nil
-    max = (params[:maxValue]) ? params[:maxValue].to_f : nil
-    min = (params[:minValue]) ? params[:minValue].to_f : nil
+    max = (params[:max]) ? params[:max].to_f : nil
+    min = (params[:min]) ? params[:min].to_f : nil
 
     # calculate distance of latitude and longitude degree
     lat_degree = MathUtility.get_lat_degree(lat, long, radius)
