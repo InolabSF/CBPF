@@ -309,46 +309,19 @@ extension HMAViewController: HMACircleButtonDelegate {
 extension HMAViewController: HMABottomButtonDelegate {
 
     func bottomButtonWasClicked(#bottomButton: HMABottomButton) {
-    }
-
-}
-
 /*
-/// MARK: - HMAHorizontalTableViewDelegate
-extension HMAViewController: HMAHorizontalTableViewDelegate {
-
-    func tableView(tableView: HMAHorizontalTableView, indexPath: NSIndexPath, wasOn: Bool) {
-        let visualizationType = tableView.dataSource[indexPath.row].visualizationType
-        self.mapView.setVisualizationType(wasOn ? visualizationType : HMAGoogleMap.Visualization.None)
-        self.mapView.updateWhatMapDraws()
-        self.mapView.draw()
-
-        // yelp
-        if wasOn {
-            var term = ""
-            switch visualizationType {
-                case HMAGoogleMap.Visualization.Yelp:
-                    break
-                case HMAGoogleMap.Visualization.YelpCafe:
-                    term = "cafe"
-                    break
-                case HMAGoogleMap.Visualization.YelpRestaurant:
-                    term = "restaurant"
-                    break
-                case HMAGoogleMap.Visualization.YelpBicycle:
-                    term = "bicycle"
-                    break
-                default:
-                    return
+        term = ""
+        term = "cafe"
+        term = "restaurant"
+        term = "bicycle"
+        HMAYelpClient.sharedInstance.getSearchResult(
+            term: term,
+            completionHandler: { [unowned self] (json) in
+                self.mapView.draw()
             }
-            HMAYelpClient.sharedInstance.getSearchResult(
-                term: term,
-                completionHandler: { [unowned self] (json) in
-                    self.mapView.draw()
-                }
-            )
-        }
+        )
+*/
     }
 
 }
-*/
+
