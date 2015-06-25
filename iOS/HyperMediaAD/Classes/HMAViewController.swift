@@ -25,9 +25,9 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
         self.doSettings()
 /*
-        // display comfort evaluation graph
-        let comfort = HMAComfort()
-        let graphs = [ comfort.heatIndexGraphView(), comfort.pm25GraphView(), comfort.soundLevelGraphView(), ]
+        // display sensor evaluation graph
+        let sensorEvaluation = HMASensorEvaluation()
+        let graphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
         var offsetY: CGFloat = 20.0
         for var i = 0; i < graphs.count; i++ {
             let graph = graphs[i]

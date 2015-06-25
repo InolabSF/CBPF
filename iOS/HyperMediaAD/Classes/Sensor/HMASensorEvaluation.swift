@@ -51,8 +51,8 @@ struct HMASound {
 }
 
 
-/// MARK: - HMAComfort
-class HMAComfort: NSObject {
+/// MARK: - HMASensorEvaluation
+class HMASensorEvaluation: NSObject {
 
     /// MARK: - property
 
@@ -68,7 +68,7 @@ class HMAComfort: NSObject {
 
     /**
      * Initialization
-     * @return HMAComfort
+     * @return HMASensorEvaluation
      */
     override init() {
         super.init()
@@ -105,31 +105,6 @@ class HMAComfort: NSObject {
 
 
     /// MARK: - public api
-
-    /**
-     * get weight
-     * @param visualization HMAGoogleMap.Visualization
-     * @param value value
-     * @return evaluation (Double)
-     **/
-    func getWeight(#visualization: HMAGoogleMap.Visualization, value: Double) -> Double {
-        var weight = 0.0
-
-        switch (visualization) {
-            // noise
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-                weight = self.getSoundLevelWeight(parameter: value)
-                break
-            // PM2.5
-            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-                weight = self.getPM25Weight(parameter: value)
-                break
-            default:
-                break
-        }
-
-        return weight
-    }
 
     /**
      * get heat index evaluation if it's comfortable, the value goes 0. if it isn't comfortable, the value goes 1.

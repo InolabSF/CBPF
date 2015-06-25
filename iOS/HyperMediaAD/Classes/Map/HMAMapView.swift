@@ -11,8 +11,9 @@ class HMAMapView: GMSMapView {
     var waypoints: [CLLocationCoordinate2D] = []
     /// route json
     private var routeJSON: JSON?
-    /// comfort
-    private let comfort = HMAComfort()
+
+    /// sensor evaluation
+    private let sensorEvaluation = HMASensorEvaluation()
 
     /// crimes
     private var crimeDatas: [HMACrimeData]! = []
@@ -320,7 +321,7 @@ class HMAMapView: GMSMapView {
         let boost: Float = 1.0
         for var i = 0; i < heatIndexDatas.count; i += 2 {
             locations.append(CLLocation(latitude: heatIndexDatas[i].lat.doubleValue, longitude: heatIndexDatas[i].long.doubleValue))
-            weights.append(NSNumber(double: self.comfort.getHeatIndexWeight(humidity: heatIndexDatas[i+1].value.doubleValue, temperature: heatIndexDatas[i].value.doubleValue)))
+            weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: heatIndexDatas[i+1].value.doubleValue, temperature: heatIndexDatas[i].value.doubleValue)))
         }
         var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
         var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
@@ -340,7 +341,7 @@ class HMAMapView: GMSMapView {
             })
             for temperatureData in temperatures {
                 locations.append(CLLocation(latitude: humidityData.lat.doubleValue, longitude: humidityData.long.doubleValue))
-                weights.append(NSNumber(double: self.comfort.getHeatIndexWeight(humidity: humidityData.value.doubleValue, temperature: temperatureData.value.doubleValue)))
+                weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: humidityData.value.doubleValue, temperature: temperatureData.value.doubleValue)))
             }
         }
 
