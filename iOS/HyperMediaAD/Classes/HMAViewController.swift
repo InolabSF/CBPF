@@ -27,13 +27,25 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 /*
         // display sensor evaluation graph
         let sensorEvaluation = HMASensorEvaluation()
-        let graphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
-        var offsetY: CGFloat = 20.0
-        for var i = 0; i < graphs.count; i++ {
-            let graph = graphs[i]
-            graph.frame = CGRectMake(0, offsetY, graph.frame.size.width, graph.frame.size.height)
+        let sensorGraphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
+        var sensorOffsetY: CGFloat = 20.0
+        for var i = 0; i < sensorGraphs.count; i++ {
+            let graph = sensorGraphs[i]
+            graph.frame = CGRectMake(0, sensorOffsetY, graph.frame.size.width, graph.frame.size.height)
             self.view.addSubview(graph)
-            offsetY += graph.frame.size.height
+            sensorOffsetY += graph.frame.size.height
+        }
+*/
+/*
+        // display wheel evaluation graph
+        let wheelEvaluation = HMAWheelEvaluation()
+        let wheelGraphs = [ wheelEvaluation.minusAccelerationGraphView(), ]
+        var wheelOffsetY: CGFloat = 20.0
+        for var i = 0; i < wheelGraphs.count; i++ {
+            let graph = wheelGraphs[i]
+            graph.frame = CGRectMake(0, wheelOffsetY, graph.frame.size.width, graph.frame.size.height)
+            self.view.addSubview(graph)
+            wheelOffsetY += graph.frame.size.height
         }
 */
     }

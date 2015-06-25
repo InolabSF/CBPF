@@ -45,6 +45,7 @@
 		E66D2C621AEAD27D002F8D48 /* Gimbal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66D2C611AEAD27D002F8D48 /* Gimbal.framework */; };
 		E677842E1B3B7E6C00421603 /* HMAWheelOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E677842D1B3B7E6C00421603 /* HMAWheelOperationQueue.swift */; };
 		E67784301B3B8EEC00421603 /* HMASensorEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E677842F1B3B8EEC00421603 /* HMASensorEvaluation.swift */; };
+		E67784321B3B907200421603 /* HMAWheelEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67784311B3B907200421603 /* HMAWheelEvaluation.swift */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
 		E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */; };
 		E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */ = {isa = PBXBuildFile; fileRef = E68E31141B30F2CA00B820C0 /* yelp_categories.json */; };
@@ -143,6 +144,7 @@
 		E66D2C611AEAD27D002F8D48 /* Gimbal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gimbal.framework; sourceTree = "<group>"; };
 		E677842D1B3B7E6C00421603 /* HMAWheelOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelOperationQueue.swift; sourceTree = "<group>"; };
 		E677842F1B3B8EEC00421603 /* HMASensorEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorEvaluation.swift; sourceTree = "<group>"; };
+		E67784311B3B907200421603 /* HMAWheelEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelEvaluation.swift; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
 		E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpCategory.swift; sourceTree = "<group>"; };
 		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 			children = (
 				E6DB7C4E1B1198100055DF6C /* HMAWheelClient.swift */,
 				E6DB7C3F1B11974E0055DF6C /* HMAWheelData.swift */,
+				E67784311B3B907200421603 /* HMAWheelEvaluation.swift */,
 				E677842D1B3B7E6C00421603 /* HMAWheelOperationQueue.swift */,
 			);
 			path = Wheel;
@@ -638,6 +641,7 @@
 				E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */,
 				E677842E1B3B7E6C00421603 /* HMAWheelOperationQueue.swift in Sources */,
 				E6DB7C551B119F4E0055DF6C /* HMACrimeData.swift in Sources */,
+				E67784321B3B907200421603 /* HMAWheelEvaluation.swift in Sources */,
 				E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */,
 				E6DB7C511B1198180055DF6C /* HMASensorClient.swift in Sources */,
 				E6EC437A1B0404D70098FF9A /* SwiftyJSON.swift in Sources */,
