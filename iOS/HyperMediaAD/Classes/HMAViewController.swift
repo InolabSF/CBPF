@@ -280,6 +280,10 @@ extension HMAViewController: HMACircleButtonDelegate {
         }
         else if circleButton == self.wheelButton {
             self.mapView.shouldDrawWheel = wasOn
+            if wasOn {
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: HMAWheel.Max.RiderTorque, min: nil)
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: nil, min: HMAWheel.Min.Acceleration)
+            }
         }
 
         self.mapView.updateWhatMapDraws()

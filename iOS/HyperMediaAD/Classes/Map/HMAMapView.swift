@@ -20,6 +20,10 @@ class HMAMapView: GMSMapView {
     private var humidityDatas: [HMASensorData]! = []
     /// temperatureDatas
     private var temperatureDatas: [HMASensorData]! = []
+    /// accelDatas
+    private var accelDatas: [HMAWheelData]! = []
+    /// torqueDatas
+    private var torqueDatas: [HMAWheelData]! = []
 
     /// should draw crime
     var shouldDrawCrimes = false
@@ -49,6 +53,8 @@ class HMAMapView: GMSMapView {
         }
         // wheel
         if self.shouldDrawWheel {
+            self.accelDatas = HMAWheelData.fetch(dataType: HMAWheel.DataType.Acceleration, minimumCoordinate: min, maximumCoordinate: max)
+            self.torqueDatas = HMAWheelData.fetch(dataType: HMAWheel.DataType.RiderTorque, minimumCoordinate: min, maximumCoordinate: max)
         }
     }
 
@@ -69,6 +75,7 @@ class HMAMapView: GMSMapView {
         }
         // wheel
         if self.shouldDrawWheel {
+            self.drawWheelPolyline()
         }
         // yelp
         self.drawYelp()
@@ -349,6 +356,51 @@ class HMAMapView: GMSMapView {
     }
 
     /**
+     * draw data visualization by wheel data and polyline
+     **/
+    private func drawWheelPolyline() {
+        // draw line
+        func drawPolyline(#map: HMAMapView, coordinateA: CLLocationCoordinate2D, coordinateB: CLLocationCoordinate2D, color: UIColor) {
+            var path = GMSMutablePath()
+            path.addCoordinate(coordinateA)
+            path.addCoordinate(coordinateB)
+            var line = GMSPolyline(path: path)
+            line.strokeColor = color
+            line.strokeWidth = 1.0
+            line.tappable = false
+            line.map = map
+        }
+
+        // Acceleration
+        for var i = 0; i < self.accelDatas.count - 1; i++ {
+            let locationA = CLLocation(latitude: self.accelDatas[i].lat.doubleValue, longitude: self.accelDatas[i].long.doubleValue)
+            let locationB = CLLocation(latitude: self.accelDatas[i+1].lat.doubleValue, longitude: self.accelDatas[i+1].long.doubleValue)
+            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForVisualization { continue }
+
+            drawPolyline(
+                map: self,
+                locationA.coordinate,
+                locationB.coordinate,
+                UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+            )
+        }
+
+        // RiderTorque
+        for var i = 0; i < self.torqueDatas.count - 1; i++ {
+            let locationA = CLLocation(latitude: self.torqueDatas[i].lat.doubleValue, longitude: self.torqueDatas[i].long.doubleValue)
+            let locationB = CLLocation(latitude: self.torqueDatas[i+1].lat.doubleValue, longitude: self.torqueDatas[i+1].long.doubleValue)
+            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForVisualization { continue }
+
+            drawPolyline(
+                map: self,
+                locationA.coordinate,
+                locationB.coordinate,
+                UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            )
+        }
+    }
+
+    /**
      * return encodedPath
      * @return [String]
      **/
@@ -390,172 +442,3 @@ class HMAMapView: GMSMapView {
     }
 
 }
-
-
-    /**
-     * draw sensorDatas
-     **/
-//    private func drawSensorMakers() {
-///*
-//        if self.sensorDatas == nil { return }
-//
-//        var drawingSensorDatas = self.sensorDatas as [HMASensorData]!
-//        if drawingSensorDatas.count == 0 { return }
-//*/
-///*
-//        if self.visualizationType == HMAGoogleMap.Visualization.HeatIndexHeatmap {
-//            self.drawHeatIndexMarkers()
-//        }
-//        else {
-//            for sensorData in drawingSensorDatas {
-//                self.drawSensorMaker(sensorData: sensorData)
-//            }
-//        }
-//*/
-//    }
-
-//    /**
-//     * draw sensorData marker
-//     * @param sensorData HMASensorData
-//     **/
-//    private func drawSensorMaker(#sensorData: HMASensorData) {
-//        var marker = HMASensorMarker(position: CLLocationCoordinate2DMake(sensorData.lat.doubleValue, sensorData.long.doubleValue))
-//        marker.doSettings(sensorData: sensorData)
-//        marker.map = self
-//    }
-
-//    /**
-//     * draw heat index marker
-//     **/
-//    private func drawHeatIndexMarkers() {
-////        let humidityDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Humidity)) })
-////        let temperatureDatas = drawingSensorDatas.filter({ (sensorData: HMASensorData) -> Bool in return (sensorData.sensor_id == NSNumber(integer: HMASensor.SensorType.Temperature)) })
-//    }
-
-
-//    /**
-//     * set visualization Type
-//     * @param visualizationType HMAGoogleMap.Visualization
-//     **/
-//    func setVisualizationType(visualizationType: HMAGoogleMap.Visualization) {
-//        self.visualizationType = visualizationType
-//
-//        HMAYelpClient.sharedInstance.yelpDatas = nil
-//        switch (self.visualizationType) {
-//            case HMAGoogleMap.Visualization.CrimePoint, HMAGoogleMap.Visualization.CrimeHeatmap, HMAGoogleMap.Visualization.CrimeCluster:
-//                HMACrimeData.requestToGetCrimeData()
-//                break
-//            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Noise)
-//                break
-//            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Pm25)
-//                break
-//            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
-////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
-////                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
-//                break
-//            default:
-//                self.crimeDatas = []
-//                self.sensorDatas = []
-//                break
-//        }
-//    }
-
-
-    /**
-     * draw crime cluster
-     **/
-/*
-    private func drawCrimeCluster() {
-        if self.crimeDatas == nil { return }
-
-        let drawingCrimes = self.crimeDatas as [HMACrimeData]!
-        if drawingCrimes.count == 0 { return }
-
-        let column = 4
-        let row = 6
-
-        let startColumn = 0 - column / 2
-        let startRow = 0 - row / 2
-        let endColumn = column + column / 2
-        let endRow = row + row / 2
-
-        // grid
-        self.drawGrid(column: column, row: row)
-
-        // marker
-        for var x = startColumn; x < endColumn; x++ {
-            let minX = self.frame.size.width * CGFloat(x) / CGFloat(column)
-            let maxX = self.frame.size.width * CGFloat(x + 1) / CGFloat(column)
-            for var y = startRow; y < endRow; y++ {
-                let minY = self.frame.size.height * CGFloat(y) / CGFloat(row)
-                let maxY = self.frame.size.height * CGFloat(y + 1) / CGFloat(row)
-                var marker = HMAClusterMarker(mapView: self, minimumPoint: CGPointMake(minX, minY), maximumPoint: CGPointMake(maxX, maxY), crimes: drawingCrimes)
-                marker.map = self
-            }
-        }
-    }
-*/
-    /**
-     * get sensorTypes from visualizationType
-     * @return [HMASensor.SensorType]
-     **/
-/*
-    private func getSensorTypes() -> [Int] {
-        // sensor data
-        var sensorType = HMASensor.SensorType.None
-        switch (self.visualizationType) {
-            // noise
-            case HMAGoogleMap.Visualization.NoisePoint, HMAGoogleMap.Visualization.NoiseHeatmap:
-                sensorType = HMASensor.SensorType.Noise
-                break
-            // PM2.5
-            case HMAGoogleMap.Visualization.Pm25Point, HMAGoogleMap.Visualization.Pm25Heatmap:
-                sensorType = HMASensor.SensorType.Pm25
-                break
-            // HeatIndexPoint, HeatIndexHeatmap
-            case HMAGoogleMap.Visualization.HeatIndexPoint, HMAGoogleMap.Visualization.HeatIndexHeatmap:
-                return [HMASensor.SensorType.Humidity, HMASensor.SensorType.Temperature]
-            default:
-                break
-        }
-        return [sensorType]
-    }
-*/
-    /**
-     * draw grid
-     * @param column grid number of column
-     * @param row grid number of row
-     **/
-/*
-    private func drawGrid(#column: Int, row: Int) {
-        let startColumn = 0 - column / 2
-        let startRow = 0 - row / 2
-        let endColumn = column + column / 2
-        let endRow = row + row / 2
-
-        for var x = startColumn; x < endColumn; x++ {
-            let offsetX = self.frame.size.width * CGFloat(x) / CGFloat(column)
-            var path = GMSMutablePath()
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, 0)))
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(offsetX, self.frame.size.height)))
-            var line = GMSPolyline(path: path)
-            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
-            line.strokeWidth = 1.0
-            line.tappable = false
-            line.map = self
-        }
-        for var y = startRow; y < endRow; y++ {
-            let yOffset = self.frame.size.height * CGFloat(y) / CGFloat(row)
-            var path = GMSMutablePath()
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(0, yOffset)))
-            path.addCoordinate(self.projection.coordinateForPoint(CGPointMake(self.frame.size.width, yOffset)))
-            var line = GMSPolyline(path: path)
-            line.strokeColor = UIColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 0.5)
-            line.strokeWidth = 1.0
-            line.tappable = false
-            line.map = self
-        }
-    }
-*/

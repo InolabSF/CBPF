@@ -29,42 +29,42 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 
 struct HMAUserDefaults {
     /// crime
-    static let CrimeYearMonth =                     "HMAUserDefaults.CrimeYearMonth"
+    static let CrimeYearMonth =                                 "HMAUserDefaults.CrimeYearMonth"
     /// sensor
-    static let SensorHumidityYearMonthDay =         "HMAUserDefaults.SensorHumidityYearMonthDay"
-    static let SensorCoYearMonthDay =               "HMAUserDefaults.SensorCoYearMonthDay"
-    static let SensorCo2YearMonthDay =              "HMAUserDefaults.SensorCo2YearMonthDay"
-    static let SensorNo2YearMonthDay =              "HMAUserDefaults.SensorNo2YearMonthDay"
-    static let SensorPm25YearMonthDay =             "HMAUserDefaults.SensorPm25YearMonthDay"
-    static let SensorNoiseYearMonthDay =            "HMAUserDefaults.SensorNoiseYearMonthDay"
-    static let SensorTemperatureYearMonthDay =      "HMAUserDefaults.SensorTemperatureYearMonthDay"
-    static let SensorLightYearMonthDay =            "HMAUserDefaults.CrimeYearMonth"
+    static let SensorHumidityYearMonthDay =                     "HMAUserDefaults.SensorHumidityYearMonthDay"
+    static let SensorCoYearMonthDay =                           "HMAUserDefaults.SensorCoYearMonthDay"
+    static let SensorCo2YearMonthDay =                          "HMAUserDefaults.SensorCo2YearMonthDay"
+    static let SensorNo2YearMonthDay =                          "HMAUserDefaults.SensorNo2YearMonthDay"
+    static let SensorPm25YearMonthDay =                         "HMAUserDefaults.SensorPm25YearMonthDay"
+    static let SensorNoiseYearMonthDay =                        "HMAUserDefaults.SensorNoiseYearMonthDay"
+    static let SensorTemperatureYearMonthDay =                  "HMAUserDefaults.SensorTemperatureYearMonthDay"
+    static let SensorLightYearMonthDay =                        "HMAUserDefaults.CrimeYearMonth"
     /// wheel
-    static let WheelSpeedYearMonthDay                       = "WheelSpeedYearMonthDay"
-    static let WheelSlopeYearMonthDay                       = "WheelSlopeYearMonthDay"
-    static let WheelEnergyEfficiencyYearMonthDay            = "WheelEnergyEfficiencyYearMonthDay"
-    static let WheelTotalOdometerYearMonthDay               = "WheelTotalOdometerYearMonthDay"
-    static let WheelTripOdometerYearMonthDay                = "WheelTripOdometerYearMonthDay"
-    static let WheelTripAverageSpeedYearMonthDay            = "WheelTripAverageSpeedYearMonthDay"
-    static let WheelTripEnergyEfficiencyYearMonthDay        = "WheelTripEnergyEfficiencyYearMonthDay"
-    static let WheelMotorTemperatureYearMonthDay            = "WheelMotorTemperatureYearMonthDay"
-    static let WheelMotorDriveTemperatureYearMonthDay       = "WheelMotorDriveTemperatureYearMonthDay"
-    static let WheelRiderTorqueYearMonthDay                 = "WheelRiderTorqueYearMonthDay"
-    static let WheelRiderPowerYearMonthDay                  = "WheelRiderPowerYearMonthDay"
-    static let WheelBatteryChargeYearMonthDay               = "WheelBatteryChargeYearMonthDay"
-    static let WheelBatteryHealthYearMonthDay               = "WheelBatteryHealthYearMonthDay"
-    static let WheelBatteryPowerYearMonthDay                = "WheelBatteryPowerYearMonthDay"
-    static let WheelBatteryVoltageYearMonthDay              = "WheelBatteryVoltageYearMonthDay"
-    static let WheelBatteryCurrentYearMonthDay              = "WheelBatteryCurrentYearMonthDay"
-    static let WheelBatteryTemperatureYearMonthDay          = "WheelBatteryTemperatureYearMonthDay"
-    static let WheelBatteryTimeToFullYearMonthDay           = "WheelBatteryTimeToFullYearMonthDay"
-    static let WheelBatteryTimeToEmptyYearMonthDay          = "WheelBatteryTimeToEmptyYearMonthDay"
-    static let WheelBatteryRangeYearMonthDay                = "WheelBatteryRangeYearMonthDay"
-    static let WheelRawDebugDataYearMonthDay                = "WheelRawDebugDataYearMonthDay"
-    static let WheelBatteryPowerNormalizedYearMonthDay      = "WheelBatteryPowerNormalizedYearMonthDay"
-    static let WheelAccelerationYearMonthDay                = "WheelAccelerationYearMonthDay"
+    static let WheelSpeedYearMonthDay =                         "HMAUserDefaults.WheelSpeedYearMonthDay"
+    static let WheelSlopeYearMonthDay =                         "HMAUserDefaults.WheelSlopeYearMonthDay"
+    static let WheelEnergyEfficiencyYearMonthDay =              "HMAUserDefaults.WheelEnergyEfficiencyYearMonthDay"
+    static let WheelTotalOdometerYearMonthDay =                 "HMAUserDefaults.WheelTotalOdometerYearMonthDay"
+    static let WheelTripOdometerYearMonthDay =                  "HMAUserDefaults.WheelTripOdometerYearMonthDay"
+    static let WheelTripAverageSpeedYearMonthDay =              "HMAUserDefaults.WheelTripAverageSpeedYearMonthDay"
+    static let WheelTripEnergyEfficiencyYearMonthDay =          "HMAUserDefaults.WheelTripEnergyEfficiencyYearMonthDay"
+    static let WheelMotorTemperatureYearMonthDay =              "HMAUserDefaults.WheelMotorTemperatureYearMonthDay"
+    static let WheelMotorDriveTemperatureYearMonthDay =         "HMAUserDefaults.WheelMotorDriveTemperatureYearMonthDay"
+    static let WheelRiderTorqueYearMonthDay =                   "HMAUserDefaults.WheelRiderTorqueYearMonthDay"
+    static let WheelRiderPowerYearMonthDay =                    "HMAUserDefaults.WheelRiderPowerYearMonthDay"
+    static let WheelBatteryChargeYearMonthDay =                 "HMAUserDefaults.WheelBatteryChargeYearMonthDay"
+    static let WheelBatteryHealthYearMonthDay =                 "HMAUserDefaults.WheelBatteryHealthYearMonthDay"
+    static let WheelBatteryPowerYearMonthDay =                  "HMAUserDefaults.WheelBatteryPowerYearMonthDay"
+    static let WheelBatteryVoltageYearMonthDay =                "HMAUserDefaults.WheelBatteryVoltageYearMonthDay"
+    static let WheelBatteryCurrentYearMonthDay =                "HMAUserDefaults.WheelBatteryCurrentYearMonthDay"
+    static let WheelBatteryTemperatureYearMonthDay =            "HMAUserDefaults.WheelBatteryTemperatureYearMonthDay"
+    static let WheelBatteryTimeToFullYearMonthDay =             "HMAUserDefaults.WheelBatteryTimeToFullYearMonthDay"
+    static let WheelBatteryTimeToEmptyYearMonthDay =            "HMAUserDefaults.WheelBatteryTimeToEmptyYearMonthDay"
+    static let WheelBatteryRangeYearMonthDay =                  "HMAUserDefaults.WheelBatteryRangeYearMonthDay"
+    static let WheelRawDebugDataYearMonthDay =                  "HMAUserDefaults.WheelRawDebugDataYearMonthDay"
+    static let WheelBatteryPowerNormalizedYearMonthDay =        "HMAUserDefaults.WheelBatteryPowerNormalizedYearMonthDay"
+    static let WheelAccelerationYearMonthDay =                  "HMAUserDefaults.WheelAccelerationYearMonthDay"
     /// yelp
-    static let YelpCategory =                       "HMAUserDefaults.YelpCategory"
+    static let YelpCategory =                                   "HMAUserDefaults.YelpCategory"
 }
 
 
@@ -132,6 +132,8 @@ struct HMAWheel {
     struct API {
         static let Data = kURIBase + "/wheel/data"          /// wheel data API
     }
+
+    /// MARK: - dataType
     struct DataType {
         static let Speed =                              9
         static let Slope =                              10
@@ -157,6 +159,19 @@ struct HMAWheel {
         static let BatteryPowerNormalized =             30
         static let Acceleration =                       31
     }
+
+    /// max value when client requests to get datas from server
+    struct Max {
+        static let RiderTorque: Float =                        -2.0
+    }
+
+    /// min value when client requests to get datas from server
+    struct Min {
+        static let Acceleration: Float =                       20.0
+    }
+
+    /// max distance for visualization (miles)
+    static let MaxDistanceForVisualization: Double =           0.1
 }
 
 
