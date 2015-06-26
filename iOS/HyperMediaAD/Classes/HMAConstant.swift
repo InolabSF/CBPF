@@ -28,6 +28,10 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 /// MARK: - UserDefaults
 
 struct HMAUserDefaults {
+    /// last latitude
+    static let LastLatitude =                                   "HMAUserDefaults.LastLatitude"
+    /// last longitude
+    static let LastLongitude =                                  "HMAUserDefaults.LastLongitude"
     /// crime
     static let CrimeYearMonth =                                 "HMAUserDefaults.CrimeYearMonth"
     /// sensor
@@ -74,9 +78,9 @@ struct HMAUserDefaults {
 #if LOCAL_SERVER
 let kURIBase =                          "http://localhost:3000"
 #elseif DEV_SERVER
-let kURIBase =                          "https://isid-ccpf.herokuapp.com"
+let kURIBase =                          "https://isid-cbpf.herokuapp.com"
 #else
-let kURIBase =                          "https://isid-ccpf.herokuapp.com"
+let kURIBase =                          "https://isid-cbpf.herokuapp.com"
 #endif
 
 
@@ -85,6 +89,8 @@ let kURIBase =                          "https://isid-ccpf.herokuapp.com"
 struct HMAAPI {
     /// the furthest distance that client requests server to get datas
     static let Radius: Float = 50.0
+    /// comparing to last time, renew all datas if location is too far
+    static let RenewDistance: Float = 25.0
 }
 
 
@@ -229,18 +235,18 @@ struct HMAYelp {
 
     // categories
     static let Categories = [
-        "",
         "cafe",
         "restaurant",
         "bicycle",
-        "",
+        "landmark",
         "cafe",
         "restaurant",
         "bicycle",
-        "",
+        "landmark",
         "cafe",
         "restaurant",
         "bicycle",
+        "landmark",
     ]
 
     // restaurant category

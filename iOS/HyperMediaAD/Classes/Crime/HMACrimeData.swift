@@ -21,16 +21,16 @@ class HMACrimeData: NSManagedObject {
      * request to get crime data to server
      **/
     class func requestToGetCrimeData() {
+        var coordinate = HMAMapView.sharedInstance.centerCoordinate()
+        HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
+
         // crime API
         if HMACrimeData.hasData() { return }
-
-        let location = HMAMapView.sharedInstance.myLocation
-        if location == nil { return }
 
         HMACrimeClient.sharedInstance.cancelGetCrime()
         HMACrimeClient.sharedInstance.getCrime(
             radius: HMAAPI.Radius,
-            coordinate: location.coordinate,
+            coordinate: coordinate,
             completionHandler: { (json) in
                 HMACrimeData.save(json: json)
             }
@@ -197,6 +197,8 @@ class HMACrimeData: NSManagedObject {
         for crimeData in crimeDatas! {
             context.deleteObject(crimeData)
         }
+        NSUserDefaults().setObject("", forKey: HMAUserDefaults.CrimeYearMonth)
+        NSUserDefaults().synchronize()
     }
 
 

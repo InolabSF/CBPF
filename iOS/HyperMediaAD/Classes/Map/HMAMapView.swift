@@ -99,6 +99,14 @@ class HMAMapView: GMSMapView {
     }
 
     /**
+     * get centerCoordinate
+     * @return CLLocationCoordinate2D
+     **/
+    func centerCoordinate() -> CLLocationCoordinate2D {
+        return self.projection.coordinateForPoint(self.center)
+    }
+
+    /**
      * get minimumCoordinate
      * @param mapViewPoints coordinates on GMSMapView
      * @return CLLocationCoordinate2D

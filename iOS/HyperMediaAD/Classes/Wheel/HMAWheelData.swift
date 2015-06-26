@@ -22,9 +22,10 @@ class HMAWheelData: NSManagedObject {
      * @param min minValue
      **/
     class func requestToGetWheelData(#dataType: Int, max: Float?, min: Float?) {
+        var coordinate = HMAMapView.sharedInstance.centerCoordinate()
+        HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
+
         if HMAWheelData.hasData(dataType: dataType) { return }
-        let location = HMAMapView.sharedInstance.myLocation
-        if location == nil { return }
 
         HMAWheelClient.sharedInstance.cancelGetWheelData(dataType: dataType)
 
@@ -34,7 +35,7 @@ class HMAWheelData: NSManagedObject {
             dataType: dataType,
             max: max,
             min: min,
-            coordinate: location.coordinate,
+            coordinate: coordinate,
             completionHandler: { (json) in
                 HMAWheelData.save(dataType: dataType, json: json)
             }
@@ -91,7 +92,7 @@ class HMAWheelData: NSManagedObject {
     class func save(#dataType: Int, json: JSON) {
         if HMAWheelData.hasData(dataType: dataType) { return }
 
-        HMAWheelData.delete()
+        HMAWheelData.delete(dataType: dataType)
 
         let wheelDatas: Array<JSON> = json["wheel_datas"].arrayValue
 
@@ -124,14 +125,26 @@ class HMAWheelData: NSManagedObject {
     }
 
     /**
-     * delete all datas
+     * delete all data
      **/
     class func delete() {
+        let keys = HMAWheelData.getUserDefaultsAllKeys()
+        for (dataType, key) in keys {
+            HMAWheelData.delete(dataType: dataType)
+        }
+    }
+
+    /**
+     * delete data
+     * @param dataType HMAWheel.DataType(Int)
+     **/
+    class func delete(#dataType: Int) {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         // make fetch request
         var fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMAWheelData", inManagedObjectContext:context)
+        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates([ NSPredicate(format: "data_type= %d", dataType), ])
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
 
@@ -146,18 +159,23 @@ class HMAWheelData: NSManagedObject {
         for wheelData in wheelDatas! {
             context.deleteObject(wheelData)
         }
+
+        let key = HMAWheelData.getUserDefaultsKey(dataType: dataType)
+        if key != nil {
+            NSUserDefaults().setObject("", forKey: key!)
+            NSUserDefaults().synchronize()
+        }
     }
 
 
     /// MARK: - private class method
 
     /**
-     * get NSUserDefaults key
-     * @param dataType HMAWheel.DataType(Int)
-     * @return key(String?)
+     * get NSUserDefaults allkeys
+     * @return [Int: String]
      **/
-    private class func getUserDefaultsKey(#dataType: Int) -> String? {
-        var keys = [
+    private class func getUserDefaultsAllKeys() -> [Int: String] {
+        return [
             HMAWheel.DataType.Speed : HMAUserDefaults.WheelSpeedYearMonthDay,
             HMAWheel.DataType.Slope : HMAUserDefaults.WheelSlopeYearMonthDay,
             HMAWheel.DataType.EnergyEfficiency : HMAUserDefaults.WheelEnergyEfficiencyYearMonthDay,
@@ -182,6 +200,15 @@ class HMAWheelData: NSManagedObject {
             HMAWheel.DataType.BatteryPowerNormalized : HMAUserDefaults.WheelBatteryPowerNormalizedYearMonthDay,
             HMAWheel.DataType.Acceleration : HMAUserDefaults.WheelAccelerationYearMonthDay,
         ]
+    }
+
+    /**
+     * get NSUserDefaults key
+     * @param dataType HMAWheel.DataType(Int)
+     * @return key(String?)
+     **/
+    private class func getUserDefaultsKey(#dataType: Int) -> String? {
+        let keys = HMAWheelData.getUserDefaultsAllKeys()
         return keys[dataType]
 
     }

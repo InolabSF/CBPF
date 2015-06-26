@@ -21,9 +21,10 @@ class HMASensorData: NSManagedObject {
      * @param sensorType HMASensor.SensorType(Int)
      **/
     class func requestToGetSensorData(#sensorType: Int) {
+        var coordinate = HMAMapView.sharedInstance.centerCoordinate()
+        HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
+
         if HMASensorData.hasData(sensorType: sensorType) { return }
-        let location = HMAMapView.sharedInstance.myLocation
-        if location == nil { return }
 
         HMASensorClient.sharedInstance.cancelGetSensorData(sensorType: sensorType)
 
@@ -31,7 +32,7 @@ class HMASensorData: NSManagedObject {
         HMASensorClient.sharedInstance.getSensorData(
             radius: HMAAPI.Radius,
             sensorType: sensorType,
-            coordinate: location.coordinate,
+            coordinate: coordinate,
             completionHandler: { (json) in
                 HMASensorData.save(sensorType: sensorType, json: json)
             }
@@ -43,7 +44,7 @@ class HMASensorData: NSManagedObject {
      * @param sensorType HMASensor.SensorType(Int)
      * @param minimumCoordinate CLLocationCoordinate2D
      * @param maximumCoordinate CLLocationCoordinate2D
-     * @return Array<HMACrimeData>
+     * @return Array<HMASensorData>
      */
     class func fetch(#sensorType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMASensorData> {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
@@ -89,7 +90,7 @@ class HMASensorData: NSManagedObject {
     class func save(#sensorType: Int, json: JSON) {
         if HMASensorData.hasData(sensorType: sensorType) { return }
 
-        HMASensorData.delete()
+        HMASensorData.delete(sensorType: sensorType)
 
         let sensorDatas: Array<JSON> = json["sensor_datas"].arrayValue
 
@@ -126,11 +127,23 @@ class HMASensorData: NSManagedObject {
      * delete all datas
      **/
     class func delete() {
+        let keys = HMASensorData.getUserDefaultsAllKeys()
+        for (sensorType, key) in keys {
+            HMASensorData.delete(sensorType: sensorType)
+        }
+    }
+
+    /**
+     * delete data
+     * @param sensorType HMASensor.SensorType(Int)
+     **/
+    class func delete(#sensorType: Int) {
         var context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         // make fetch request
         var fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
+        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates([NSPredicate(format: "sensor_id = %d", sensorType),])
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
 
@@ -145,18 +158,23 @@ class HMASensorData: NSManagedObject {
         for sensorData in sensorDatas! {
             context.deleteObject(sensorData)
         }
+
+        let key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
+        if key != nil {
+            NSUserDefaults().setObject("", forKey: key!)
+            NSUserDefaults().synchronize()
+        }
     }
 
 
     /// MARK: - private class method
 
     /**
-     * get NSUserDefaults key
-     * @param sensorType HMASensor.SensorType(Int)
-     * @return key(String?)
+     * get NSUserDefaults all keys
+     * @return [Int: String]
      **/
-    private class func getUserDefaultsKey(#sensorType: Int) -> String? {
-        var keys = [
+    private class func getUserDefaultsAllKeys() -> [Int: String] {
+        return [
             HMASensor.SensorType.Humidity : HMAUserDefaults.SensorHumidityYearMonthDay,
             HMASensor.SensorType.Co : HMAUserDefaults.SensorCoYearMonthDay,
             HMASensor.SensorType.Co2 : HMAUserDefaults.SensorCo2YearMonthDay,
@@ -166,6 +184,15 @@ class HMASensorData: NSManagedObject {
             HMASensor.SensorType.Temperature : HMAUserDefaults.SensorTemperatureYearMonthDay,
             HMASensor.SensorType.Light : HMAUserDefaults.SensorLightYearMonthDay,
         ]
+    }
+
+    /**
+     * get NSUserDefaults key
+     * @param sensorType HMASensor.SensorType(Int)
+     * @return key(String?)
+     **/
+    private class func getUserDefaultsKey(#sensorType: Int) -> String? {
+        var keys = HMASensorData.getUserDefaultsAllKeys()
         return keys[sensorType]
     }
 

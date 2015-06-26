@@ -74,6 +74,15 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     private func doSettings() {
         // google map view
         self.mapView = HMAMapView.sharedInstance
+/*
+        self.mapView.mapType = kGMSTypeNormal
+        // kGMSTypeNormal
+        // kGMSTypeTerrain
+        // kGMSTypeSatellite
+        // kGMSTypeHybrid
+        // kGMSTypeNone
+*/
+        self.mapView.buildingsEnabled = false
         self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
         self.mapView.myLocationEnabled = true
         self.mapView.delegate = self
