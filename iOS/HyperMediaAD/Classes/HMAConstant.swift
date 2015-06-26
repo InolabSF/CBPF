@@ -227,6 +227,22 @@ struct HMAYelp {
     static let AccessToken              = kHMAYelpAccessToken
     static let AccessSecret             = kHMAYelpAccessSecret
 
+    // categories
+    static let Categories = [
+        "",
+        "cafe",
+        "restaurant",
+        "bicycle",
+        "",
+        "cafe",
+        "restaurant",
+        "bicycle",
+        "",
+        "cafe",
+        "restaurant",
+        "bicycle",
+    ]
+
     // restaurant category
     static let Restaurants = [
         "african" : "restaurants",
@@ -250,6 +266,7 @@ struct HMAYelp {
         "spanish" : "restaurants",
         "turkish" : "restaurants",
     ]
+
 }
 
 

@@ -107,6 +107,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         )
         self.view.addSubview(self.yelpButton)
         self.yelpButton.design()
+        self.yelpButton.delegate = self
 
         // circle buttons
         let xOffset: CGFloat = 20.0
@@ -309,19 +310,26 @@ extension HMAViewController: HMACircleButtonDelegate {
 extension HMAViewController: HMABottomButtonDelegate {
 
     func bottomButtonWasClicked(#bottomButton: HMABottomButton) {
-/*
-        term = ""
-        term = "cafe"
-        term = "restaurant"
-        term = "bicycle"
-        HMAYelpClient.sharedInstance.getSearchResult(
-            term: term,
-            completionHandler: { [unowned self] (json) in
-                self.mapView.draw()
-            }
-        )
-*/
+        let modalViewNib = UINib(nibName: HMANSStringFromClass(HMAYelpSemiModalView), bundle:nil)
+        let modalViews = modalViewNib.instantiateWithOwner(nil, options: nil)
+        var modalView = modalViews[0] as! HMAYelpSemiModalView
+        self.presentModalView(modalView)
+        modalView.delegate = self
     }
 
 }
 
+
+/// MARK: - HMAYelpSemiModalViewDelegate
+extension HMAViewController: HMAYelpSemiModalViewDelegate {
+
+    func semiModalView(semiModalView: HMAYelpSemiModalView, didDecideSearchWord searchWord: String) {
+        HMAYelpClient.sharedInstance.getSearchResult(
+            term: searchWord,
+            completionHandler: { [unowned self] (json) in
+                self.mapView.draw()
+            }
+        )
+    }
+
+}

@@ -32,7 +32,7 @@ class HMAYelpClient: AnyObject {
             accessToken: HMAYelp.AccessToken,
             accessSecret: HMAYelp.AccessSecret
         )
-        manager.searchWithTerm(
+        let operation = manager.searchWithTerm(
             term,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 //println(JSON(response))
@@ -51,6 +51,7 @@ class HMAYelpClient: AnyObject {
                 })
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                //println(error)
             }
         )
     }
@@ -77,8 +78,20 @@ class HMAAuth1RequestOperationManager: BDBOAuth1RequestOperationManager {
     }
 
     func searchWithTerm(term: String, success: (AFHTTPRequestOperation!, AnyObject!) -> Void, failure: (AFHTTPRequestOperation!, NSError!) -> Void) -> AFHTTPRequestOperation! {
-        // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
-        var parameters = ["term": term, "location": "San Francisco"]
-        return self.GET("search", parameters: parameters, success: success, failure: failure)
+
+        let min = HMAMapView.sharedInstance.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, HMAMapView.sharedInstance.frame.size.height), CGPointMake(HMAMapView.sharedInstance.frame.size.width, 0), CGPointMake(HMAMapView.sharedInstance.frame.size.width, HMAMapView.sharedInstance.frame.size.height), ])
+        let max = HMAMapView.sharedInstance.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, HMAMapView.sharedInstance.frame.size.height), CGPointMake(HMAMapView.sharedInstance.frame.size.width, 0), CGPointMake(HMAMapView.sharedInstance.frame.size.width, HMAMapView.sharedInstance.frame.size.height), ])
+        var parameters = [
+            "term": term,
+            "bounds": "\(min.latitude),\(min.longitude)|\(max.latitude),\(max.longitude)",
+            "limit": "10",
+        ]
+        let operation = self.GET(
+            "search",
+            parameters: parameters,
+            success: success,
+            failure: failure
+        )
+        return operation
     }
 }

@@ -14,8 +14,8 @@ pod 'ionicons'
 pod 'Touchpose'
 pod 'BFPaperButton'
 pod 'TYMActivityIndicatorView'
-pod "LFHeatMap"
-pod "FSLineChart"
+pod 'LFHeatMap'
+pod 'FSLineChart'
 
 # network
 pod 'ISHTTPOperation'
