@@ -1,4 +1,6 @@
 require './lib/assets/math_utility'
+require 'csv'
+require 'kconv'
 
 
 class WheelController < ApplicationController
@@ -291,6 +293,38 @@ class WheelController < ApplicationController
     if !is_return_json
       render json: { }
     end
+  end
+
+
+  def import_wheel
+    csv_text = params[:csv_file].read
+
+    #WHEEL_DATA_TYPE_TORQUE = 18
+    #WHEEL_DATA_TYPE_ACCEL = 31
+    #WHEEL_DATA_TYPES = [WHEEL_DATA_TYPE_TORQUE, WHEEL_DATA_TYPE_ACCEL]
+    #WHEEL_ROW_INDEX = {WHEEL_DATA_TYPE_TORQUE => 13, WHEEL_DATA_TYPE_ACCEL => 4}
+
+    CSV.parse(Kconv.toutf8(csv_text)) do |row|
+      wheel_data = WheelData.new
+      #wheel_data.timestamp = DateTime.strptime(row[0],'%Q')
+      wheel_data.lat = row[1]
+      wheel_data.long = row[2]
+      wheel_data.value = row[13]
+      wheel_data.data_type = 18
+      wheel_data.save if wheel_data.valid?
+    end
+
+    CSV.parse(Kconv.toutf8(csv_text)) do |row|
+      wheel_data = WheelData.new
+      #wheel_data.timestamp = DateTime.strptime(row[0],'%Q')
+      wheel_data.lat = row[1]
+      wheel_data.long = row[2]
+      wheel_data.value = row[4]
+      wheel_data.data_type = 31
+      wheel_data.save if wheel_data.valid?
+    end
+
+    render json: { }
   end
 
 end

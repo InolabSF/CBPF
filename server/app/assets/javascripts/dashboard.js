@@ -4,8 +4,8 @@
     /// constant
     var LATITUDE = 42.2355854279;
     var LONGITUDE = -71.5235686675;
-//    var LATITUDE = 37.7833;
-//    var LONGITUDE = -122.4167;
+    //var LATITUDE = 37.7833;
+    //var LONGITUDE = -122.4167;
     var RADIUS = 50.0;
     var WHEEL_LOCATIONS = "wheel_locations";
 
@@ -359,7 +359,7 @@
         $("#lat").text(LATITUDE);
         $("#long").text(LONGITUDE);
         var params = (new APIClient()).getFormParameters();
-        //g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
+        g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
 
         // click on the map
         google.maps.event.addListener(g_map, 'click', function(event) {
@@ -371,7 +371,7 @@
             g_renderer.drawMyLocation(lat, long)
             // range rect
             var params = (new APIClient()).getFormParameters();
-            //g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
+            g_renderer.drawRangeRect(params["lat"], params["long"], params["radius"]);
         });
         g_renderer.drawMyLocation(LATITUDE, LONGITUDE)
 
@@ -392,7 +392,7 @@
 
                     g_renderer.drawAccelLine(data["wheel_accels"]);
                     g_renderer.drawTorqueLine(data["wheel_torques"])
-/*
+
                     // elevation
                     if (!apiClient.needsElevation()) { return; }
                     apiClient.executeElevationAPI(
@@ -404,7 +404,6 @@
                             console.log(error);
                         }
                     );
-*/
                 },
                 function(error) {
                     console.log(error);

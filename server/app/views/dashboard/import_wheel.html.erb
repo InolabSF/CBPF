@@ -1,0 +1,11 @@
+<h1>Wheel Data CSV</h1>
+<%= form_tag({controller: "wheel", action: "import_wheel", method: "post"}, {multipart: true}) do %>
+  <div class="field">
+    <%= label_tag "CSV File" %><br>
+    <%= file_field_tag :csv_file %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag "load"%>
+  </div>
+<% end %>

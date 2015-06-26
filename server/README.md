@@ -23,6 +23,7 @@ $ rails runner Tasks::CrimeDataCollectionTask.execute_three_month_ago
 $ rails runner Tasks::CrimeDataCollectionTask.execute_all
 $ rails runner Tasks::WheelLocationCollectionTask.execute
 $ rails runner Tasks::WheelDataCollectionTask.execute
+$ rails runner Tasks::WheelDataCollectionTask.executeAll
 # example (heroku)
 $ heroku run rails runner Tasks::EnvironmentSensorDataCollectionTask.execute_three_days_ago
 $ heroku run rails runner Tasks::CrimeDataCollectionTask.execute_three_month_ago
