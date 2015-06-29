@@ -2,10 +2,10 @@
     "use strict;"
 
     /// constant
-    var LATITUDE = 42.2355854279;
-    var LONGITUDE = -71.5235686675;
-    //var LATITUDE = 37.7833;
-    //var LONGITUDE = -122.4167;
+    //var LATITUDE = 42.2355854279;
+    //var LONGITUDE = -71.5235686675;
+    var LATITUDE = 37.7833;
+    var LONGITUDE = -122.4167;
     var RADIUS = 50.0;
     var WHEEL_LOCATIONS = "wheel_locations";
 
@@ -387,7 +387,7 @@
                 function(data) {
                     // marker and response
                     g_renderer.clearPolyline();
-                    //g_renderer.drawAllMakers(data);
+                    g_renderer.drawAllMakers(data);
                     g_renderer.drawResponse(uri, data);
 
                     g_renderer.drawAccelLine(data["wheel_accels"]);

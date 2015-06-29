@@ -21,7 +21,6 @@ class Tasks::CrimeDataCollectionTask
     puts 'Tasks::CrimeDataCollectionTask#execute_three_month_ago done'
   end
 
-
   def self.execute_sf_government_crime(how_many_month_ago, period_of_month)
     uri = UriGenerator.sf_government_crime(how_many_month_ago, period_of_month)
     request_header = {}
