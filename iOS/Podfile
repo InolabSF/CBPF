@@ -1,4 +1,4 @@
-#link_with 'HyperMediaAD', 'HyperMediaAD WatchKit Extension'
+#link_with 'HyperMediaAD'
 #use_frameworks!
 link_with 'HyperMediaAD'
 platform :ios, '8.2'
