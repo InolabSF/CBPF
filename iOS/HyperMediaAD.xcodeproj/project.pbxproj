@@ -126,6 +126,7 @@
 		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
 		E68E31161B3108E200B820C0 /* HMAYelpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpData.swift; sourceTree = "<group>"; };
 		E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpMaker.swift; sourceTree = "<group>"; };
+		E6A753C11B4331ED00C10D1D /* HMAMapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAMapTile.h; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
@@ -179,6 +180,7 @@
 			children = (
 				E68446FE1B0AABF10094DC04 /* HMAMapView.swift */,
 				E63E417A1B2A364200B3C4F4 /* HMAClusterMarker.swift */,
+				E6A753C11B4331ED00C10D1D /* HMAMapTile.h */,
 				E6DB7C591B11A5260055DF6C /* HMAMapMath.swift */,
 			);
 			path = Map;

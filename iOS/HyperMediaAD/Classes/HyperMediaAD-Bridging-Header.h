@@ -9,6 +9,7 @@
 #import "TYMActivityIndicatorView.h"
 //#import "LFHeatMap.h"
 #import "HMAHeatMap.h"
+#import "HMAMapTile.h"
 #import "FSLineChart.h"
 /// network
 #import "ISHTTPOperation.h"

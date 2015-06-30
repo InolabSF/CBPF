@@ -194,6 +194,18 @@ struct HMAGoogleMap {
     /// zoom
     static let Zoom: Float =            13.0
 
+    /// z index
+    struct ZIndex {
+        static let Tile: Int32 =               0
+        static let HeatIndex: Int32 =          10
+        static let Wheel: Int32 =              20
+        static let Crime: Int32 =              30
+        static let Yelp: Int32 =               40
+        static let Route: Int32 =              50
+        static let Waypoint: Int32 =           60
+        static let Destination: Int32 =        70
+    }
+
     /// MARK: - API
     struct API {
         static let Directions =        kURIGoogleMapAPI + "/directions/json" /// directions API
@@ -220,6 +232,17 @@ struct HMAGoogleMap {
         static let Driving =           "driving"
         static let Walking =           "walking"
         static let Bicycling =         "bicycling"
+    }
+}
+
+
+/// MARK: - Mapbox
+struct HMAMapbox {
+    static let MapID =              kHMAMapboxMapID
+    static let AccessToken =        kHMAMapboxAccessToken
+
+    struct API {
+        static let Tiles =          "http://api.tiles.mapbox.com/v4/"
     }
 }
 

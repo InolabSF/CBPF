@@ -5,6 +5,11 @@ class HMAMapView: GMSMapView {
 
     static let sharedInstance = HMAMapView()
 
+    /// overlays
+    private var overlays: [GMSOverlay] = []
+    // tile layer
+    private var tileLayer: GMSURLTileLayer!
+
     /// dragging waypoint
     private var draggingWaypoint: CLLocationCoordinate2D?
     /// waypoints for routing
@@ -39,6 +44,34 @@ class HMAMapView: GMSMapView {
     /// MARK: - public api
 
     /**
+     * do settings
+     **/
+    func doSettings() {
+        self.mapType = kGMSTypeNone // kGMSTypeNormal, kGMSTypeTerrain, kGMSTypeSatellite, kGMSTypeSatellite, kGMSTypeHybrid, kGMSTypeNone
+        self.myLocationEnabled = true
+        self.settings.compassButton = false
+        self.settings.myLocationButton = false
+        self.settings.indoorPicker = false
+        self.buildingsEnabled = false
+        self.accessibilityElementsHidden = true
+        self.trafficEnabled = true
+
+        var urls : GMSTileURLConstructor = { x, y, zoom in
+/*
+            //return NSURL(string: "http://tile.openstreetmap.org/\(zoom)/\(x)/\(y).png")
+            //return NSURL(string: "http://\(s).tiles.wmflabs.org/bw-mapnik/\(zoom)/\(x)/\(y).png")
+            //return NSURL(string: "http://a.tile.thunderforest.com/transport/\(zoom)/\(x)/\(y).png")
+            //return NSURL(string: "http://a.tile.thunderforest.com/transport/\(zoom)/\(x)/\(y).png")
+            //return NSURL(string: "http://129.206.74.245/tiles/roadsg/x=\(x)&y=\(y)&z=\(zoom)")
+*/
+            return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
+        }
+        self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
+        self.tileLayer.zIndex = HMAGoogleMap.ZIndex.Tile
+        self.tileLayer.map = self
+    }
+
+    /**
      * update what map draws
      **/
     func updateWhatMapDraws() {
@@ -66,7 +99,8 @@ class HMAMapView: GMSMapView {
      **/
     func draw() {
         // clear
-        self.clear()
+        for overlay in self.overlays { overlay.map = nil }
+        self.overlays = []
 
         // crime
         if self.shouldDrawCrimes {
@@ -201,6 +235,8 @@ class HMAMapView: GMSMapView {
             line.strokeWidth = 4.0
             line.tappable = true
             line.map = self
+            line.zIndex = HMAGoogleMap.ZIndex.Route
+            self.overlays.append(line)
         }
 
         let locations = self.endLocations()
@@ -229,6 +265,8 @@ class HMAMapView: GMSMapView {
         var marker = HMAWaypointMarker(position: location)
         marker.doSettings()
         marker.map = self
+        marker.zIndex = HMAGoogleMap.ZIndex.Waypoint
+        self.overlays.append(marker)
     }
 
     /**
@@ -239,6 +277,8 @@ class HMAMapView: GMSMapView {
         var marker = HMADestinationMarker(position: location)
         marker.doSettings()
         marker.map = self
+        marker.zIndex = HMAGoogleMap.ZIndex.Destination
+        self.overlays.append(marker)
     }
 
     /**
@@ -260,6 +300,8 @@ class HMAMapView: GMSMapView {
         var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue))
         marker.doSettings(crime: crime)
         marker.map = self
+        marker.zIndex = HMAGoogleMap.ZIndex.Crime
+        self.overlays.append(marker)
     }
 
     /**
@@ -273,6 +315,8 @@ class HMAMapView: GMSMapView {
             var marker = HMAYelpMaker(position: yelpData.coordinate)
             marker.doSettings(yelpData: yelpData)
             marker.map = self
+            marker.zIndex = HMAGoogleMap.ZIndex.Yelp
+            self.overlays.append(marker)
         }
     }
 
@@ -341,6 +385,8 @@ class HMAMapView: GMSMapView {
         )
         overlay.bearing = 0
         overlay.map = self
+        overlay.zIndex = HMAGoogleMap.ZIndex.HeatIndex
+        self.overlays.append(overlay)
 /*
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
@@ -380,6 +426,8 @@ class HMAMapView: GMSMapView {
             line.strokeWidth = 7.5
             line.tappable = false
             line.map = map
+            line.zIndex = HMAGoogleMap.ZIndex.Wheel
+            self.overlays.append(line)
         }
 
         // Acceleration

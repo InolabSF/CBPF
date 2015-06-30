@@ -10,7 +10,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
 
     var mapView: HMAMapView!
-    var mapLayer: GMSURLTileLayer!
     var searchBoxView: HMASearchBoxView!
     var searchResultView: HMASearchResultView!
 
@@ -75,38 +74,9 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     private func doSettings() {
         // google map view
         self.mapView = HMAMapView.sharedInstance
-        self.mapView.mapType = kGMSTypeNormal // kGMSTypeNormal, kGMSTypeTerrain, kGMSTypeSatellite, kGMSTypeSatellite, kGMSTypeHybrid, kGMSTypeNone
         self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
         self.mapView.delegate = self
-        // settings
-        self.mapView.myLocationEnabled = true
-        self.mapView.settings.compassButton = false
-        self.mapView.settings.myLocationButton = false
-        self.mapView.settings.indoorPicker = false
-        self.mapView.buildingsEnabled = false
-        self.mapView.accessibilityElementsHidden = true
-        self.mapView.trafficEnabled = true
-/*
-        // map layer
-        var urls : GMSTileURLConstructor = { x, y, zoom in
-            //let mapView = HMAMapView.sharedInstance
-            //let division = CGFloat(pow(2.0, Double(zoom)))
-            //let width = mapView.frame.size.width / division
-            //let height = mapView.frame.size.width / division
-            //let coordinate = mapView.projection.coordinateForPoint(CGPointMake(CGFloat(x)*width, CGFloat(y)*height))
-
-            //let mapID = "kenzan8000.m4484c13"
-            //let accessToken = "pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiJ3TGhnV0dvIn0.D_-l41igL-4FQWKVu4uOrA"
-            //let urlString = "http://api.tiles.mapbox.com/v4/\(mapID)/\(zoom)/\(coordinate.latitude)/\(coordinate.longitude).png?access_token=\(accessToken)"
-            //println(urlString)
-            //return NSURL(string: urlString)
-
-            //return NSURL(string: "http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/-73.99,40.70,13/500x300.png?access_token=pk.eyJ1Ijoia2VuemFuODAwMCIsImEiOiIzdmxnZDMwIn0.FkPIU4GctDAMMM7felLL-Q")
-        }
-        self.mapLayer = GMSURLTileLayer(URLConstructor: urls)
-        self.mapLayer.zIndex = 100
-        self.mapLayer.map = self.mapView
-*/
+        self.mapView.doSettings()
         self.view.addSubview(self.mapView)
 
         // search result
