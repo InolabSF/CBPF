@@ -135,6 +135,606 @@ inline static int isqrt(int x)
     }
 }
 
+
++ (UIImage *)heatMapWithRect:(CGRect)rect
+                       boost:(float)boost
+                      points:(NSArray *)points
+                     weights:(NSArray *)weights
+{
+    return [HMAHeatMap heatMapWithRect:rect
+                                boost:boost
+                               points:points
+                              weights:weights
+             weightsAdjustmentEnabled:NO
+                      groupingEnabled:YES];
+}
+
+
++ (UIImage *)heatIndexHeatmapWithRect:(CGRect)rect
+                                boost:(float)boost
+                               points:(NSArray *)points
+                              weights:(NSArray *)weights
+{
+    BOOL weightsAdjustmentEnabled = NO;
+    BOOL groupingEnabled = YES;
+
+    // Adjustment variables for weights adjustment
+    float weightSensitivity = 1; // Percents from maximum weight
+    float weightBoostTo = 50; // Percents to boost least sensible weight to
+
+    // Adjustment variables for grouping
+    int groupingThreshold = 10;  // Increasing this will improve performance with less accuracy. Negative will disable grouping
+    int peaksRemovalThreshold = 20; // Should be greater than groupingThreshold
+    float peaksRemovalFactor = 0.4; // Should be from 0 (no peaks removal) to 1 (peaks are completely lowered to zero)
+
+    // Validate arguments
+    if (points == nil ||
+        rect.size.width <= 0 ||
+        rect.size.height <= 0 ||
+        (weights != nil &&
+         [points count] != [weights count]))
+    {
+        NSLog(@"LFHeatMap: heatMapWithRect: incorrect arguments");
+        return nil;
+    }
+
+    UIImage* image = nil;
+    int width = rect.size.width;
+    int height = rect.size.height;
+    int i, j;
+
+    // According to heatmap API, boost is heat radius multiplier
+    int radius = 50 * boost;
+
+    // RGBA array is initialized with 0s
+    unsigned char* rgba = (unsigned char*)calloc(width*height*4, sizeof(unsigned char));
+    int* density = (int*)calloc(width*height, sizeof(int));
+    memset(density, 0, sizeof(int) * width*height);
+
+    // Step 1
+    // Copy points into plain array (plain array iteration is faster than accessing NSArray objects)
+    int points_num = (int)[points count];
+    int *point_x = malloc(sizeof(int) * points_num);
+    int *point_y = malloc(sizeof(int) * points_num);
+    int *point_weight_percent = malloc(sizeof(int) * points_num);
+    float *point_weight = 0;
+    float max_weight = 0;
+    if (weights != nil)
+    {
+        point_weight = malloc(sizeof(float) * points_num);
+        max_weight = 0.0;
+    }
+
+    i = 0;
+    j = 0;
+    for (NSValue* pointValue in points)
+    {
+        point_x[i] = [pointValue CGPointValue].x - rect.origin.x;
+        point_y[i] = [pointValue CGPointValue].y - rect.origin.y;
+
+        // Filter out of range points
+        if (point_x[i] < 0 - radius ||
+            point_y[i] < 0 - radius ||
+            point_x[i] >= rect.size.width + radius ||
+            point_y[i] >= rect.size.height + radius)
+        {
+            points_num--;
+            j++;
+            // Do not increment i, to replace this point in next iteration (or drop if it is last one)
+            // but increment j to leave consistency when accessing weights
+            continue;
+        }
+
+        // Fill weights if available
+        if (weights != nil)
+        {
+            NSNumber* weightValue = [weights objectAtIndex:j];
+
+            point_weight[i] = [weightValue floatValue];
+            if (max_weight < point_weight[i])
+                max_weight = point_weight[i];
+        }
+
+        i++;
+        j++;
+    }
+
+    // Step 1.5
+    // Normalize weights to be 0 .. 100 (like percents)
+    // Weights array should be integer for not slowing down calculation by
+    // int-float conversion and float multiplication
+    if (weights != nil)
+    {
+        float absWeightSensitivity = ( max_weight / 100.0 ) * weightSensitivity;
+        float absWeightBoostTo = ( max_weight / 100.0 ) * weightBoostTo;
+        for (i = 0; i < points_num; i++)
+        {
+            if (weightsAdjustmentEnabled)
+            {
+                if (point_weight[i] <= absWeightSensitivity)
+                    point_weight[i] *= absWeightBoostTo / absWeightSensitivity;
+                else
+                    point_weight[i] = absWeightBoostTo + ( point_weight[i] - absWeightSensitivity ) * ((max_weight - absWeightBoostTo) / (max_weight - absWeightSensitivity));
+            }
+            point_weight_percent[i] = 100.0 * (point_weight[i] / max_weight);
+        }
+        free(point_weight);
+    } else
+    {
+        // Fill with 1 in case if no weights provided
+        for (i = 0; i < points_num; i++)
+        {
+            point_weight_percent[i] = 1;
+        }
+    }
+
+    // Step 1.75 (optional)
+    // Grouping and filtering bunches of points in same location
+    int currentDistance;
+    int currentDensity;
+
+    if (groupingEnabled)
+    {
+        for (i = 0; i < points_num; i++)
+        {
+            if (point_weight_percent[i]> 0)
+            {
+                for (j = i + 1; j < points_num; j++)
+                {
+                    if (point_weight_percent[j]> 0)
+                    {
+                        currentDistance = isqrt((point_x[i] - point_x[j])*(point_x[i] - point_x[j]) + (point_y[i] - point_y[j])*(point_y[i] - point_y[j]));
+
+                        if (currentDistance > peaksRemovalThreshold)
+                            currentDistance = peaksRemovalThreshold;
+
+                        float K1 = 1 - peaksRemovalFactor;
+                        float K2 = peaksRemovalFactor;
+
+                        // Lowering peaks
+                        point_weight_percent[i] =
+                        K1 * point_weight_percent[i] +
+                        K2 * point_weight_percent[i] * (float) ((float)(currentDistance) / (float)peaksRemovalThreshold);
+
+                        // Performing grouping if two points are closer than groupingThreshold
+                        if (currentDistance <= groupingThreshold)
+                        {
+                            // Merge i and j points. Store result in [i], remove [j]
+                            point_x[i] = (point_x[i] + point_x[j]) / 2;
+                            point_y[i] = (point_y[i] + point_y[j]) / 2;
+                            point_weight_percent[i] = point_weight_percent[i] + point_weight_percent[j];
+
+                            // point_weight_percent[j] is set negative to be avoided
+                            point_weight_percent[j] = -10;
+
+                            // Repeat again for new point
+                            i--;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Step 2
+    // Fill density info. Density is calculated around each point
+    int from_x, from_y, to_x, to_y;
+    for (i = 0; i < points_num; i++)
+    {
+        if (point_weight_percent[i]> 0)
+        {
+            from_x = point_x[i] - radius;
+            from_y = point_y[i] - radius;
+            to_x = point_x[i] + radius;
+            to_y = point_y[i] + radius;
+
+            if (from_x < 0)
+                from_x = 0;
+            if (from_y < 0)
+                from_y = 0;
+            if (to_x > width)
+                to_x = width;
+            if (to_y > height)
+                to_y = height;
+
+
+            for (int y = from_y; y < to_y; y++)
+            {
+                for (int x = from_x; x < to_x; x++)
+                {
+                    currentDistance = (x - point_x[i])*(x - point_x[i]) + (y - point_y[i])*(y - point_y[i]);
+
+                    currentDensity = radius - isqrt(currentDistance);
+                    if (currentDensity < 0)
+                        currentDensity = 0;
+
+                    density[y*width + x] += currentDensity * point_weight_percent[i];
+                }
+            }
+        }
+    }
+
+
+    free(point_x);
+    free(point_y);
+    free(point_weight_percent);
+
+
+    // Step 2.5
+    // Find max density (doing this in step 2 will have less performance)
+    int maxDensity = density[0];
+    for (i = 1; i < width * height; i++)
+    {
+        if (maxDensity < density[i])
+            maxDensity = density[i];
+    }
+
+    // Step 3
+    // Render density info into raw RGBA pixels
+    i = 0;
+    float floatDensity;
+    uint indexOrigin;
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++, i++)
+        {
+            if (density[i] > 0)
+            {
+                indexOrigin = 4*i;
+                // Normalize density to 0..1
+                floatDensity = (float)density[i] / (float)maxDensity;
+
+                if (floatDensity < 0.20) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 32 * floatDensity / 0.20;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = floatDensity * 8;
+                }
+                else if (floatDensity < 0.40) {
+                    rgba[indexOrigin] = 32 * (floatDensity - 0.20) / 0.20;
+                    rgba[indexOrigin+1] = 32;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = floatDensity * 16;
+                }
+                else if (floatDensity < 0.60) {
+                    rgba[indexOrigin] = 32;
+                    rgba[indexOrigin+1] = 32 - 32 * (floatDensity - 0.40) / 0.20;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = floatDensity * 24;
+                }
+                else {
+                    rgba[indexOrigin] = 32 + 32 * (floatDensity - 0.60) / 0.40;
+                    rgba[indexOrigin+1] = 0;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = floatDensity * 32;
+                }
+
+            }
+        }
+    }
+
+    free(density);
+
+    // Step 4
+    // Create image from rendered raw data
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(rgba,
+                                                       width,
+                                                       height,
+                                                       8, // bitsPerComponent
+                                                       4 * width, // bytesPerRow
+                                                       colorSpace,
+                                                       kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
+
+    CFRelease(colorSpace);
+
+    CGImageRef cgImage = CGBitmapContextCreateImage(bitmapContext);
+
+    image = [UIImage imageWithCGImage:cgImage];
+
+    CFRelease(cgImage);
+    CFRelease(bitmapContext);
+
+    free(rgba);
+
+    return image;
+}
+
+
++ (UIImage *)crimeHeatmapWithRect:(CGRect)rect
+                            boost:(float)boost
+                           points:(NSArray *)points
+                          weights:(NSArray *)weights
+{
+    BOOL weightsAdjustmentEnabled = NO;
+    BOOL groupingEnabled = YES;
+
+    // Adjustment variables for weights adjustment
+    float weightSensitivity = 1; // Percents from maximum weight
+    float weightBoostTo = 50; // Percents to boost least sensible weight to
+
+    // Adjustment variables for grouping
+    int groupingThreshold = 10;  // Increasing this will improve performance with less accuracy. Negative will disable grouping
+    int peaksRemovalThreshold = 20; // Should be greater than groupingThreshold
+    float peaksRemovalFactor = 0.4; // Should be from 0 (no peaks removal) to 1 (peaks are completely lowered to zero)
+
+    // Validate arguments
+    if (points == nil ||
+        rect.size.width <= 0 ||
+        rect.size.height <= 0 ||
+        (weights != nil &&
+         [points count] != [weights count]))
+    {
+        NSLog(@"LFHeatMap: heatMapWithRect: incorrect arguments");
+        return nil;
+    }
+
+    UIImage* image = nil;
+    int width = rect.size.width;
+    int height = rect.size.height;
+    int i, j;
+
+    // According to heatmap API, boost is heat radius multiplier
+    int radius = 50 * boost;
+
+    // RGBA array is initialized with 0s
+    unsigned char* rgba = (unsigned char*)calloc(width*height*4, sizeof(unsigned char));
+    int* density = (int*)calloc(width*height, sizeof(int));
+    memset(density, 0, sizeof(int) * width*height);
+
+    // Step 1
+    // Copy points into plain array (plain array iteration is faster than accessing NSArray objects)
+    int points_num = (int)[points count];
+    int *point_x = malloc(sizeof(int) * points_num);
+    int *point_y = malloc(sizeof(int) * points_num);
+    int *point_weight_percent = malloc(sizeof(int) * points_num);
+    float *point_weight = 0;
+    float max_weight = 0;
+    if (weights != nil)
+    {
+        point_weight = malloc(sizeof(float) * points_num);
+        max_weight = 0.0;
+    }
+
+    i = 0;
+    j = 0;
+    for (NSValue* pointValue in points)
+    {
+        point_x[i] = [pointValue CGPointValue].x - rect.origin.x;
+        point_y[i] = [pointValue CGPointValue].y - rect.origin.y;
+
+        // Filter out of range points
+        if (point_x[i] < 0 - radius ||
+            point_y[i] < 0 - radius ||
+            point_x[i] >= rect.size.width + radius ||
+            point_y[i] >= rect.size.height + radius)
+        {
+            points_num--;
+            j++;
+            // Do not increment i, to replace this point in next iteration (or drop if it is last one)
+            // but increment j to leave consistency when accessing weights
+            continue;
+        }
+
+        // Fill weights if available
+        if (weights != nil)
+        {
+            NSNumber* weightValue = [weights objectAtIndex:j];
+
+            point_weight[i] = [weightValue floatValue];
+            if (max_weight < point_weight[i])
+                max_weight = point_weight[i];
+        }
+
+        i++;
+        j++;
+    }
+
+    // Step 1.5
+    // Normalize weights to be 0 .. 100 (like percents)
+    // Weights array should be integer for not slowing down calculation by
+    // int-float conversion and float multiplication
+    if (weights != nil)
+    {
+        float absWeightSensitivity = ( max_weight / 100.0 ) * weightSensitivity;
+        float absWeightBoostTo = ( max_weight / 100.0 ) * weightBoostTo;
+        for (i = 0; i < points_num; i++)
+        {
+            if (weightsAdjustmentEnabled)
+            {
+                if (point_weight[i] <= absWeightSensitivity)
+                    point_weight[i] *= absWeightBoostTo / absWeightSensitivity;
+                else
+                    point_weight[i] = absWeightBoostTo + ( point_weight[i] - absWeightSensitivity ) * ((max_weight - absWeightBoostTo) / (max_weight - absWeightSensitivity));
+            }
+            point_weight_percent[i] = 100.0 * (point_weight[i] / max_weight);
+        }
+        free(point_weight);
+    } else
+    {
+        // Fill with 1 in case if no weights provided
+        for (i = 0; i < points_num; i++)
+        {
+            point_weight_percent[i] = 1;
+        }
+    }
+
+    // Step 1.75 (optional)
+    // Grouping and filtering bunches of points in same location
+    int currentDistance;
+    int currentDensity;
+
+    if (groupingEnabled)
+    {
+        for (i = 0; i < points_num; i++)
+        {
+            if (point_weight_percent[i]> 0)
+            {
+                for (j = i + 1; j < points_num; j++)
+                {
+                    if (point_weight_percent[j]> 0)
+                    {
+                        currentDistance = isqrt((point_x[i] - point_x[j])*(point_x[i] - point_x[j]) + (point_y[i] - point_y[j])*(point_y[i] - point_y[j]));
+
+                        if (currentDistance > peaksRemovalThreshold)
+                            currentDistance = peaksRemovalThreshold;
+
+                        float K1 = 1 - peaksRemovalFactor;
+                        float K2 = peaksRemovalFactor;
+
+                        // Lowering peaks
+                        point_weight_percent[i] =
+                        K1 * point_weight_percent[i] +
+                        K2 * point_weight_percent[i] * (float) ((float)(currentDistance) / (float)peaksRemovalThreshold);
+
+                        // Performing grouping if two points are closer than groupingThreshold
+                        if (currentDistance <= groupingThreshold)
+                        {
+                            // Merge i and j points. Store result in [i], remove [j]
+                            point_x[i] = (point_x[i] + point_x[j]) / 2;
+                            point_y[i] = (point_y[i] + point_y[j]) / 2;
+                            point_weight_percent[i] = point_weight_percent[i] + point_weight_percent[j];
+
+                            // point_weight_percent[j] is set negative to be avoided
+                            point_weight_percent[j] = -10;
+
+                            // Repeat again for new point
+                            i--;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Step 2
+    // Fill density info. Density is calculated around each point
+    int from_x, from_y, to_x, to_y;
+    for (i = 0; i < points_num; i++)
+    {
+        if (point_weight_percent[i]> 0)
+        {
+            from_x = point_x[i] - radius;
+            from_y = point_y[i] - radius;
+            to_x = point_x[i] + radius;
+            to_y = point_y[i] + radius;
+
+            if (from_x < 0)
+                from_x = 0;
+            if (from_y < 0)
+                from_y = 0;
+            if (to_x > width)
+                to_x = width;
+            if (to_y > height)
+                to_y = height;
+
+
+            for (int y = from_y; y < to_y; y++)
+            {
+                for (int x = from_x; x < to_x; x++)
+                {
+                    currentDistance = (x - point_x[i])*(x - point_x[i]) + (y - point_y[i])*(y - point_y[i]);
+
+                    currentDensity = radius - isqrt(currentDistance);
+                    if (currentDensity < 0)
+                        currentDensity = 0;
+
+                    density[y*width + x] += currentDensity * point_weight_percent[i];
+                }
+            }
+        }
+    }
+
+
+    free(point_x);
+    free(point_y);
+    free(point_weight_percent);
+
+
+    // Step 2.5
+    // Find max density (doing this in step 2 will have less performance)
+    int maxDensity = density[0];
+    for (i = 1; i < width * height; i++)
+    {
+        if (maxDensity < density[i])
+            maxDensity = density[i];
+    }
+
+    // Step 3
+    // Render density info into raw RGBA pixels
+    i = 0;
+    float floatDensity;
+    uint indexOrigin;
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++, i++)
+        {
+            if (density[i] > 0)
+            {
+                indexOrigin = 4*i;
+                // Normalize density to 0..1
+                floatDensity = (float)density[i] / (float)maxDensity;
+
+                if (floatDensity < 0.20) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 32 * floatDensity / 0.20;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = floatDensity * 8;
+                }
+                else if (floatDensity < 0.40) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 32;
+                    rgba[indexOrigin+2] = 32 * (floatDensity - 0.20) / 0.20;
+                    rgba[indexOrigin+3] = floatDensity * 16;
+                }
+                else if (floatDensity < 0.60) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 32 - 32 * (floatDensity - 0.40) / 0.20;
+                    rgba[indexOrigin+2] = 32;
+                    rgba[indexOrigin+3] = floatDensity * 24;
+                }
+                else {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 0;
+                    rgba[indexOrigin+2] = 32 + 32 * (floatDensity - 0.60) / 0.40;
+                    rgba[indexOrigin+3] = floatDensity * 32;
+                }
+
+
+            }
+        }
+    }
+
+    free(density);
+
+    // Step 4
+    // Create image from rendered raw data
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(rgba,
+                                                       width,
+                                                       height,
+                                                       8, // bitsPerComponent
+                                                       4 * width, // bytesPerRow
+                                                       colorSpace,
+                                                       kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
+
+    CFRelease(colorSpace);
+
+    CGImageRef cgImage = CGBitmapContextCreateImage(bitmapContext);
+
+    image = [UIImage imageWithCGImage:cgImage];
+
+    CFRelease(cgImage);
+    CFRelease(bitmapContext);
+
+    free(rgba);
+
+    return image;
+}
+
+
 + (UIImage *)heatMapWithRect:(CGRect)rect
                        boost:(float)boost
                       points:(NSArray *)points

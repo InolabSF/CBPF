@@ -105,6 +105,7 @@ class HMAMapView: GMSMapView {
         // crime
         if self.shouldDrawCrimes {
             self.drawCrimeMakers()
+            //self.drawCrimeHeatmap()
         }
         // comfort
         if self.shouldDrawComfort {
@@ -326,9 +327,6 @@ class HMAMapView: GMSMapView {
     private func drawCrimeHeatmap() {
         if self.crimeDatas.count == 0 { return }
 
-        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
         let boost: Float = 1.0
@@ -339,11 +337,12 @@ class HMAMapView: GMSMapView {
 
         let overlay = GMSGroundOverlay(
             position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
-            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
+            icon: UIImage.crimeHeatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
             zoomLevel: CGFloat(self.camera.zoom)
         )
         overlay.bearing = self.camera.bearing
         overlay.map = self
+        self.overlays.append(overlay)
     }
 
     /**
@@ -377,13 +376,12 @@ class HMAMapView: GMSMapView {
             locations.append(CLLocation(latitude: heatIndexDatas[i].lat.doubleValue, longitude: heatIndexDatas[i].long.doubleValue))
             weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: heatIndexDatas[i+1].value.doubleValue, temperature: heatIndexDatas[i].value.doubleValue)))
         }
-        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
         let overlay = GMSGroundOverlay(
-            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
-            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+            position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
+            icon: UIImage.heatIndexHeatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
+            zoomLevel: CGFloat(self.camera.zoom)
         )
-        overlay.bearing = 0
+        overlay.bearing = self.camera.bearing
         overlay.map = self
         overlay.zIndex = HMAGoogleMap.ZIndex.HeatIndex
         self.overlays.append(overlay)
@@ -401,13 +399,12 @@ class HMAMapView: GMSMapView {
             }
         }
 
-        var min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-        var max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
         let overlay = GMSGroundOverlay(
-            bounds: GMSCoordinateBounds(coordinate: min, coordinate: max),
-            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost)
+            position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
+            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
+            zoomLevel: CGFloat(self.camera.zoom)
         )
-        overlay.bearing = 0
+        overlay.bearing = self.camera.bearing
         overlay.map = self
 */
     }
