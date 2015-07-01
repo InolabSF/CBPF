@@ -9,8 +9,9 @@ class HMACrimeMarker: GMSMarker {
      **/
     func doSettings(#crime: HMACrimeData) {
         //self.icon = HMACrimeMarker.markerImageWithColor(UIColor.blackColor())
-        var iconName = crime.category.lowercaseString.stringByReplacingOccurrencesOfString("/", withString: ":", options: nil, range: nil)
-        var image = UIImage(named: "marker_"+iconName)
+        //var iconName = crime.category.lowercaseString.stringByReplacingOccurrencesOfString("/", withString: ":", options: nil, range: nil)
+        var iconName = crime.category.lowercaseString
+        var image = UIImage(named: "marker_crime_"+iconName)
         if image == nil { image = UIImage(named: "marker_question") }
         self.icon = image
 /*
