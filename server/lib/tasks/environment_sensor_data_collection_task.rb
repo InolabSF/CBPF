@@ -14,6 +14,11 @@ class Tasks::EnvironmentSensorDataCollectionTask
     puts 'Tasks::EnvironmentSensorDataCollectionTask#execute_three_days_ago done'
   end
 
+  def self.execute_this_three_month
+    self.execute_aircasting(3.months.ago, 1.days.ago)
+    puts 'Tasks::EnvironmentSensorDataCollectionTask#execute_three_days_ago done'
+  end
+
   def self.execute_aircasting(date_from, date_to)
     sensor_params = [
       # Humidity

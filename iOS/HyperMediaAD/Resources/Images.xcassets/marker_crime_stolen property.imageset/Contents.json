@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "marker_stolen property.png"
+      "filename" : "marker_crime_stolen property.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "marker_stolen property@2x.png"
+      "filename" : "marker_crime_stolen property@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "marker_stolen property@3x.png"
+      "filename" : "marker_crime_stolen property@3x.png"
     }
   ],
   "info" : {

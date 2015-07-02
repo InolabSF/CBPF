@@ -375,39 +375,47 @@ inline static int isqrt(int x)
     i = 0;
     float floatDensity;
     uint indexOrigin;
+    width = rect.size.width;
+    height = rect.size.height;
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++, i++)
         {
-            if (density[i] > 0)
+            //if (density[i] > 0)
             {
                 indexOrigin = 4*i;
                 // Normalize density to 0..1
                 floatDensity = (float)density[i] / (float)maxDensity;
 
-                if (floatDensity < 0.20) {
+                if (density[i] == 0) {
                     rgba[indexOrigin] = 0;
-                    rgba[indexOrigin+1] = 32 * floatDensity / 0.20;
+                    rgba[indexOrigin+1] = 16;
                     rgba[indexOrigin+2] = 0;
-                    rgba[indexOrigin+3] = floatDensity * 8;
+                    rgba[indexOrigin+3] = 8;
+                }
+                else if (floatDensity < 0.20) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 16 + 16 * floatDensity / 0.20;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 8 + floatDensity * 8;
                 }
                 else if (floatDensity < 0.40) {
                     rgba[indexOrigin] = 32 * (floatDensity - 0.20) / 0.20;
                     rgba[indexOrigin+1] = 32;
                     rgba[indexOrigin+2] = 0;
-                    rgba[indexOrigin+3] = floatDensity * 16;
+                    rgba[indexOrigin+3] = 8 + floatDensity * 16;
                 }
                 else if (floatDensity < 0.60) {
                     rgba[indexOrigin] = 32;
                     rgba[indexOrigin+1] = 32 - 32 * (floatDensity - 0.40) / 0.20;
                     rgba[indexOrigin+2] = 0;
-                    rgba[indexOrigin+3] = floatDensity * 24;
+                    rgba[indexOrigin+3] = 8 + floatDensity * 24;
                 }
                 else {
                     rgba[indexOrigin] = 32 + 32 * (floatDensity - 0.60) / 0.40;
                     rgba[indexOrigin+1] = 0;
                     rgba[indexOrigin+2] = 0;
-                    rgba[indexOrigin+3] = floatDensity * 32;
+                    rgba[indexOrigin+3] = 8 + floatDensity * 32;
                 }
 
             }

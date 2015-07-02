@@ -57,13 +57,6 @@ class HMAMapView: GMSMapView {
         self.trafficEnabled = true
 
         var urls : GMSTileURLConstructor = { x, y, zoom in
-/*
-            //return NSURL(string: "http://tile.openstreetmap.org/\(zoom)/\(x)/\(y).png")
-            //return NSURL(string: "http://\(s).tiles.wmflabs.org/bw-mapnik/\(zoom)/\(x)/\(y).png")
-            //return NSURL(string: "http://a.tile.thunderforest.com/transport/\(zoom)/\(x)/\(y).png")
-            //return NSURL(string: "http://a.tile.thunderforest.com/transport/\(zoom)/\(x)/\(y).png")
-            //return NSURL(string: "http://129.206.74.245/tiles/roadsg/x=\(x)&y=\(y)&z=\(zoom)")
-*/
             return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
         }
         self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
@@ -234,7 +227,7 @@ class HMAMapView: GMSMapView {
             let path = GMSPath(fromEncodedPath: pathString)
             var line = GMSPolyline(path: path)
             line.strokeWidth = 4.0
-            line.tappable = true
+            line.tappable = false
             line.map = self
             line.zIndex = HMAGoogleMap.ZIndex.Route
             self.overlays.append(line)
@@ -420,7 +413,7 @@ class HMAMapView: GMSMapView {
             path.addCoordinate(coordinateB)
             var line = GMSPolyline(path: path)
             line.strokeColor = color
-            line.strokeWidth = 7.5
+            line.strokeWidth = 6.0
             line.tappable = false
             line.map = map
             line.zIndex = HMAGoogleMap.ZIndex.Wheel
