@@ -26,7 +26,6 @@ func HMANSStringFromClass(classType:AnyClass) -> String {
 
 
 /// MARK: - UserDefaults
-
 struct HMAUserDefaults {
     /// last latitude
     static let LastLatitude =                                   "HMAUserDefaults.LastLatitude"
@@ -85,7 +84,6 @@ let kURIBase =                          "https://isid-cbpf.herokuapp.com"
 
 
 /// MARK: - HMAAPI
-
 struct HMAAPI {
     /// the furthest distance that client requests server to get datas
     static let Radius: Float = 50.0
@@ -248,7 +246,6 @@ struct HMAMapbox {
 
 
 /// MARK: - Yelp
-
 struct HMAYelp {
     /// API key
     static let ConsumerKey              = kHMAYelpCosumerKey
@@ -300,8 +297,18 @@ struct HMAYelp {
 
 
 /// MARK: - Gimbal
-
 struct HMAGimbal {
     /// API key
     static let APIKey =                     kHMAGimbalAPIKey
+}
+
+
+/// MARK: - UserInterface
+struct UserInterface {
+
+    struct Mode {
+        static let SetDestinations =             1
+        static let SetRoute =                    2
+        static let Cycle =                       3
+    }
 }

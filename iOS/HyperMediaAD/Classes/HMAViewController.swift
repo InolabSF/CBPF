@@ -8,6 +8,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     /// MARK: - property
     var destinationString: String = ""
     var locationManager: CLLocationManager!
+    var UIMode = UserInterface.Mode.SetDestinations
 
     var mapView: HMAMapView!
     var searchBoxView: HMASearchBoxView!
@@ -16,7 +17,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     var crimeButton: HMACircleButton!
     var comfortButton: HMACircleButton!
     var wheelButton: HMACircleButton!
-    var yelpButton: HMABottomButton!
+    //var yelpButton: HMABottomButton!
 
 
     /// MARK: - life cycle
@@ -24,30 +25,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
 
         self.doSettings()
-/*
-        // display sensor evaluation graph
-        let sensorEvaluation = HMASensorEvaluation()
-        let sensorGraphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
-        var sensorOffsetY: CGFloat = 20.0
-        for var i = 0; i < sensorGraphs.count; i++ {
-            let graph = sensorGraphs[i]
-            graph.frame = CGRectMake(0, sensorOffsetY, graph.frame.size.width, graph.frame.size.height)
-            self.view.addSubview(graph)
-            sensorOffsetY += graph.frame.size.height
-        }
-*/
-/*
-        // display wheel evaluation graph
-        let wheelEvaluation = HMAWheelEvaluation()
-        let wheelGraphs = [ wheelEvaluation.minusAccelerationGraphView(), ]
-        var wheelOffsetY: CGFloat = 20.0
-        for var i = 0; i < wheelGraphs.count; i++ {
-            let graph = wheelGraphs[i]
-            graph.frame = CGRectMake(0, wheelOffsetY, graph.frame.size.width, graph.frame.size.height)
-            self.view.addSubview(graph)
-            wheelOffsetY += graph.frame.size.height
-        }
-*/
+        self.setUserInterfaceMode(UserInterface.Mode.SetDestinations)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -96,7 +74,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.searchBoxView.delegate = self
         self.view.addSubview(self.searchBoxView)
         self.searchBoxView.design(parentView: self.view)
-
+/*
         // yelp
         let yelpButtonNib = UINib(nibName: HMANSStringFromClass(HMABottomButton), bundle:nil)
         let yelpButtonViews = yelpButtonNib.instantiateWithOwner(nil, options: nil)
@@ -108,7 +86,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.view.addSubview(self.yelpButton)
         self.yelpButton.design()
         self.yelpButton.delegate = self
-
+*/
         // circle buttons
         let xOffset: CGFloat = 20.0
         let yOffset: CGFloat = 10.0
@@ -120,7 +98,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             let circleButtonView = circleButtonViews[0] as! HMACircleButton
             circleButtonView.frame = CGRectMake(
                 self.view.frame.size.width - circleButtonView.frame.size.width - xOffset,
-                self.view.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1) - self.yelpButton.frame.size.height,
+                self.view.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1),// - self.yelpButton.frame.size.height,
                 circleButtonView.frame.size.width,
                 circleButtonView.frame.size.height
             )
@@ -142,10 +120,36 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.locationManager.distanceFilter = 300
         self.locationManager.startUpdatingLocation()
 
-        self.view.bringSubviewToFront(self.yelpButton)
+        //self.view.bringSubviewToFront(self.yelpButton)
         for circleButton in circleButtons { self.view.bringSubviewToFront(circleButton) }
         self.view.bringSubviewToFront(self.searchResultView)
         self.view.bringSubviewToFront(self.searchBoxView)
+    }
+
+    /**
+     * set userInterfaceMode
+     * @param mode UserInterface.Mode
+     **/
+    private func setUserInterfaceMode(mode: Int) {
+        self.UIMode = mode
+        if self.UIMode == UserInterface.Mode.SetDestinations {
+            self.searchBoxView.hidden = false
+            self.crimeButton.hidden = true
+            self.comfortButton.hidden = true
+            self.wheelButton.hidden = true
+        }
+        else if self.UIMode == UserInterface.Mode.SetRoute {
+            self.searchBoxView.hidden = true
+            self.crimeButton.hidden = false
+            self.comfortButton.hidden = false
+            self.wheelButton.hidden = false
+        }
+        else if self.UIMode == UserInterface.Mode.Cycle {
+            self.searchBoxView.hidden = false
+            self.crimeButton.hidden = false
+            self.comfortButton.hidden = false
+            self.wheelButton.hidden = false
+        }
     }
 
     /**
@@ -223,6 +227,7 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
+/*
         // yelp
         if marker.isKindOfClass(HMAYelpMaker) {
             let m = marker as! HMAYelpMaker
@@ -230,6 +235,7 @@ extension HMAViewController: GMSMapViewDelegate {
                 self.performSegueWithIdentifier(HMANSStringFromClass(HMAWebViewController), sender: m.yelpData.mobile_url)
             }
         }
+*/
     }
 
 }
@@ -305,7 +311,7 @@ extension HMAViewController: HMACircleButtonDelegate {
 
 }
 
-
+/*
 /// MARK: - HMABottomButtonDelegate
 extension HMAViewController: HMABottomButtonDelegate {
 
@@ -333,3 +339,29 @@ extension HMAViewController: HMAYelpSemiModalViewDelegate {
     }
 
 }
+*/
+/*
+        // display sensor evaluation graph
+        let sensorEvaluation = HMASensorEvaluation()
+        let sensorGraphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
+        var sensorOffsetY: CGFloat = 20.0
+        for var i = 0; i < sensorGraphs.count; i++ {
+            let graph = sensorGraphs[i]
+            graph.frame = CGRectMake(0, sensorOffsetY, graph.frame.size.width, graph.frame.size.height)
+            self.view.addSubview(graph)
+            sensorOffsetY += graph.frame.size.height
+        }
+*/
+/*
+        // display wheel evaluation graph
+        let wheelEvaluation = HMAWheelEvaluation()
+        let wheelGraphs = [ wheelEvaluation.minusAccelerationGraphView(), ]
+        var wheelOffsetY: CGFloat = 20.0
+        for var i = 0; i < wheelGraphs.count; i++ {
+            let graph = wheelGraphs[i]
+            graph.frame = CGRectMake(0, wheelOffsetY, graph.frame.size.width, graph.frame.size.height)
+            self.view.addSubview(graph)
+            wheelOffsetY += graph.frame.size.height
+        }
+*/
+
