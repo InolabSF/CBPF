@@ -8,7 +8,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     /// MARK: - property
 //    var destinationString: String = ""
     var locationManager: CLLocationManager!
-
+    var userInterfaceMode = HMAUserInterface.Mode.SetDestinations
     var mapView: HMAMapView!
 /*
     var searchBoxView: HMASearchBoxView!
@@ -56,8 +56,10 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.mapView = HMAMapView.sharedInstance
         self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
         self.mapView.delegate = self
+        self.mapView.hmaDelegate = self
         self.view.addSubview(self.mapView)
         self.mapView.doSettings()
+        self.mapView.setUserInterfaceMode(self.userInterfaceMode)
 /*
         // search result
         let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
@@ -182,6 +184,24 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 }
 
 
+/// MARK: - UIActionSheetDelegate
+extension HMAViewController: UIActionSheetDelegate {
+
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            // delete destination
+            if buttonIndex == 0 {
+                self.mapView.deleteEditingDestination()
+                self.mapView.updateWhatMapDraws()
+                self.mapView.draw()
+                self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+            }
+        }
+    }
+}
+
+
 /// MARK: - CLLocationManagerDelegate
 extension HMAViewController: CLLocationManagerDelegate {
 
@@ -205,21 +225,59 @@ extension HMAViewController: CLLocationManagerDelegate {
 extension HMAViewController: GMSMapViewDelegate {
 
     func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
-        self.mapView.appendWaypoint(coordinate)
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.appendDestination(coordinate)
+            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+            self.mapView.updateWhatMapDraws()
+            self.mapView.draw()
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.appendWaypoint(coordinate)
+        }
         //self.requestDirectoin()
     }
 
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.startEditingDestination(marker.position)
+            let actionSheet = UIActionSheet()
+            actionSheet.delegate = self
+            actionSheet.addButtonWithTitle("Delete")
+            actionSheet.destructiveButtonIndex = 0
+            actionSheet.addButtonWithTitle("Cancel")
+            actionSheet.cancelButtonIndex = 1
+            actionSheet.showInView(self.view)
+            return false
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.selectedMarker = marker
+            return true
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.Cycle {
+            self.mapView.selectedMarker = marker
+            return true
+        }
+
         self.mapView.selectedMarker = marker
         return true
     }
 
     func mapView(mapView: GMSMapView,  didBeginDraggingMarker marker: GMSMarker) {
-        self.mapView.startMovingWaypoint(marker.position)
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.startDraggingDestination(marker.position)
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.startDraggingWaypoint(marker.position)
+        }
     }
 
     func mapView(mapView: GMSMapView,  didEndDraggingMarker marker: GMSMarker) {
-        self.mapView.endMovingWaypoint(marker.position)
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.endDraggingDestination(marker.position)
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.endDraggingWaypoint(marker.position)
+        }
         //self.requestDirectoin()
     }
 
@@ -243,6 +301,27 @@ extension HMAViewController: GMSMapViewDelegate {
             }
         }
 */
+    }
+
+}
+
+
+/// MARK: - HMAMapViewDelegate
+extension HMAViewController: HMAMapViewDelegate {
+
+    func touchedUpInsideNextButton(#mapView: HMAMapView) {
+        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+            self.userInterfaceMode = HMAUserInterface.Mode.SetRoute
+            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+            self.mapView.updateWhatMapDraws()
+            self.mapView.draw()
+        }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            self.userInterfaceMode = HMAUserInterface.Mode.Cycle
+            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+            self.mapView.updateWhatMapDraws()
+            self.mapView.draw()
+        }
     }
 
 }

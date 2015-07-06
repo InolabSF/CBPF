@@ -7,7 +7,8 @@ class HMADestinationMarker: GMSMarker {
      * do settings (design, draggable, etc)
      **/
     func doSettings() {
-        self.draggable = false
+        self.draggable = true
+        self.tappable = true
     }
 
 }
