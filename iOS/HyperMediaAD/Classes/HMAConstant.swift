@@ -304,11 +304,12 @@ struct HMAGimbal {
 
 
 /// MARK: - UserInterface
-struct UserInterface {
+struct HMAUserInterface {
 
     struct Mode {
         static let SetDestinations =             1
         static let SetRoute =                    2
         static let Cycle =                       3
     }
+
 }

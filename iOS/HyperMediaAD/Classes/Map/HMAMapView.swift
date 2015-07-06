@@ -7,8 +7,27 @@ class HMAMapView: GMSMapView {
 
     /// overlays
     private var overlays: [GMSOverlay] = []
+    /// next button
+    private var nextButton: BFPaperButton!
+
+    /* ***** Destination ***** */
+    /// destination
+    private var destinationString: String = ""
+    /// search box
+    private var searchBoxView: HMASearchBoxView!
+    /// search result
+    private var searchResultView: HMASearchResultView!
+
+    /* ***** Route ***** */
     // tile layer
-    private var tileLayer: GMSURLTileLayer!
+    private var tileLayer: GMSURLTileLayer?
+
+    /// crime button
+    private var crimeButton: HMACircleButton!
+    /// heatindex button
+    private var comfortButton: HMACircleButton!
+    /// wheel button
+    private var wheelButton: HMACircleButton!
 
     /// dragging waypoint
     private var draggingWaypoint: CLLocationCoordinate2D?
@@ -17,6 +36,7 @@ class HMAMapView: GMSMapView {
     /// route json
     private var routeJSON: JSON?
 
+    /* ***** Visualization ***** */
     /// sensor evaluation
     private let sensorEvaluation = HMASensorEvaluation()
     /// wheel evaluation
@@ -47,7 +67,7 @@ class HMAMapView: GMSMapView {
      * do settings
      **/
     func doSettings() {
-        self.mapType = kGMSTypeNone // kGMSTypeNormal, kGMSTypeTerrain, kGMSTypeSatellite, kGMSTypeSatellite, kGMSTypeHybrid, kGMSTypeNone
+        // map
         self.myLocationEnabled = true
         self.settings.compassButton = false
         self.settings.myLocationButton = false
@@ -56,12 +76,62 @@ class HMAMapView: GMSMapView {
         self.accessibilityElementsHidden = true
         self.trafficEnabled = true
 
-        var urls : GMSTileURLConstructor = { x, y, zoom in
-            return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
+        // circle buttons
+        let xOffset: CGFloat = 20.0
+        let yOffset: CGFloat = 10.0
+        var circleButtons: [HMACircleButton] = []
+        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
+        for var i = 0; i < circleButtonImages.count; i++ {
+            let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
+            let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
+            let circleButtonView = circleButtonViews[0] as! HMACircleButton
+            circleButtonView.frame = CGRectMake(
+                self.frame.size.width - circleButtonView.frame.size.width - xOffset,
+                self.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1),
+                circleButtonView.frame.size.width,
+                circleButtonView.frame.size.height
+            )
+            circleButtonView.setImage(circleButtonImages[i])
+            self.addSubview(circleButtonView)
+            circleButtonView.delegate = self
+
+            circleButtons.append(circleButtonView)
         }
-        self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
-        self.tileLayer.zIndex = HMAGoogleMap.ZIndex.Tile
-        self.tileLayer.map = self
+        self.crimeButton = circleButtons[0]
+        self.comfortButton = circleButtons[1]
+        self.wheelButton = circleButtons[2]
+
+        // next button
+        self.nextButton = BFPaperButton(
+            frame: CGRectMake(circleButtons[0].frame.size.width + xOffset * 2.0, circleButtons[0].frame.origin.y, self.frame.size.width - (circleButtons[0].frame.size.width + xOffset * 2.0) * 2.0, circleButtons[0].frame.size.height),
+           raised: false
+        )
+        self.nextButton.setTitle("Done", forState: .Normal)
+        self.nextButton.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
+        self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
+        //self.nextButton addTarget(self, action:@selector(buttonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
+        self.addSubview(self.nextButton)
+
+        // search result
+        let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
+        let searchResultViews = searchResultNib.instantiateWithOwner(nil, options: nil)
+        self.searchResultView = searchResultViews[0] as! HMASearchResultView
+        self.searchResultView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+        self.searchResultView.hidden = true
+        self.searchResultView.delegate = self
+        self.addSubview(self.searchResultView)
+        self.searchResultView.design()
+
+        // search box
+        let searchBoxNib = UINib(nibName: HMANSStringFromClass(HMASearchBoxView), bundle:nil)
+        let searchBoxViews = searchBoxNib.instantiateWithOwner(nil, options: nil)
+        self.searchBoxView = searchBoxViews[0] as! HMASearchBoxView
+        self.searchBoxView.delegate = self
+        self.addSubview(self.searchBoxView)
+        self.searchBoxView.design(parentView: self)
+
+        self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
     }
 
     /**
@@ -124,6 +194,50 @@ class HMAMapView: GMSMapView {
     func setRouteJSON(json: JSON?) {
         self.routeJSON = json
         if json == nil { self.removeAllWaypoints() }
+    }
+
+    /**
+     * set userInterfaceMode
+     * @param mode UserInterface.Mode
+     **/
+    func setUserInterfaceMode(mode: Int) {
+        // tile
+        if self.tileLayer != nil { self.tileLayer!.map = nil }
+        if mode == HMAUserInterface.Mode.SetRoute {
+            self.mapType = kGMSTypeNone
+            var urls : GMSTileURLConstructor = { x, y, zoom in
+                return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
+            }
+            self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
+            self.tileLayer!.zIndex = HMAGoogleMap.ZIndex.Tile
+            self.tileLayer!.map = self
+        }
+        else {
+            self.mapType = kGMSTypeNormal
+        }
+
+        // if views are hidden or not
+        if mode == HMAUserInterface.Mode.SetDestinations {
+            self.searchBoxView.hidden = false
+            self.crimeButton.hidden = true
+            self.comfortButton.hidden = true
+            self.wheelButton.hidden = true
+            self.nextButton.hidden = false
+        }
+        else if mode == HMAUserInterface.Mode.SetRoute {
+            self.searchBoxView.hidden = true
+            self.crimeButton.hidden = false
+            self.comfortButton.hidden = false
+            self.wheelButton.hidden = false
+            self.nextButton.hidden = true
+        }
+        else if mode == HMAUserInterface.Mode.Cycle {
+            self.searchBoxView.hidden = false
+            self.crimeButton.hidden = false
+            self.comfortButton.hidden = false
+            self.wheelButton.hidden = false
+            self.nextButton.hidden = true
+        }
     }
 
     /**
@@ -487,6 +601,77 @@ class HMAMapView: GMSMapView {
             }
         }
         return locations
+    }
+
+}
+
+
+/// MARK: - HMASearchBoxViewDelegate
+extension HMAMapView: HMASearchBoxViewDelegate {
+
+    func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
+        self.searchResultView.hidden = false
+    }
+
+    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
+        self.searchResultView.hidden = true
+        self.searchBoxView.setSearchText(self.destinationString)
+    }
+
+    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
+        self.searchResultView.updateDestinations(destinations)
+    }
+
+    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
+        if self.searchBoxView.isActive { return }
+        self.setRouteJSON(nil)
+        self.destinationString = ""
+        self.draw()
+    }
+
+}
+
+
+/// MARK: - HMASearchResultViewDelegate
+extension HMAMapView: HMASearchResultViewDelegate {
+
+    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
+        self.searchBoxView.endSearch()
+        self.searchBoxView.setSearchText(selectedDestination.desc)
+        if self.destinationString == selectedDestination.desc { return }
+        self.destinationString = selectedDestination.desc
+        self.removeAllWaypoints()
+        //self.requestDirectoin()
+    }
+
+}
+
+
+/// MARK: - HMACircleButtonDelegate
+extension HMAMapView: HMACircleButtonDelegate {
+
+    func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
+        if circleButton == self.crimeButton {
+            self.shouldDrawCrimes = wasOn
+            if wasOn { HMACrimeData.requestToGetCrimeData() }
+        }
+        else if circleButton == self.comfortButton {
+            self.shouldDrawComfort = wasOn
+            if wasOn {
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
+            }
+        }
+        else if circleButton == self.wheelButton {
+            self.shouldDrawWheel = wasOn
+            if wasOn {
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: nil, min: HMAWheel.Min.RiderTorque)
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: HMAWheel.Max.Acceleration, min: nil)
+            }
+        }
+
+        self.updateWhatMapDraws()
+        self.draw()
     }
 
 }
