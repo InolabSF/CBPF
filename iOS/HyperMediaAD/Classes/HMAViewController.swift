@@ -315,6 +315,7 @@ extension HMAViewController: HMAMapViewDelegate {
             self.mapView.setUserInterfaceMode(self.userInterfaceMode)
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
+            self.mapView.requestRoute()
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.userInterfaceMode = HMAUserInterface.Mode.Cycle

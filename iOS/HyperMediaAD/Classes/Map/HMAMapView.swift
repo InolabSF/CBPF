@@ -53,7 +53,7 @@ class HMAMapView: GMSMapView {
     /// waypoints for routing
     var waypoints: [CLLocationCoordinate2D] = []
     /// route json
-    private var routeJSON: JSON?
+    private var routeJSONs: [JSON]?
 
     /* ***** Visualization ***** */
     /// sensor evaluation
@@ -212,18 +212,18 @@ class HMAMapView: GMSMapView {
         self.drawDestinations()
 
         // route
-        if self.routeJSON != nil {
+        if self.routeJSONs != nil {
             self.drawRoute()
         }
     }
 
     /**
-     * set route json
-     * @param json json
+     * set route jsons
+     * @param jsons jsons
      **/
-    func setRouteJSON(json: JSON?) {
-        self.routeJSON = json
-        if json == nil { self.removeAllWaypoints() }
+    func setRouteJSONs(jsons: [JSON]?) {
+        self.routeJSONs = jsons
+        //if jsons == nil { self.removeAllWaypoints() }
     }
 
     /**
@@ -427,6 +427,24 @@ class HMAMapView: GMSMapView {
      **/
     func isDraggingNow() -> Bool {
         return (self.editingWaypoint != nil) || (self.editingDestination != nil)
+    }
+
+    /**
+     * request route
+     **/
+    func requestRoute() {
+        let location = self.myLocation
+        if location == nil { return }
+
+        HMAGoogleMapClient.sharedInstance.getRoutes(
+            origin: location!.coordinate,
+            destinations: self.destinations,
+            waypoints: self.waypoints,
+            completionHandler: { [unowned self] (jsons) in
+                    self.setRouteJSONs(jsons)
+                    self.draw()
+                }
+        )
     }
 
 
@@ -678,14 +696,17 @@ class HMAMapView: GMSMapView {
     private func encodedPathes() -> [String] {
         // make pathes
         var pathes = [] as [String]
-        let json = self.routeJSON
-        if json == nil { return pathes }
+        let jsons = self.routeJSONs
+        if jsons == nil { return pathes }
 
-        let routes = json!["routes"].arrayValue
-        for route in routes {
-            let overviewPolyline = route["overview_polyline"].dictionaryValue
-            let path = overviewPolyline["points"]!.stringValue
-            pathes.append(path)
+        for var i = 0; i < jsons!.count; i++ {
+            let json = jsons![i]
+            let routes = json["routes"].arrayValue
+            for route in routes {
+                let overviewPolyline = route["overview_polyline"].dictionaryValue
+                let path = overviewPolyline["points"]!.stringValue
+                pathes.append(path)
+            }
         }
 
         return pathes
@@ -697,18 +718,22 @@ class HMAMapView: GMSMapView {
      **/
     private func endLocations() -> [CLLocationCoordinate2D] {
         var locations: [CLLocationCoordinate2D] = []
-        let json = self.routeJSON
-        if json == nil { return locations }
+        let jsons = self.routeJSONs
+        if jsons == nil { return locations }
 
-        let routes = json!["routes"].arrayValue
-        for route in routes {
-            let legs = route["legs"].arrayValue
-            for leg in legs {
-                if let locationDictionary = leg["end_location"].dictionary {
-                    locations.append(CLLocationCoordinate2D(latitude: locationDictionary["lat"]!.doubleValue, longitude: locationDictionary["lng"]!.doubleValue))
+        for var i = 0; i < jsons!.count; i++ {
+            let json = jsons![i]
+            let routes = json["routes"].arrayValue
+            for route in routes {
+                let legs = route["legs"].arrayValue
+                for leg in legs {
+                    if let locationDictionary = leg["end_location"].dictionary {
+                        locations.append(CLLocationCoordinate2D(latitude: locationDictionary["lat"]!.doubleValue, longitude: locationDictionary["lng"]!.doubleValue))
+                    }
                 }
             }
         }
+
         return locations
     }
 
@@ -733,7 +758,7 @@ extension HMAMapView: HMASearchBoxViewDelegate {
 
     func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
         if self.searchBoxView.isActive { return }
-        self.setRouteJSON(nil)
+        //self.setRouteJSONs(nil)
         //self.destinationString = ""
         self.draw()
     }
@@ -761,7 +786,6 @@ extension HMAMapView: HMASearchResultViewDelegate {
         let location = self.myLocation
         if location == nil { return }
         self.searchBoxView.startSearchGeoLocation(coordinate: location!.coordinate)
-        //self.requestDirectoin()
     }
 
 }

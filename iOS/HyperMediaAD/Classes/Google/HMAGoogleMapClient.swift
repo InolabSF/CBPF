@@ -6,6 +6,8 @@ class HMAGoogleMapClient: AnyObject {
 
     /// MARK: - property
 
+    private var routeJSONs: [JSON] = []
+
 
     /// MARK: - class method
 
@@ -13,6 +15,37 @@ class HMAGoogleMapClient: AnyObject {
 
 
     /// MARK: - public api
+
+    /**
+     * get routes
+     * @param origin CLLocationCoordinate2D
+     * @param destinations [CLLocationCoordinate2D]
+     * @param waypoints [CLLocationCoordinate2D]
+     * @param completionHandler (jsons: [JSON]) -> Void
+     **/
+    func getRoutes(
+        #origin: CLLocationCoordinate2D,
+        destinations: [CLLocationCoordinate2D],
+        waypoints: [CLLocationCoordinate2D],
+        completionHandler: (jsons: [JSON]) -> Void
+    ) {
+        self.routeJSONs = []
+
+        // google map direction API
+        var a = origin
+        for var i = 0; i < destinations.count; i++ {
+            var isLast = (i == destinations.count - 1)
+            var b = destinations[i]
+            self.getRoute(
+                queries: [ "origin" : "\(a.latitude),\(a.longitude)", "destination" : "\(b.latitude),\(b.longitude)", ],
+                completionHandler: { (json) in
+                    HMAGoogleMapClient.sharedInstance.routeJSONs.append(json)
+                    if isLast { completionHandler(jsons: HMAGoogleMapClient.sharedInstance.routeJSONs) }
+                }
+            )
+            a = b
+        }
+    }
 
     /**
      * request google map directions API (https://developers.google.com/maps/documentation/directions/)
@@ -41,7 +74,6 @@ class HMAGoogleMapClient: AnyObject {
     func getRoute(#queries: Dictionary<String, AnyObject>, completionHandler: (json: JSON) -> Void) {
         // make request
         var q: Dictionary<String, AnyObject> = [
-            //"mode": "bicycling",
             HMAGoogleMap.TravelMode: HMAGoogleMap.TravelModes.Bicycling,
             "sensor": "false",
         ]
