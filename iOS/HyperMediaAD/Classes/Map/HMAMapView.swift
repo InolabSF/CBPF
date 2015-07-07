@@ -27,7 +27,7 @@ class HMAMapView: GMSMapView {
 
     /* ***** Destination ***** */
     /// destination
-    private var destinationString: String = ""
+    //private var destinationString: String = ""
     /// search box
     private var searchBoxView: HMASearchBoxView!
     /// search result
@@ -724,7 +724,7 @@ extension HMAMapView: HMASearchBoxViewDelegate {
 
     func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = true
-        self.searchBoxView.setSearchText(self.destinationString)
+        //self.searchBoxView.setSearchText(self.destinationString)
     }
 
     func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
@@ -734,8 +734,15 @@ extension HMAMapView: HMASearchBoxViewDelegate {
     func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
         if self.searchBoxView.isActive { return }
         self.setRouteJSON(nil)
-        self.destinationString = ""
+        //self.destinationString = ""
         self.draw()
+    }
+
+    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D) {
+        self.appendDestination(coordinate)
+        self.updateWhatMapDraws()
+        self.draw()
+        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.5
     }
 
 }
@@ -747,9 +754,13 @@ extension HMAMapView: HMASearchResultViewDelegate {
     func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
         self.searchBoxView.endSearch()
         self.searchBoxView.setSearchText(selectedDestination.desc)
-        if self.destinationString == selectedDestination.desc { return }
-        self.destinationString = selectedDestination.desc
-        self.removeAllWaypoints()
+        //if self.destinationString == selectedDestination.desc { return }
+        //self.destinationString = selectedDestination.desc
+        //self.removeAllWaypoints()
+
+        let location = self.myLocation
+        if location == nil { return }
+        self.searchBoxView.startSearchGeoLocation(coordinate: location!.coordinate)
         //self.requestDirectoin()
     }
 

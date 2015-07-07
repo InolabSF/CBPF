@@ -50,20 +50,32 @@
                                 <action selector="touchedUpInsideButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="SAs-j2-8tv"/>
                             </connections>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7QH-AD-J0A">
-                            <rect key="frame" x="232" y="0.0" width="48" height="48"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" heightSizable="YES"/>
-                            <fontDescription key="fontDescription" name="Ionicons" family="Ionicons" pointSize="15"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="touchedUpInsideButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="sEI-KK-wyn"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" id="Mtg-mt-Lu3">
+                    <rect key="frame" x="20" y="10" width="280" height="48"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="aAt-4U-c9O" customClass="TYMActivityIndicatorView">
+                            <rect key="frame" x="10" y="12" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7QH-AD-J0A">
+                    <rect key="frame" x="252" y="10" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <fontDescription key="fontDescription" name="Ionicons" family="Ionicons" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="touchedUpInsideButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="sEI-KK-wyn"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -71,6 +83,8 @@
                 <outlet property="activeButton" destination="GAO-6q-qyP" id="xh9-8g-4Km"/>
                 <outlet property="backButton" destination="GdC-ri-JN5" id="BaZ-Hi-cKi"/>
                 <outlet property="clearButton" destination="7QH-AD-J0A" id="wIw-Y6-pAf"/>
+                <outlet property="searchGeoLocationIndicator" destination="aAt-4U-c9O" id="Wd8-AP-3zA"/>
+                <outlet property="searchGeoLocationOverlayView" destination="Mtg-mt-Lu3" id="xbH-sX-jE3"/>
                 <outlet property="searchTextField" destination="1wD-Si-WQc" id="joE-iC-rjF"/>
                 <outlet property="searchTextFieldBackgroundView" destination="nAW-hs-e2U" id="Rlz-TU-GnY"/>
             </connections>

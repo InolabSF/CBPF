@@ -29,6 +29,11 @@ protocol HMASearchBoxViewDelegate {
      */
     func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView)
 
+    /**
+     * called when geoLocation search did finish
+     * @param searchBoxView HMASearchBoxView
+     */
+    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D)
 }
 
 
@@ -38,6 +43,8 @@ class HMASearchBoxView: UIView {
     /// MARK: - property
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchTextFieldBackgroundView: UIView!
+    @IBOutlet weak var searchGeoLocationOverlayView: UIView!
+    @IBOutlet weak var searchGeoLocationIndicator: TYMActivityIndicatorView!
     @IBOutlet weak var activeButton: BFPaperButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
@@ -70,6 +77,9 @@ class HMASearchBoxView: UIView {
             color: UIColor.grayColor()
         )
         self.clearButton.setImage(closeImage, forState: .Normal)
+
+        self.searchGeoLocationIndicator.hidesWhenStopped = true
+        self.searchGeoLocationIndicator.stopAnimating()
     }
 
 
@@ -89,6 +99,10 @@ class HMASearchBoxView: UIView {
                 self.delegate?.clearButtonTouchedUpInside(searchBoxView: self)
                 self.delegate?.searchDidFinish(searchBoxView: self, destinations: [] as [HMADestination])
             }
+
+            HMAGoogleMapClient.sharedInstance.cancelGetGeocode()
+            self.searchGeoLocationIndicator.stopAnimating()
+            self.searchGeoLocationOverlayView.hidden = true
         }
     }
 
@@ -168,6 +182,57 @@ class HMASearchBoxView: UIView {
         self.backButton.hidden = true
         if self.delegate != nil { self.delegate?.searchBoxWasInactive(searchBoxView: self) }
         self.clearButton.hidden = (self.searchTextField.text == nil || self.searchTextField.text == "")
+    }
+
+    /**
+     * start geo location search
+     * @param location CLLocationCoordinate2D
+     **/
+    func startSearchGeoLocation(#coordinate: CLLocationCoordinate2D) {
+        self.searchGeoLocationOverlayView.hidden = false
+        self.searchGeoLocationIndicator.activityIndicatorViewStyle = TYMActivityIndicatorViewStyle.Small
+        self.searchGeoLocationIndicator.setBackgroundImage(
+            UIImage(named: "clear.png"),
+            forActivityIndicatorStyle:TYMActivityIndicatorViewStyle.Small
+        )
+
+        self.searchGeoLocationIndicator.startAnimating()
+        HMAGoogleMapClient.sharedInstance.getGeocode(
+            address: self.searchTextField.text,
+             radius: Double(HMAAPI.Radius),
+           location: coordinate,
+  completionHandler: { [unowned self] (json) in
+                let destination = self.geoLocations(json: json)
+                let succeeded = (destination != nil && self.delegate != nil)
+                if succeeded {
+                    self.delegate?.geoLocationSearchDidFinish(searchBoxView: self, coordinate: destination!)
+                    self.searchTextField.text = ""
+                }
+                self.searchGeoLocationIndicator.stopAnimating()
+                self.searchGeoLocationOverlayView.hidden = true
+            }
+        )
+    }
+
+
+    /// MARK: - private api
+
+    /**
+     * return geo location
+     * @param json json
+     * @return CLLocationCoordinate2D
+     **/
+    private func geoLocations(#json: JSON) -> CLLocationCoordinate2D? {
+        let results = json["results"].arrayValue
+        if results.count == 0 { return nil }
+
+        let result = results[0].dictionaryValue
+        let geometry = result["geometry"]!.dictionaryValue
+        if let locationDictionary = geometry["location"]!.dictionary {
+            return CLLocationCoordinate2D(latitude: locationDictionary["lat"]!.doubleValue, longitude: locationDictionary["lng"]!.doubleValue)
+        }
+
+        return nil
     }
 
 }
