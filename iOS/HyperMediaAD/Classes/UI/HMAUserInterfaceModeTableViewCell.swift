@@ -43,11 +43,15 @@ class HMAUserInterfaceModeTableViewCell: UITableViewCell {
 
         // label
         let titles = [
-            HMAUserInterface.Mode.SetDestinations : "End Cycling",
+            HMAUserInterface.Mode.SetDestinations : "Reset Destinations",
             HMAUserInterface.Mode.SetRoute : "Reroute",
         ]
         self.titleLabel.text = titles[mode]
         self.titleLabel.textColor = color
+
+        if selected {
+            self.backgroundColor = UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 0.1)
+        }
     }
 
 }

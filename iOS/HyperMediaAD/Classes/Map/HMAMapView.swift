@@ -24,27 +24,8 @@ class HMAMapView: GMSMapView {
     private var overlays: [GMSOverlay] = []
     /// next button
     private var nextButton: BFPaperButton!
-/*
-    /// setting
-    private var settingButtonBackgroundView: UIView!
-    private var settingButton: UIButton!
-
-        // setting button
-        self.settingButtonBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
-        self.settingButtonBackgroundView.layer.shadowColor = UIColor.blackColor().CGColor
-        self.settingButtonBackgroundView.layer.shadowOpacity = 0.2
-        self.settingButtonBackgroundView.layer.shadowPath = UIBezierPath(rect: self.settingButtonBackgroundView.bounds).CGPath
-        self.settingButton.setImage(IonIcons.imageWithIcon(ion_navicon_round, size: 48.0, color: UIColor.grayColor()), forState: .Normal)
-        self.view.bringSubviewToFront(self.settingButtonBackgroundView)
-*/
-    /**
-     * called when setting button is touched up inside
-     * @param button UIButton
-     **/
-    @IBAction func touchedUpInsideSettingButton(button: UIButton) {
-        HMADrawerController.sharedInstance.setDrawerState(.Opened, animated: true)
-    }
-
+    /// setting button
+    private var settingButton: HMASettingButton!
 
     /* ***** Destination ***** */
     /// search box
@@ -161,9 +142,18 @@ class HMAMapView: GMSMapView {
         self.nextButton.addTarget(self, action: "touchedUpInsideNextButton:", forControlEvents: .TouchUpInside)
         self.nextButton.layer.shadowOffset = CGSizeMake(0.0, 0.0)
         self.nextButton.layer.shadowColor = UIColor.blackColor().CGColor
-        self.nextButton.layer.shadowOpacity = 0.2
-        self.nextButton.layer.shadowPath = UIBezierPath(rect: self.nextButton.bounds).CGPath
+        self.nextButton.layer.shadowOpacity = 0.4
+        let rect = CGRectMake(self.nextButton.bounds.origin.x, self.nextButton.bounds.origin.y + 2, self.nextButton.bounds.size.width, self.nextButton.bounds.size.height)
+        self.nextButton.layer.shadowPath = UIBezierPath(rect: rect).CGPath
         self.addSubview(self.nextButton)
+
+        // setting button
+        let settingButtonNib = UINib(nibName: HMANSStringFromClass(HMASettingButton), bundle:nil)
+        let settingButtonViews = settingButtonNib.instantiateWithOwner(nil, options: nil)
+        self.settingButton = settingButtonViews[0] as! HMASettingButton
+        self.settingButton.delegate = self
+        self.settingButton.frame = CGRectMake(xOffset, self.frame.size.height - (self.settingButton.frame.size.height + yOffset), self.settingButton.frame.size.width, self.settingButton.frame.size.height)
+        self.addSubview(self.settingButton)
 
         // search result
         let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
@@ -277,8 +267,12 @@ class HMAMapView: GMSMapView {
             self.crimeButton.hidden = true
             self.comfortButton.hidden = true
             self.wheelButton.hidden = true
-            self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.5
+            self.updateNextButton()
             self.nextButton.hidden = false
+
+            self.crimeButton.setIsOn(false)
+            self.comfortButton.setIsOn(false)
+            self.wheelButton.setIsOn(false)
         }
         else if mode == HMAUserInterface.Mode.SetRoute {
             self.searchBoxView.hidden = true
@@ -286,6 +280,10 @@ class HMAMapView: GMSMapView {
             self.comfortButton.hidden = false
             self.wheelButton.hidden = false
             self.nextButton.hidden = false
+
+            self.crimeButton.setIsOn(true)
+            self.comfortButton.setIsOn(true)
+            self.wheelButton.setIsOn(true)
         }
         else if mode == HMAUserInterface.Mode.Cycle {
             self.searchBoxView.hidden = true
@@ -293,6 +291,10 @@ class HMAMapView: GMSMapView {
             self.comfortButton.hidden = false
             self.wheelButton.hidden = false
             self.nextButton.hidden = true
+
+            self.crimeButton.setIsOn(false)
+            self.comfortButton.setIsOn(false)
+            self.wheelButton.setIsOn(false)
         }
     }
 
@@ -498,6 +500,13 @@ class HMAMapView: GMSMapView {
                     self.draw()
                 }
         )
+    }
+
+    /**
+     * update next button
+     **/
+    func updateNextButton() {
+        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.5
     }
 
 
@@ -786,6 +795,16 @@ class HMAMapView: GMSMapView {
 }
 
 
+/// MARK: - HMASettingButtonDelegate
+extension HMAMapView: HMASettingButtonDelegate {
+
+    func settingButton(settingButton: HMASettingButton) {
+        HMADrawerController.sharedInstance.setDrawerState(.Opened, animated: true)
+    }
+
+}
+
+
 /// MARK: - HMASearchBoxViewDelegate
 extension HMAMapView: HMASearchBoxViewDelegate {
 
@@ -810,7 +829,7 @@ extension HMAMapView: HMASearchBoxViewDelegate {
         self.appendDestination(coordinate)
         self.updateWhatMapDraws()
         self.draw()
-        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.5
+        self.updateNextButton()
     }
 
 }

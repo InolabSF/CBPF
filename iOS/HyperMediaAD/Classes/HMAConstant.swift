@@ -71,6 +71,12 @@ struct HMAUserDefaults {
 }
 
 
+/// MARK: - NotificationCenter
+struct HMANotificationCenter {
+    static let ChangeUserInterfaceMode =                        "HMANotificationCenter.ChangeUserInterfaceMode"
+}
+
+
 /// MARK: - API
 
 /// Base URI

@@ -6,12 +6,9 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
 
     /// MARK: - property
 
-    private let dataSource = [
-        HMAUserInterface.Mode.SetDestinations,
-        HMAUserInterface.Mode.SetRoute,
-//        HMAUserInterface.Mode.Cycle,
-    ]
+    @IBOutlet weak var tableView: UITableView!
 
+    private var UIModes: [Int] = [ HMAUserInterface.Mode.SetDestinations, ]
     private var selectedIndex = 0
 
 
@@ -31,7 +28,23 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
     /// MARK: - event listener
 
 
-    /// MARK: - private api
+    /// MARK: - public api
+
+    func updateUserInterfaceMode(UIMode: Int) {
+        if UIMode == HMAUserInterface.Mode.SetDestinations {
+            self.UIModes = [ HMAUserInterface.Mode.SetDestinations, ]
+            self.selectedIndex = 0
+        }
+        else if UIMode == HMAUserInterface.Mode.SetRoute {
+            self.UIModes = [ HMAUserInterface.Mode.SetDestinations, HMAUserInterface.Mode.SetRoute, ]
+            self.selectedIndex = 1
+        }
+        else if UIMode == HMAUserInterface.Mode.Cycle {
+            self.UIModes = [ HMAUserInterface.Mode.SetDestinations, HMAUserInterface.Mode.SetRoute, ]
+            self.selectedIndex = -1
+        }
+        self.tableView.reloadData()
+    }
 
 }
 
@@ -40,17 +53,27 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
 extension HMASlideMenuController: UITableViewDelegate {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.selectedIndex = indexPath.row
+        let mode = self.UIModes[self.selectedIndex]
+        NSNotificationCenter.defaultCenter().postNotificationName(
+            HMANotificationCenter.ChangeUserInterfaceMode,
+            object: nil,
+            userInfo: [ HMANotificationCenter.ChangeUserInterfaceMode : mode ]
+        )
+
+        tableView.reloadData()
+        HMADrawerController.sharedInstance.setDrawerState(.Closed, animated: true)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
+        return self.UIModes.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let nib = UINib(nibName: HMANSStringFromClass(HMAUserInterfaceModeTableViewCell), bundle:nil)
         let views = nib.instantiateWithOwner(nil, options: nil)
         let cell = views[0] as! HMAUserInterfaceModeTableViewCell
-        cell.design(mode: self.dataSource[indexPath.row], selected: (self.selectedIndex == indexPath.row))
+        cell.design(mode: self.UIModes[indexPath.row], selected: (self.selectedIndex == indexPath.row))
         return cell
     }
 

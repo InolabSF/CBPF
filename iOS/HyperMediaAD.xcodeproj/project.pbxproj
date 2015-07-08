@@ -51,6 +51,8 @@
 		E690B32E1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */; };
 		E690B3301B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */; };
 		E690B3321B4CC8C00016B464 /* HMADrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3311B4CC8C00016B464 /* HMADrawerController.swift */; };
+		E690B3351B4CD2140016B464 /* HMASettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3331B4CD2140016B464 /* HMASettingButton.swift */; };
+		E690B3361B4CD2140016B464 /* HMASettingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = E690B3341B4CD2140016B464 /* HMASettingButton.xib */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -140,6 +142,8 @@
 		E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAUserInterfaceModeTableViewCell.swift; sourceTree = "<group>"; };
 		E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAUserInterfaceModeTableViewCell.xib; sourceTree = "<group>"; };
 		E690B3311B4CC8C00016B464 /* HMADrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADrawerController.swift; sourceTree = "<group>"; };
+		E690B3331B4CD2140016B464 /* HMASettingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASettingButton.swift; sourceTree = "<group>"; };
+		E690B3341B4CD2140016B464 /* HMASettingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASettingButton.xib; sourceTree = "<group>"; };
 		E6A753C11B4331ED00C10D1D /* HMAMapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAMapTile.h; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
@@ -324,6 +328,8 @@
 				E6EEB3821B38D5060070E5DC /* HMABottomButton.xib */,
 				E6EEB37D1B38BA350070E5DC /* HMACircleButton.swift */,
 				E6EEB37E1B38BA350070E5DC /* HMACircleButton.xib */,
+				E690B3331B4CD2140016B464 /* HMASettingButton.swift */,
+				E690B3341B4CD2140016B464 /* HMASettingButton.xib */,
 				E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */,
 				E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */,
 			);
@@ -516,6 +522,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */,
+				E690B3361B4CD2140016B464 /* HMASettingButton.xib in Resources */,
 				E6E8F4521B3CBFA70005317B /* HMAYelpSemiModalView.xib in Resources */,
 				E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */,
 				E6EEB3801B38BA350070E5DC /* HMACircleButton.xib in Resources */,
@@ -610,6 +617,7 @@
 				E690B32E1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift in Sources */,
 				E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */,
 				E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */,
+				E690B3351B4CD2140016B464 /* HMASettingButton.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
 				E690B3281B4CB2E50016B464 /* KYDrawerController.swift in Sources */,

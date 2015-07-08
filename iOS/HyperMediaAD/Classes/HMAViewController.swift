@@ -17,6 +17,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("changeUserInterfaceMode:"), name: HMANotificationCenter.ChangeUserInterfaceMode, object: nil)
         self.doSettings()
     }
 
@@ -36,7 +37,50 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     /// MARK: - event listener
 
 
+    /// MARK: - notificatoin
+
+    internal func changeUserInterfaceMode(notificatoin: NSNotification) {
+        let mode = notificatoin.userInfo![HMANotificationCenter.ChangeUserInterfaceMode] as? Int
+        if mode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.removeAllWaypoints()
+            self.mapView.removeAllDestinations()
+            self.mapView.setRouteJSONs(nil)
+        }
+        else if mode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.removeAllWaypoints()
+            self.mapView.setRouteJSONs(nil)
+        }
+
+        self.setUserInterfaceMode(mode!)
+    }
+
+
     /// MARK: - private api
+
+    /**
+     * set userInterfaceMode
+     * @param mode HMAUserInterface.Mode
+     **/
+    private func setUserInterfaceMode(mode: Int) {
+        self.userInterfaceMode = mode
+
+        self.mapView.setUserInterfaceMode(mode)
+        if mode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.updateWhatMapDraws()
+        }
+        else if mode == HMAUserInterface.Mode.Cycle {
+            self.mapView.updateWhatMapDraws()
+        }
+
+        self.mapView.draw()
+
+        if mode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.requestRoute()
+        }
+
+        let slideMenuController = HMADrawerController.sharedInstance.drawerViewController as! HMASlideMenuController
+        slideMenuController.updateUserInterfaceMode(mode)
+    }
 
     /**
      * do settings
@@ -87,7 +131,7 @@ extension HMAViewController: UIActionSheetDelegate {
                 self.mapView.deleteEditingDestination()
                 self.mapView.updateWhatMapDraws()
                 self.mapView.draw()
-                self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+                self.mapView.updateNextButton()
             }
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
@@ -128,7 +172,7 @@ extension HMAViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
             self.mapView.appendDestination(coordinate)
-            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+            self.mapView.updateNextButton()
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
         }
@@ -231,18 +275,12 @@ extension HMAViewController: GMSMapViewDelegate {
 extension HMAViewController: HMAMapViewDelegate {
 
     func touchedUpInsideNextButton(#mapView: HMAMapView) {
+        // change UI mode
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
-            self.userInterfaceMode = HMAUserInterface.Mode.SetRoute
-            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
-            self.mapView.updateWhatMapDraws()
-            self.mapView.draw()
-            self.mapView.requestRoute()
+            self.setUserInterfaceMode(HMAUserInterface.Mode.SetRoute)
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
-            self.userInterfaceMode = HMAUserInterface.Mode.Cycle
-            self.mapView.setUserInterfaceMode(self.userInterfaceMode)
-            self.mapView.updateWhatMapDraws()
-            self.mapView.draw()
+            self.setUserInterfaceMode(HMAUserInterface.Mode.Cycle)
         }
     }
 

@@ -40,7 +40,13 @@ class HMACircleButton: UIView {
         self.button.layer.borderColor = UIColor.grayColor().CGColor
         self.button.layer.borderWidth = 0.5
         self.button.clipsToBounds = true
-
+/*
+        self.buttonBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
+        self.buttonBackgroundView.layer.shadowColor = UIColor.blackColor().CGColor
+        self.buttonBackgroundView.layer.shadowOpacity = 0.4
+        let rect = CGRectMake(self.buttonBackgroundView.bounds.origin.x, self.buttonBackgroundView.bounds.origin.y + 2, self.buttonBackgroundView.bounds.size.width, self.buttonBackgroundView.bounds.size.height)
+        self.buttonBackgroundView.layer.shadowPath = UIBezierPath(rect: rect).CGPath
+*/
         self.setIsOn(false)
     }
 
