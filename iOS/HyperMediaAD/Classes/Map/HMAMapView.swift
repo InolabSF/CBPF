@@ -501,13 +501,6 @@ class HMAMapView: GMSMapView {
             line.zIndex = HMAGoogleMap.ZIndex.Route
             self.overlays.append(line)
         }
-/*
-        let locations = self.endLocations()
-        let index = locations.count - 1
-        if index >= 0 {
-            self.drawDestination(location: locations[index])
-        }
-*/
         self.drawWaypoints()
     }
 
@@ -777,7 +770,6 @@ extension HMAMapView: HMASearchBoxViewDelegate {
 
     func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = true
-        //self.searchBoxView.setSearchText(self.destinationString)
     }
 
     func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
@@ -786,8 +778,6 @@ extension HMAMapView: HMASearchBoxViewDelegate {
 
     func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
         if self.searchBoxView.isActive { return }
-        //self.setRouteJSONs(nil)
-        //self.destinationString = ""
         self.draw()
     }
 
@@ -807,9 +797,6 @@ extension HMAMapView: HMASearchResultViewDelegate {
     func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
         self.searchBoxView.endSearch()
         self.searchBoxView.setSearchText(selectedDestination.desc)
-        //if self.destinationString == selectedDestination.desc { return }
-        //self.destinationString = selectedDestination.desc
-        //self.removeAllWaypoints()
 
         let location = self.myLocation
         if location == nil { return }

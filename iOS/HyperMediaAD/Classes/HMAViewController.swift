@@ -6,19 +6,9 @@ import CoreLocation
 class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     /// MARK: - property
-//    var destinationString: String = ""
     var locationManager: CLLocationManager!
     var userInterfaceMode = HMAUserInterface.Mode.SetDestinations
     var mapView: HMAMapView!
-/*
-    var searchBoxView: HMASearchBoxView!
-    var searchResultView: HMASearchResultView!
-*/
-/*
-    var crimeButton: HMACircleButton!
-    var comfortButton: HMACircleButton!
-    var wheelButton: HMACircleButton!
-*/
     //var yelpButton: HMABottomButton!
 
 
@@ -27,7 +17,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
 
         self.doSettings()
-        //self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -61,25 +50,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.mapView.doSettings()
         self.mapView.setUserInterfaceMode(self.userInterfaceMode)
 /*
-        // search result
-        let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
-        let searchResultViews = searchResultNib.instantiateWithOwner(nil, options: nil)
-        self.searchResultView = searchResultViews[0] as! HMASearchResultView
-        self.searchResultView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-        self.searchResultView.hidden = true
-        self.searchResultView.delegate = self
-        self.view.addSubview(self.searchResultView)
-        self.searchResultView.design()
-
-        // search box
-        let searchBoxNib = UINib(nibName: HMANSStringFromClass(HMASearchBoxView), bundle:nil)
-        let searchBoxViews = searchBoxNib.instantiateWithOwner(nil, options: nil)
-        self.searchBoxView = searchBoxViews[0] as! HMASearchBoxView
-        self.searchBoxView.delegate = self
-        self.view.addSubview(self.searchBoxView)
-        self.searchBoxView.design(parentView: self.view)
-*/
-/*
         // yelp
         let yelpButtonNib = UINib(nibName: HMANSStringFromClass(HMABottomButton), bundle:nil)
         let yelpButtonViews = yelpButtonNib.instantiateWithOwner(nil, options: nil)
@@ -92,32 +62,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.yelpButton.design()
         self.yelpButton.delegate = self
 */
-/*
-        // circle buttons
-        let xOffset: CGFloat = 20.0
-        let yOffset: CGFloat = 10.0
-        var circleButtons: [HMACircleButton] = []
-        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
-        for var i = 0; i < circleButtonImages.count; i++ {
-            let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
-            let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
-            let circleButtonView = circleButtonViews[0] as! HMACircleButton
-            circleButtonView.frame = CGRectMake(
-                self.view.frame.size.width - circleButtonView.frame.size.width - xOffset,
-                self.view.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1),// - self.yelpButton.frame.size.height,
-                circleButtonView.frame.size.width,
-                circleButtonView.frame.size.height
-            )
-            circleButtonView.setImage(circleButtonImages[i])
-            self.view.addSubview(circleButtonView)
-            circleButtonView.delegate = self
-
-            circleButtons.append(circleButtonView)
-        }
-        self.crimeButton = circleButtons[0]
-        self.comfortButton = circleButtons[1]
-        self.wheelButton = circleButtons[2]
-*/
         // location manager
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
@@ -125,62 +69,8 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.distanceFilter = 300
         self.locationManager.startUpdatingLocation()
-        //self.view.bringSubviewToFront(self.yelpButton)
-        //for circleButton in circleButtons { self.view.bringSubviewToFront(circleButton) }
-        //self.view.bringSubviewToFront(self.searchResultView)
-        //self.view.bringSubviewToFront(self.searchBoxView)
     }
 
-    /**
-     * set userInterfaceMode
-     * @param mode HMAUserInterface.Mode
-     **/
-/*
-    private func setUserInterfaceMode(mode: Int) {
-        self.mapView.setUserInterfaceMode(mode)
-        if mode == HMAUserInterface.Mode.SetDestinations {
-            self.searchBoxView.hidden = false
-            self.crimeButton.hidden = true
-            self.comfortButton.hidden = true
-            self.wheelButton.hidden = true
-        }
-        else if mode == HMAUserInterface.Mode.SetRoute {
-            self.searchBoxView.hidden = true
-            self.crimeButton.hidden = false
-            self.comfortButton.hidden = false
-            self.wheelButton.hidden = false
-        }
-        else if mode == HMAUserInterface.Mode.Cycle {
-            self.searchBoxView.hidden = false
-            self.crimeButton.hidden = false
-            self.comfortButton.hidden = false
-            self.wheelButton.hidden = false
-        }
-    }
-*/
-
-    /**
-     * request dirction API and render direction
-     */
-/*
-    private func requestDirectoin() {
-        if self.destinationString == "" { return }
-
-        HMAGoogleMapClient.sharedInstance.cancelGetRoute()
-
-        // google map direction API
-        let location = self.mapView.myLocation
-        if location == nil { return }
-        let coordinate = location.coordinate
-        HMAGoogleMapClient.sharedInstance.getRoute(
-            queries: [ "origin" : "\(coordinate.latitude),\(coordinate.longitude)", "destination" : self.destinationString, ],
-            completionHandler: { [unowned self] (json) in
-                self.mapView.setRouteJSON(json)
-                self.mapView.draw()
-            }
-        )
-    }
-*/
 }
 
 
@@ -246,16 +136,23 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.draw()
             self.mapView.requestRoute()
         }
-        //self.requestDirectoin()
     }
 
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
-            self.mapView.startEditingDestination(marker.position)
-            self.showDeleteMarkerActionSheet()
-            return false
+            // ask to delete destination marker
+            if marker.isKindOfClass(HMADestinationMarker) {
+                self.mapView.startEditingDestination(marker.position)
+                self.showDeleteMarkerActionSheet()
+                return false
+            }
+            else {
+                self.mapView.selectedMarker = marker
+                return true
+            }
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            // ask to delete waypoint marker
             if marker.isKindOfClass(HMAWaypointMarker) {
                 self.mapView.startEditingWaypoint(marker.position)
                 self.showDeleteMarkerActionSheet()
@@ -292,7 +189,6 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.endDraggingWaypoint(marker.position)
             self.mapView.requestRoute()
         }
-        //self.requestDirectoin()
     }
 
     func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
@@ -350,80 +246,6 @@ extension HMAViewController: HMAMapViewDelegate {
 
 }
 
-
-/*
-/// MARK: - HMASearchBoxViewDelegate
-extension HMAViewController: HMASearchBoxViewDelegate {
-
-    func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
-        self.searchResultView.hidden = false
-    }
-
-    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
-        self.searchResultView.hidden = true
-        self.searchBoxView.setSearchText(self.destinationString)
-    }
-
-    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
-        self.searchResultView.updateDestinations(destinations)
-    }
-
-    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
-        if self.searchBoxView.isActive { return }
-        self.mapView.setRouteJSON(nil)
-        self.destinationString = ""
-        self.mapView.draw()
-    }
-
-}
-
-
-/// MARK: - HMASearchResultViewDelegate
-extension HMAViewController: HMASearchResultViewDelegate {
-
-    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
-        self.searchBoxView.endSearch()
-        self.searchBoxView.setSearchText(selectedDestination.desc)
-        if self.destinationString == selectedDestination.desc { return }
-        self.destinationString = selectedDestination.desc
-        self.mapView.removeAllWaypoints()
-        //self.requestDirectoin()
-    }
-
-}
-*/
-
-/// MARK: - HMACircleButtonDelegate
-/*
-extension HMAViewController: HMACircleButtonDelegate {
-
-    func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
-        if circleButton == self.crimeButton {
-            self.mapView.shouldDrawCrimes = wasOn
-            if wasOn { HMACrimeData.requestToGetCrimeData() }
-        }
-        else if circleButton == self.comfortButton {
-            self.mapView.shouldDrawComfort = wasOn
-            if wasOn {
-                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
-                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
-            }
-        }
-        else if circleButton == self.wheelButton {
-            self.mapView.shouldDrawWheel = wasOn
-            if wasOn {
-                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: nil, min: HMAWheel.Min.RiderTorque)
-                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: HMAWheel.Max.Acceleration, min: nil)
-            }
-        }
-
-        self.mapView.updateWhatMapDraws()
-        self.mapView.draw()
-    }
-
-}
-*/
-
 /*
 /// MARK: - HMABottomButtonDelegate
 extension HMAViewController: HMABottomButtonDelegate {
@@ -453,6 +275,7 @@ extension HMAViewController: HMAYelpSemiModalViewDelegate {
 
 }
 */
+
 /*
         // display sensor evaluation graph
         let sensorEvaluation = HMASensorEvaluation()
