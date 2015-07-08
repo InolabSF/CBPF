@@ -394,6 +394,34 @@ class HMAMapView: GMSMapView {
     }
 
     /**
+     * start Editing Waypoint
+     * @param waypoint waypoint
+     **/
+    func startEditingWaypoint(waypoint: CLLocationCoordinate2D) {
+        self.editingWaypoint = waypoint
+    }
+
+    /**
+     * delete Editing Waypoint
+     * @param waypoint waypoint
+     **/
+    func deleteEditingWaypoint() {
+        var index = -1
+        for var i = 0; i < self.waypoints.count; i++ {
+            let location1 = CLLocation(latitude: self.waypoints[i].latitude, longitude: self.waypoints[i].longitude)
+            let location2 = CLLocation(latitude: self.editingWaypoint!.latitude, longitude: self.editingWaypoint!.longitude)
+            let meter = location1.distanceFromLocation(location2)
+            if meter > 10 { continue }
+            index = i
+            break
+        }
+        self.editingWaypoint = nil
+        if index >= 0 {
+            self.waypoints.removeAtIndex(index)
+        }
+    }
+
+    /**
      * start Dragging Waypoint
      * @param waypoint waypoint
      **/

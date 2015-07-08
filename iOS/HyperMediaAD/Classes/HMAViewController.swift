@@ -198,6 +198,15 @@ extension HMAViewController: UIActionSheetDelegate {
                 self.mapView.setUserInterfaceMode(self.userInterfaceMode)
             }
         }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+            // delete waypoint
+            if buttonIndex == 0 {
+                self.mapView.deleteEditingWaypoint()
+                self.mapView.updateWhatMapDraws()
+                self.mapView.draw()
+                self.mapView.requestRoute()
+            }
+        }
     }
 }
 
@@ -233,6 +242,9 @@ extension HMAViewController: GMSMapViewDelegate {
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.mapView.appendWaypoint(coordinate)
+            self.mapView.updateWhatMapDraws()
+            self.mapView.draw()
+            self.mapView.requestRoute()
         }
         //self.requestDirectoin()
     }
@@ -240,18 +252,19 @@ extension HMAViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
             self.mapView.startEditingDestination(marker.position)
-            let actionSheet = UIActionSheet()
-            actionSheet.delegate = self
-            actionSheet.addButtonWithTitle("Delete")
-            actionSheet.destructiveButtonIndex = 0
-            actionSheet.addButtonWithTitle("Cancel")
-            actionSheet.cancelButtonIndex = 1
-            actionSheet.showInView(self.view)
+            self.showDeleteMarkerActionSheet()
             return false
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
-            self.mapView.selectedMarker = marker
-            return true
+            if marker.isKindOfClass(HMAWaypointMarker) {
+                self.mapView.startEditingWaypoint(marker.position)
+                self.showDeleteMarkerActionSheet()
+                return false
+            }
+            else {
+                self.mapView.selectedMarker = marker
+                return true
+            }
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.Cycle {
             self.mapView.selectedMarker = marker
@@ -277,6 +290,7 @@ extension HMAViewController: GMSMapViewDelegate {
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.mapView.endDraggingWaypoint(marker.position)
+            self.mapView.requestRoute()
         }
         //self.requestDirectoin()
     }
@@ -303,6 +317,15 @@ extension HMAViewController: GMSMapViewDelegate {
 */
     }
 
+    func showDeleteMarkerActionSheet() {
+        let actionSheet = UIActionSheet()
+        actionSheet.delegate = self
+        actionSheet.addButtonWithTitle("Delete")
+        actionSheet.destructiveButtonIndex = 0
+        actionSheet.addButtonWithTitle("Cancel")
+        actionSheet.cancelButtonIndex = 1
+        actionSheet.showInView(self.view)
+    }
 }
 
 

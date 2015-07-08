@@ -41,7 +41,7 @@ class HMAWheelClient: AnyObject {
      **/
     func cancelGetWheelData(#dataType: Int) {
         let predicate = NSPredicate(format: "request.URL.absoluteString CONTAINS[c] %@", "data_type=\(dataType)")
-        HMAWheelOperationQueue.defaultQueue().cancelOperationsUsingPredicate(predicate)
+        HMAWheelOperationQueue.sharedInstance.cancelOperationsUsingPredicate(predicate)
     }
 
 
@@ -74,7 +74,7 @@ class HMAWheelClient: AnyObject {
                 })
             }
         )
-        HMAWheelOperationQueue.defaultQueue().addOperation(operation)
+        HMAWheelOperationQueue.sharedInstance.addOperation(operation)
     }
 
 }

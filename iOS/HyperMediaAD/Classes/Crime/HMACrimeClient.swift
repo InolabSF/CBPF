@@ -47,14 +47,14 @@ class HMACrimeClient: AnyObject {
                 })
             }
         )
-        HMACrimeOperationQueue.defaultQueue().addOperation(operation)
+        HMACrimeOperationQueue.sharedInstance.addOperation(operation)
     }
 
     /**
      * cancel get crime API
      **/
     func cancelGetCrime() {
-        HMACrimeOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMACrime.API.Data)!.path)
+        HMACrimeOperationQueue.sharedInstance.cancelOperationsWithPath(NSURL(string: HMACrime.API.Data)!.path)
     }
 
 }

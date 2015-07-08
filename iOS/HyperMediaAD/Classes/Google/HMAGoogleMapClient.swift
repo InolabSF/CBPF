@@ -31,18 +31,52 @@ class HMAGoogleMapClient: AnyObject {
     ) {
         self.routeJSONs = []
 
+        // pick the closest waypoints for the route
+        var waypointsForTheRoute: [[CLLocationCoordinate2D]] = []
+        for var i = 0; i < destinations.count; i++ { waypointsForTheRoute.append([]) }
+        var a, b: CLLocationCoordinate2D
+        a = origin
+        for var i = 0; i < waypoints.count; i++ {
+            var theShortestIndex = 0
+            var theShortestDistance = Double(HMAAPI.Radius)
+            for var j = 0; j < destinations.count; j++ {
+                b = destinations[j]
+                var distance = (HMAMapMath.miles(locationA: CLLocation(latitude: a.latitude, longitude: a.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude)) + HMAMapMath.miles(locationA: CLLocation(latitude: b.latitude, longitude: b.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude))) / 2.0
+                if distance < theShortestDistance {
+                    theShortestDistance = distance
+                    theShortestIndex = j
+                }
+                a = b
+            }
+            waypointsForTheRoute[theShortestIndex].append(waypoints[i])
+        }
+
         // google map direction API
-        var a = origin
+        a = origin
         for var i = 0; i < destinations.count; i++ {
             var isLast = (i == destinations.count - 1)
-            var b = destinations[i]
+            b = destinations[i]
+
+            // making queries
+            var queries = [ "origin" : "\(a.latitude),\(a.longitude)", "destination" : "\(b.latitude),\(b.longitude)", ]
+            if waypointsForTheRoute[i].count > 0 {
+                queries["waypoints"] = "optimize:true|"
+                for var j = 0; j < waypointsForTheRoute[i].count; j++ {
+                    let coordinate = waypointsForTheRoute[i][j]
+                    queries["waypoints"] = queries["waypoints"]! + "\(coordinate.latitude),\(coordinate.longitude)|"
+                }
+            }
+            // API
             self.getRoute(
-                queries: [ "origin" : "\(a.latitude),\(a.longitude)", "destination" : "\(b.latitude),\(b.longitude)", ],
-                completionHandler: { (json) in
-                    HMAGoogleMapClient.sharedInstance.routeJSONs.append(json)
-                    if isLast { completionHandler(jsons: HMAGoogleMapClient.sharedInstance.routeJSONs) }
+                queries: queries,
+                completionHandler: { [unowned self] (json) in
+                    self.routeJSONs.append(json)
+                    if isLast {
+                        completionHandler(jsons: self.routeJSONs)
+                    }
                 }
             )
+
             a = b
         }
     }
@@ -77,15 +111,6 @@ class HMAGoogleMapClient: AnyObject {
             HMAGoogleMap.TravelMode: HMAGoogleMap.TravelModes.Bicycling,
             "sensor": "false",
         ]
-        // waypoints
-        let waypoints = HMAMapView.sharedInstance.waypoints
-        if waypoints.count > 0 {
-            q["waypoints"] = "optimize:true|"
-            for var i = 0; i < waypoints.count; i++ {
-                let coordinate = waypoints[i]
-                q["waypoints"] = (q["waypoints"] as! String) + "\(coordinate.latitude),\(coordinate.longitude)|"
-            }
-        }
         for (key, value) in queries { q[key] = value }
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMAGoogleMap.API.Directions, queries: q)!)
 
@@ -98,14 +123,14 @@ class HMAGoogleMapClient: AnyObject {
                 })
             }
         )
-        HMAGoogleMapOperationQueue.defaultQueue().addOperation(operation)
+        HMAGoogleMapOperationQueue.sharedInstance.addOperation(operation)
     }
 
     /**
      * cancel direction API
      **/
     func cancelGetRoute() {
-        HMAGoogleMapOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.Directions)!.path)
+        HMAGoogleMapOperationQueue.sharedInstance.cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.Directions)!.path)
     }
 
     /**
@@ -134,14 +159,14 @@ class HMAGoogleMapClient: AnyObject {
                 })
             }
         )
-        HMAGoogleMapOperationQueue.defaultQueue().addOperation(operation)
+        HMAGoogleMapOperationQueue.sharedInstance.addOperation(operation)
     }
 
     /**
      * cancel geocode API
      **/
     func cancelGetGeocode() {
-        HMAGoogleMapOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.GeoCode)!.path)
+        HMAGoogleMapOperationQueue.sharedInstance.cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.GeoCode)!.path)
     }
 
     /**
@@ -171,14 +196,14 @@ class HMAGoogleMapClient: AnyObject {
                 })
             }
         )
-        HMAGoogleMapOperationQueue.defaultQueue().addOperation(operation)
+        HMAGoogleMapOperationQueue.sharedInstance.addOperation(operation)
     }
 
     /**
      * cancel get place auto complete API
      **/
     func cancelGetPlaceAutoComplete() {
-        HMAGoogleMapOperationQueue.defaultQueue().cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.PlaceAutoComplete)!.path)
+        HMAGoogleMapOperationQueue.sharedInstance.cancelOperationsWithPath(NSURL(string: HMAGoogleMap.API.PlaceAutoComplete)!.path)
     }
 
 }
