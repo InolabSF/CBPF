@@ -1,9 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="b0J-Kg-FDk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Xho-cM-gYM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
+        <!--Drawer Controller-->
+        <scene sceneID="KaF-SN-y2s">
+            <objects>
+                <viewController id="Xho-cM-gYM" customClass="HMADrawerController" customModule="HyperMediaAD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w9s-Yr-kPU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="mainSegueIdentifier" value="HMAViewController"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="drawerSegueIdentifier" value="HMASlideMenuController"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="drawerWidth">
+                            <real key="value" value="240"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="jtH-ns-y0z" kind="custom" identifier="HMASlideMenuController" customClass="KYEmbedDrawerControllerSegue" customModule="HyperMediaAD" id="aze-cV-msI"/>
+                        <segue destination="b0J-Kg-FDk" kind="custom" identifier="HMAViewController" customClass="KYEmbedMainControllerSegue" customModule="HyperMediaAD" id="wBg-0U-Clw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6iX-6U-O3h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-221" y="759"/>
+        </scene>
+        <!--Slide Menu Controller-->
+        <scene sceneID="ub4-Rt-0d5">
+            <objects>
+                <viewController id="jtH-ns-y0z" customClass="HMASlideMenuController" customModule="HyperMediaAD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oBG-gu-49k">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="kqj-AC-KgW">
+                                <rect key="frame" x="80" y="0.0" width="240" height="160"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.61960784310000006" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="EcT-cq-6S9">
+                                <rect key="frame" x="80" y="160" width="240" height="408"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="jtH-ns-y0z" id="IYE-wO-Bqd"/>
+                                    <outlet property="delegate" destination="jtH-ns-y0z" id="bUJ-gj-2pR"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zbB-xF-2Or" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-221" y="77"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="NiG-Uq-mle">
             <objects>
@@ -19,7 +74,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXa-Fc-66E" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="170.13333333333333" y="300.09333333333331"/>
+            <point key="canvasLocation" x="170" y="77"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Isf-Vs-Gaq">

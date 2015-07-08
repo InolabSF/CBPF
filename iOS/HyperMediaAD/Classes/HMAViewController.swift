@@ -9,6 +9,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
     var userInterfaceMode = HMAUserInterface.Mode.SetDestinations
     var mapView: HMAMapView!
+
     //var yelpButton: HMABottomButton!
 
 
@@ -62,6 +63,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.yelpButton.design()
         self.yelpButton.delegate = self
 */
+
         // location manager
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
@@ -245,6 +247,16 @@ extension HMAViewController: HMAMapViewDelegate {
     }
 
 }
+
+
+/// MARK: - KYDrawerControllerDelegate
+extension HMAViewController: KYDrawerControllerDelegate {
+
+    func drawerController(drawerController: KYDrawerController, stateChanged state: KYDrawerController.DrawerState) {
+    }
+
+}
+
 
 /*
 /// MARK: - HMABottomButtonDelegate

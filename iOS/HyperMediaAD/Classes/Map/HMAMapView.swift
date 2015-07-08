@@ -24,10 +24,29 @@ class HMAMapView: GMSMapView {
     private var overlays: [GMSOverlay] = []
     /// next button
     private var nextButton: BFPaperButton!
+/*
+    /// setting
+    private var settingButtonBackgroundView: UIView!
+    private var settingButton: UIButton!
+
+        // setting button
+        self.settingButtonBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
+        self.settingButtonBackgroundView.layer.shadowColor = UIColor.blackColor().CGColor
+        self.settingButtonBackgroundView.layer.shadowOpacity = 0.2
+        self.settingButtonBackgroundView.layer.shadowPath = UIBezierPath(rect: self.settingButtonBackgroundView.bounds).CGPath
+        self.settingButton.setImage(IonIcons.imageWithIcon(ion_navicon_round, size: 48.0, color: UIColor.grayColor()), forState: .Normal)
+        self.view.bringSubviewToFront(self.settingButtonBackgroundView)
+*/
+    /**
+     * called when setting button is touched up inside
+     * @param button UIButton
+     **/
+    @IBAction func touchedUpInsideSettingButton(button: UIButton) {
+        HMADrawerController.sharedInstance.setDrawerState(.Opened, animated: true)
+    }
+
 
     /* ***** Destination ***** */
-    /// destination
-    //private var destinationString: String = ""
     /// search box
     private var searchBoxView: HMASearchBoxView!
     /// search result
@@ -99,14 +118,14 @@ class HMAMapView: GMSMapView {
         // map
         self.myLocationEnabled = true
         self.settings.compassButton = false
-        self.settings.myLocationButton = false
+        self.settings.myLocationButton = true
         self.settings.indoorPicker = false
         self.buildingsEnabled = false
         self.accessibilityElementsHidden = true
         self.trafficEnabled = true
 
         // circle buttons
-        let xOffset: CGFloat = 20.0
+        let xOffset: CGFloat = 10.0
         let yOffset: CGFloat = 10.0
         var circleButtons: [HMACircleButton] = []
         let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
@@ -116,7 +135,7 @@ class HMAMapView: GMSMapView {
             let circleButtonView = circleButtonViews[0] as! HMACircleButton
             circleButtonView.frame = CGRectMake(
                 self.frame.size.width - circleButtonView.frame.size.width - xOffset,
-                self.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+1),
+                self.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+2),
                 circleButtonView.frame.size.width,
                 circleButtonView.frame.size.height
             )
@@ -132,7 +151,7 @@ class HMAMapView: GMSMapView {
 
         // next button
         self.nextButton = BFPaperButton(
-            frame: CGRectMake(circleButtons[0].frame.size.width + xOffset * 2.0, circleButtons[0].frame.origin.y, self.frame.size.width - (circleButtons[0].frame.size.width + xOffset * 2.0) * 2.0, circleButtons[0].frame.size.height),
+            frame: CGRectMake(circleButtons[0].frame.size.width + xOffset * 2.0, circleButtons[0].frame.origin.y+(circleButtons[0].frame.size.height + yOffset), self.frame.size.width - (circleButtons[0].frame.size.width + xOffset * 2.0) * 2.0, circleButtons[0].frame.size.height),
            raised: false
         )
         self.nextButton.setTitle("Done", forState: .Normal)
@@ -140,6 +159,10 @@ class HMAMapView: GMSMapView {
         self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
         self.nextButton.addTarget(self, action: "touchedUpInsideNextButton:", forControlEvents: .TouchUpInside)
+        self.nextButton.layer.shadowOffset = CGSizeMake(0.0, 0.0)
+        self.nextButton.layer.shadowColor = UIColor.blackColor().CGColor
+        self.nextButton.layer.shadowOpacity = 0.2
+        self.nextButton.layer.shadowPath = UIBezierPath(rect: self.nextButton.bounds).CGPath
         self.addSubview(self.nextButton)
 
         // search result
@@ -235,11 +258,13 @@ class HMAMapView: GMSMapView {
         if self.tileLayer != nil { self.tileLayer!.map = nil }
         if mode == HMAUserInterface.Mode.SetRoute {
             self.mapType = kGMSTypeNone
-            var urls : GMSTileURLConstructor = { x, y, zoom in
-                return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
+            if self.tileLayer == nil {
+                var urls : GMSTileURLConstructor = { x, y, zoom in
+                    return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
+                }
+                self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
+                self.tileLayer!.zIndex = HMAGoogleMap.ZIndex.Tile
             }
-            self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
-            self.tileLayer!.zIndex = HMAGoogleMap.ZIndex.Tile
             self.tileLayer!.map = self
         }
         else {
@@ -264,9 +289,9 @@ class HMAMapView: GMSMapView {
         }
         else if mode == HMAUserInterface.Mode.Cycle {
             self.searchBoxView.hidden = true
-            self.crimeButton.hidden = true
-            self.comfortButton.hidden = true
-            self.wheelButton.hidden = true
+            self.crimeButton.hidden = false
+            self.comfortButton.hidden = false
+            self.wheelButton.hidden = false
             self.nextButton.hidden = true
         }
     }

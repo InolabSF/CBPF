@@ -1,3 +1,6 @@
 [submodule "iOS/HyperMediaAD/Classes/SwiftyJSON"]
 	path = iOS/HyperMediaAD/Classes/SwiftyJSON
 	url = https://github.com/SwiftyJSON/SwiftyJSON.git
+[submodule "iOS/HyperMediaAD/Classes/KYDrawerController"]
+	path = iOS/HyperMediaAD/Classes/KYDrawerController
+	url = https://github.com/ykyouhei/KYDrawerController.git

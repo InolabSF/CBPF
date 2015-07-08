@@ -10,6 +10,8 @@
 	<string>HyperMediaAD</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>13AECCFDEEB377F62322F16415A01BD4588C4001</key>
+		<string>https://github.com/ykyouhei/KYDrawerController.git</string>
 		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>https://github.com/kenzan8000/CCPF.git</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
@@ -21,6 +23,8 @@
 	<string>iOS/HyperMediaAD.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>13AECCFDEEB377F62322F16415A01BD4588C4001</key>
+		<string>../../iOS/HyperMediaAD/Classes/KYDrawerController/</string>
 		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
@@ -51,6 +55,14 @@
 			<string>BE553FECF21140B9A5B82BA37DCEF188D31D2638</string>
 			<key>IDESourceControlWCCName</key>
 			<string>HyperMediaAD</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>13AECCFDEEB377F62322F16415A01BD4588C4001</string>
+			<key>IDESourceControlWCCName</key>
+			<string>KYDrawerController</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

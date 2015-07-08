@@ -44,6 +44,13 @@
 		E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */ = {isa = PBXBuildFile; fileRef = E68E31141B30F2CA00B820C0 /* yelp_categories.json */; };
 		E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31161B3108E200B820C0 /* HMAYelpData.swift */; };
 		E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */; };
+		E690B3281B4CB2E50016B464 /* KYDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3251B4CB2E50016B464 /* KYDrawerController.swift */; };
+		E690B3291B4CB2E50016B464 /* KYEmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3261B4CB2E50016B464 /* KYEmbedDrawerControllerSegue.swift */; };
+		E690B32A1B4CB2E50016B464 /* KYEmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3271B4CB2E50016B464 /* KYEmbedMainControllerSegue.swift */; };
+		E690B32C1B4CB84D0016B464 /* HMASlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B32B1B4CB84D0016B464 /* HMASlideMenuController.swift */; };
+		E690B32E1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */; };
+		E690B3301B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */; };
+		E690B3321B4CC8C00016B464 /* HMADrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3311B4CC8C00016B464 /* HMADrawerController.swift */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -126,6 +133,13 @@
 		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
 		E68E31161B3108E200B820C0 /* HMAYelpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpData.swift; sourceTree = "<group>"; };
 		E68E31181B310CBE00B820C0 /* HMAYelpMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpMaker.swift; sourceTree = "<group>"; };
+		E690B3251B4CB2E50016B464 /* KYDrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KYDrawerController.swift; path = KYDrawerController/Classes/KYDrawerController.swift; sourceTree = "<group>"; };
+		E690B3261B4CB2E50016B464 /* KYEmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KYEmbedDrawerControllerSegue.swift; path = KYDrawerController/Classes/KYEmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
+		E690B3271B4CB2E50016B464 /* KYEmbedMainControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KYEmbedMainControllerSegue.swift; path = KYDrawerController/Classes/KYEmbedMainControllerSegue.swift; sourceTree = "<group>"; };
+		E690B32B1B4CB84D0016B464 /* HMASlideMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASlideMenuController.swift; sourceTree = "<group>"; };
+		E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAUserInterfaceModeTableViewCell.swift; sourceTree = "<group>"; };
+		E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMAUserInterfaceModeTableViewCell.xib; sourceTree = "<group>"; };
+		E690B3311B4CC8C00016B464 /* HMADrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADrawerController.swift; sourceTree = "<group>"; };
 		E6A753C11B4331ED00C10D1D /* HMAMapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAMapTile.h; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
@@ -192,7 +206,9 @@
 				E626250B1AF9A53300F7F722 /* HMAConstant.swift */,
 				E656420D1B27CB0200F955BC /* HMAConstant-Private.swift */,
 				E62A6C291AF0352100275377 /* AppDelegate.swift */,
+				E690B3311B4CC8C00016B464 /* HMADrawerController.swift */,
 				E62A6C321AF0352100275377 /* HMAViewController.swift */,
+				E690B32B1B4CB84D0016B464 /* HMASlideMenuController.swift */,
 				E6151FF81B325B410085A992 /* HMAWebViewController.swift */,
 				E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */,
 				E65642101B27D10200F955BC /* main.swift */,
@@ -210,6 +226,7 @@
 				E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */,
 				E62A6C2B1AF0352100275377 /* Model */,
 				E62A6D8A1AF04A5400275377 /* SwiftyJSON */,
+				E690B3241B4CB2A70016B464 /* KYDrawerController */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -307,6 +324,8 @@
 				E6EEB3821B38D5060070E5DC /* HMABottomButton.xib */,
 				E6EEB37D1B38BA350070E5DC /* HMACircleButton.swift */,
 				E6EEB37E1B38BA350070E5DC /* HMACircleButton.xib */,
+				E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */,
+				E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -335,6 +354,16 @@
 				E68E31141B30F2CA00B820C0 /* yelp_categories.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		E690B3241B4CB2A70016B464 /* KYDrawerController */ = {
+			isa = PBXGroup;
+			children = (
+				E690B3251B4CB2E50016B464 /* KYDrawerController.swift */,
+				E690B3261B4CB2E50016B464 /* KYEmbedDrawerControllerSegue.swift */,
+				E690B3271B4CB2E50016B464 /* KYEmbedMainControllerSegue.swift */,
+			);
+			name = KYDrawerController;
 			sourceTree = "<group>";
 		};
 		E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */ = {
@@ -492,6 +521,7 @@
 				E6EEB3801B38BA350070E5DC /* HMACircleButton.xib in Resources */,
 				E6EEB3841B38D5060070E5DC /* HMABottomButton.xib in Resources */,
 				E62A6CA31AF0382F00275377 /* Images.xcassets in Resources */,
+				E690B3301B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib in Resources */,
 				E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */,
 				E62A6C3B1AF0356400275377 /* Main.storyboard in Resources */,
 				E65642321B27DAA800F955BC /* HMASearchBoxView.xib in Resources */,
@@ -545,6 +575,8 @@
 				E656421C1B27D50400F955BC /* HMAWaypointMarker.swift in Sources */,
 				E65642161B27D27100F955BC /* HMASearchBoxView.swift in Sources */,
 				E6DB7C4D1B1198050055DF6C /* HMAYelpClient.swift in Sources */,
+				E690B32A1B4CB2E50016B464 /* KYEmbedMainControllerSegue.swift in Sources */,
+				E690B32C1B4CB84D0016B464 /* HMASlideMenuController.swift in Sources */,
 				E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */,
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */,
@@ -567,6 +599,7 @@
 				E6ED26D31B1D18B60076B9F4 /* HMACrimeOperationQueue.swift in Sources */,
 				E6DB7C4F1B1198100055DF6C /* HMAWheelClient.swift in Sources */,
 				E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */,
+				E690B3291B4CB2E50016B464 /* KYEmbedDrawerControllerSegue.swift in Sources */,
 				E67784301B3B8EEC00421603 /* HMASensorEvaluation.swift in Sources */,
 				E62B9D8B1B054E860086EEC2 /* NSMutableURLRequest+HTTPBody.swift in Sources */,
 				E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */,
@@ -574,15 +607,18 @@
 				E62B9D9A1B0561E60086EEC2 /* HMACoreDataManager.swift in Sources */,
 				E656420E1B27CB0200F955BC /* HMAConstant-Private.swift in Sources */,
 				E6EEB3831B38D5060070E5DC /* HMABottomButton.swift in Sources */,
+				E690B32E1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift in Sources */,
 				E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */,
 				E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
+				E690B3281B4CB2E50016B464 /* KYDrawerController.swift in Sources */,
 				E6E8F4511B3CBFA70005317B /* HMAYelpSemiModalView.swift in Sources */,
 				E65642111B27D10200F955BC /* main.swift in Sources */,
 				E65642141B27D22F00F955BC /* HMADestination.swift in Sources */,
 				E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */,
 				E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */,
+				E690B3321B4CC8C00016B464 /* HMADrawerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
