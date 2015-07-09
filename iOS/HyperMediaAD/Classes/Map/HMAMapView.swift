@@ -506,6 +506,17 @@ class HMAMapView: GMSMapView {
             waypoints: self.waypoints,
             completionHandler: { [unowned self] (jsons) in
                     self.setRouteJSONs(jsons)
+
+                    // update camera position
+                    var pathes: [GMSPath] = []
+                    let encodedPathes = self.encodedPathes()
+                    for pathString in encodedPathes {
+                        let path = GMSPath(fromEncodedPath: pathString)
+                        pathes.append(path)
+                    }
+                    let bounds = self.encodedBounds(pathes: pathes)
+                    if bounds != nil { self.moveCamera(GMSCameraUpdate.fitBounds(bounds)) }
+
                     self.draw()
                 }
         )
@@ -535,8 +546,9 @@ class HMAMapView: GMSMapView {
      * draw route
      **/
     private func drawRoute() {
-        let pathes = self.encodedPathes()
-        for pathString in pathes {
+        let encodedPathes = self.encodedPathes()
+
+        for pathString in encodedPathes {
             let path = GMSPath(fromEncodedPath: pathString)
             var line = GMSPolyline(path: path)
             line.strokeWidth = 4.0
@@ -768,6 +780,26 @@ class HMAMapView: GMSMapView {
         }
 
         return pathes
+    }
+
+    /**
+     * return bounds from routeJSONs
+     * @param pathes [GMSPath]
+     * @return GMSCoordinateBounds or nil
+     **/
+    private func encodedBounds(#pathes: [GMSPath]) -> GMSCoordinateBounds? {
+        var boundses: [GMSCoordinateBounds] = []
+        for path in pathes {
+            boundses.append(GMSCoordinateBounds(path: path))
+        }
+        if boundses.count == 0 { return nil }
+
+        var bounds = boundses[0]
+        for var i = 1; i < boundses.count; i++ {
+            bounds = bounds.includingBounds(boundses[i])
+        }
+
+        return bounds
     }
 
     /**

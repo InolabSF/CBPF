@@ -197,7 +197,10 @@ struct HMAGoogleMap {
     static let BrowserAPIKey =          kHMAGoogleMapBrowserAPIKey
 
     /// zoom
-    static let Zoom: Float =            13.0
+    struct Zoom {
+        static let Default: Float =            13.0
+        static let Cycle: Float =              16.0
+    }
 
     /// z index
     struct ZIndex {

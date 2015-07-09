@@ -57,8 +57,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     internal func GoToTheLocation(notificatoin: NSNotification) {
         let location = notificatoin.userInfo![HMANotificationCenter.GoToTheLocation] as? CLLocation
-        let cameraUpdate = GMSCameraUpdate.setTarget(location!.coordinate, zoom: 10)
-        self.mapView.animateWithCameraUpdate(cameraUpdate)
+        self.mapView.animateWithCameraUpdate(GMSCameraUpdate.setTarget(location!.coordinate, zoom: self.mapView.camera.zoom))
     }
 
 
@@ -85,14 +84,23 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         if mode == HMAUserInterface.Mode.SetRoute { self.mapView.requestRoute() }
 
         // status bar color
-        if mode == HMAUserInterface.Mode.SetDestinations {
-            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
-        }
-        else if mode == HMAUserInterface.Mode.SetRoute {
+        if mode == HMAUserInterface.Mode.SetRoute {
             UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         }
-        else if mode == HMAUserInterface.Mode.Cycle {
+        else {
             UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        }
+
+        // zoom
+
+        if mode == HMAUserInterface.Mode.SetDestinations {
+            self.mapView.moveCamera(GMSCameraUpdate.setTarget(self.mapView.projection.coordinateForPoint(self.mapView.center), zoom: HMAGoogleMap.Zoom.Default))
+        }
+        else if mode == HMAUserInterface.Mode.Cycle {
+            let location = self.mapView.myLocation
+            if location != nil {
+                self.mapView.moveCamera(GMSCameraUpdate.setTarget(location!.coordinate, zoom: HMAGoogleMap.Zoom.Cycle))
+            }
         }
 
         // update slide menu
@@ -171,10 +179,12 @@ extension HMAViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         let location = self.mapView.myLocation
         if location == nil { return }
+
+        let zoom = (self.userInterfaceMode == HMAUserInterface.Mode.Cycle) ? HMAGoogleMap.Zoom.Cycle : HMAGoogleMap.Zoom.Default
         self.mapView.camera = GMSCameraPosition.cameraWithLatitude(
             location.coordinate.latitude,
             longitude: location.coordinate.longitude,
-            zoom: HMAGoogleMap.Zoom
+            zoom: zoom
         )
     }
 
