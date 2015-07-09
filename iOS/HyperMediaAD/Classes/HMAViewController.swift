@@ -310,6 +310,12 @@ extension HMAViewController: HMAMapViewDelegate {
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.setUserInterfaceMode(HMAUserInterface.Mode.Cycle)
         }
+        else if self.userInterfaceMode == HMAUserInterface.Mode.Cycle {
+            self.mapView.removeAllWaypoints()
+            self.mapView.removeAllDestinations()
+            self.mapView.setRouteJSONs(nil)
+            self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
+        }
     }
 
 }

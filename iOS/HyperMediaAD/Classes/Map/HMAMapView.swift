@@ -135,7 +135,7 @@ class HMAMapView: GMSMapView {
             frame: CGRectMake(circleButtons[0].frame.size.width + xOffset * 2.0, circleButtons[0].frame.origin.y+(circleButtons[0].frame.size.height + yOffset), self.frame.size.width - (circleButtons[0].frame.size.width + xOffset * 2.0) * 2.0, circleButtons[0].frame.size.height),
            raised: false
         )
-        self.nextButton.setTitle("Done", forState: .Normal)
+        self.nextButton.setTitle("Route", forState: .Normal)
         self.nextButton.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
         self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
@@ -296,7 +296,7 @@ class HMAMapView: GMSMapView {
             self.crimeButton.hidden = false
             self.comfortButton.hidden = false
             self.wheelButton.hidden = false
-            self.nextButton.hidden = true
+            self.nextButton.hidden = false
 
             self.shouldDrawCrimes = false
             self.shouldDrawComfort = false
@@ -304,6 +304,17 @@ class HMAMapView: GMSMapView {
             self.crimeButton.setIsOn(false)
             self.comfortButton.setIsOn(false)
             self.wheelButton.setIsOn(false)
+        }
+
+        // next button
+        if mode == HMAUserInterface.Mode.SetDestinations {
+            self.nextButton.setTitle("Route", forState: .Normal)
+        }
+        else if mode == HMAUserInterface.Mode.SetRoute {
+            self.nextButton.setTitle("Start Cycling", forState: .Normal)
+        }
+        else if mode == HMAUserInterface.Mode.Cycle {
+            self.nextButton.setTitle("End Cycling", forState: .Normal)
         }
     }
 
@@ -526,7 +537,7 @@ class HMAMapView: GMSMapView {
      * update next button
      **/
     func updateNextButton() {
-        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.5
+        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.35
     }
 
 
