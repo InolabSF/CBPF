@@ -71,6 +71,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     private func setUserInterfaceMode(mode: Int) {
         self.userInterfaceMode = mode
 
+        // update what map draws
         self.mapView.setUserInterfaceMode(mode)
         if mode == HMAUserInterface.Mode.SetRoute {
             self.mapView.updateWhatMapDraws()
@@ -78,13 +79,23 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         else if mode == HMAUserInterface.Mode.Cycle {
             self.mapView.updateWhatMapDraws()
         }
-
+        // draw
         self.mapView.draw()
+        // routing
+        if mode == HMAUserInterface.Mode.SetRoute { self.mapView.requestRoute() }
 
-        if mode == HMAUserInterface.Mode.SetRoute {
-            self.mapView.requestRoute()
+        // status bar color
+        if mode == HMAUserInterface.Mode.SetDestinations {
+            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        }
+        else if mode == HMAUserInterface.Mode.SetRoute {
+            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        }
+        else if mode == HMAUserInterface.Mode.Cycle {
+            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         }
 
+        // update slide menu
         let slideMenuController = HMADrawerController.sharedInstance.drawerViewController as! HMASlideMenuController
         slideMenuController.updateUserInterfaceMode(mode)
     }

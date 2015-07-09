@@ -58,6 +58,7 @@ class HMASensorData: NSManagedObject {
             NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: maximumCoordinate.latitude), NSNumber(double: minimumCoordinate.latitude)),
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 

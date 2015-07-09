@@ -68,6 +68,7 @@ class HMACrimeData: NSManagedObject {
             NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: maximumCoordinate.latitude), NSNumber(double: minimumCoordinate.latitude)),
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
 
         // return crimes
@@ -113,6 +114,7 @@ class HMACrimeData: NSManagedObject {
             NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: coordinate.latitude + latOffset), NSNumber(double: coordinate.latitude - latOffset)),
             NSPredicate(format: "(long <= %@) AND (long > %@)", NSNumber(double: coordinate.longitude + longOffset), NSNumber(double: coordinate.longitude - longOffset)),
         ]
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
 
         // return crimes

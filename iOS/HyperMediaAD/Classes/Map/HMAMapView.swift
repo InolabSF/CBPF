@@ -596,7 +596,6 @@ class HMAMapView: GMSMapView {
     private func drawCrimeMaker(#crime: HMACrimeData) {
         var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue), crime: crime)
         marker.map = self
-        marker.zIndex = HMAGoogleMap.ZIndex.Crime
         self.overlays.append(marker)
     }
 

@@ -13,6 +13,7 @@ class HMACrimeMarker: GMSMarker {
         self.icon = image
 
         // settings
+        self.position = position
         self.draggable = false
         self.title = crime.category
         self.snippet = crime.desc

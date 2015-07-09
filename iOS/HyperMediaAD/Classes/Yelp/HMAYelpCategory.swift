@@ -46,6 +46,7 @@ class HMAYelpCategory: NSManagedObject {
         let predicaets = [
             NSPredicate(format: "(alias = %@) OR (title = %@)", category, category),
         ]
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
 
         // return yelp category
