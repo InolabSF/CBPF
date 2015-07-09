@@ -74,6 +74,7 @@ struct HMAUserDefaults {
 /// MARK: - NotificationCenter
 struct HMANotificationCenter {
     static let ChangeUserInterfaceMode =                        "HMANotificationCenter.ChangeUserInterfaceMode"
+    static let GoToTheLocation =                                "HMANotificationCenter.GoToTheLocation"
 }
 
 

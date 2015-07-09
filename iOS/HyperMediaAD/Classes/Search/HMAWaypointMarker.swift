@@ -11,7 +11,7 @@ class HMAWaypointMarker: GMSMarker {
         let image = IonIcons.imageWithIcon(
             ion_pinpoint,
             size: 20.0,
-            color: UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)//UIColor.blueColor()
+            color: UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
         )
         let imageViews = [ UIImageView(image: image), UIImageView(image: image), UIImageView(image: image), UIImageView(image: image), UIImageView(image: image), ]
         for var i = 0; i < imageViews.count; i++ {
@@ -20,7 +20,6 @@ class HMAWaypointMarker: GMSMarker {
             imageView.center = CGPointMake(view.center.x - 1.0 + CGFloat(i/2), view.center.y - 1.0 + CGFloat(i%2))
         }
         self.icon = UIImage.imageFromView(view)
-
 
         // settings
         self.position = position

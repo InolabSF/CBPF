@@ -38,14 +38,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="kqj-AC-KgW">
-                                <rect key="frame" x="80" y="0.0" width="240" height="160"/>
+                                <rect key="frame" x="80" y="0.0" width="240" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.21176470589999999" green="0.61960784310000006" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" id="EcT-cq-6S9">
-                                <rect key="frame" x="80" y="160" width="240" height="408"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" id="EcT-cq-6S9">
+                                <rect key="frame" x="80" y="200" width="240" height="368"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="jtH-ns-y0z" id="IYE-wO-Bqd"/>
                                     <outlet property="delegate" destination="jtH-ns-y0z" id="bUJ-gj-2pR"/>

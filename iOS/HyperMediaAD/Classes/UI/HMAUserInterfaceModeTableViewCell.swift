@@ -10,6 +10,12 @@ class HMAUserInterfaceModeTableViewCell: UITableViewCell {
     @IBOutlet weak private var titleLabel: UILabel!
 
 
+    /// MARK: - class method
+
+    class func hma_height() -> CGFloat {
+        return 54.0
+    }
+
     /// MARK: - life cycle
 
     override func awakeFromNib() {

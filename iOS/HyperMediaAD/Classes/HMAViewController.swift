@@ -18,6 +18,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("changeUserInterfaceMode:"), name: HMANotificationCenter.ChangeUserInterfaceMode, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("GoToTheLocation:"), name: HMANotificationCenter.GoToTheLocation, object: nil)
         self.doSettings()
     }
 
@@ -52,6 +53,12 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         self.setUserInterfaceMode(mode!)
+    }
+
+    internal func GoToTheLocation(notificatoin: NSNotification) {
+        let location = notificatoin.userInfo![HMANotificationCenter.GoToTheLocation] as? CLLocation
+        let cameraUpdate = GMSCameraUpdate.setTarget(location!.coordinate, zoom: 10)
+        self.mapView.animateWithCameraUpdate(cameraUpdate)
     }
 
 

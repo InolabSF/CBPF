@@ -103,7 +103,7 @@ class HMAMapView: GMSMapView {
         self.settings.indoorPicker = false
         self.buildingsEnabled = false
         self.accessibilityElementsHidden = true
-        self.trafficEnabled = true
+        //self.trafficEnabled = true
 
         // circle buttons
         let xOffset: CGFloat = 10.0

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		E6151FF91B325B410085A992 /* HMAWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6151FF81B325B410085A992 /* HMAWebViewController.swift */; };
 		E61C9AAC1B4DD1F100381EE7 /* UIImage+HMAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C9AAB1B4DD1F100381EE7 /* UIImage+HMAView.swift */; };
+		E61C9AAE1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C9AAD1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift */; };
+		E61C9AB01B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E61C9AAF1B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib */; };
+		E61C9AB31B4DFCFE00381EE7 /* HMATestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C9AB11B4DFCFE00381EE7 /* HMATestTableViewCell.swift */; };
+		E61C9AB41B4DFCFE00381EE7 /* HMATestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E61C9AB21B4DFCFE00381EE7 /* HMATestTableViewCell.xib */; };
 		E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
 		E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C291AF0352100275377 /* AppDelegate.swift */; };
 		E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C321AF0352100275377 /* HMAViewController.swift */; };
@@ -98,6 +102,10 @@
 		93C1E8119D4D8B753F6A2F76 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6151FF81B325B410085A992 /* HMAWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWebViewController.swift; sourceTree = "<group>"; };
 		E61C9AAB1B4DD1F100381EE7 /* UIImage+HMAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAView.swift"; sourceTree = "<group>"; };
+		E61C9AAD1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASeparatorTableViewCell.swift; sourceTree = "<group>"; };
+		E61C9AAF1B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASeparatorTableViewCell.xib; sourceTree = "<group>"; };
+		E61C9AB11B4DFCFE00381EE7 /* HMATestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMATestTableViewCell.swift; sourceTree = "<group>"; };
+		E61C9AB21B4DFCFE00381EE7 /* HMATestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMATestTableViewCell.xib; sourceTree = "<group>"; };
 		E626250B1AF9A53300F7F722 /* HMAConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAConstant.swift; sourceTree = "<group>"; };
 		E62A6C291AF0352100275377 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyperMediaAD-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -334,6 +342,10 @@
 				E690B3341B4CD2140016B464 /* HMASettingButton.xib */,
 				E690B32D1B4CC2910016B464 /* HMAUserInterfaceModeTableViewCell.swift */,
 				E690B32F1B4CC2B00016B464 /* HMAUserInterfaceModeTableViewCell.xib */,
+				E61C9AAD1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift */,
+				E61C9AAF1B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib */,
+				E61C9AB11B4DFCFE00381EE7 /* HMATestTableViewCell.swift */,
+				E61C9AB21B4DFCFE00381EE7 /* HMATestTableViewCell.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -524,7 +536,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E61C9AB41B4DFCFE00381EE7 /* HMATestTableViewCell.xib in Resources */,
 				E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */,
+				E61C9AB01B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib in Resources */,
 				E690B3361B4CD2140016B464 /* HMASettingButton.xib in Resources */,
 				E6E8F4521B3CBFA70005317B /* HMAYelpSemiModalView.xib in Resources */,
 				E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */,
@@ -579,6 +593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E61C9AAE1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift in Sources */,
 				E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */,
 				E66B09901B2FA88500971339 /* HMAHeatMap.m in Sources */,
 				E66B098D1B2FA78E00971339 /* UIImage+HMAHeatMap.swift in Sources */,
@@ -590,6 +605,7 @@
 				E6DB7C4B1B1197F60055DF6C /* HMAGoogleMapClient.swift in Sources */,
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */,
+				E61C9AB31B4DFCFE00381EE7 /* HMATestTableViewCell.swift in Sources */,
 				E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */,
