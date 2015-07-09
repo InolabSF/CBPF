@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E6151FF91B325B410085A992 /* HMAWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6151FF81B325B410085A992 /* HMAWebViewController.swift */; };
+		E61C9AAC1B4DD1F100381EE7 /* UIImage+HMAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C9AAB1B4DD1F100381EE7 /* UIImage+HMAView.swift */; };
 		E626250C1AF9A53300F7F722 /* HMAConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E626250B1AF9A53300F7F722 /* HMAConstant.swift */; };
 		E62A6C331AF0352100275377 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C291AF0352100275377 /* AppDelegate.swift */; };
 		E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A6C321AF0352100275377 /* HMAViewController.swift */; };
@@ -96,6 +97,7 @@
 		6EF818F2CB43A152D88519C6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		93C1E8119D4D8B753F6A2F76 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6151FF81B325B410085A992 /* HMAWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWebViewController.swift; sourceTree = "<group>"; };
+		E61C9AAB1B4DD1F100381EE7 /* UIImage+HMAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAView.swift"; sourceTree = "<group>"; };
 		E626250B1AF9A53300F7F722 /* HMAConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAConstant.swift; sourceTree = "<group>"; };
 		E62A6C291AF0352100275377 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E62A6C2A1AF0352100275377 /* HyperMediaAD-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyperMediaAD-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				E66B098E1B2FA88500971339 /* HMAHeatMap.h */,
 				E66B098F1B2FA88500971339 /* HMAHeatMap.m */,
 				E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */,
+				E61C9AAB1B4DD1F100381EE7 /* UIImage+HMAView.swift */,
 			);
 			path = "UIKit+Extension";
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				E65642111B27D10200F955BC /* main.swift in Sources */,
 				E65642141B27D22F00F955BC /* HMADestination.swift in Sources */,
 				E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */,
+				E61C9AAC1B4DD1F100381EE7 /* UIImage+HMAView.swift in Sources */,
 				E6DB7C401B11974E0055DF6C /* HMAWheelData.swift in Sources */,
 				E690B3321B4CC8C00016B464 /* HMADrawerController.swift in Sources */,
 			);

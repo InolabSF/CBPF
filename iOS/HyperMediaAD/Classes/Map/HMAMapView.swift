@@ -270,6 +270,9 @@ class HMAMapView: GMSMapView {
             self.updateNextButton()
             self.nextButton.hidden = false
 
+            self.shouldDrawCrimes = false
+            self.shouldDrawComfort = false
+            self.shouldDrawWheel = false
             self.crimeButton.setIsOn(false)
             self.comfortButton.setIsOn(false)
             self.wheelButton.setIsOn(false)
@@ -281,6 +284,9 @@ class HMAMapView: GMSMapView {
             self.wheelButton.hidden = false
             self.nextButton.hidden = false
 
+            self.shouldDrawCrimes = true
+            self.shouldDrawComfort = true
+            self.shouldDrawWheel = true
             self.crimeButton.setIsOn(true)
             self.comfortButton.setIsOn(true)
             self.wheelButton.setIsOn(true)
@@ -292,6 +298,9 @@ class HMAMapView: GMSMapView {
             self.wheelButton.hidden = false
             self.nextButton.hidden = true
 
+            self.shouldDrawCrimes = false
+            self.shouldDrawComfort = false
+            self.shouldDrawWheel = false
             self.crimeButton.setIsOn(false)
             self.comfortButton.setIsOn(false)
             self.wheelButton.setIsOn(false)
@@ -516,8 +525,9 @@ class HMAMapView: GMSMapView {
      * draw destinations
      **/
     private func drawDestinations() {
-        for destination in self.destinations {
-            self.drawDestination(location: destination)
+        for var i = 0; i < self.destinations.count; i++ {
+            let destination = self.destinations[i]
+            self.drawDestination(location: destination, index: i)
         }
     }
 
@@ -553,21 +563,18 @@ class HMAMapView: GMSMapView {
      **/
     private func drawWaypoint(#location: CLLocationCoordinate2D) {
         var marker = HMAWaypointMarker(position: location)
-        marker.doSettings()
         marker.map = self
-        marker.zIndex = HMAGoogleMap.ZIndex.Waypoint
         self.overlays.append(marker)
     }
 
     /**
      * draw destination marker
      * @param location location
+     * @param index Int
      **/
-    private func drawDestination(#location: CLLocationCoordinate2D) {
-        var marker = HMADestinationMarker(position: location)
-        marker.doSettings()
+    private func drawDestination(#location: CLLocationCoordinate2D, index: Int) {
+        var marker = HMADestinationMarker(position: location, index: index)
         marker.map = self
-        marker.zIndex = HMAGoogleMap.ZIndex.Destination
         self.overlays.append(marker)
     }
 
@@ -587,8 +594,7 @@ class HMAMapView: GMSMapView {
      * @param crime HMACrimeData
      **/
     private func drawCrimeMaker(#crime: HMACrimeData) {
-        var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue))
-        marker.doSettings(crime: crime)
+        var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue), crime: crime)
         marker.map = self
         marker.zIndex = HMAGoogleMap.ZIndex.Crime
         self.overlays.append(marker)
@@ -602,10 +608,8 @@ class HMAMapView: GMSMapView {
         if yelpDatas == nil { return }
 
         for yelpData in yelpDatas! {
-            var marker = HMAYelpMaker(position: yelpData.coordinate)
-            marker.doSettings(yelpData: yelpData)
+            var marker = HMAYelpMaker(position: yelpData.coordinate, yelpData: yelpData)
             marker.map = self
-            marker.zIndex = HMAGoogleMap.ZIndex.Yelp
             self.overlays.append(marker)
         }
     }

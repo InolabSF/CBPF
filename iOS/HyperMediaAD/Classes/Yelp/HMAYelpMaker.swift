@@ -7,13 +7,11 @@ class HMAYelpMaker: GMSMarker {
     var yelpData: HMAYelpData!
 
 
-    /// MARK: - public api
+    /// MARK: - initialization
 
-    /**
-     * do settings
-     * @param yelpData HMAYelpData
-     **/
-    func doSettings(#yelpData: HMAYelpData) {
+    convenience init(position: CLLocationCoordinate2D, yelpData: HMAYelpData) {
+        self.init()
+
         let categoryName = yelpData.category
         var image: UIImage?
         if HMAYelp.Restaurants[categoryName] != nil {
@@ -33,6 +31,8 @@ class HMAYelpMaker: GMSMarker {
         self.snippet = yelpData.category
 
         self.yelpData = yelpData
+        self.position = position
+        self.zIndex = HMAGoogleMap.ZIndex.Yelp
     }
 
 }

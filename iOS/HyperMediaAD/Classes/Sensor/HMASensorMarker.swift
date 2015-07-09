@@ -1,13 +1,11 @@
 /// MARK: - HMASensorMarker
 class HMASensorMarker: GMSMarker {
 
-    /// MARK: - public api
+    /// MARK: - initialization
 
-    /**
-     * do settings (design, draggable, etc)
-     * @param sensorData HMASensorData
-     **/
-    func doSettings(#sensorData: HMASensorData) {
+    convenience init(position: CLLocationCoordinate2D, sensorData: HMASensorData) {
+        self.init()
+
         let sensorType = sensorData.sensor_id.integerValue
         var iconName = ""
         switch (sensorType) {
@@ -20,11 +18,12 @@ class HMASensorMarker: GMSMarker {
             default:
                 break
         }
-
         var image = UIImage(named: "marker_sensor_"+iconName)
         if image == nil { image = UIImage(named: "marker_question") }
         self.icon = image
+
         self.draggable = false
+        //self.zIndex = HMAGoogleMap.ZIndex
     }
 
 }
