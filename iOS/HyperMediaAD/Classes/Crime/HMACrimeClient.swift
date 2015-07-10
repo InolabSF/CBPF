@@ -41,6 +41,7 @@ class HMACrimeClient: AnyObject {
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 else { return }
+                println(responseJSON)
 
                 dispatch_async(dispatch_get_main_queue(), {
                     completionHandler(json: responseJSON)

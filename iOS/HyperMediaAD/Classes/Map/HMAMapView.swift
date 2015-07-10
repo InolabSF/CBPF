@@ -526,7 +526,9 @@ class HMAMapView: GMSMapView {
                         pathes.append(path)
                     }
                     let bounds = self.encodedBounds(pathes: pathes)
-                    if bounds != nil { self.moveCamera(GMSCameraUpdate.fitBounds(bounds)) }
+                    if bounds != nil {
+                        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(80.0, 40.0, self.nextButton.frame.size.height*1.5, self.crimeButton.frame.size.width*1.5)))
+                    }
 
                     self.draw()
                 }
@@ -735,7 +737,7 @@ class HMAMapView: GMSMapView {
             path.addCoordinate(coordinateB)
             var line = GMSPolyline(path: path)
             line.strokeColor = color
-            line.strokeWidth = 6.0
+            line.strokeWidth = 4.0
             line.tappable = false
             line.map = map
             line.zIndex = HMAGoogleMap.ZIndex.Wheel
