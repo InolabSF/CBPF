@@ -10,6 +10,7 @@ class HMACrimeMarker: GMSMarker {
         var iconName = crime.category.lowercaseString
         var image = UIImage(named: "marker_crime_"+iconName)
         if image == nil { image = UIImage(named: "marker_question") }
+
         self.icon = image
 
         // settings
