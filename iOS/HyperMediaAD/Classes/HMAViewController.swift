@@ -81,7 +81,14 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         // draw
         self.mapView.draw()
         // routing
-        if mode == HMAUserInterface.Mode.SetRoute { self.mapView.requestRoute() }
+
+        if mode == HMAUserInterface.Mode.SetRoute {
+            self.mapView.requestRoute(
+                { [unowned self] () in
+                    self.mapView.updateCameraWhenRoutingHasDone()
+                }
+            )
+        }
 
         // status bar color
         if mode == HMAUserInterface.Mode.SetRoute {
@@ -166,7 +173,7 @@ extension HMAViewController: UIActionSheetDelegate {
                 self.mapView.deleteEditingWaypoint()
                 self.mapView.updateWhatMapDraws()
                 self.mapView.draw()
-                self.mapView.requestRoute()
+                self.mapView.requestRoute({ [unowned self] () in })
             }
         }
     }
@@ -208,7 +215,7 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.appendWaypoint(coordinate)
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
-            self.mapView.requestRoute()
+            self.mapView.requestRoute({ [unowned self] () in })
         }
     }
 
@@ -261,7 +268,7 @@ extension HMAViewController: GMSMapViewDelegate {
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.mapView.endDraggingWaypoint(marker.position)
-            self.mapView.requestRoute()
+            self.mapView.requestRoute({ [unowned self] () in })
         }
     }
 

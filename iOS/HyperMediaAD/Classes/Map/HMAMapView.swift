@@ -506,8 +506,9 @@ class HMAMapView: GMSMapView {
 
     /**
      * request route
+     * @param completionHandler completion handler
      **/
-    func requestRoute() {
+    func requestRoute(completionHandler: () -> Void) {
         let location = self.myLocation
         if location == nil { return }
 
@@ -518,7 +519,9 @@ class HMAMapView: GMSMapView {
             completionHandler: { [unowned self] (jsons) in
                     self.setRouteJSONs(jsons)
 
+                    completionHandler()
                     // update camera position
+/*
                     var pathes: [GMSPath] = []
                     let encodedPathes = self.encodedPathes()
                     for pathString in encodedPathes {
@@ -529,7 +532,7 @@ class HMAMapView: GMSMapView {
                     if bounds != nil {
                         self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(80.0, 40.0, self.nextButton.frame.size.height*1.5, self.crimeButton.frame.size.width*1.5)))
                     }
-
+*/
                     self.draw()
                 }
         )
@@ -540,6 +543,31 @@ class HMAMapView: GMSMapView {
      **/
     func updateNextButton() {
         self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.35
+    }
+
+    /**
+     * update camera when routing has done
+     **/
+    func updateCameraWhenRoutingHasDone() {
+        let startLocation = self.myLocation
+        if startLocation == nil { return }
+        if self.destinations.count == 0 { return }
+        let end = self.destinations[0]
+
+        let encodedPathes = self.encodedPathes()
+        if encodedPathes.count == 0 { return }
+
+        let path = GMSPath(fromEncodedPath: encodedPathes[0])
+        var bounds = GMSCoordinateBounds(path: path)
+        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(80.0, 40.0, self.nextButton.frame.size.height*1.5, self.crimeButton.frame.size.width*1.5)))
+
+        let startPoint = self.projection.pointForCoordinate(startLocation.coordinate)
+        let endPoint = self.projection.pointForCoordinate(end)
+        var angle = HMAMapMath.angle(pointA: startPoint, pointB: endPoint)
+        angle += 90.0
+        if angle > 360.0 { angle -= 360.0 }
+        self.animateToBearing(angle)
+        //self.animateToViewingAngle(angle)
     }
 
 
@@ -800,6 +828,7 @@ class HMAMapView: GMSMapView {
      * @param pathes [GMSPath]
      * @return GMSCoordinateBounds or nil
      **/
+/*
     private func encodedBounds(#pathes: [GMSPath]) -> GMSCoordinateBounds? {
         var boundses: [GMSCoordinateBounds] = []
         for path in pathes {
@@ -814,6 +843,7 @@ class HMAMapView: GMSMapView {
 
         return bounds
     }
+*/
 
     /**
      * return end location
