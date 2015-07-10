@@ -381,12 +381,12 @@ inline static int isqrt(int x)
     {
         for (int x = 0; x < width; x++, i++)
         {
-            //if (density[i] > 0)
+            if (density[i] > 0)
             {
                 indexOrigin = 4*i;
                 // Normalize density to 0..1
                 floatDensity = (float)density[i] / (float)maxDensity;
-
+/*
                 if (density[i] == 0) {
                     rgba[indexOrigin] = 0;
                     rgba[indexOrigin+1] = 16;
@@ -405,6 +405,13 @@ inline static int isqrt(int x)
                     rgba[indexOrigin+2] = 0;
                     rgba[indexOrigin+3] = 8 + floatDensity * 16;
                 }
+*/
+                if (floatDensity < 0.40) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 0;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 0;
+                }
                 else if (floatDensity < 0.60) {
                     rgba[indexOrigin] = 32;
                     rgba[indexOrigin+1] = 32 - 32 * (floatDensity - 0.40) / 0.20;
@@ -417,7 +424,6 @@ inline static int isqrt(int x)
                     rgba[indexOrigin+2] = 0;
                     rgba[indexOrigin+3] = 8 + floatDensity * 32;
                 }
-
             }
         }
     }

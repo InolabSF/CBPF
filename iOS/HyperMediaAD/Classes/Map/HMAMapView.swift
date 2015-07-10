@@ -316,6 +316,8 @@ class HMAMapView: GMSMapView {
         else if mode == HMAUserInterface.Mode.Cycle {
             self.nextButton.setTitle("End Cycling", forState: .Normal)
         }
+
+        //self.animateToViewingAngle(angle)
     }
 
     /**
@@ -567,7 +569,6 @@ class HMAMapView: GMSMapView {
         angle += 90.0
         if angle > 360.0 { angle -= 360.0 }
         self.animateToBearing(angle)
-        //self.animateToViewingAngle(angle)
     }
 
 
