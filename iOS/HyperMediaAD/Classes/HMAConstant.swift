@@ -200,7 +200,13 @@ struct HMAGoogleMap {
     struct Zoom {
         static let Default: Float =            13.0
         static let Cycle: Float =              16.0
+
+        static let MinOfCrime: Float =         12.0
+        static let MinOfComfort: Float =       12.0
+        static let MinOfWheel: Float =         12.0
+        static let MinOfYelp: Float =          12.0
     }
+
 
     /// z index
     struct ZIndex {

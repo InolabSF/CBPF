@@ -205,21 +205,25 @@ class HMAMapView: GMSMapView {
         for overlay in self.overlays { overlay.map = nil }
         self.overlays = []
 
+        let zoom = self.camera.zoom
+
         // crime
-        if self.shouldDrawCrimes {
+        if zoom > HMAGoogleMap.Zoom.MinOfCrime && self.shouldDrawCrimes {
             self.drawCrimeMakers()
             //self.drawCrimeHeatmap()
         }
         // comfort
-        if self.shouldDrawComfort {
+        if zoom > HMAGoogleMap.Zoom.MinOfComfort && self.shouldDrawComfort {
             self.drawHeatIndexHeatmap()
         }
         // wheel
-        if self.shouldDrawWheel {
+        if zoom > HMAGoogleMap.Zoom.MinOfWheel && self.shouldDrawWheel {
             self.drawWheelPolyline()
         }
         // yelp
-        self.drawYelp()
+        if  zoom > HMAGoogleMap.Zoom.MinOfYelp {
+            self.drawYelp()
+        }
 
         // destination
         self.drawDestinations()
