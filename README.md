@@ -35,8 +35,6 @@ dev: https://isid-cbpf.herokuapp.com
 
 ・[Comfort](http://inolabsf.github.io/CBPF/document/CCPF/EvaluationFunction/Comfort.html)
 
-・[Danger](http://inolabsf.github.io/CBPF/document/CCPF/EvaluationFunction/Danger.html)
-
 
 ### iOS
 
