@@ -205,6 +205,7 @@ class HMASearchBoxView: UIView {
                 let destination = self.geoLocations(json: json)
                 let succeeded = (destination != nil && self.delegate != nil)
                 if succeeded {
+                    self.clearButton.hidden = true
                     self.delegate?.geoLocationSearchDidFinish(searchBoxView: self, coordinate: destination!)
                     self.searchTextField.text = ""
                 }
