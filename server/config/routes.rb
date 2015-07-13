@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'wheel/import_wheel'
   post 'wheel/data'
   get 'crime/data'
+  get 'crime/type'
   get 'dashboard/index'
   get 'dashboard/import_wheel'
 end

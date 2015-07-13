@@ -1,24 +1,24 @@
 class CrimeType < ActiveHash::Base
   self.data = [
     # Violence
-    { :id => 1, :name => 'GUN' },
-    { :id => 2, :name => 'KNIFE' },
-    { :id => 3, :name => 'WEAPON' },
-    { :id => 4, :name => 'FIREARM' },
-    { :id => 5, :name => 'BATTERY' },
-    { :id => 6, :name => 'ASSAULT' },
-    { :id => 7, :name => 'RAPE' },
-    { :id => 8, :name => 'SHOOTING' },
+    { :id => 1,  :name => 'GUN',                :category => 'violence' },
+    { :id => 2,  :name => 'KNIFE',              :category => 'violence' },
+    { :id => 3,  :name => 'WEAPON',             :category => 'violence' },
+    { :id => 4,  :name => 'FIREARM',            :category => 'violence' },
+    { :id => 5,  :name => 'BATTERY',            :category => 'violence' },
+    { :id => 6,  :name => 'ASSAULT',            :category => 'violence' },
+    { :id => 7,  :name => 'RAPE',               :category => 'violence' },
+    { :id => 8,  :name => 'SHOOTING',           :category => 'violence' },
     # Stealing vihicle
-    { :id => 9, :name => 'THEFT BICYCLE' },
-    { :id => 10, :name => 'STOLEN AUTO' },
-    { :id => 11, :name => 'STOLEN MOTOR' },
-    { :id => 12, :name => 'STOLEN TRUCK' },
-    # Traffic accident
-    { :id => 13, :name => 'DRIVING' },
-    { :id => 14, :name => 'SPEEDING' },
-    { :id => 15, :name => 'TRAFFIC VIOLATION' },
-    { :id => 16, :name => 'ALCOHOL' }
+    { :id => 9,  :name => 'THEFT BICYCLE',      :category => 'stealing_vehicle' },
+    { :id => 10, :name => 'STOLEN AUTO',        :category => 'stealing_vehicle' },
+    { :id => 11, :name => 'STOLEN MOTOR',       :category => 'stealing_vehicle' },
+    { :id => 12, :name => 'STOLEN TRUCK',       :category => 'stealing_vehicle' },
+    # Traffic violation
+    { :id => 13, :name => 'DRIVING',            :category => 'trafiic_violation' },
+    { :id => 14, :name => 'SPEEDING',           :category => 'trafiic_violation' },
+    { :id => 15, :name => 'TRAFFIC VIOLATION',  :category => 'trafiic_violation' },
+    { :id => 16, :name => 'ALCOHOL',            :category => 'trafiic_violation' }
 #    # Strict vehicle crimes
 #    { :id =>  1, :name => 'TRAFFIC' },
 #    { :id =>  2, :name => 'BICYCLE' },

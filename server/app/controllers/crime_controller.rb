@@ -76,4 +76,50 @@ class CrimeController < ApplicationController
     end
   end
 
+
+=begin
+  @apiVersion 0.1.0
+
+  @apiGroup Crime
+  @api {get} /crime/type
+  @apiName CrimeType
+  @apiDescription get crime type
+
+  @apiSuccess {Number} id CrimeType ID
+  @apiSuccess {String} name CrimeType Name e.g. "THEFT BICYCLE"
+  @apiSuccess {String} category CrimeType e.g. ""
+
+  @apiSuccessExample {json} Success-Response:
+    {
+      "crime_types": [
+        { "id" : 1,  "name" : "GUN",                "category" : "violence" },
+        { "id" : 2,  "name" : "KNIFE",              "category" : "violence" },
+        { "id" : 3,  "name" : "WEAPON",             "category" : "violence" },
+        { "id" : 4,  "name" : "FIREARM",            "category" : "violence" },
+        { "id" : 5,  "name" : "BATTERY",            "category" : "violence" },
+        { "id" : 6,  "name" : "ASSAULT",            "category" : "violence" },
+        { "id" : 7,  "name" : "RAPE",               "category" : "violence" },
+        { "id" : 8,  "name" : "SHOOTING",           "category" : "violence" },
+        { "id" : 9,  "name" : "THEFT BICYCLE",      "category" : "stealing_vehicle" },
+        { "id" : 10, "name" : "STOLEN AUTO",        "category" : "stealing_vehicle" },
+        { "id" : 11, "name" : "STOLEN MOTOR",       "category" : "stealing_vehicle" },
+        { "id" : 12, "name" : "STOLEN TRUCK",       "category" : "stealing_vehicle" },
+        { "id" : 13, "name" : "DRIVING",            "category" : "trafiic_violation" },
+        { "id" : 14, "name" : "SPEEDING",           "category" : "trafiic_violation" },
+        { "id" : 15, "name" : "TRAFFIC VIOLATION",  "category" : "trafiic_violation" },
+        { "id" : 16, "name" : "ALCOHOL",            "category" : "trafiic_violation" }
+      ]
+    }
+=end
+  def type
+    crime_types = CrimeType.all
+
+    json = []
+    crime_types.each do |crime_type|
+      json.push(crime_type.as_json['attributes'])
+    end
+
+    render json: { :crime_types => json }
+  end
+
 end
