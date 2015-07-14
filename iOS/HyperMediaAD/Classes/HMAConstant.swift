@@ -104,6 +104,7 @@ struct HMACrime {
     /// MARK: - API
     struct API {
         static let Data = kURIBase + "/crime/data"         /// crime data API
+        static let Type = kURIBase + "/crime/type"         /// crime type API
     }
 
     /// standard crime numbers per square miles

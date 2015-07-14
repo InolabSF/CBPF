@@ -24,9 +24,9 @@ class HMACrimeData: NSManagedObject {
         var coordinate = HMAMapView.sharedInstance.centerCoordinate()
         HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
 
-        // crime API
         if HMACrimeData.hasData() { return }
 
+        // crime API
         HMACrimeClient.sharedInstance.cancelGetCrime()
         HMACrimeClient.sharedInstance.getCrime(
             radius: HMAAPI.Radius,
