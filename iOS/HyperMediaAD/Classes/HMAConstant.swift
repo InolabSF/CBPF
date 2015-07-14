@@ -197,6 +197,9 @@ struct HMAGoogleMap {
     static let APIKey =                 kHMAGoogleMapAPIKey
     static let BrowserAPIKey =          kHMAGoogleMapBrowserAPIKey
 
+    static let Latitude: CLLocationDegrees =        37.7833
+    static let Longitude: CLLocationDegrees =       -122.4167
+
     /// zoom
     struct Zoom {
         static let Default: Float =            13.0

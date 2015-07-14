@@ -127,6 +127,11 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.view.addSubview(self.mapView)
         self.mapView.doSettings()
         self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+        self.mapView.camera = GMSCameraPosition.cameraWithLatitude(
+            HMAGoogleMap.Latitude,
+            longitude: HMAGoogleMap.Longitude,
+            zoom: HMAGoogleMap.Zoom.Default
+        )
 /*
         // yelp
         let yelpButtonNib = UINib(nibName: HMANSStringFromClass(HMABottomButton), bundle:nil)
@@ -277,6 +282,9 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
         }
+    }
+
+    func mapView(mapView: GMSMapView, idleAtCameraPosition position: GMSCameraPosition) {
     }
 
     func mapView(mapView: GMSMapView,  didDragMarker marker:GMSMarker) {
