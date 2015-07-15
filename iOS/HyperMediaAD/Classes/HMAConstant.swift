@@ -172,6 +172,14 @@ struct HMAWheel {
         static let Acceleration =                       31
     }
 
+    /// MARK: - battery level
+    struct BatteryLevel {
+        static let Empty =                                0
+        static let Low =                                 20
+        static let Half =                                50
+        static let Full =                                95
+    }
+
     /// max value when client requests to get datas from server
     struct Max {
         static let Acceleration: Float =                      0.0

@@ -7,6 +7,9 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
     /// MARK: - property
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var wheelBatteryLevelBackgroundImageView: UIImageView!
+    @IBOutlet weak var wheelBatteryLevelImageView: UIImageView!
+    @IBOutlet weak var wheelBatteryLabel: UILabel!
     private var UIModes: [Int] = [ HMAUserInterface.Mode.SetDestinations, ]
     private var selectedIndex = 0
 
@@ -14,6 +17,12 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
     /// MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.updateWheelBatteryLevel()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -29,6 +38,9 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
 
     /// MARK: - public api
 
+    /**
+     * update user interface mode
+     **/
     func updateUserInterfaceMode(UIMode: Int) {
         if UIMode == HMAUserInterface.Mode.SetDestinations {
             self.UIModes = [ HMAUserInterface.Mode.SetDestinations, ]
@@ -44,6 +56,43 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
         }
         self.tableView.reloadData()
     }
+
+    /**
+     * update wheel battery level icon
+     **/
+    func updateWheelBatteryLevel() {
+        // background battery icon
+        self.wheelBatteryLevelBackgroundImageView.image = IonIcons.imageWithIcon(
+            ion_battery_full,
+            size: 50.0,
+            color: UIColor.whiteColor()
+        )
+
+        let batteryLevel = HMAWheel.BatteryLevel.Low
+
+        // battery icon
+            // color
+        var color = UIColor(red: 0, green: 0.75, blue: 0, alpha: 1)
+        if batteryLevel >= HMAWheel.BatteryLevel.Full { color = UIColor(red: 0, green: 0.75, blue: 0, alpha: 1) }
+        else if batteryLevel >= HMAWheel.BatteryLevel.Half { color = UIColor(red: 0.0, green: 0.75, blue: 0, alpha: 1) }
+        else if batteryLevel >= HMAWheel.BatteryLevel.Low { color = UIColor(red: 0.75, green: 0.75, blue: 0, alpha: 1) }
+        else { color = UIColor(red: 0.75, green: 0, blue: 0, alpha: 1) }
+            // icon
+        var iconName = ""
+        if batteryLevel >= HMAWheel.BatteryLevel.Full { iconName = ion_battery_full }
+        else if batteryLevel >= HMAWheel.BatteryLevel.Half { iconName = ion_battery_half }
+        else if batteryLevel >= HMAWheel.BatteryLevel.Low { iconName = ion_battery_low }
+        else { iconName = ion_battery_empty }
+        self.wheelBatteryLevelImageView.image = IonIcons.imageWithIcon(
+            iconName,
+            size: 50.0,
+            color: color
+        )
+
+        // battery label
+        self.wheelBatteryLabel.text = "\(batteryLevel)%"
+    }
+
 
     /// MARK: - private api
 
