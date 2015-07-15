@@ -2,10 +2,10 @@
     "use strict;"
 
     /// constant
-    //var LATITUDE = 42.2355854279;
-    //var LONGITUDE = -71.5235686675;
-    var LATITUDE = 37.7833;
-    var LONGITUDE = -122.4167;
+    var LATITUDE = 42.2355854279;
+    var LONGITUDE = -71.5235686675;
+    //var LATITUDE = 37.7833;
+    //var LONGITUDE = -122.4167;
     var RADIUS = 50.0;
     var WHEEL_LOCATIONS = "wheel_locations";
 
@@ -122,7 +122,15 @@
         });
         params["lat"] = $("#lat").text().replace(/\s+/g, "");
         params["long"] = $("#long").text().replace(/\s+/g, "");
-        delete params["api"]
+
+        var uri = $('input[name=api]:checked', '#form').val();
+        if (uri == "/wheel/data") {
+          if (params["data_type"] == "18") { delete params["max"]; }
+          if (params["data_type"] == "31") { delete params["min"]; }
+        }
+
+        delete params["api"];
+
         return params;
     }
 

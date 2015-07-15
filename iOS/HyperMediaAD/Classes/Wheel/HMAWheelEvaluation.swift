@@ -1,3 +1,4 @@
+/*
 /// Minus Acceleration
 struct HMAMinusAcceleration {
     static let Level1: Double         = -2.0
@@ -31,6 +32,19 @@ struct HMARiderTorque {
     static let MinAlpha: CGFloat      = 0.25
     static let MaxAlpha: CGFloat      = 1.00
 }
+*/
+
+/// Minus Acceleration
+struct HMAMinusAcceleration {
+    static let Level1: Double         = -2.0
+    static let Level2: Double         = -4.0
+}
+
+/// RiderTorque
+struct HMARiderTorque {
+    static let Level1: Double         = 8.0
+    static let Level2: Double         = 16.0
+}
 
 
 /// MARK: - HMAWheelEvaluation
@@ -38,10 +52,10 @@ class HMAWheelEvaluation: NSObject {
 
     /// MARK: - property
 
-    /// evaluation function from Acceleration
-    var accelSplineCurve: SAMCubicSpline!
-    /// evaluation function from RiderTorque
-    var torqueSplineCurve: SAMCubicSpline!
+//    /// evaluation function from Acceleration
+//    var accelSplineCurve: SAMCubicSpline!
+//    /// evaluation function from RiderTorque
+//    var torqueSplineCurve: SAMCubicSpline!
 
 
     /// MARK: - initialization
@@ -52,7 +66,7 @@ class HMAWheelEvaluation: NSObject {
      */
     override init() {
         super.init()
-
+/*
         self.accelSplineCurve = SAMCubicSpline(points: [
             NSValue(CGPoint: CGPointMake(CGFloat(HMAMinusAcceleration.Level7), HMAMinusAcceleration.MaxAlpha)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMAMinusAcceleration.Level6), 0.80)),
@@ -71,6 +85,7 @@ class HMAWheelEvaluation: NSObject {
             NSValue(CGPoint: CGPointMake(CGFloat(HMARiderTorque.Level6), 0.80)),
             NSValue(CGPoint: CGPointMake(CGFloat(HMARiderTorque.Level7), HMARiderTorque.MaxAlpha)),
         ])
+*/
     }
 
 
@@ -84,6 +99,15 @@ class HMAWheelEvaluation: NSObject {
      */
     func getMinusAccelerationColor(#accelA: Double, accelB: Double) -> UIColor {
         let average = (accelA + accelB) / 2.0
+        if average > HMAMinusAcceleration.Level1 {
+            return UIColor(red: 0.0, green: 0.65, blue: 0.0, alpha: 1.0)
+        }
+        else if average > HMAMinusAcceleration.Level2 {
+            return UIColor(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        }
+        return UIColor(red: 0.65, green: 0.0, blue: 0.0, alpha: 1.0)
+/*
+        let average = (accelA + accelB) / 2.0
         if average < HMAMinusAcceleration.Min { return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: HMAMinusAcceleration.MaxAlpha) }
         if average > HMAMinusAcceleration.Max { return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: HMAMinusAcceleration.MinAlpha) }
 
@@ -91,6 +115,25 @@ class HMAWheelEvaluation: NSObject {
         if alpha < HMAMinusAcceleration.MinAlpha { return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: HMAMinusAcceleration.MinAlpha) }
         if alpha > HMAMinusAcceleration.MaxAlpha { return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: HMAMinusAcceleration.MaxAlpha) }
         return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: CGFloat(alpha))
+*/
+    }
+
+    /**
+     * return zIndex for minus acceleration
+     * @param accelA Double
+     * @param accelB Double
+     * @return zIndex
+     */
+    func getMinusAccelerationZIndex(#accelA: Double, accelB: Double) -> Int32 {
+        let average = (accelA + accelB) / 2.0
+        if average > HMAMinusAcceleration.Level1 {
+            return HMAGoogleMap.ZIndex.Wheel1
+        }
+        else if average > HMAMinusAcceleration.Level2 {
+            return HMAGoogleMap.ZIndex.Wheel2
+        }
+        return HMAGoogleMap.ZIndex.Wheel3
+
     }
 
     /**
@@ -101,6 +144,15 @@ class HMAWheelEvaluation: NSObject {
      */
     func getRiderTorqueColor(#torqueA: Double, torqueB: Double) -> UIColor {
         let average = (torqueA + torqueB) / 2.0
+        if average < HMARiderTorque.Level1 {
+            return UIColor(red: 0.0, green: 0.65, blue: 0.0, alpha: 1.0)
+        }
+        else if average < HMARiderTorque.Level2 {
+            return UIColor(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        }
+        return UIColor(red: 0.65, green: 0.0, blue: 0.0, alpha: 1.0)
+/*
+        let average = (torqueA + torqueB) / 2.0
         if average < HMARiderTorque.Min { return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: HMARiderTorque.MaxAlpha) }
         if average > HMARiderTorque.Max { return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: HMARiderTorque.MinAlpha) }
 
@@ -108,60 +160,79 @@ class HMAWheelEvaluation: NSObject {
         if alpha < HMARiderTorque.MinAlpha { return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: HMARiderTorque.MinAlpha) }
         if alpha > HMARiderTorque.MaxAlpha { return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: HMARiderTorque.MaxAlpha) }
         return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: CGFloat(alpha))
+*/
     }
 
     /**
-     * get minus acceleration graph view
-     * @return minus acceleration graph view
-     **/
-    func minusAccelerationGraphView() -> FSLineChart {
-        var chartData: [CGFloat] = []
-        let min = CGFloat(HMAMinusAcceleration.Min)
-        let max = CGFloat(HMAMinusAcceleration.Max)
-        for var x = min; x <= max; x += 0.05 {
-            var y = self.accelSplineCurve.interpolate(x)
-            if y < HMAMinusAcceleration.MinAlpha { y = HMAMinusAcceleration.MinAlpha }
-            else if y > HMAMinusAcceleration.MaxAlpha { y = HMAMinusAcceleration.MaxAlpha }
-            chartData.append(y)
+     * return zIndex for rider torque
+     * @param torqueA Double
+     * @param torqueB Double
+     * @return zIndex
+     */
+    func getRiderTorqueZIndex(#torqueA: Double, torqueB: Double) -> Int32 {
+        let average = (torqueA + torqueB) / 2.0
+        if average < HMARiderTorque.Level1 {
+            return HMAGoogleMap.ZIndex.Wheel1
         }
-        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
-        lineChart.verticalGridStep = 5
-        lineChart.horizontalGridStep = 9
-        lineChart.labelForIndex = { (item) in
-            return "\(item)"
+        else if average < HMARiderTorque.Level2 {
+            return HMAGoogleMap.ZIndex.Wheel2
         }
-        lineChart.labelForValue = { (value) in
-            return "\(value)"
-        }
-        lineChart.setChartData(chartData)
-        return lineChart
+        return HMAGoogleMap.ZIndex.Wheel3
     }
 
-    /**
-     * get rider torque graph view
-     * @return rider torque graph view
-     **/
-    func riderTorqueGraphView() -> FSLineChart {
-        var chartData: [CGFloat] = []
-        let min = CGFloat(HMARiderTorque.Min)
-        let max = CGFloat(HMARiderTorque.Max)
-        for var x = min; x <= max; x += 0.05 {
-            var y = self.torqueSplineCurve.interpolate(x)
-            if y < HMARiderTorque.MinAlpha { y = HMARiderTorque.MinAlpha }
-            else if y > HMARiderTorque.MaxAlpha { y = HMARiderTorque.MaxAlpha }
-            chartData.append(y)
-        }
-        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
-        lineChart.verticalGridStep = 5
-        lineChart.horizontalGridStep = 9
-        lineChart.labelForIndex = { (item) in
-            return "\(item)"
-        }
-        lineChart.labelForValue = { (value) in
-            return "\(value)"
-        }
-        lineChart.setChartData(chartData)
-        return lineChart
-    }
+
+//    /**
+//     * get minus acceleration graph view
+//     * @return minus acceleration graph view
+//     **/
+//    func minusAccelerationGraphView() -> FSLineChart {
+//        var chartData: [CGFloat] = []
+//        let min = CGFloat(HMAMinusAcceleration.Min)
+//        let max = CGFloat(HMAMinusAcceleration.Max)
+//        for var x = min; x <= max; x += 0.05 {
+//            var y = self.accelSplineCurve.interpolate(x)
+//            if y < HMAMinusAcceleration.MinAlpha { y = HMAMinusAcceleration.MinAlpha }
+//            else if y > HMAMinusAcceleration.MaxAlpha { y = HMAMinusAcceleration.MaxAlpha }
+//            chartData.append(y)
+//        }
+//        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
+//        lineChart.verticalGridStep = 5
+//        lineChart.horizontalGridStep = 9
+//        lineChart.labelForIndex = { (item) in
+//            return "\(item)"
+//        }
+//        lineChart.labelForValue = { (value) in
+//            return "\(value)"
+//        }
+//        lineChart.setChartData(chartData)
+//        return lineChart
+//    }
+//
+//    /**
+//     * get rider torque graph view
+//     * @return rider torque graph view
+//     **/
+//    func riderTorqueGraphView() -> FSLineChart {
+//        var chartData: [CGFloat] = []
+//        let min = CGFloat(HMARiderTorque.Min)
+//        let max = CGFloat(HMARiderTorque.Max)
+//        for var x = min; x <= max; x += 0.05 {
+//            var y = self.torqueSplineCurve.interpolate(x)
+//            if y < HMARiderTorque.MinAlpha { y = HMARiderTorque.MinAlpha }
+//            else if y > HMARiderTorque.MaxAlpha { y = HMARiderTorque.MaxAlpha }
+//            chartData.append(y)
+//        }
+//        let lineChart = FSLineChart(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.width * 0.6))
+//        lineChart.verticalGridStep = 5
+//        lineChart.horizontalGridStep = 9
+//        lineChart.labelForIndex = { (item) in
+//            return "\(item)"
+//        }
+//        lineChart.labelForValue = { (value) in
+//            return "\(value)"
+//        }
+//        lineChart.setChartData(chartData)
+//        return lineChart
+//    }
 
 }

@@ -45,6 +45,7 @@
 		E67784301B3B8EEC00421603 /* HMASensorEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E677842F1B3B8EEC00421603 /* HMASensorEvaluation.swift */; };
 		E67784321B3B907200421603 /* HMAWheelEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67784311B3B907200421603 /* HMAWheelEvaluation.swift */; };
 		E68446FF1B0AABF10094DC04 /* HMAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68446FE1B0AABF10094DC04 /* HMAMapView.swift */; };
+		E687FD1F1B55D0E40015A3D1 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = E687FD1E1B55D0E40015A3D1 /* Polyline.swift */; };
 		E68E31121B30F14900B820C0 /* HMAYelpCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */; };
 		E68E31151B30F2CA00B820C0 /* yelp_categories.json in Resources */ = {isa = PBXBuildFile; fileRef = E68E31141B30F2CA00B820C0 /* yelp_categories.json */; };
 		E68E31171B3108E200B820C0 /* HMAYelpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68E31161B3108E200B820C0 /* HMAYelpData.swift */; };
@@ -141,6 +142,8 @@
 		E677842F1B3B8EEC00421603 /* HMASensorEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorEvaluation.swift; sourceTree = "<group>"; };
 		E67784311B3B907200421603 /* HMAWheelEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAWheelEvaluation.swift; sourceTree = "<group>"; };
 		E68446FE1B0AABF10094DC04 /* HMAMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAMapView.swift; sourceTree = "<group>"; };
+		E687FD1D1B55D0E40015A3D1 /* Polyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Polyline.h; path = Polyline/Polyline/Polyline.h; sourceTree = "<group>"; };
+		E687FD1E1B55D0E40015A3D1 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Polyline.swift; path = Polyline/Polyline/Polyline.swift; sourceTree = "<group>"; };
 		E68E31111B30F14900B820C0 /* HMAYelpCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpCategory.swift; sourceTree = "<group>"; };
 		E68E31141B30F2CA00B820C0 /* yelp_categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yelp_categories.json; sourceTree = "<group>"; };
 		E68E31161B3108E200B820C0 /* HMAYelpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAYelpData.swift; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 				E6C1228A1B03F6E200C9DC71 /* NSFoundation+Extension */,
 				E62A6C2B1AF0352100275377 /* Model */,
 				E62A6D8A1AF04A5400275377 /* SwiftyJSON */,
+				E687FD1C1B55D0AF0015A3D1 /* Polyline */,
 				E690B3241B4CB2A70016B464 /* KYDrawerController */,
 			);
 			path = Classes;
@@ -367,6 +371,15 @@
 				E66D2C611AEAD27D002F8D48 /* Gimbal.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		E687FD1C1B55D0AF0015A3D1 /* Polyline */ = {
+			isa = PBXGroup;
+			children = (
+				E687FD1D1B55D0E40015A3D1 /* Polyline.h */,
+				E687FD1E1B55D0E40015A3D1 /* Polyline.swift */,
+			);
+			name = Polyline;
 			sourceTree = "<group>";
 		};
 		E68E31131B30F2CA00B820C0 /* JSON */ = {
@@ -595,6 +608,7 @@
 			files = (
 				E61C9AAE1B4DF58300381EE7 /* HMASeparatorTableViewCell.swift in Sources */,
 				E6DB7C581B11A4DC0055DF6C /* HMACrimeClient.swift in Sources */,
+				E687FD1F1B55D0E40015A3D1 /* Polyline.swift in Sources */,
 				E66B09901B2FA88500971339 /* HMAHeatMap.m in Sources */,
 				E66B098D1B2FA78E00971339 /* UIImage+HMAHeatMap.swift in Sources */,
 				E656421C1B27D50400F955BC /* HMAWaypointMarker.swift in Sources */,

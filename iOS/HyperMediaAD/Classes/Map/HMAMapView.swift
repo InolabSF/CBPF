@@ -764,43 +764,57 @@ class HMAMapView: GMSMapView {
      **/
     private func drawWheelPolyline() {
         // draw line
-        func drawPolyline(#map: HMAMapView, coordinateA: CLLocationCoordinate2D, coordinateB: CLLocationCoordinate2D, color: UIColor) {
+        func drawPolyline(
+            #map: HMAMapView,
+            coordinateA: CLLocationCoordinate2D,
+            coordinateB: CLLocationCoordinate2D,
+            color: UIColor,
+            zIndex: Int32
+        ) {
+/*
             var path = GMSMutablePath()
             path.addCoordinate(coordinateA)
             path.addCoordinate(coordinateB)
             var line = GMSPolyline(path: path)
+*/
+            let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [0,1,2,3,])
+            var line = GMSPolyline(path: GMSPath(fromEncodedPath: polyline.encodedPolyline))
             line.strokeColor = color
             line.strokeWidth = 4.0
             line.tappable = false
             line.map = map
-            line.zIndex = HMAGoogleMap.ZIndex.Wheel
+            //line.zIndex = HMAGoogleMap.ZIndex.Wheel
+            line.zIndex = zIndex
             self.overlays.append(line)
+        }
+
+        // RiderTorque
+        for var i = 0; i < self.torqueDatas.count - 1; i++ {
+            let locationA = CLLocation(latitude: self.torqueDatas[i].lat.doubleValue, longitude: self.torqueDatas[i].long.doubleValue)
+            let locationB = CLLocation(latitude: self.torqueDatas[i+1].lat.doubleValue, longitude: self.torqueDatas[i+1].long.doubleValue)
+            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForTorqueVisualization { continue }
+
+            drawPolyline(
+                map: self,
+                locationA.coordinate,
+                locationB.coordinate,
+                self.wheelEvaluation.getRiderTorqueColor(torqueA: self.torqueDatas[i].value.doubleValue, torqueB: self.torqueDatas[i+1].value.doubleValue),
+                self.wheelEvaluation.getRiderTorqueZIndex(torqueA: self.torqueDatas[i].value.doubleValue, torqueB: self.torqueDatas[i+1].value.doubleValue)
+            )
         }
 
         // Acceleration
         for var i = 0; i < self.accelDatas.count - 1; i++ {
             let locationA = CLLocation(latitude: self.accelDatas[i].lat.doubleValue, longitude: self.accelDatas[i].long.doubleValue)
             let locationB = CLLocation(latitude: self.accelDatas[i+1].lat.doubleValue, longitude: self.accelDatas[i+1].long.doubleValue)
-            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForVisualization { continue }
+            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForAccelerationVisualization { continue }
 
             drawPolyline(
                 map: self,
                 locationA.coordinate,
                 locationB.coordinate,
-                self.wheelEvaluation.getMinusAccelerationColor(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
-            )
-        }
-        // RiderTorque
-        for var i = 0; i < self.torqueDatas.count - 1; i++ {
-            let locationA = CLLocation(latitude: self.torqueDatas[i].lat.doubleValue, longitude: self.torqueDatas[i].long.doubleValue)
-            let locationB = CLLocation(latitude: self.torqueDatas[i+1].lat.doubleValue, longitude: self.torqueDatas[i+1].long.doubleValue)
-            if HMAMapMath.miles(locationA: locationA, locationB: locationB) > HMAWheel.MaxDistanceForVisualization { continue }
-
-            drawPolyline(
-                map: self,
-                locationA.coordinate,
-                locationB.coordinate,
-                self.wheelEvaluation.getRiderTorqueColor(torqueA: self.torqueDatas[i].value.doubleValue, torqueB: self.torqueDatas[i+1].value.doubleValue)
+                self.wheelEvaluation.getMinusAccelerationColor(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue),
+                self.wheelEvaluation.getMinusAccelerationZIndex(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
             )
         }
     }

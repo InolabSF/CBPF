@@ -174,16 +174,18 @@ struct HMAWheel {
 
     /// max value when client requests to get datas from server
     struct Max {
-        static let Acceleration: Float =                      -2.0
+        static let Acceleration: Float =                      0.0
     }
 
     /// min value when client requests to get datas from server
     struct Min {
-        static let RiderTorque: Float =                       12.0
+        static let RiderTorque: Float =                       0.0
     }
 
     /// max distance for visualization (miles)
-    static let MaxDistanceForVisualization: Double =           0.08
+    //static let MaxDistanceForVisualization: Double =           0.05
+    static let MaxDistanceForTorqueVisualization: Double =          0.06
+    static let MaxDistanceForAccelerationVisualization: Double =    0.03
 }
 
 
@@ -217,6 +219,9 @@ struct HMAGoogleMap {
         static let Tile: Int32 =               0
         static let HeatIndex: Int32 =          10
         static let Wheel: Int32 =              20
+        static let Wheel1: Int32 =             21
+        static let Wheel2: Int32 =             22
+        static let Wheel3: Int32 =             23
         static let Crime: Int32 =              30
         static let Yelp: Int32 =               40
         static let Route: Int32 =              50

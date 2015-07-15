@@ -12,6 +12,8 @@
 	<dict>
 		<key>13AECCFDEEB377F62322F16415A01BD4588C4001</key>
 		<string>https://github.com/ykyouhei/KYDrawerController.git</string>
+		<key>49CDAB8249A689DD2FB684F10E837CD2D77E0BE3</key>
+		<string>https://github.com/raphaelmor/Polyline.git</string>
 		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>https://github.com/kenzan8000/CCPF.git</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
@@ -25,6 +27,8 @@
 	<dict>
 		<key>13AECCFDEEB377F62322F16415A01BD4588C4001</key>
 		<string>../../iOS/HyperMediaAD/Classes/KYDrawerController</string>
+		<key>49CDAB8249A689DD2FB684F10E837CD2D77E0BE3</key>
+		<string>../../iOS/HyperMediaAD/Classes/Polyline</string>
 		<key>BE553FECF21140B9A5B82BA37DCEF188D31D2638</key>
 		<string>../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
@@ -63,6 +67,14 @@
 			<string>13AECCFDEEB377F62322F16415A01BD4588C4001</string>
 			<key>IDESourceControlWCCName</key>
 			<string>KYDrawerController</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>49CDAB8249A689DD2FB684F10E837CD2D77E0BE3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Polyline</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

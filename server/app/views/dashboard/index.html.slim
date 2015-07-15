@@ -56,6 +56,18 @@ html
         span miles
         br/
 
+        label max
+        | :
+        input#max type="number" name="max" step="0.1" min="0.1" value="-2.0"
+        span acceleration max value
+        br/
+
+        label min
+        | :
+        input#min type="number" name="min" step="0.1" min="0.1" value="12.0"
+        span rider torque min value
+        br/
+
         label sensor_type
         | :
         select name="sensor_type"
@@ -72,36 +84,8 @@ html
         label data_type
         | :
         select name="data_type"
-          option value="1" sensorData_phone_applicationState
-          option value="2" sensorData_phone_altitude
-          option value="3" sensorData_phone_networkState
-          option value="4" sensorData_phone_speed
-          option value="5" sensorData_phone_gpsHorizontalAccuracy
-          option value="6" sensorData_phone_gpsVerticalAccuracy
-          option value="7" sensorData_phone_batteryLevel
-          option value="8" sensorData_phone_gpsStrength
-          option value="9" wheelData_speed
-          option value="10" wheelData_slope
-          option value="11" wheelData_energyEfficiency
-          option value="12" wheelData_totalOdometer
-          option value="13" wheelData_tripOdometer
-          option value="14" wheelData_tripAverageSpeed
-          option value="15" wheelData_tripEnergyEfficiency
-          option value="16" wheelData_motorTemperature
-          option value="17" wheelData_motorDriveTemperature
-          option value="18" wheelData_riderTorque
-          option value="19" wheelData_riderPower
-          option value="20" wheelData_batteryCharge
-          option value="21" wheelData_batteryHealth
-          option value="22" wheelData_batteryPower
-          option value="23" wheelData_batteryVoltage
-          option value="24" wheelData_batteryCurrent
-          option value="25" wheelData_batteryTemperature
-          option value="26" wheelData_batteryTimeToFull
-          option value="27" wheelData_batteryTimeToEmpty
-          option value="28" wheelData_batteryRange
-          option value="29" wheelData_rawDebugData
-          option value="30" wheelData_batteryPowerNormalized
+          option value="18" RiderTorque
+          option value="31" Acceleration
         br/
 
     button#executeAPI execute API
