@@ -406,6 +406,7 @@ inline static int isqrt(int x)
                     rgba[indexOrigin+3] = 8 + floatDensity * 16;
                 }
 */
+/*
                 if (floatDensity < 0.40) {
                     rgba[indexOrigin] = 0;
                     rgba[indexOrigin+1] = 0;
@@ -424,6 +425,33 @@ inline static int isqrt(int x)
                     rgba[indexOrigin+2] = 0;
                     rgba[indexOrigin+3] = 8 + floatDensity * 32;
                 }
+*/
+                if (floatDensity < 0.25) {
+                    rgba[indexOrigin] = 0;
+                    rgba[indexOrigin+1] = 0;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 0;
+                }
+                else if (floatDensity < 0.50) {
+                    rgba[indexOrigin] =   32 + 32 * (floatDensity - 0.25) / 0.25;
+                    rgba[indexOrigin+1] = 32 + 32 * (floatDensity - 0.25) / 0.25;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 32;
+
+                }
+                else if (floatDensity < 0.75) {
+                    rgba[indexOrigin] =   64;
+                    rgba[indexOrigin+1] = 64 - 64 * (floatDensity - 0.50) / 0.25;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 32;
+                }
+                else {
+                    rgba[indexOrigin] = 64 + 64 * (floatDensity - 0.75) / 0.25;
+                    rgba[indexOrigin+1] = 0;
+                    rgba[indexOrigin+2] = 0;
+                    rgba[indexOrigin+3] = 32 + 32 * (floatDensity - 0.75) / 0.25;
+                }
+
             }
         }
     }

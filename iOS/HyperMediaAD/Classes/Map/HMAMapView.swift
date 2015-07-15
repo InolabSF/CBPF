@@ -777,7 +777,8 @@ class HMAMapView: GMSMapView {
             path.addCoordinate(coordinateB)
             var line = GMSPolyline(path: path)
 */
-            let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [0,1,2,3,])
+            //let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [0,1,2,3,])
+            let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [16,])
             var line = GMSPolyline(path: GMSPath(fromEncodedPath: polyline.encodedPolyline))
             line.strokeColor = color
             line.strokeWidth = 4.0
