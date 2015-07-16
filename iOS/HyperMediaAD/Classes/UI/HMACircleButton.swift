@@ -55,7 +55,7 @@ class HMACircleButton: UIView {
 
     @IBAction func touchedUpInside(#button: UIButton) {
         if button == self.button {
-            let isOn = (self.button.alpha < 0.8)
+            let isOn = (self.button.alpha < 0.9)
             self.setIsOn(isOn)
 
             // delegate
@@ -79,7 +79,7 @@ class HMACircleButton: UIView {
      * @param isOn Bool
      **/
     func setIsOn(isOn: Bool) {
-        self.button.alpha = (isOn) ? 1.0 : 0.65
+        self.button.alpha = (isOn) ? 1.0 : 0.5
     }
 
 }
