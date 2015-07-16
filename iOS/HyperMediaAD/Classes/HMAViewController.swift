@@ -91,12 +91,13 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         // status bar color
-        if mode == HMAUserInterface.Mode.SetRoute {
-            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-        }
-        else {
-            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
-        }
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+//        if mode == HMAUserInterface.Mode.SetRoute {
+//            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+//        }
+//        else {
+//            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+//        }
 
         // zoom
 

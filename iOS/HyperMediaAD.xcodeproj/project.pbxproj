@@ -37,6 +37,8 @@
 		E656422F1B27D7EA00F955BC /* HMACrimeMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656422E1B27D7EA00F955BC /* HMACrimeMarker.swift */; };
 		E65642321B27DAA800F955BC /* HMASearchBoxView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642301B27DAA800F955BC /* HMASearchBoxView.xib */; };
 		E65642331B27DAA800F955BC /* HMASearchResultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65642311B27DAA800F955BC /* HMASearchResultView.xib */; };
+		E6671ED91B584D53007A1EA8 /* HMADurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6671ED71B584D53007A1EA8 /* HMADurationView.swift */; };
+		E6671EDA1B584D53007A1EA8 /* HMADurationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6671ED81B584D53007A1EA8 /* HMADurationView.xib */; };
 		E6678FD11AF9DC2400B59B64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */; };
 		E66B098D1B2FA78E00971339 /* UIImage+HMAHeatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */; };
 		E66B09901B2FA88500971339 /* HMAHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B098F1B2FA88500971339 /* HMAHeatMap.m */; };
@@ -133,6 +135,8 @@
 		E656422E1B27D7EA00F955BC /* HMACrimeMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMACrimeMarker.swift; sourceTree = "<group>"; };
 		E65642301B27DAA800F955BC /* HMASearchBoxView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASearchBoxView.xib; sourceTree = "<group>"; };
 		E65642311B27DAA800F955BC /* HMASearchResultView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASearchResultView.xib; sourceTree = "<group>"; };
+		E6671ED71B584D53007A1EA8 /* HMADurationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADurationView.swift; sourceTree = "<group>"; };
+		E6671ED81B584D53007A1EA8 /* HMADurationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMADurationView.xib; sourceTree = "<group>"; };
 		E6678FD01AF9DC2400B59B64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E66B098C1B2FA78E00971339 /* UIImage+HMAHeatMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HMAHeatMap.swift"; sourceTree = "<group>"; };
 		E66B098E1B2FA88500971339 /* HMAHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAHeatMap.h; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 				E65642301B27DAA800F955BC /* HMASearchBoxView.xib */,
 				E65642191B27D4AD00F955BC /* HMASearchResultView.swift */,
 				E65642311B27DAA800F955BC /* HMASearchResultView.xib */,
+				E6671ED71B584D53007A1EA8 /* HMADurationView.swift */,
+				E6671ED81B584D53007A1EA8 /* HMADurationView.xib */,
 				E656421B1B27D50400F955BC /* HMAWaypointMarker.swift */,
 				E656421D1B27D53400F955BC /* HMADestinationMarker.swift */,
 			);
@@ -550,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C9AB41B4DFCFE00381EE7 /* HMATestTableViewCell.xib in Resources */,
+				E6671EDA1B584D53007A1EA8 /* HMADurationView.xib in Resources */,
 				E62A6C9E1AF0378C00275377 /* HyperMediaAD.entitlements in Resources */,
 				E61C9AB01B4DF5A300381EE7 /* HMASeparatorTableViewCell.xib in Resources */,
 				E690B3361B4CD2140016B464 /* HMASettingButton.xib in Resources */,
@@ -653,6 +660,7 @@
 				E690B3351B4CD2140016B464 /* HMASettingButton.swift in Sources */,
 				E6EC437E1B0404F30098FF9A /* NSURL+Queries.swift in Sources */,
 				E6DB7C5A1B11A5260055DF6C /* HMAMapMath.swift in Sources */,
+				E6671ED91B584D53007A1EA8 /* HMADurationView.swift in Sources */,
 				E690B3281B4CB2E50016B464 /* KYDrawerController.swift in Sources */,
 				E6E8F4511B3CBFA70005317B /* HMAYelpSemiModalView.swift in Sources */,
 				E65642111B27D10200F955BC /* main.swift in Sources */,

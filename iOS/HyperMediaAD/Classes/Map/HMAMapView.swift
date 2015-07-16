@@ -27,6 +27,9 @@ class HMAMapView: GMSMapView {
     /// setting button
     private var settingButton: HMASettingButton!
 
+    /// view to show duration
+    private var durationView: HMADurationView!
+
     /* ***** Destination ***** */
     /// search box
     private var searchBoxView: HMASearchBoxView!
@@ -172,6 +175,14 @@ class HMAMapView: GMSMapView {
         self.searchBoxView.delegate = self
         self.addSubview(self.searchBoxView)
         self.searchBoxView.design(parentView: self)
+
+        // duration view
+        let durationViewNib = UINib(nibName: HMANSStringFromClass(HMADurationView), bundle:nil)
+        let durationViews = durationViewNib.instantiateWithOwner(nil, options: nil)
+        self.durationView = durationViews[0] as! HMADurationView
+        self.durationView.delegate = self
+        self.addSubview(self.durationView)
+        self.durationView.design(parentView: self)
     }
 
     /**
@@ -267,6 +278,8 @@ class HMAMapView: GMSMapView {
 
         // if views are hidden or not
         if mode == HMAUserInterface.Mode.SetDestinations {
+            self.durationView.hide()
+
             self.searchBoxView.hidden = false
             self.crimeButton.hidden = true
             self.comfortButton.hidden = true
@@ -518,6 +531,7 @@ class HMAMapView: GMSMapView {
         let location = self.myLocation
         if location == nil { return }
 
+        self.durationView.hide()
         HMAGoogleMapClient.sharedInstance.getRoutes(
             origin: location!.coordinate,
             destinations: self.destinations,
@@ -525,20 +539,9 @@ class HMAMapView: GMSMapView {
             completionHandler: { [unowned self] (jsons) in
                     self.setRouteJSONs(jsons)
 
+                    self.durationView.show(destinationString: self.endAddress(), durationString: self.routeDuration())
                     completionHandler()
-                    // update camera position
-/*
-                    var pathes: [GMSPath] = []
-                    let encodedPathes = self.encodedPathes()
-                    for pathString in encodedPathes {
-                        let path = GMSPath(fromEncodedPath: pathString)
-                        pathes.append(path)
-                    }
-                    let bounds = self.encodedBounds(pathes: pathes)
-                    if bounds != nil {
-                        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(80.0, 40.0, self.nextButton.frame.size.height*1.5, self.crimeButton.frame.size.width*1.5)))
-                    }
-*/
+
                     self.draw()
                 }
         )
@@ -565,7 +568,7 @@ class HMAMapView: GMSMapView {
 
         let path = GMSPath(fromEncodedPath: encodedPathes[0])
         var bounds = GMSCoordinateBounds(path: path)
-        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(80.0, 40.0, self.nextButton.frame.size.height*1.5, self.crimeButton.frame.size.width*1.5)))
+        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(140.0, 40.0, self.nextButton.frame.size.height*2.0, self.crimeButton.frame.size.width*1.5)))
 
         let startPoint = self.projection.pointForCoordinate(startLocation.coordinate)
         let endPoint = self.projection.pointForCoordinate(end)
@@ -844,28 +847,6 @@ class HMAMapView: GMSMapView {
     }
 
     /**
-     * return bounds from routeJSONs
-     * @param pathes [GMSPath]
-     * @return GMSCoordinateBounds or nil
-     **/
-/*
-    private func encodedBounds(#pathes: [GMSPath]) -> GMSCoordinateBounds? {
-        var boundses: [GMSCoordinateBounds] = []
-        for path in pathes {
-            boundses.append(GMSCoordinateBounds(path: path))
-        }
-        if boundses.count == 0 { return nil }
-
-        var bounds = boundses[0]
-        for var i = 1; i < boundses.count; i++ {
-            bounds = bounds.includingBounds(boundses[i])
-        }
-
-        return bounds
-    }
-*/
-
-    /**
      * return end location
      * @return [CLLocationCoordinate2D]
      **/
@@ -890,8 +871,70 @@ class HMAMapView: GMSMapView {
         return locations
     }
 
+    /**
+     * return routeDuration
+     * @return String ex) "7 mins"
+     **/
+    func routeDuration() -> String {
+        let jsons = self.routeJSONs
+        if jsons == nil { return "" }
+
+        var seconds = 0
+        for var i = 0; i < jsons!.count; i++ {
+            let json = jsons![i]
+            let routes = json["routes"].arrayValue
+            for route in routes {
+                let legs = route["legs"].arrayValue
+                for leg in legs {
+                    let duration = leg["duration"].dictionaryValue
+                    seconds += duration["value"]!.intValue
+                }
+            }
+        }
+        let hour = seconds / 3600
+        let min = (seconds % 3600) / 60
+        if hour > 0 { return "\(hour) hr \(min) min" }
+        else if min > 0 { return "\(min) min" }
+        return ""
+    }
+
+    /**
+     * return endAddress
+     * @return String ex) "711B Market Street, San Francisco, CA 94103, USA"
+     **/
+    func endAddress() -> String {
+        let jsons = self.routeJSONs
+        if jsons == nil { return "" }
+        if jsons!.count == 0 { return "" }
+
+        let json = jsons![jsons!.count - 1]
+        let routes = json["routes"].arrayValue
+        for route in routes {
+            let legs = route["legs"].arrayValue
+            if legs.count > 0 {
+                let leg = legs[legs.count - 1]
+                return leg["end_address"].stringValue
+            }
+
+        }
+        return ""
+    }
+
 }
 
+/// MARK: - HMADurationViewDelegate
+extension HMAMapView: HMADurationViewDelegate {
+
+    func touchedUpInside(#durationView: HMADurationView) {
+    }
+
+    func willShow(#durationView: HMADurationView) {
+    }
+
+    func willHide(#durationView: HMADurationView) {
+    }
+
+}
 
 /// MARK: - HMASettingButtonDelegate
 extension HMAMapView: HMASettingButtonDelegate {
