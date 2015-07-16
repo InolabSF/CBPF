@@ -144,7 +144,7 @@ class HMASearchBoxView: UIView {
      * @param parentView parent view
      */
     func design(#parentView: UIView) {
-        self.frame = CGRectMake(0, 20, parentView.bounds.width, self.frame.size.height)
+        self.frame = CGRectMake(0, 0, parentView.bounds.width, self.frame.size.height)
 
         self.searchTextFieldBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
         self.searchTextFieldBackgroundView.layer.shadowColor = UIColor.blackColor().CGColor
@@ -211,6 +211,38 @@ class HMASearchBoxView: UIView {
                 }
                 self.searchGeoLocationIndicator.stopAnimating()
                 self.searchGeoLocationOverlayView.hidden = true
+            }
+        )
+    }
+
+    /**
+     * show
+     **/
+    func show() {
+        UIView.animateWithDuration(
+            0.35,
+            delay: 0.0,
+            options: .CurveEaseOut,
+            animations: { [unowned self] in
+                self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+            },
+            completion: { [unowned self] finished in
+            }
+        )
+    }
+
+    /**
+     * hide
+     **/
+    func hide() {
+        UIView.animateWithDuration(
+            0.15,
+            delay: 0.0,
+            options: .CurveEaseOut,
+            animations: { [unowned self] in
+                self.frame = CGRectMake(0, -self.frame.size.height, self.frame.size.width, self.frame.size.height)
+            },
+            completion: { [unowned self] finished in
             }
         )
     }

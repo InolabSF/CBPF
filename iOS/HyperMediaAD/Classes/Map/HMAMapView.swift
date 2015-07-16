@@ -108,6 +108,25 @@ class HMAMapView: GMSMapView {
         self.accessibilityElementsHidden = true
         //self.trafficEnabled = true
 
+        // next button
+        self.nextButton = BFPaperButton(
+            frame: CGRectMake(0, self.frame.size.height-48, self.frame.size.width, 48),
+           raised: false
+        )
+        self.nextButton.setTitle("Route", forState: .Normal)
+        self.nextButton.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8)
+
+        self.nextButton.setTitleColor(UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 1.0), forState: .Normal)
+        self.nextButton.setTitleColor(UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 1.0), forState: .Highlighted)
+        self.nextButton.titleLabel!.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+        self.nextButton.addTarget(self, action: "touchedUpInsideNextButton:", forControlEvents: .TouchUpInside)
+        self.nextButton.layer.shadowOffset = CGSizeMake(0.0, 0.0)
+        self.nextButton.layer.shadowColor = UIColor.blackColor().CGColor
+        self.nextButton.layer.shadowOpacity = 0.8
+        let rect = CGRectMake(self.nextButton.bounds.origin.x, self.nextButton.bounds.origin.y-2, self.nextButton.bounds.size.width, self.nextButton.bounds.size.height)
+        self.nextButton.layer.shadowPath = UIBezierPath(rect: rect).CGPath
+        self.addSubview(self.nextButton)
+
         // circle buttons
         let xOffset: CGFloat = 10.0
         let yOffset: CGFloat = 10.0
@@ -132,31 +151,6 @@ class HMAMapView: GMSMapView {
         self.crimeButton = circleButtons[0]
         self.comfortButton = circleButtons[1]
         self.wheelButton = circleButtons[2]
-
-        // next button
-        self.nextButton = BFPaperButton(
-            frame: CGRectMake(circleButtons[0].frame.size.width + xOffset * 2.0, circleButtons[0].frame.origin.y+(circleButtons[0].frame.size.height + yOffset), self.frame.size.width - (circleButtons[0].frame.size.width + xOffset * 2.0) * 2.0, circleButtons[0].frame.size.height),
-           raised: false
-        )
-        self.nextButton.setTitle("Route", forState: .Normal)
-        self.nextButton.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
-        self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.nextButton.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
-        self.nextButton.addTarget(self, action: "touchedUpInsideNextButton:", forControlEvents: .TouchUpInside)
-        self.nextButton.layer.shadowOffset = CGSizeMake(0.0, 0.0)
-        self.nextButton.layer.shadowColor = UIColor.blackColor().CGColor
-        self.nextButton.layer.shadowOpacity = 0.4
-        let rect = CGRectMake(self.nextButton.bounds.origin.x, self.nextButton.bounds.origin.y + 2, self.nextButton.bounds.size.width, self.nextButton.bounds.size.height)
-        self.nextButton.layer.shadowPath = UIBezierPath(rect: rect).CGPath
-        self.addSubview(self.nextButton)
-
-        // setting button
-        let settingButtonNib = UINib(nibName: HMANSStringFromClass(HMASettingButton), bundle:nil)
-        let settingButtonViews = settingButtonNib.instantiateWithOwner(nil, options: nil)
-        self.settingButton = settingButtonViews[0] as! HMASettingButton
-        self.settingButton.delegate = self
-        self.settingButton.frame = CGRectMake(xOffset, self.frame.size.height - (self.settingButton.frame.size.height + yOffset), self.settingButton.frame.size.width, self.settingButton.frame.size.height)
-        self.addSubview(self.settingButton)
 
         // search result
         let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
@@ -183,6 +177,16 @@ class HMAMapView: GMSMapView {
         self.durationView.delegate = self
         self.addSubview(self.durationView)
         self.durationView.design(parentView: self)
+
+        // setting button
+        let settingButtonNib = UINib(nibName: HMANSStringFromClass(HMASettingButton), bundle:nil)
+        let settingButtonViews = settingButtonNib.instantiateWithOwner(nil, options: nil)
+        self.settingButton = settingButtonViews[0] as! HMASettingButton
+        self.settingButton.delegate = self
+        self.settingButton.frame = CGRectMake(0, 0, self.settingButton.frame.size.width, self.settingButton.frame.size.height)
+        self.addSubview(self.settingButton)
+
+        self.padding = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
     }
 
     /**
@@ -280,10 +284,11 @@ class HMAMapView: GMSMapView {
         if mode == HMAUserInterface.Mode.SetDestinations {
             self.durationView.hide()
 
-            self.searchBoxView.hidden = false
-            self.crimeButton.hidden = true
-            self.comfortButton.hidden = true
-            self.wheelButton.hidden = true
+            self.searchBoxView.show()
+//            self.searchBoxView.hidden = false
+//            self.crimeButton.hidden = true
+//            self.comfortButton.hidden = true
+//            self.wheelButton.hidden = true
             self.updateNextButton()
             self.nextButton.hidden = false
 
@@ -295,10 +300,11 @@ class HMAMapView: GMSMapView {
             self.wheelButton.setIsOn(false)
         }
         else if mode == HMAUserInterface.Mode.SetRoute {
-            self.searchBoxView.hidden = true
-            self.crimeButton.hidden = false
-            self.comfortButton.hidden = false
-            self.wheelButton.hidden = false
+            self.searchBoxView.hide()
+//            self.searchBoxView.hidden = true
+//            self.crimeButton.hidden = false
+//            self.comfortButton.hidden = false
+//            self.wheelButton.hidden = false
             self.nextButton.hidden = false
 
             self.shouldDrawCrimes = true
@@ -309,10 +315,11 @@ class HMAMapView: GMSMapView {
             self.wheelButton.setIsOn(true)
         }
         else if mode == HMAUserInterface.Mode.Cycle {
-            self.searchBoxView.hidden = true
-            self.crimeButton.hidden = false
-            self.comfortButton.hidden = false
-            self.wheelButton.hidden = false
+            self.searchBoxView.hide()
+//            self.searchBoxView.hidden = true
+//            self.crimeButton.hidden = false
+//            self.comfortButton.hidden = false
+//            self.wheelButton.hidden = false
             self.nextButton.hidden = false
 
             self.shouldDrawCrimes = false
@@ -551,7 +558,33 @@ class HMAMapView: GMSMapView {
      * update next button
      **/
     func updateNextButton() {
-        self.nextButton.alpha = (self.destinations.count > 0) ? 1.0 : 0.35
+        let willShow = (self.destinations.count > 0)
+
+        UIView.animateWithDuration(
+            (willShow) ? 0.35 : 0.15,
+            delay: 0.0,
+            options: .CurveEaseOut,
+            animations: { [unowned self] in
+                let offsetY = (willShow) ? self.nextButton.frame.size.height : 0
+
+                self.nextButton.frame = CGRectMake(self.nextButton.frame.origin.x, self.frame.size.height-offsetY, self.nextButton.frame.size.width, self.nextButton.frame.size.height)
+                self.nextButton.alpha = (willShow) ? 1.0 : 0.5
+
+                let circleButtons = [self.crimeButton, self.comfortButton, self.wheelButton]
+                for var i = 0; i < circleButtons.count; i++ {
+                    circleButtons[i].frame = CGRectMake(
+                        circleButtons[i].frame.origin.x,
+                        self.frame.size.height - (circleButtons[i].frame.size.height + 10.0) * CGFloat(i+2) - offsetY,
+                        circleButtons[i].frame.size.width,
+                        circleButtons[i].frame.size.height
+                    )
+                }
+
+                self.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
+            },
+            completion: { [unowned self] finished in
+            }
+        )
     }
 
     /**
@@ -951,10 +984,12 @@ extension HMAMapView: HMASearchBoxViewDelegate {
 
     func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = false
+        self.settingButton.hidden = true
     }
 
     func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = true
+        self.settingButton.hidden = false
     }
 
     func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
