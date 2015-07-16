@@ -29,6 +29,8 @@ class HMAGoogleMapClient: AnyObject {
         waypoints: [CLLocationCoordinate2D],
         completionHandler: (jsons: [JSON]) -> Void
     ) {
+        MTStatusBarOverlay.sharedInstance().postMessage("Searching Route")
+
         self.routeJSONs = []
 
         // pick the closest waypoints for the route
@@ -73,6 +75,7 @@ class HMAGoogleMapClient: AnyObject {
                     self.routeJSONs.append(json)
                     if isLast {
                         completionHandler(jsons: self.routeJSONs)
+                        MTStatusBarOverlay.sharedInstance().hide()
                     }
                 }
             )
@@ -191,6 +194,11 @@ class HMAGoogleMapClient: AnyObject {
         var operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
+                else {
+                    MTStatusBarOverlay.sharedInstance().postImmediateErrorMessage("Failed", duration:2.0, animated:true)
+                    return
+                }
+
                 dispatch_async(dispatch_get_main_queue(), {
                     completionHandler(json: responseJSON)
                 })
