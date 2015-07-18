@@ -41,7 +41,7 @@ struct HMAUserDefaults {
     static let SensorPm25YearMonthDay =                         "HMAUserDefaults.SensorPm25YearMonthDay"
     static let SensorNoiseYearMonthDay =                        "HMAUserDefaults.SensorNoiseYearMonthDay"
     static let SensorTemperatureYearMonthDay =                  "HMAUserDefaults.SensorTemperatureYearMonthDay"
-    static let SensorLightYearMonthDay =                        "HMAUserDefaults.CrimeYearMonth"
+    static let SensorLightYearMonthDay =                        "HMAUserDefaults.SensorLightYearMonthDay"
     /// wheel
     static let WheelSpeedYearMonthDay =                         "HMAUserDefaults.WheelSpeedYearMonthDay"
     static let WheelSlopeYearMonthDay =                         "HMAUserDefaults.WheelSlopeYearMonthDay"
@@ -221,7 +221,6 @@ struct HMAGoogleMap {
         static let MinOfYelp: Float =          12.0
     }
 
-
     /// z index
     struct ZIndex {
         static let Tile: Int32 =               0
@@ -278,6 +277,17 @@ struct HMAMapbox {
 }
 
 
+/// MARK: - UserInterface
+struct HMAUserInterface {
+
+    struct Mode {
+        static let SetDestinations =             1
+        static let SetRoute =                    2
+        static let Cycle =                       3
+    }
+
+}
+/*
 /// MARK: - Yelp
 struct HMAYelp {
     /// API key
@@ -334,15 +344,4 @@ struct HMAGimbal {
     /// API key
     static let APIKey =                     kHMAGimbalAPIKey
 }
-
-
-/// MARK: - UserInterface
-struct HMAUserInterface {
-
-    struct Mode {
-        static let SetDestinations =             1
-        static let SetRoute =                    2
-        static let Cycle =                       3
-    }
-
-}
+*/

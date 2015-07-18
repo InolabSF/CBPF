@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
         (application as! QTouchposeApplication).touchEndAnimationDuration = 0.50
 
         // Yelp
-        HMAYelpCategory.create()
+        //HMAYelpCategory.create()
 
         return true
     }
@@ -52,4 +52,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GMBLPlaceManagerDelegate 
 
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
     }
+
 }

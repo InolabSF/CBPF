@@ -1,15 +1,3 @@
-/// MARK: - HMAMapViewDelegate
-protocol HMAMapViewDelegate {
-
-    /**
-     * called when next button touched up inside
-     * @param mapView HMAMapView
-     */
-    func touchedUpInsideNextButton(#mapView: HMAMapView)
-
-}
-
-
 /// MARK: - HMAMapView
 class HMAMapView: GMSMapView {
 
@@ -17,48 +5,23 @@ class HMAMapView: GMSMapView {
 
     static let sharedInstance = HMAMapView()
 
-    /// delegate
-    var hmaDelegate: HMAMapViewDelegate?
-
-    /// overlays
-    private var overlays: [GMSOverlay] = []
-    /// next button
-    private var nextButton: BFPaperButton!
-    /// setting button
-    private var settingButton: HMASettingButton!
-
-    /// view to show duration
-    private var durationView: HMADurationView!
-
-    /* ***** Destination ***** */
-    /// search box
-    private var searchBoxView: HMASearchBoxView!
-    /// search result
-    private var searchResultView: HMASearchResultView!
-
-    /* ***** Route ***** */
     // tile layer
     private var tileLayer: GMSURLTileLayer?
 
-    /// crime button
-    private var crimeButton: HMACircleButton!
-    /// heatindex button
-    private var comfortButton: HMACircleButton!
-    /// wheel button
-    private var wheelButton: HMACircleButton!
+    /// overlays
+    private var overlayManager = HMAMapOverlayManager()
 
-    /// editing destination
-    private var editingDestination: CLLocationCoordinate2D?
+    /// editing marker
+    private var editingMarker: GMSMarker?
+    /// editing coordinate
+    private var editingCoordinate: CLLocationCoordinate2D?
     /// destinations for routing
     var destinations: [CLLocationCoordinate2D] = []
-    /// editing waypoint
-    var editingWaypoint: CLLocationCoordinate2D?
     /// waypoints for routing
     var waypoints: [CLLocationCoordinate2D] = []
     /// route json
     private var routeJSONs: [JSON]?
 
-    /* ***** Visualization ***** */
     /// sensor evaluation
     private let sensorEvaluation = HMASensorEvaluation()
     /// wheel evaluation
@@ -83,16 +46,6 @@ class HMAMapView: GMSMapView {
     var shouldDrawWheel = false
 
 
-    /// MARK: - event listener
-
-    func touchedUpInsideNextButton(button: UIButton) {
-        if self.nextButton.alpha < 0.9 { return }
-        if self.hmaDelegate != nil {
-            self.hmaDelegate?.touchedUpInsideNextButton(mapView: self)
-        }
-    }
-
-
     /// MARK: - public api
 
     /**
@@ -106,87 +59,6 @@ class HMAMapView: GMSMapView {
         self.settings.indoorPicker = false
         self.buildingsEnabled = false
         self.accessibilityElementsHidden = true
-        //self.trafficEnabled = true
-
-        // next button
-        self.nextButton = BFPaperButton(
-            frame: CGRectMake(0, self.frame.size.height-48, self.frame.size.width, 48),
-           raised: false
-        )
-        self.nextButton.setTitle("Route", forState: .Normal)
-        self.nextButton.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8)
-
-        self.nextButton.setTitleColor(UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 1.0), forState: .Normal)
-        self.nextButton.setTitleColor(UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 1.0), forState: .Highlighted)
-        self.nextButton.titleLabel!.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
-        self.nextButton.addTarget(self, action: "touchedUpInsideNextButton:", forControlEvents: .TouchUpInside)
-        self.nextButton.layer.shadowOffset = CGSizeMake(0.0, 0.0)
-        self.nextButton.layer.shadowColor = UIColor.blackColor().CGColor
-        self.nextButton.layer.shadowOpacity = 0.8
-        let rect = CGRectMake(self.nextButton.bounds.origin.x, self.nextButton.bounds.origin.y-2, self.nextButton.bounds.size.width, self.nextButton.bounds.size.height)
-        self.nextButton.layer.shadowPath = UIBezierPath(rect: rect).CGPath
-        self.addSubview(self.nextButton)
-
-        // circle buttons
-        let xOffset: CGFloat = 10.0
-        let yOffset: CGFloat = 10.0
-        var circleButtons: [HMACircleButton] = []
-        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
-        for var i = 0; i < circleButtonImages.count; i++ {
-            let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
-            let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
-            let circleButtonView = circleButtonViews[0] as! HMACircleButton
-            circleButtonView.frame = CGRectMake(
-                self.frame.size.width - circleButtonView.frame.size.width - xOffset,
-                self.frame.size.height - (circleButtonView.frame.size.height + yOffset) * CGFloat(i+2),
-                circleButtonView.frame.size.width,
-                circleButtonView.frame.size.height
-            )
-            circleButtonView.setImage(circleButtonImages[i])
-            self.addSubview(circleButtonView)
-            circleButtonView.delegate = self
-
-            circleButtons.append(circleButtonView)
-        }
-        self.crimeButton = circleButtons[0]
-        self.comfortButton = circleButtons[1]
-        self.wheelButton = circleButtons[2]
-
-        // search result
-        let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
-        let searchResultViews = searchResultNib.instantiateWithOwner(nil, options: nil)
-        self.searchResultView = searchResultViews[0] as! HMASearchResultView
-        self.searchResultView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-        self.searchResultView.hidden = true
-        self.searchResultView.delegate = self
-        self.addSubview(self.searchResultView)
-        self.searchResultView.design()
-
-        // search box
-        let searchBoxNib = UINib(nibName: HMANSStringFromClass(HMASearchBoxView), bundle:nil)
-        let searchBoxViews = searchBoxNib.instantiateWithOwner(nil, options: nil)
-        self.searchBoxView = searchBoxViews[0] as! HMASearchBoxView
-        self.searchBoxView.delegate = self
-        self.addSubview(self.searchBoxView)
-        self.searchBoxView.design(parentView: self)
-
-        // duration view
-        let durationViewNib = UINib(nibName: HMANSStringFromClass(HMADurationView), bundle:nil)
-        let durationViews = durationViewNib.instantiateWithOwner(nil, options: nil)
-        self.durationView = durationViews[0] as! HMADurationView
-        self.durationView.delegate = self
-        self.addSubview(self.durationView)
-        self.durationView.design(parentView: self)
-
-        // setting button
-        let settingButtonNib = UINib(nibName: HMANSStringFromClass(HMASettingButton), bundle:nil)
-        let settingButtonViews = settingButtonNib.instantiateWithOwner(nil, options: nil)
-        self.settingButton = settingButtonViews[0] as! HMASettingButton
-        self.settingButton.delegate = self
-        self.settingButton.frame = CGRectMake(0, 0, self.settingButton.frame.size.width, self.settingButton.frame.size.height)
-        self.addSubview(self.settingButton)
-
-        self.padding = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
     }
 
     /**
@@ -217,15 +89,13 @@ class HMAMapView: GMSMapView {
      **/
     func draw() {
         // clear
-        for overlay in self.overlays { overlay.map = nil }
-        self.overlays = []
+        self.overlayManager.clearOverlays()
 
         let zoom = self.camera.zoom
 
         // crime
         if zoom > HMAGoogleMap.Zoom.MinOfCrime && self.shouldDrawCrimes {
             self.drawCrimeMakers()
-            //self.drawCrimeHeatmap()
         }
         // comfort
         if zoom > HMAGoogleMap.Zoom.MinOfComfort && self.shouldDrawComfort {
@@ -235,10 +105,6 @@ class HMAMapView: GMSMapView {
         if zoom > HMAGoogleMap.Zoom.MinOfWheel && self.shouldDrawWheel {
             self.drawWheelPolyline()
         }
-        // yelp
-        if  zoom > HMAGoogleMap.Zoom.MinOfYelp {
-            self.drawYelp()
-        }
 
         // destination
         self.drawDestinations()
@@ -247,15 +113,6 @@ class HMAMapView: GMSMapView {
         if self.routeJSONs != nil {
             self.drawRoute()
         }
-    }
-
-    /**
-     * set route jsons
-     * @param jsons jsons
-     **/
-    func setRouteJSONs(jsons: [JSON]?) {
-        self.routeJSONs = jsons
-        //if jsons == nil { self.removeAllWaypoints() }
     }
 
     /**
@@ -282,66 +139,20 @@ class HMAMapView: GMSMapView {
 
         // if views are hidden or not
         if mode == HMAUserInterface.Mode.SetDestinations {
-            self.durationView.hide()
-
-            self.searchBoxView.show()
-//            self.searchBoxView.hidden = false
-//            self.crimeButton.hidden = true
-//            self.comfortButton.hidden = true
-//            self.wheelButton.hidden = true
-            self.updateNextButton()
-            self.nextButton.hidden = false
-
             self.shouldDrawCrimes = false
             self.shouldDrawComfort = false
             self.shouldDrawWheel = false
-            self.crimeButton.setIsOn(false)
-            self.comfortButton.setIsOn(false)
-            self.wheelButton.setIsOn(false)
         }
         else if mode == HMAUserInterface.Mode.SetRoute {
-            self.searchBoxView.hide()
-//            self.searchBoxView.hidden = true
-//            self.crimeButton.hidden = false
-//            self.comfortButton.hidden = false
-//            self.wheelButton.hidden = false
-            self.nextButton.hidden = false
-
             self.shouldDrawCrimes = true
             self.shouldDrawComfort = true
             self.shouldDrawWheel = true
-            self.crimeButton.setIsOn(true)
-            self.comfortButton.setIsOn(true)
-            self.wheelButton.setIsOn(true)
         }
         else if mode == HMAUserInterface.Mode.Cycle {
-            self.searchBoxView.hide()
-//            self.searchBoxView.hidden = true
-//            self.crimeButton.hidden = false
-//            self.comfortButton.hidden = false
-//            self.wheelButton.hidden = false
-            self.nextButton.hidden = false
-
             self.shouldDrawCrimes = false
             self.shouldDrawComfort = false
             self.shouldDrawWheel = false
-            self.crimeButton.setIsOn(false)
-            self.comfortButton.setIsOn(false)
-            self.wheelButton.setIsOn(false)
         }
-
-        // next button
-        if mode == HMAUserInterface.Mode.SetDestinations {
-            self.nextButton.setTitle("Route", forState: .Normal)
-        }
-        else if mode == HMAUserInterface.Mode.SetRoute {
-            self.nextButton.setTitle("Start Cycling", forState: .Normal)
-        }
-        else if mode == HMAUserInterface.Mode.Cycle {
-            self.nextButton.setTitle("End Cycling", forState: .Normal)
-        }
-
-        //self.animateToViewingAngle(angle)
     }
 
     /**
@@ -394,61 +205,97 @@ class HMAMapView: GMSMapView {
      * remove all destination for routing
      **/
     func removeAllDestinations() {
+        self.routeJSONs = nil
+        self.removeAllWaypoints()
         self.destinations = []
     }
 
     /**
-     * start Editing Destination
+     * start Editing Marker
+     * @param marker GMSMarker
      **/
-    func startEditingDestination(destination: CLLocationCoordinate2D) {
-        self.editingDestination = destination
+    func startEditingMarker(marker: GMSMarker) {
+        self.editingMarker = marker
+        self.editingCoordinate = marker.position
     }
 
     /**
-     * delete Editing Destination
+     * end editing marker
      **/
-    func deleteEditingDestination() {
-        var index = -1
-        for var i = 0; i < self.destinations.count; i++ {
-            let location1 = CLLocation(latitude: self.destinations[i].latitude, longitude: self.destinations[i].longitude)
-            let location2 = CLLocation(latitude: self.editingDestination!.latitude, longitude: self.editingDestination!.longitude)
+    func endEditingMarker() {
+        self.editingMarker = nil
+        self.editingCoordinate = nil
+    }
+
+    /**
+     * delete editing marker
+     **/
+    func deleteEditingMarker() {
+        if !(self.isEditingMarkerNow()) {
+            self.endEditingMarker()
+            return
+        }
+
+        // set type of editing marker
+        var coordinates: [CLLocationCoordinate2D]? = nil
+        if self.editingMarker!.isKindOfClass(HMADestinationMarker) { coordinates = self.destinations }
+        else if self.editingMarker!.isKindOfClass(HMAWaypointMarker) { coordinates = self.waypoints }
+        if coordinates == nil {
+            self.endEditingMarker()
+            return
+        }
+
+        // remove
+        var deletingIndex: Int? = nil
+        for var i = 0; i < coordinates!.count; i++ {
+            let location1 = CLLocation(latitude: coordinates![i].latitude, longitude: coordinates![i].longitude)
+            let location2 = CLLocation(latitude: self.editingCoordinate!.latitude, longitude: self.editingCoordinate!.longitude)
             let meter = location1.distanceFromLocation(location2)
             if meter > 10 { continue }
-            index = i
+            deletingIndex = i
             break
         }
-        self.editingDestination = nil
-        if index >= 0 {
-            self.destinations.removeAtIndex(index)
+        if deletingIndex != nil { coordinates!.removeAtIndex(deletingIndex!) }
+        if self.editingMarker!.isKindOfClass(HMADestinationMarker) { self.destinations = coordinates! }
+        else if self.editingMarker!.isKindOfClass(HMAWaypointMarker) { self.waypoints = coordinates! }
+
+        self.endEditingMarker()
+    }
+
+    /**
+     * end dragging editing marker
+     * @param marker GMSMarker
+     **/
+    func endDraggingMarker(marker: GMSMarker) {
+        if !(self.isEditingMarkerNow()) {
+            self.endEditingMarker()
+            return
         }
-    }
 
-    /**
-     * start Dragging Destination
-     * @param destination destination
-     **/
-    func startDraggingDestination(destination: CLLocationCoordinate2D) {
-        self.editingDestination = destination
-    }
+        // set type of editing marker
+        var coordinates: [CLLocationCoordinate2D]? = nil
+        if self.editingMarker!.isKindOfClass(HMADestinationMarker) { coordinates = self.destinations }
+        else if self.editingMarker!.isKindOfClass(HMAWaypointMarker) { coordinates = self.waypoints }
+        if coordinates == nil {
+            self.endEditingMarker()
+            return
+        }
 
-    /**
-     * end Dragging Destination
-     * @param destination destination
-     **/
-    func endDraggingDestination(destination: CLLocationCoordinate2D) {
-        var index = -1
-        for var i = 0; i < self.destinations.count; i++ {
-            let location1 = CLLocation(latitude: self.destinations[i].latitude, longitude: self.destinations[i].longitude)
-            let location2 = CLLocation(latitude: self.editingDestination!.latitude, longitude: self.editingDestination!.longitude)
+        // remove
+        var draggingIndex: Int? = nil
+        for var i = 0; i < coordinates!.count; i++ {
+            let location1 = CLLocation(latitude: coordinates![i].latitude, longitude: coordinates![i].longitude)
+            let location2 = CLLocation(latitude: self.editingCoordinate!.latitude, longitude: self.editingCoordinate!.longitude)
             let meter = location1.distanceFromLocation(location2)
             if meter > 10 { continue }
-            index = i
+            draggingIndex = i
             break
         }
-        self.editingDestination = nil
-        if index >= 0 {
-            self.destinations[index] = destination
-        }
+        if draggingIndex != nil { coordinates![draggingIndex!] = marker.position }
+        if self.editingMarker!.isKindOfClass(HMADestinationMarker) { self.destinations = coordinates! }
+        else if self.editingMarker!.isKindOfClass(HMAWaypointMarker) { self.waypoints = coordinates! }
+
+        self.endEditingMarker()
     }
 
     /**
@@ -467,67 +314,11 @@ class HMAMapView: GMSMapView {
     }
 
     /**
-     * start Editing Waypoint
-     * @param waypoint waypoint
-     **/
-    func startEditingWaypoint(waypoint: CLLocationCoordinate2D) {
-        self.editingWaypoint = waypoint
-    }
-
-    /**
-     * delete Editing Waypoint
-     * @param waypoint waypoint
-     **/
-    func deleteEditingWaypoint() {
-        var index = -1
-        for var i = 0; i < self.waypoints.count; i++ {
-            let location1 = CLLocation(latitude: self.waypoints[i].latitude, longitude: self.waypoints[i].longitude)
-            let location2 = CLLocation(latitude: self.editingWaypoint!.latitude, longitude: self.editingWaypoint!.longitude)
-            let meter = location1.distanceFromLocation(location2)
-            if meter > 10 { continue }
-            index = i
-            break
-        }
-        self.editingWaypoint = nil
-        if index >= 0 {
-            self.waypoints.removeAtIndex(index)
-        }
-    }
-
-    /**
-     * start Dragging Waypoint
-     * @param waypoint waypoint
-     **/
-    func startDraggingWaypoint(waypoint: CLLocationCoordinate2D) {
-        self.editingWaypoint = waypoint
-    }
-
-    /**
-     * end Dragging Waypoint
-     * @param waypoint waypoint
-     **/
-    func endDraggingWaypoint(waypoint: CLLocationCoordinate2D) {
-        var index = -1
-        for var i = 0; i < self.waypoints.count; i++ {
-            let location1 = CLLocation(latitude: self.waypoints[i].latitude, longitude: self.waypoints[i].longitude)
-            let location2 = CLLocation(latitude: self.editingWaypoint!.latitude, longitude: self.editingWaypoint!.longitude)
-            let meter = location1.distanceFromLocation(location2)
-            if meter > 10 { continue }
-            index = i
-            break
-        }
-        self.editingWaypoint = nil
-        if index >= 0 {
-            self.waypoints[index] = waypoint
-        }
-    }
-
-    /**
-     * is dragging now?
+     * is editing marker now?
      * @return BOOL
      **/
-    func isDraggingNow() -> Bool {
-        return (self.editingWaypoint != nil) || (self.editingDestination != nil)
+    func isEditingMarkerNow() -> Bool {
+        return (self.editingMarker != nil) || (self.editingCoordinate != nil)
     }
 
     /**
@@ -538,52 +329,17 @@ class HMAMapView: GMSMapView {
         let location = self.myLocation
         if location == nil { return }
 
-        self.durationView.hide()
         HMAGoogleMapClient.sharedInstance.getRoutes(
             origin: location!.coordinate,
             destinations: self.destinations,
             waypoints: self.waypoints,
             completionHandler: { [unowned self] (jsons) in
-                    self.setRouteJSONs(jsons)
+                    self.routeJSONs = jsons
 
-                    self.durationView.show(destinationString: self.endAddress(), durationString: self.routeDuration())
                     completionHandler()
 
                     self.draw()
                 }
-        )
-    }
-
-    /**
-     * update next button
-     **/
-    func updateNextButton() {
-        let willShow = (self.destinations.count > 0)
-
-        UIView.animateWithDuration(
-            (willShow) ? 0.35 : 0.15,
-            delay: 0.0,
-            options: .CurveEaseOut,
-            animations: { [unowned self] in
-                let offsetY = (willShow) ? self.nextButton.frame.size.height : 0
-
-                self.nextButton.frame = CGRectMake(self.nextButton.frame.origin.x, self.frame.size.height-offsetY, self.nextButton.frame.size.width, self.nextButton.frame.size.height)
-                self.nextButton.alpha = (willShow) ? 1.0 : 0.5
-
-                let circleButtons = [self.crimeButton, self.comfortButton, self.wheelButton]
-                for var i = 0; i < circleButtons.count; i++ {
-                    circleButtons[i].frame = CGRectMake(
-                        circleButtons[i].frame.origin.x,
-                        self.frame.size.height - (circleButtons[i].frame.size.height + 10.0) * CGFloat(i+2) - offsetY,
-                        circleButtons[i].frame.size.width,
-                        circleButtons[i].frame.size.height
-                    )
-                }
-
-                self.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
-            },
-            completion: { [unowned self] finished in
-            }
         )
     }
 
@@ -601,7 +357,7 @@ class HMAMapView: GMSMapView {
 
         let path = GMSPath(fromEncodedPath: encodedPathes[0])
         var bounds = GMSCoordinateBounds(path: path)
-        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(140.0, 40.0, self.nextButton.frame.size.height*2.0, self.crimeButton.frame.size.width*1.5)))
+        self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(140.0, 40.0, 120.0, 80.0)))
 
         let startPoint = self.projection.pointForCoordinate(startLocation.coordinate)
         let endPoint = self.projection.pointForCoordinate(end)
@@ -637,7 +393,7 @@ class HMAMapView: GMSMapView {
             line.tappable = false
             line.map = self
             line.zIndex = HMAGoogleMap.ZIndex.Route
-            self.overlays.append(line)
+            self.overlayManager.appendOverlay(line)
         }
         self.drawWaypoints()
     }
@@ -658,7 +414,7 @@ class HMAMapView: GMSMapView {
     private func drawWaypoint(#location: CLLocationCoordinate2D) {
         var marker = HMAWaypointMarker(position: location)
         marker.map = self
-        self.overlays.append(marker)
+        self.overlayManager.appendOverlay(marker)
     }
 
     /**
@@ -669,7 +425,7 @@ class HMAMapView: GMSMapView {
     private func drawDestination(#location: CLLocationCoordinate2D, index: Int) {
         var marker = HMADestinationMarker(position: location, index: index)
         marker.map = self
-        self.overlays.append(marker)
+        self.overlayManager.appendOverlay(marker)
     }
 
     /**
@@ -690,45 +446,7 @@ class HMAMapView: GMSMapView {
     private func drawCrimeMaker(#crime: HMACrimeData) {
         var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue), crime: crime)
         marker.map = self
-        self.overlays.append(marker)
-    }
-
-    /**
-     * draw yelp
-     **/
-    private func drawYelp() {
-        let yelpDatas = HMAYelpClient.sharedInstance.yelpDatas
-        if yelpDatas == nil { return }
-
-        for yelpData in yelpDatas! {
-            var marker = HMAYelpMaker(position: yelpData.coordinate, yelpData: yelpData)
-            marker.map = self
-            self.overlays.append(marker)
-        }
-    }
-
-    /**
-     * draw crime heatmap
-     **/
-    private func drawCrimeHeatmap() {
-        if self.crimeDatas.count == 0 { return }
-
-        var locations: [CLLocation] = []
-        var weights: [NSNumber] = []
-        let boost: Float = 1.0
-        for crime in self.crimeDatas {
-            locations.append(CLLocation(latitude: crime.lat.doubleValue, longitude: crime.long.doubleValue))
-            weights.append(NSNumber(double: 1.0))
-        }
-
-        let overlay = GMSGroundOverlay(
-            position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
-            icon: UIImage.crimeHeatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
-            zoomLevel: CGFloat(self.camera.zoom)
-        )
-        overlay.bearing = self.camera.bearing
-        overlay.map = self
-        self.overlays.append(overlay)
+        self.overlayManager.appendOverlay(marker)
     }
 
     /**
@@ -770,29 +488,7 @@ class HMAMapView: GMSMapView {
         overlay.bearing = self.camera.bearing
         overlay.map = self
         overlay.zIndex = HMAGoogleMap.ZIndex.HeatIndex
-        self.overlays.append(overlay)
-/*
-        var locations: [CLLocation] = []
-        var weights: [NSNumber] = []
-        let boost: Float = 1.0
-        for humidityData in self.humidityDatas {
-            let temperatures = self.temperatureDatas.filter({ (sensorData: HMASensorData) -> Bool in
-                return (sensorData.lat == humidityData.lat && sensorData.long == humidityData.long && sensorData.timestamp == humidityData.timestamp)
-            })
-            for temperatureData in temperatures {
-                locations.append(CLLocation(latitude: humidityData.lat.doubleValue, longitude: humidityData.long.doubleValue))
-                weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: humidityData.value.doubleValue, temperature: temperatureData.value.doubleValue)))
-            }
-        }
-
-        let overlay = GMSGroundOverlay(
-            position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
-            icon: UIImage.heatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
-            zoomLevel: CGFloat(self.camera.zoom)
-        )
-        overlay.bearing = self.camera.bearing
-        overlay.map = self
-*/
+        self.overlayManager.appendOverlay(overlay)
     }
 
     /**
@@ -820,9 +516,8 @@ class HMAMapView: GMSMapView {
             line.strokeWidth = 4.0
             line.tappable = false
             line.map = map
-            //line.zIndex = HMAGoogleMap.ZIndex.Wheel
             line.zIndex = zIndex
-            self.overlays.append(line)
+            self.overlayManager.appendOverlay(line)
         }
 
         // RiderTorque
@@ -867,13 +562,8 @@ class HMAMapView: GMSMapView {
         if jsons == nil { return pathes }
 
         for var i = 0; i < jsons!.count; i++ {
-            let json = jsons![i]
-            let routes = json["routes"].arrayValue
-            for route in routes {
-                let overviewPolyline = route["overview_polyline"].dictionaryValue
-                let path = overviewPolyline["points"]!.stringValue
-                pathes.append(path)
-            }
+            let path = jsons![i].encodedPath()
+            if path != nil { pathes.append(path!) }
         }
 
         return pathes
@@ -889,16 +579,8 @@ class HMAMapView: GMSMapView {
         if jsons == nil { return locations }
 
         for var i = 0; i < jsons!.count; i++ {
-            let json = jsons![i]
-            let routes = json["routes"].arrayValue
-            for route in routes {
-                let legs = route["legs"].arrayValue
-                for leg in legs {
-                    if let locationDictionary = leg["end_location"].dictionary {
-                        locations.append(CLLocationCoordinate2D(latitude: locationDictionary["lat"]!.doubleValue, longitude: locationDictionary["lng"]!.doubleValue))
-                    }
-                }
-            }
+            let location = jsons![i].endLocation()
+            if location != nil { locations.append(location!) }
         }
 
         return locations
@@ -914,15 +596,7 @@ class HMAMapView: GMSMapView {
 
         var seconds = 0
         for var i = 0; i < jsons!.count; i++ {
-            let json = jsons![i]
-            let routes = json["routes"].arrayValue
-            for route in routes {
-                let legs = route["legs"].arrayValue
-                for leg in legs {
-                    let duration = leg["duration"].dictionaryValue
-                    seconds += duration["value"]!.intValue
-                }
-            }
+            seconds += jsons![i].routeSeconds()
         }
         let hour = seconds / 3600
         let min = (seconds % 3600) / 60
@@ -941,116 +615,8 @@ class HMAMapView: GMSMapView {
         if jsons!.count == 0 { return "" }
 
         let json = jsons![jsons!.count - 1]
-        let routes = json["routes"].arrayValue
-        for route in routes {
-            let legs = route["legs"].arrayValue
-            if legs.count > 0 {
-                let leg = legs[legs.count - 1]
-                return leg["end_address"].stringValue
-            }
-
-        }
-        return ""
-    }
-
-}
-
-/// MARK: - HMADurationViewDelegate
-extension HMAMapView: HMADurationViewDelegate {
-
-    func touchedUpInside(#durationView: HMADurationView) {
-    }
-
-    func willShow(#durationView: HMADurationView) {
-    }
-
-    func willHide(#durationView: HMADurationView) {
-    }
-
-}
-
-/// MARK: - HMASettingButtonDelegate
-extension HMAMapView: HMASettingButtonDelegate {
-
-    func settingButton(settingButton: HMASettingButton) {
-        HMADrawerController.sharedInstance.setDrawerState(.Opened, animated: true)
-    }
-
-}
-
-
-/// MARK: - HMASearchBoxViewDelegate
-extension HMAMapView: HMASearchBoxViewDelegate {
-
-    func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
-        self.searchResultView.hidden = false
-        self.settingButton.hidden = true
-    }
-
-    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
-        self.searchResultView.hidden = true
-        self.settingButton.hidden = false
-    }
-
-    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
-        self.searchResultView.updateDestinations(destinations)
-    }
-
-    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
-        if self.searchBoxView.isActive { return }
-        self.draw()
-    }
-
-    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D) {
-        self.appendDestination(coordinate)
-        self.updateWhatMapDraws()
-        self.draw()
-        self.updateNextButton()
-    }
-
-}
-
-
-/// MARK: - HMASearchResultViewDelegate
-extension HMAMapView: HMASearchResultViewDelegate {
-
-    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
-        self.searchBoxView.endSearch()
-        self.searchBoxView.setSearchText(selectedDestination.desc)
-
-        let location = self.myLocation
-        if location == nil { return }
-        self.searchBoxView.startSearchGeoLocation(coordinate: location!.coordinate)
-    }
-
-}
-
-
-/// MARK: - HMACircleButtonDelegate
-extension HMAMapView: HMACircleButtonDelegate {
-
-    func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
-        if circleButton == self.crimeButton {
-            self.shouldDrawCrimes = wasOn
-            if wasOn { HMACrimeData.requestToGetCrimeData() }
-        }
-        else if circleButton == self.comfortButton {
-            self.shouldDrawComfort = wasOn
-            if wasOn {
-                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
-                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
-            }
-        }
-        else if circleButton == self.wheelButton {
-            self.shouldDrawWheel = wasOn
-            if wasOn {
-                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: nil, min: HMAWheel.Min.RiderTorque)
-                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: HMAWheel.Max.Acceleration, min: nil)
-            }
-        }
-
-        self.updateWhatMapDraws()
-        self.draw()
+        let address = json.endAddress()
+        return (address == nil) ? "" : address!
     }
 
 }

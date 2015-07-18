@@ -128,9 +128,22 @@
                     <view key="view" contentMode="scaleToFill" id="uSs-iS-ed9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3o6-yu-MDe" customClass="HMANextButton" customModule="HyperMediaAD" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="568" width="320" height="48"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchedUpInsideButton:" destination="b0J-Kg-FDk" eventType="touchUpInside" id="nX6-m5-mrs"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="nextButton" destination="3o6-yu-MDe" id="F1A-3P-2dH"/>
                         <segue destination="qc7-gK-ni9" kind="modal" identifier="HMAWebViewController" id="eWL-Ft-kns"/>
                     </connections>
                 </viewController>

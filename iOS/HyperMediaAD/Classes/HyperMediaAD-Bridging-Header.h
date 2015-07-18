@@ -1,5 +1,4 @@
 /// map
-//#import "Mapbox.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import "Polyline.h"
 /// font
@@ -8,9 +7,7 @@
 #import "QTouchposeApplication.h"
 #import "BFPaperButton.h"
 #import "TYMActivityIndicatorView.h"
-//#import "LFHeatMap.h"
 #import "HMAHeatMap.h"
-#import "HMAMapTile.h"
 #import "MTStatusBarOverlay.h"
 #import "FSLineChart.h"
 /// network

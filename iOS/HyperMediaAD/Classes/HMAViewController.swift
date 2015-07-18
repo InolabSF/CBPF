@@ -7,27 +7,142 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     /// MARK: - property
     var locationManager: CLLocationManager!
+
+    /// UserInterface mode
     var userInterfaceMode = HMAUserInterface.Mode.SetDestinations
+    /// MapView
     var mapView: HMAMapView!
 
-    //var yelpButton: HMABottomButton!
+    /// setting button
+    private var settingButton: HMASettingButton!
+    /// next button
+    @IBOutlet weak var nextButton: HMANextButton!
+    /// crime button
+    private var crimeButton: HMACircleButton!
+    /// heatindex button
+    private var comfortButton: HMACircleButton!
+    /// wheel button
+    private var wheelButton: HMACircleButton!
+    /// view to show duration
+    private var durationView: HMADurationView!
+    /// search box
+    private var searchBoxView: HMASearchBoxView!
+    /// search result
+    private var searchResultView: HMASearchResultView!
 
 
     /// MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("changeUserInterfaceMode:"), name: HMANotificationCenter.ChangeUserInterfaceMode, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("GoToTheLocation:"), name: HMANotificationCenter.GoToTheLocation, object: nil)
-        self.doSettings()
+        // notification
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: Selector("changeUserInterfaceMode:"),
+            name: HMANotificationCenter.ChangeUserInterfaceMode,
+            object: nil
+        )
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: Selector("GoToTheLocation:"),
+            name: HMANotificationCenter.GoToTheLocation,
+            object: nil
+        )
+
+        // google map view
+        self.mapView = HMAMapView.sharedInstance
+        self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+        self.mapView.delegate = self
+        self.view.addSubview(self.mapView)
+        self.mapView.doSettings()
+        self.mapView.setUserInterfaceMode(self.userInterfaceMode)
+        self.mapView.camera = GMSCameraPosition.cameraWithLatitude(
+            HMAGoogleMap.Latitude,
+            longitude: HMAGoogleMap.Longitude,
+            zoom: HMAGoogleMap.Zoom.Default
+        )
+
+        // next button
+        self.nextButton.design()
+        self.view.bringSubviewToFront(self.nextButton)
+
+        // circle button
+        let rect = UIScreen.mainScreen().bounds
+        var circleButtons: [HMACircleButton] = []
+        let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
+        for var i = 0; i < circleButtonImages.count; i++ {
+            let circleButtonNib = UINib(nibName: HMANSStringFromClass(HMACircleButton), bundle:nil)
+            let circleButtonViews = circleButtonNib.instantiateWithOwner(nil, options: nil)
+            let circleButtonView = circleButtonViews[0] as! HMACircleButton
+            circleButtonView.frame = CGRectMake(
+                rect.size.width - circleButtonView.frame.size.width - 10.0,
+                rect.size.height - (circleButtonView.frame.size.height + 10.0) * CGFloat(i+2),
+                circleButtonView.frame.size.width,
+                circleButtonView.frame.size.height
+            )
+            circleButtonView.setImage(circleButtonImages[i])
+            self.view.addSubview(circleButtonView)
+            circleButtonView.delegate = self
+
+            circleButtons.append(circleButtonView)
+        }
+        self.crimeButton = circleButtons[0]
+        self.comfortButton = circleButtons[1]
+        self.wheelButton = circleButtons[2]
+
+        // search result
+        let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
+        let searchResultViews = searchResultNib.instantiateWithOwner(nil, options: nil)
+        self.searchResultView = searchResultViews[0] as! HMASearchResultView
+        self.searchResultView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+        self.searchResultView.hidden = true
+        self.searchResultView.delegate = self
+        self.view.addSubview(self.searchResultView)
+        self.searchResultView.design()
+
+        // search box
+        let searchBoxNib = UINib(nibName: HMANSStringFromClass(HMASearchBoxView), bundle:nil)
+        let searchBoxViews = searchBoxNib.instantiateWithOwner(nil, options: nil)
+        self.searchBoxView = searchBoxViews[0] as! HMASearchBoxView
+        self.searchBoxView.delegate = self
+        self.view.addSubview(self.searchBoxView)
+        self.searchBoxView.design(parentView: self.view)
+
+        // duration view
+        let durationViewNib = UINib(nibName: HMANSStringFromClass(HMADurationView), bundle:nil)
+        let durationViews = durationViewNib.instantiateWithOwner(nil, options: nil)
+        self.durationView = durationViews[0] as! HMADurationView
+        self.durationView.delegate = self
+        self.view.addSubview(self.durationView)
+        self.durationView.design(parentView: self.view)
+
+        // setting button
+        let settingButtonNib = UINib(nibName: HMANSStringFromClass(HMASettingButton), bundle:nil)
+        let settingButtonViews = settingButtonNib.instantiateWithOwner(nil, options: nil)
+        self.settingButton = settingButtonViews[0] as! HMASettingButton
+        self.settingButton.delegate = self
+        self.settingButton.frame = CGRectMake(0, 0, self.settingButton.frame.size.width, self.settingButton.frame.size.height)
+        self.view.addSubview(self.settingButton)
+
+        // location manager
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.distanceFilter = 300
+        self.locationManager.startUpdatingLocation()
+
+        self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+/*
         if (segue.identifier == HMANSStringFromClass(HMAWebViewController)) {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.viewControllers[0] as! HMAWebViewController
             vc.initialURL = sender as? NSURL
         }
+*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,19 +152,32 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
     /// MARK: - event listener
 
+    @IBAction func touchedUpInsideButton(button: UIButton) {
+        if button == self.nextButton {
+            // change UI mode
+            if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
+                self.setUserInterfaceMode(HMAUserInterface.Mode.SetRoute)
+            }
+            else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
+                self.setUserInterfaceMode(HMAUserInterface.Mode.Cycle)
+            }
+            else if self.userInterfaceMode == HMAUserInterface.Mode.Cycle {
+                self.mapView.removeAllDestinations()
+                self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
+            }
+        }
+    }
+
 
     /// MARK: - notificatoin
 
     internal func changeUserInterfaceMode(notificatoin: NSNotification) {
         let mode = notificatoin.userInfo![HMANotificationCenter.ChangeUserInterfaceMode] as? Int
         if mode == HMAUserInterface.Mode.SetDestinations {
-            self.mapView.removeAllWaypoints()
             self.mapView.removeAllDestinations()
-            self.mapView.setRouteJSONs(nil)
         }
         else if mode == HMAUserInterface.Mode.SetRoute {
             self.mapView.removeAllWaypoints()
-            self.mapView.setRouteJSONs(nil)
         }
 
         self.setUserInterfaceMode(mode!)
@@ -78,29 +206,24 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         else if mode == HMAUserInterface.Mode.Cycle {
             self.mapView.updateWhatMapDraws()
         }
+
         // draw
         self.mapView.draw()
-        // routing
 
+        // routing
         if mode == HMAUserInterface.Mode.SetRoute {
             self.mapView.requestRoute(
                 { [unowned self] () in
                     self.mapView.updateCameraWhenRoutingHasDone()
+                    self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
                 }
             )
         }
 
         // status bar color
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
-//        if mode == HMAUserInterface.Mode.SetRoute {
-//            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-//        }
-//        else {
-//            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
-//        }
 
         // zoom
-
         if mode == HMAUserInterface.Mode.SetDestinations {
             self.mapView.moveCamera(GMSCameraUpdate.setTarget(self.mapView.projection.coordinateForPoint(self.mapView.center), zoom: HMAGoogleMap.Zoom.Default))
         }
@@ -111,49 +234,65 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
 
+        // next button
+        if mode == HMAUserInterface.Mode.SetDestinations { self.updateNextButton(); self.nextButton.setTitle("Route", forState: .Normal) }
+        else if mode == HMAUserInterface.Mode.SetRoute { self.nextButton.setTitle("Start Cycling", forState: .Normal) }
+        else if mode == HMAUserInterface.Mode.Cycle { self.nextButton.setTitle("End Cycling", forState: .Normal) }
+
+        // circle button
+        let isOn = (mode == HMAUserInterface.Mode.SetRoute) ? true : false
+        self.crimeButton.setIsOn(isOn)
+        self.comfortButton.setIsOn(isOn)
+        self.wheelButton.setIsOn(isOn)
+
+        // duration view
+        if mode == HMAUserInterface.Mode.SetDestinations { self.durationView.hide() }
+
+        // search box
+        if mode == HMAUserInterface.Mode.SetDestinations { self.searchBoxView.show() }
+        else { self.searchBoxView.hide() }
+
         // update slide menu
-        let slideMenuController = HMADrawerController.sharedInstance.drawerViewController as! HMASlideMenuController
-        slideMenuController.updateUserInterfaceMode(mode)
+        let drawerController: HMADrawerController? = HMADrawerController.sharedInstance
+        if drawerController != nil { (drawerController!.drawerViewController as! HMASlideMenuController).updateUserInterfaceMode(mode) }
     }
 
     /**
-     * do settings
+     * update next button
      **/
-    private func doSettings() {
-        // google map view
-        self.mapView = HMAMapView.sharedInstance
-        self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-        self.mapView.delegate = self
-        self.mapView.hmaDelegate = self
-        self.view.addSubview(self.mapView)
-        self.mapView.doSettings()
-        self.mapView.setUserInterfaceMode(self.userInterfaceMode)
-        self.mapView.camera = GMSCameraPosition.cameraWithLatitude(
-            HMAGoogleMap.Latitude,
-            longitude: HMAGoogleMap.Longitude,
-            zoom: HMAGoogleMap.Zoom.Default
-        )
-/*
-        // yelp
-        let yelpButtonNib = UINib(nibName: HMANSStringFromClass(HMABottomButton), bundle:nil)
-        let yelpButtonViews = yelpButtonNib.instantiateWithOwner(nil, options: nil)
-        self.yelpButton = yelpButtonViews[0] as! HMABottomButton
-        self.yelpButton.frame = CGRectMake(
-            0, self.view.frame.size.height - self.yelpButton.frame.size.height,
-            self.view.frame.size.width, self.yelpButton.frame.size.height
-        )
-        self.view.addSubview(self.yelpButton)
-        self.yelpButton.design()
-        self.yelpButton.delegate = self
-*/
+    private func updateNextButton() {
+        let willShow = (self.mapView.destinations.count > 0)
 
-        // location manager
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.distanceFilter = 300
-        self.locationManager.startUpdatingLocation()
+        UIView.animateWithDuration(
+            (willShow) ? 0.35 : 0.15,
+            delay: 0.0,
+            options: .CurveEaseOut,
+            animations: { [unowned self] in
+                let offsetY = (willShow) ? self.nextButton.frame.size.height : 0
+
+                let rect = UIScreen.mainScreen().bounds
+                self.nextButton.frame = CGRectMake(
+                    0,
+                    rect.size.height-offsetY,
+                    rect.size.width,
+                    self.nextButton.frame.size.height
+                )
+
+                let circleButtons = [self.crimeButton, self.comfortButton, self.wheelButton]
+                for var i = 0; i < circleButtons.count; i++ {
+                    circleButtons[i].frame = CGRectMake(
+                        circleButtons[i].frame.origin.x,
+                        rect.size.height - (circleButtons[i].frame.size.height + 10.0) * CGFloat(i+2) - offsetY,
+                        circleButtons[i].frame.size.width,
+                        circleButtons[i].frame.size.height
+                    )
+                }
+
+                self.mapView.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
+            },
+            completion: { [unowned self] finished in
+            }
+        )
     }
 
 }
@@ -167,19 +306,21 @@ extension HMAViewController: UIActionSheetDelegate {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
             // delete destination
             if buttonIndex == 0 {
-                self.mapView.deleteEditingDestination()
+                self.mapView.deleteEditingMarker()
                 self.mapView.updateWhatMapDraws()
                 self.mapView.draw()
-                self.mapView.updateNextButton()
+                self.updateNextButton()
             }
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             // delete waypoint
             if buttonIndex == 0 {
-                self.mapView.deleteEditingWaypoint()
+                self.mapView.deleteEditingMarker()
                 self.mapView.updateWhatMapDraws()
                 self.mapView.draw()
-                self.mapView.requestRoute({ [unowned self] () in })
+                self.mapView.requestRoute({ [unowned self] () in
+                    self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
+                })
             }
         }
     }
@@ -213,7 +354,7 @@ extension HMAViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
             self.mapView.appendDestination(coordinate)
-            self.mapView.updateNextButton()
+            self.updateNextButton()
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
         }
@@ -221,7 +362,9 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.appendWaypoint(coordinate)
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
-            self.mapView.requestRoute({ [unowned self] () in })
+            self.mapView.requestRoute({ [unowned self] () in
+                self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
+            })
         }
     }
 
@@ -229,7 +372,7 @@ extension HMAViewController: GMSMapViewDelegate {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
             // ask to delete destination marker
             if marker.isKindOfClass(HMADestinationMarker) {
-                self.mapView.startEditingDestination(marker.position)
+                self.mapView.startEditingMarker(marker)
                 self.showDeleteMarkerActionSheet()
                 return false
             }
@@ -241,7 +384,7 @@ extension HMAViewController: GMSMapViewDelegate {
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             // ask to delete waypoint marker
             if marker.isKindOfClass(HMAWaypointMarker) {
-                self.mapView.startEditingWaypoint(marker.position)
+                self.mapView.startEditingMarker(marker)
                 self.showDeleteMarkerActionSheet()
                 return false
             }
@@ -261,25 +404,27 @@ extension HMAViewController: GMSMapViewDelegate {
 
     func mapView(mapView: GMSMapView,  didBeginDraggingMarker marker: GMSMarker) {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
-            self.mapView.startDraggingDestination(marker.position)
+            self.mapView.startEditingMarker(marker)
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
-            self.mapView.startDraggingWaypoint(marker.position)
+            self.mapView.startEditingMarker(marker)
         }
     }
 
     func mapView(mapView: GMSMapView,  didEndDraggingMarker marker: GMSMarker) {
         if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
-            self.mapView.endDraggingDestination(marker.position)
+            self.mapView.endDraggingMarker(marker)
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
-            self.mapView.endDraggingWaypoint(marker.position)
-            self.mapView.requestRoute({ [unowned self] () in })
+            self.mapView.endDraggingMarker(marker)
+            self.mapView.requestRoute({ [unowned self] () in
+                self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
+            })
         }
     }
 
     func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
-        if !(self.mapView.isDraggingNow()) {
+        if !(self.mapView.isEditingMarkerNow()) {
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
         }
@@ -292,15 +437,6 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
-/*
-        // yelp
-        if marker.isKindOfClass(HMAYelpMaker) {
-            let m = marker as! HMAYelpMaker
-            if m.yelpData.mobile_url != nil {
-                self.performSegueWithIdentifier(HMANSStringFromClass(HMAWebViewController), sender: m.yelpData.mobile_url)
-            }
-        }
-*/
     }
 
     func showDeleteMarkerActionSheet() {
@@ -315,28 +451,6 @@ extension HMAViewController: GMSMapViewDelegate {
 }
 
 
-/// MARK: - HMAMapViewDelegate
-extension HMAViewController: HMAMapViewDelegate {
-
-    func touchedUpInsideNextButton(#mapView: HMAMapView) {
-        // change UI mode
-        if self.userInterfaceMode == HMAUserInterface.Mode.SetDestinations {
-            self.setUserInterfaceMode(HMAUserInterface.Mode.SetRoute)
-        }
-        else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
-            self.setUserInterfaceMode(HMAUserInterface.Mode.Cycle)
-        }
-        else if self.userInterfaceMode == HMAUserInterface.Mode.Cycle {
-            self.mapView.removeAllWaypoints()
-            self.mapView.removeAllDestinations()
-            self.mapView.setRouteJSONs(nil)
-            self.setUserInterfaceMode(HMAUserInterface.Mode.SetDestinations)
-        }
-    }
-
-}
-
-
 /// MARK: - KYDrawerControllerDelegate
 extension HMAViewController: KYDrawerControllerDelegate {
 
@@ -346,57 +460,102 @@ extension HMAViewController: KYDrawerControllerDelegate {
 }
 
 
-/*
-/// MARK: - HMABottomButtonDelegate
-extension HMAViewController: HMABottomButtonDelegate {
+/// MARK: - HMASettingButtonDelegate
+extension HMAViewController: HMASettingButtonDelegate {
 
-    func bottomButtonWasClicked(#bottomButton: HMABottomButton) {
-        let modalViewNib = UINib(nibName: HMANSStringFromClass(HMAYelpSemiModalView), bundle:nil)
-        let modalViews = modalViewNib.instantiateWithOwner(nil, options: nil)
-        var modalView = modalViews[0] as! HMAYelpSemiModalView
-        self.presentModalView(modalView)
-        modalView.delegate = self
+    func settingButton(settingButton: HMASettingButton) {
+        HMADrawerController.sharedInstance.setDrawerState(.Opened, animated: true)
     }
 
 }
 
 
-/// MARK: - HMAYelpSemiModalViewDelegate
-extension HMAViewController: HMAYelpSemiModalViewDelegate {
+/// MARK: - HMACircleButtonDelegate
+extension HMAViewController: HMACircleButtonDelegate {
 
-    func semiModalView(semiModalView: HMAYelpSemiModalView, didDecideSearchWord searchWord: String) {
-        HMAYelpClient.sharedInstance.getSearchResult(
-            term: searchWord,
-            completionHandler: { [unowned self] (json) in
-                self.mapView.draw()
+    func circleButton(circleButton: HMACircleButton, wasOn: Bool) {
+        if circleButton == self.crimeButton {
+            self.mapView.shouldDrawCrimes = wasOn
+            if wasOn { HMACrimeData.requestToGetCrimeData() }
+        }
+        else if circleButton == self.comfortButton {
+            self.mapView.shouldDrawComfort = wasOn
+            if wasOn {
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Humidity)
+                HMASensorData.requestToGetSensorData(sensorType: HMASensor.SensorType.Temperature)
             }
-        )
+        }
+        else if circleButton == self.wheelButton {
+            self.mapView.shouldDrawWheel = wasOn
+            if wasOn {
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.RiderTorque, max: nil, min: HMAWheel.Min.RiderTorque)
+                HMAWheelData.requestToGetWheelData(dataType: HMAWheel.DataType.Acceleration, max: HMAWheel.Max.Acceleration, min: nil)
+            }
+        }
+        self.mapView.updateWhatMapDraws()
+        self.mapView.draw()
     }
 
 }
-*/
 
-/*
-        // display sensor evaluation graph
-        let sensorEvaluation = HMASensorEvaluation()
-        let sensorGraphs = [ sensorEvaluation.heatIndexGraphView(), sensorEvaluation.pm25GraphView(), sensorEvaluation.soundLevelGraphView(), ]
-        var sensorOffsetY: CGFloat = 20.0
-        for var i = 0; i < sensorGraphs.count; i++ {
-            let graph = sensorGraphs[i]
-            graph.frame = CGRectMake(0, sensorOffsetY, graph.frame.size.width, graph.frame.size.height)
-            self.view.addSubview(graph)
-            sensorOffsetY += graph.frame.size.height
-        }
-*/
-/*
-        // display wheel evaluation graph
-        let wheelEvaluation = HMAWheelEvaluation()
-        let wheelGraphs = [ wheelEvaluation.minusAccelerationGraphView(), ]
-        var wheelOffsetY: CGFloat = 20.0
-        for var i = 0; i < wheelGraphs.count; i++ {
-            let graph = wheelGraphs[i]
-            graph.frame = CGRectMake(0, wheelOffsetY, graph.frame.size.width, graph.frame.size.height)
-            self.view.addSubview(graph)
-            wheelOffsetY += graph.frame.size.height
-        }
-*/
+
+/// MARK: - HMADurationViewDelegate
+extension HMAViewController: HMADurationViewDelegate {
+
+    func touchedUpInside(#durationView: HMADurationView) {
+    }
+
+    func willShow(#durationView: HMADurationView) {
+    }
+
+    func willHide(#durationView: HMADurationView) {
+    }
+
+}
+
+
+/// MARK: - HMASearchBoxViewDelegate
+extension HMAViewController: HMASearchBoxViewDelegate {
+
+    func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
+        self.searchResultView.hidden = false
+        self.settingButton.hidden = true
+    }
+
+    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
+        self.searchResultView.hidden = true
+        self.settingButton.hidden = false
+    }
+
+    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
+        self.searchResultView.updateDestinations(destinations)
+    }
+
+    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
+        if self.searchBoxView.isActive { return }
+        self.mapView.draw()
+    }
+
+    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D) {
+        self.mapView.appendDestination(coordinate)
+        self.mapView.updateWhatMapDraws()
+        self.mapView.draw()
+        self.updateNextButton()
+    }
+
+}
+
+
+/// MARK: - HMASearchResultViewDelegate
+extension HMAViewController: HMASearchResultViewDelegate {
+
+    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
+        self.searchBoxView.endSearch()
+        self.searchBoxView.setSearchText(selectedDestination.desc)
+
+        let location = self.mapView.myLocation
+        if location == nil { return }
+        self.searchBoxView.startSearchGeoLocation(coordinate: location!.coordinate)
+    }
+
+}
