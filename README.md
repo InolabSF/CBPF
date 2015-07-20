@@ -14,7 +14,7 @@ CBPF - Connected Bicycle Platform
 
 local: http://localhost:3000
 
-dev: https://isid-cbpf.herokuapp.com
+dev: https://connected-bicycle-platform.herokuapp.com
 
 
 ### DB
@@ -68,7 +68,7 @@ dev: https://isid-cbpf.herokuapp.com
 
 ## Dashboard
 
-・[To Check Database](https://isid-cbpf.herokuapp.com/dashboard/index)
+・[To Check Database](https://connected-bicycle-platform.herokuapp.com/dashboard/index)
 
 
 ## Sensor and Wheel Data
