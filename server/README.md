@@ -33,12 +33,21 @@ $ heroku run rails runner Tasks::CrimeDataCollectionTask.execute_all
 
 ### automatical cron
 ```
+# example (local)
 # register
 $ bundle exec whenever --update-crontab
-
 # delete
 $ bundle exec whenever --clear-crontab
+$
+# example (heroku)
+# create scheduler
+$ heroku addons:create scheduler:standard
+# test scheduler
+$ heroku run rake update_feed
+# set scheduler
+$ heroku addons:open scheduler
 ```
+
 
 ### sensor data API
 ```

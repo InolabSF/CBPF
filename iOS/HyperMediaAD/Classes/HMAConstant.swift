@@ -84,9 +84,9 @@ struct HMANotificationCenter {
 #if LOCAL_SERVER
 let kURIBase =                          "http://localhost:3000"
 #elseif DEV_SERVER
-let kURIBase =                          "https://isid-cbpf.herokuapp.com"
+let kURIBase =                          "https://connected-bicycle-platform.herokuapp.com"
 #else
-let kURIBase =                          "https://isid-cbpf.herokuapp.com"
+let kURIBase =                          "https://connected-bicycle-platform.herokuapp.com"
 #endif
 
 

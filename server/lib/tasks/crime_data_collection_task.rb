@@ -17,6 +17,7 @@ class Tasks::CrimeDataCollectionTask
   end
 
   def self.execute_three_month_ago
+    puts 'Tasks::CrimeDataCollectionTask#execute_three_month_ago done'
     self.execute_sf_government_crime(3, 1)
     puts 'Tasks::CrimeDataCollectionTask#execute_three_month_ago done'
   end
