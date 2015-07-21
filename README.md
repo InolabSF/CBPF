@@ -10,6 +10,8 @@ CBPF - Connected Bicycle Platform
 <a name="sensor_type"> </a><a name="wheel_data_type"> </a>
 ### Server
 
+##### REST API
+
 ・[REST API](http://inolabsf.github.io/CBPF/document/CCPF/server/API/)
 
 local: http://localhost:3000
@@ -17,40 +19,46 @@ local: http://localhost:3000
 dev: https://connected-bicycle-platform.herokuapp.com
 
 
-### DB
+##### DB
 
 ・[SensorData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/SensorData.html)
 
-・[WheelData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/WheelData.html)
-
 ・[CrimeData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/CrimeData.html)
 
-
-### Data Collection
-
-・[CrimeData Collection](http://inolabsf.github.io/CBPF/document/CCPF/DataCollection/CrimeData.html)
+・[WheelData Table](http://inolabsf.github.io/CBPF/document/CCPF/server/DB/WheelData.html)
 
 
-### Evaluation Function
+##### Data Collection
 
-・[Comfort](http://inolabsf.github.io/CBPF/document/CCPF/EvaluationFunction/Comfort.html)
+・[Batch Process](http://inolabsf.github.io/CBPF/document/CCPF/server/DataCollection/BatchProcess.html)
+
+・[SensorData Collection](http://inolabsf.github.io/CBPF/document/CCPF/server/DataCollection/SensorData.html)
+
+・[CrimeData Collection](http://inolabsf.github.io/CBPF/document/CCPF/server/DataCollection/CrimeData.html)
 
 
 ### iOS
 
+##### iPhone
+
 ・~~[iOS API](http://inolabsf.github.io/CBPF/document/AirCasting/iOS/API/)~~
 
+##### Evaluation Function
 
-### Third Party
+・[Comfort](http://inolabsf.github.io/CBPF/document/CCPF/iOS/EvaluationFunction/Comfort.html)
+
+
+#### Third Party
 
 ・[AirCasting private API](http://inolabsf.github.io/CBPF/document/AirCasting/server/API/)
 
 ・[SmartCitizen private API](http://inolabsf.github.io/CBPF/document/SmartCitizen/server/API/)
 
+・[SF OpenData](https://data.sfgov.org/developers)
+
 
 
 ## Prototypes
-
 
 ### Visualization
 
@@ -66,13 +74,14 @@ dev: https://connected-bicycle-platform.herokuapp.com
 ・[Google Map Routing2](https://drive.google.com/file/d/0B1jHhm7QuTPRclhmTl9LWGdRLUU/view?usp=sharing)
 
 
+
 ## Dashboard
 
 ・[To Check Database](https://connected-bicycle-platform.herokuapp.com/dashboard/index)
 
 
-## Sensor and Wheel Data
 
+## Sensor and Wheel Data
 
 ### Server
 
