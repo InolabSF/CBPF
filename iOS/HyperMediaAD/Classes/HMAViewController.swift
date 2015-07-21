@@ -35,6 +35,9 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
+        let rect = UIScreen.mainScreen().bounds
+
         // notification
         NSNotificationCenter.defaultCenter().addObserver(
             self,
@@ -51,7 +54,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
         // google map view
         self.mapView = HMAMapView.sharedInstance
-        self.mapView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+        self.mapView.frame = rect
         self.mapView.delegate = self
         self.view.addSubview(self.mapView)
         self.mapView.doSettings()
@@ -67,7 +70,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         self.view.bringSubviewToFront(self.nextButton)
 
         // circle button
-        let rect = UIScreen.mainScreen().bounds
         var circleButtons: [HMACircleButton] = []
         let circleButtonImages = [UIImage(named: "button_crime")!, UIImage(named: "button_comfort")!, UIImage(named: "button_wheel")!]
         for var i = 0; i < circleButtonImages.count; i++ {
@@ -94,7 +96,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         let searchResultNib = UINib(nibName: HMANSStringFromClass(HMASearchResultView), bundle:nil)
         let searchResultViews = searchResultNib.instantiateWithOwner(nil, options: nil)
         self.searchResultView = searchResultViews[0] as! HMASearchResultView
-        self.searchResultView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+        self.searchResultView.frame = rect
         self.searchResultView.hidden = true
         self.searchResultView.delegate = self
         self.view.addSubview(self.searchResultView)
@@ -143,6 +145,16 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             vc.initialURL = sender as? NSURL
         }
 */
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.layoutUserInterfaces()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.layoutUserInterfaces()
     }
 
     override func didReceiveMemoryWarning() {
@@ -212,6 +224,7 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
 
         // routing
         if mode == HMAUserInterface.Mode.SetRoute {
+            self.durationView.hide()
             self.mapView.requestRoute(
                 { [unowned self] () in
                     self.mapView.updateCameraWhenRoutingHasDone()
@@ -235,7 +248,8 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         // next button
-        if mode == HMAUserInterface.Mode.SetDestinations { self.updateNextButton(); self.nextButton.setTitle("Route", forState: .Normal) }
+        self.updateNextButton()
+        if mode == HMAUserInterface.Mode.SetDestinations { self.nextButton.setTitle("Route", forState: .Normal) }
         else if mode == HMAUserInterface.Mode.SetRoute { self.nextButton.setTitle("Start Cycling", forState: .Normal) }
         else if mode == HMAUserInterface.Mode.Cycle { self.nextButton.setTitle("End Cycling", forState: .Normal) }
 
@@ -268,6 +282,8 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             delay: 0.0,
             options: .CurveEaseOut,
             animations: { [unowned self] in
+                self.layoutUserInterfaces()
+/*
                 let offsetY = (willShow) ? self.nextButton.frame.size.height : 0
 
                 let rect = UIScreen.mainScreen().bounds
@@ -289,10 +305,39 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
                 }
 
                 self.mapView.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
+*/
             },
             completion: { [unowned self] finished in
             }
         )
+    }
+
+    /**
+     * fix UserInterface positions
+     **/
+    private func layoutUserInterfaces() {
+        let rect = UIScreen.mainScreen().bounds
+        self.settingButton.frame = CGRectMake(0, 0, self.settingButton.frame.size.width, self.settingButton.frame.size.height)
+        self.mapView.frame = rect
+        self.searchResultView.frame = rect
+
+        let offsetY = (self.mapView.destinations.count > 0) ? self.nextButton.frame.size.height : 0
+        self.nextButton.frame = CGRectMake(
+            0,
+            rect.size.height-offsetY,
+            rect.size.width,
+            self.nextButton.frame.size.height
+        )
+        let circleButtons = [self.crimeButton, self.comfortButton, self.wheelButton]
+        for var i = 0; i < circleButtons.count; i++ {
+            circleButtons[i].frame = CGRectMake(
+                circleButtons[i].frame.origin.x,
+                rect.size.height - (circleButtons[i].frame.size.height + 10.0) * CGFloat(i+2) - offsetY,
+                circleButtons[i].frame.size.width,
+                circleButtons[i].frame.size.height
+            )
+        }
+        self.mapView.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
     }
 
 }
@@ -318,6 +363,7 @@ extension HMAViewController: UIActionSheetDelegate {
                 self.mapView.deleteEditingMarker()
                 self.mapView.updateWhatMapDraws()
                 self.mapView.draw()
+                self.durationView.hide()
                 self.mapView.requestRoute({ [unowned self] () in
                     self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
                 })
@@ -362,6 +408,7 @@ extension HMAViewController: GMSMapViewDelegate {
             self.mapView.appendWaypoint(coordinate)
             self.mapView.updateWhatMapDraws()
             self.mapView.draw()
+            self.durationView.hide()
             self.mapView.requestRoute({ [unowned self] () in
                 self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
             })
@@ -417,6 +464,7 @@ extension HMAViewController: GMSMapViewDelegate {
         }
         else if self.userInterfaceMode == HMAUserInterface.Mode.SetRoute {
             self.mapView.endDraggingMarker(marker)
+            self.durationView.hide()
             self.mapView.requestRoute({ [unowned self] () in
                 self.durationView.show(destinationString: self.mapView.endAddress(), durationString: self.mapView.routeDuration())
             })
