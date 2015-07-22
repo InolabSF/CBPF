@@ -327,4 +327,22 @@ class WheelController < ApplicationController
     render json: { }
   end
 
+  def stub_data
+    wheel_jsons = params[:wheel_datas]
+    render json: { :application_code => 400 } unless wheel_jsons
+
+    wheel_jsons.each do |wheel_json|
+      wheel_data = WheelData.new
+      next unless wheel_json[:timestamp]
+      wheel_data.timestamp = DateTime.strptime(wheel_json[:timestamp], '%Y-%m-%dT%H:%M:%S.%LZ')
+      wheel_data.lat = wheel_json[:lat]
+      wheel_data.long = wheel_json[:long]
+      wheel_data.value = wheel_json[:value]
+      wheel_data.data_type = wheel_json[:data_type]
+      wheel_data.save if wheel_data.valid?
+    end
+
+    render json: { :application_code => 200 }
+  end
+
 end

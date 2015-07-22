@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'wheel/torque'
   get 'wheel/accel_torque'
   post 'wheel/import_wheel'
-  post 'wheel/data'
+  post 'wheel/stub_data'
   get 'crime/data'
   get 'crime/type'
   get 'dashboard/index'
