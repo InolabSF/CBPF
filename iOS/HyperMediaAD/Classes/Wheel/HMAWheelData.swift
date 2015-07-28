@@ -64,13 +64,15 @@ class HMAWheelData: NSManagedObject {
         ]
         fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
-        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
         var error: NSError? = nil
-        //let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMAWheelData>
-        //return wheelDatas
+        let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMAWheelData>
+        return wheelDatas
+/*
         let wheelDatas = (context.executeFetchRequest(fetchRequest, error: &error) as! NSArray).sortedArrayUsingDescriptors([NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]) as! Array<HMAWheelData>
         return wheelDatas
+*/
     }
 
     /**

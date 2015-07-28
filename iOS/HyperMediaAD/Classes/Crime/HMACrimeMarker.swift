@@ -1,32 +1,52 @@
+/// MARK: - HMACrimeMarkerImage
+struct HMACrimeMakerImage {
+    /// violence
+    static let Violence = UIImage.circleImage(size: CGSizeMake(16.0, 16.0), color: UIColor(red: 255.0 / 255.0, green: 0.0 / 255.0, blue: 0.0 / 255.0, alpha: 0.35))
+    /// stealing vihicle
+    static let StealingVihicle = UIImage.circleImage(size: CGSizeMake(16.0, 16.0), color: UIColor(red: 0.0 / 255.0, green: 128.0 / 255.0, blue: 255.0 / 255.0, alpha: 0.35))
+    /// traffic violation
+    static let TrafficViolation = UIImage.circleImage(size: CGSizeMake(16.0, 16.0), color: UIColor(red: 0.0 / 255.0, green: 160.0 / 255.0, blue: 0.0 / 255.0, alpha: 0.35))
+}
+
+
 /// MARK: - HMACrimeMarker
-class HMACrimeMarker: GMSCircle/*GMSMarker*/ {
+class HMACrimeMarker: /*GMSCircle*/GMSMarker {
 
     /// MARK: - initialization
 
     convenience init(position: CLLocationCoordinate2D, crime: HMACrimeData) {
         self.init()
-
 /*
         // icon
         var iconName = crime.category.lowercaseString
         var image = UIImage(named: "marker_crime_"+iconName)
         if image == nil { image = UIImage(named: "marker_question") }
         self.icon = image
-*/
-//        self.setIcon(crime: crime)
 
         // settings
         self.position = position
-/*
         self.draggable = false
         self.title = crime.category
         self.snippet = crime.desc
+        self.zIndex = HMAGoogleMap.ZIndex.Crime
 */
+
+        // icon
+        self.setIcon(crime: crime)
+        // settings
+        self.position = position
+        self.draggable = false
+        self.title = crime.category
+        self.snippet = crime.desc
         self.zIndex = HMAGoogleMap.ZIndex.Crime
 
-        self.radius = 50.0
+/*
         self.setColor(crime: crime)
-//        self.strokeWidth = 1.0
+        // settings
+        self.position = position
+        self.zIndex = HMAGoogleMap.ZIndex.Crime
+        self.radius = 50.0
+*/
     }
 
 
@@ -36,7 +56,6 @@ class HMACrimeMarker: GMSCircle/*GMSMarker*/ {
      * set icon
      * @param crime HMACrimeData
      **/
-/*
     private func setIcon(#crime: HMACrimeData) {
         let iconNames = [
             "violence" : [
@@ -62,21 +81,30 @@ class HMACrimeMarker: GMSCircle/*GMSMarker*/ {
                 "ALCOHOL",
             ],
         ]
+        let images = [
+            "violence" : HMACrimeMakerImage.Violence,
+            "stealing_vihicle" : HMACrimeMakerImage.StealingVihicle,
+            "traffic_violation" : HMACrimeMakerImage.TrafficViolation,
+        ]
+
         for (iconName, descs) in iconNames {
             for desc in descs {
                 if crime.desc.rangeOfString(desc) == nil { continue }
 
                 // contains
-                self.icon = UIImage(named: "crime_marker_" + iconName)
+                //self.icon = UIImage(named: "crime_marker_" + iconName)
+                //self.icon = UIImage.circleImage(size: CGSizeMake(20.0, 20.0), color: fillColors[iconName]!)
+                self.icon = images[iconName]
                 return
             }
         }
     }
-*/
+
     /**
      * set icon
      * @param crime HMACrimeData
      **/
+/*
     private func setColor(#crime: HMACrimeData) {
         let categories = [
             "violence" : [
@@ -107,13 +135,6 @@ class HMACrimeMarker: GMSCircle/*GMSMarker*/ {
             "stealing_vihicle" : UIColor(red: 0.0 / 255.0, green: 160.0 / 255.0, blue: 0.0 / 255.0, alpha: 0.35),
             "traffic_violation" : UIColor(red: 0.0 / 255.0, green: 128.0 / 255.0, blue: 255.0 / 255.0, alpha: 0.35),
         ]
-/*
-        let strokeColors = [
-            "violence" : UIColor(red: 128.0 / 255.0, green: 0.0 / 255.0, blue: 0.0 / 255.0, alpha: 0.35),
-            "stealing_vihicle" : UIColor(red: 0.0 / 255.0, green: 80.0 / 255.0, blue: 0.0 / 255.0, alpha: 0.35),
-            "traffic_violation" : UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 80.0 / 255.0, alpha: 0.35),
-        ]
-*/
 
         for (category, descs) in categories {
             for desc in descs {
@@ -121,11 +142,10 @@ class HMACrimeMarker: GMSCircle/*GMSMarker*/ {
 
                 // contains
                 self.fillColor = fillColors[category]
-                //self.strokeColor = strokeColors[category]
                 self.strokeColor = UIColor.clearColor()
                 break
             }
         }
     }
-
+*/
 }
