@@ -63,6 +63,7 @@
 		E690B3321B4CC8C00016B464 /* HMADrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3311B4CC8C00016B464 /* HMADrawerController.swift */; };
 		E690B3351B4CD2140016B464 /* HMASettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690B3331B4CD2140016B464 /* HMASettingButton.swift */; };
 		E690B3361B4CD2140016B464 /* HMASettingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = E690B3341B4CD2140016B464 /* HMASettingButton.xib */; };
+		E6D069FD1B63145100414FC7 /* HMAHeatIndexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D069FC1B63145100414FC7 /* HMAHeatIndexData.swift */; };
 		E6DA444E1B28FC2300B0B75B /* HMASensorOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */; };
 		E6DA44501B290C3700B0B75B /* HMASensorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */; };
 		E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */; };
@@ -165,6 +166,7 @@
 		E690B3311B4CC8C00016B464 /* HMADrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMADrawerController.swift; sourceTree = "<group>"; };
 		E690B3331B4CD2140016B464 /* HMASettingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASettingButton.swift; sourceTree = "<group>"; };
 		E690B3341B4CD2140016B464 /* HMASettingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMASettingButton.xib; sourceTree = "<group>"; };
+		E6D069FC1B63145100414FC7 /* HMAHeatIndexData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAHeatIndexData.swift; sourceTree = "<group>"; };
 		E6DA444D1B28FC2300B0B75B /* HMASensorOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorOperationQueue.swift; sourceTree = "<group>"; };
 		E6DA444F1B290C3700B0B75B /* HMASensorMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorMarker.swift; sourceTree = "<group>"; };
 		E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMASensorData.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		E6DB7C3A1B1196C60055DF6C /* Sensor */ = {
 			isa = PBXGroup;
 			children = (
+				E6D069FC1B63145100414FC7 /* HMAHeatIndexData.swift */,
 				E6DB7C501B1198180055DF6C /* HMASensorClient.swift */,
 				E6DB7C3C1B1197420055DF6C /* HMASensorData.swift */,
 				E677842F1B3B8EEC00421603 /* HMASensorEvaluation.swift */,
@@ -632,6 +635,7 @@
 				E6DB7C3D1B1197420055DF6C /* HMASensorData.swift in Sources */,
 				E656422D1B27D6FA00F955BC /* NSDate+Ago.swift in Sources */,
 				E61C9AB31B4DFCFE00381EE7 /* HMATestTableViewCell.swift in Sources */,
+				E6D069FD1B63145100414FC7 /* HMAHeatIndexData.swift in Sources */,
 				E68E31191B310CBE00B820C0 /* HMAYelpMaker.swift in Sources */,
 				E62A6C371AF0352100275377 /* HMAViewController.swift in Sources */,
 				E656421A1B27D4AD00F955BC /* HMASearchResultView.swift in Sources */,

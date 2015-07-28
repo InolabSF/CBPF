@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="HMACrimeData" representedClassName="HyperMediaAD.HMACrimeData" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="long" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="HMAHeatIndexData" representedClassName="HyperMediaAD.HMAHeatIndexData" syncable="YES">
+        <attribute name="humidity" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="long" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="HMASensorData" representedClassName="HyperMediaAD.HMASensorData" syncable="YES">
@@ -32,5 +39,6 @@
         <element name="HMASensorData" positionX="-54" positionY="-9" width="128" height="135"/>
         <element name="HMAWheelData" positionX="-63" positionY="-18" width="128" height="120"/>
         <element name="HMAYelpCategory" positionX="-54" positionY="36" width="128" height="90"/>
+        <element name="HMAHeatIndexData" positionX="-45" positionY="18" width="128" height="120"/>
     </elements>
 </model>

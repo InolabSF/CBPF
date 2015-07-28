@@ -283,29 +283,6 @@ class HMAViewController: UIViewController, CLLocationManagerDelegate {
             options: .CurveEaseOut,
             animations: { [unowned self] in
                 self.layoutUserInterfaces()
-/*
-                let offsetY = (willShow) ? self.nextButton.frame.size.height : 0
-
-                let rect = UIScreen.mainScreen().bounds
-                self.nextButton.frame = CGRectMake(
-                    0,
-                    rect.size.height-offsetY,
-                    rect.size.width,
-                    self.nextButton.frame.size.height
-                )
-
-                let circleButtons = [self.crimeButton, self.comfortButton, self.wheelButton]
-                for var i = 0; i < circleButtons.count; i++ {
-                    circleButtons[i].frame = CGRectMake(
-                        circleButtons[i].frame.origin.x,
-                        rect.size.height - (circleButtons[i].frame.size.height + 10.0) * CGFloat(i+2) - offsetY,
-                        circleButtons[i].frame.size.width,
-                        circleButtons[i].frame.size.height
-                    )
-                }
-
-                self.mapView.padding = UIEdgeInsetsMake(0.0, 0.0, offsetY, 0.0)
-*/
             },
             completion: { [unowned self] finished in
             }
@@ -472,10 +449,11 @@ extension HMAViewController: GMSMapViewDelegate {
     }
 
     func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
-        if !(self.mapView.isEditingMarkerNow()) {
-            self.mapView.updateWhatMapDraws()
-            self.mapView.draw()
-        }
+        if self.mapView.isEditingMarkerNow() { return }
+        //if !(self.mapView.shouldUpdateWhatMapDraws()) { return }
+
+        self.mapView.updateWhatMapDraws()
+        self.mapView.draw()
     }
 
     func mapView(mapView: GMSMapView, idleAtCameraPosition position: GMSCameraPosition) {

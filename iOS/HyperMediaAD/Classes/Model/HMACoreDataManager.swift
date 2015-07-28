@@ -56,6 +56,7 @@ class HMACoreDataManager {
         if HMACoreDataManager.isTooFarFromLastLocation(currentLocation: currentLocation) {
             HMACrimeData.delete()
             HMASensorData.delete()
+            HMAHeatIndexData.delete()
             HMAWheelData.delete()
 
             HMACoreDataManager.setDataLocation(currentLocation)

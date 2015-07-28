@@ -35,8 +35,33 @@ class HMASensorData: NSManagedObject {
             coordinate: coordinate,
             completionHandler: { (json) in
                 HMASensorData.save(sensorType: sensorType, json: json)
+                HMAHeatIndexData.save()
             }
         )
+    }
+
+    /**
+     * fetch datas from coredata
+     * @param sensorType HMASensor.SensorType(Int)
+     * @return Array<HMASensorData>
+     */
+    class func fetch(#sensorType: Int) -> Array<HMASensorData> {
+        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+
+        var fetchRequest = NSFetchRequest()
+        let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
+        fetchRequest.entity = entity
+        fetchRequest.fetchBatchSize = 20
+        let predicaets = [
+            NSPredicate(format: "sensor_id = %d", sensorType),
+        ]
+        fetchRequest.returnsObjectsAsFaults = false
+        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
+
+        var error: NSError? = nil
+        let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMASensorData>
+        return sensorDatas
     }
 
     /**
@@ -167,6 +192,25 @@ class HMASensorData: NSManagedObject {
         }
     }
 
+    /**
+     * check if client needs to get new sensor data
+     * @param sensorType HMASensor.SensorType(Int)
+     * @return Bool
+     **/
+    class func hasData(#sensorType: Int) -> Bool {
+        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
+        if key == nil { return true } // invalid sensor type
+
+        // saved
+        let savedYearMonthDay = NSUserDefaults().stringForKey(key!)
+        // current
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
+        return (savedYearMonthDay == currentYearMonthDay)
+    }
+
 
     /// MARK: - private class method
 
@@ -195,25 +239,6 @@ class HMASensorData: NSManagedObject {
     private class func getUserDefaultsKey(#sensorType: Int) -> String? {
         var keys = HMASensorData.getUserDefaultsAllKeys()
         return keys[sensorType]
-    }
-
-    /**
-     * check if client needs to get new sensor data
-     * @param sensorType HMASensor.SensorType(Int)
-     * @return Bool
-     **/
-    private class func hasData(#sensorType: Int) -> Bool {
-        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
-        if key == nil { return true } // invalid sensor type
-
-        // saved
-        let savedYearMonthDay = NSUserDefaults().stringForKey(key!)
-        // current
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
-        return (savedYearMonthDay == currentYearMonthDay)
     }
 
 }

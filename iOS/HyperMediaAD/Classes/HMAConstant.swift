@@ -42,6 +42,7 @@ struct HMAUserDefaults {
     static let SensorNoiseYearMonthDay =                        "HMAUserDefaults.SensorNoiseYearMonthDay"
     static let SensorTemperatureYearMonthDay =                  "HMAUserDefaults.SensorTemperatureYearMonthDay"
     static let SensorLightYearMonthDay =                        "HMAUserDefaults.SensorLightYearMonthDay"
+    static let HeatIndexYearMonthDay =                          "HMAUserDefaults.HeatIndexYearMonthDay"
     /// wheel
     static let WheelSpeedYearMonthDay =                         "HMAUserDefaults.WheelSpeedYearMonthDay"
     static let WheelSlopeYearMonthDay =                         "HMAUserDefaults.WheelSlopeYearMonthDay"
@@ -219,6 +220,12 @@ struct HMAGoogleMap {
         static let MinOfComfort: Float =       12.0
         static let MinOfWheel: Float =         12.0
         static let MinOfYelp: Float =          12.0
+    }
+
+    /// max number to draw
+    struct MaxNumber {
+        static let Crime =                     250
+        static let Wheel =                     1000
     }
 
     /// z index

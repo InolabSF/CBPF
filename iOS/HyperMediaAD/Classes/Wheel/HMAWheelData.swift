@@ -56,6 +56,7 @@ class HMAWheelData: NSManagedObject {
         let entity = NSEntityDescription.entityForName("HMAWheelData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
+        fetchRequest.fetchLimit = HMAGoogleMap.MaxNumber.Wheel
         let predicaets = [
             NSPredicate(format: "data_type= %d", dataType),
             NSPredicate(format: "(lat <= %@) AND (lat >= %@)", NSNumber(double: maximumCoordinate.latitude), NSNumber(double: minimumCoordinate.latitude)),
@@ -63,10 +64,12 @@ class HMAWheelData: NSManagedObject {
         ]
         fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
+        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
         var error: NSError? = nil
-        let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMAWheelData>
+        //let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMAWheelData>
+        //return wheelDatas
+        let wheelDatas = (context.executeFetchRequest(fetchRequest, error: &error) as! NSArray).sortedArrayUsingDescriptors([NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]) as! Array<HMAWheelData>
         return wheelDatas
     }
 

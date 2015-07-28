@@ -6,18 +6,19 @@ extension UIImage {
     /**
      * make heatIndex heatmap imageView for GMSMapView
      * @param mapView GMSMapView
+     * @param frame CGRect
      * @param locations [CLLocation]
      * @param weights [NSNumber]
      * @param boost Float
      * @return HMAHeatMapImageView
      **/
-    class func heatIndexHeatmapImage(#mapView: GMSMapView, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
+    class func heatIndexHeatmapImage(#mapView: GMSMapView, frame: CGRect, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
         var points: [NSValue] = []
         for var i = 0; i < locations.count; i++ {
             let location = locations[i]
             points.append(NSValue(CGPoint: mapView.projection.pointForCoordinate(location.coordinate)))
         }
-        return HMAHeatMap.heatIndexHeatmapWithRect(mapView.frame, boost: boost, points: points, weights: weights)
+        return HMAHeatMap.heatIndexHeatmapWithRect(frame, boost: boost, points: points, weights: weights)
     }
 
     /**

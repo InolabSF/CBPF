@@ -29,10 +29,8 @@ class HMAMapView: GMSMapView {
 
     /// crimes
     private var crimeDatas: [HMACrimeData]! = []
-    /// humidityDatas
-    private var humidityDatas: [HMASensorData]! = []
-    /// temperatureDatas
-    private var temperatureDatas: [HMASensorData]! = []
+    /// heatIndexDatas
+    private var heatIndexDatas: [HMAHeatIndexData]! = []
     /// accelDatas
     private var accelDatas: [HMAWheelData]! = []
     /// torqueDatas
@@ -44,6 +42,11 @@ class HMAMapView: GMSMapView {
     var shouldDrawComfort = false
     /// should draw wheel
     var shouldDrawWheel = false
+
+//    /// drawing rect
+//    var drawingRect: CGRect? = nil
+//    /// drawing zoom
+//    var drawingZoom: Float? = nil
 
 
     /// MARK: - public api
@@ -65,23 +68,52 @@ class HMAMapView: GMSMapView {
      * update what map draws
      **/
     func updateWhatMapDraws() {
-        let min = self.minimumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
-        let max = self.maximumCoordinate(mapViewPoints: [ CGPointMake(0, 0), CGPointMake(0, self.frame.size.height), CGPointMake(self.frame.size.width, 0), CGPointMake(self.frame.size.width, self.frame.size.height), ])
+        let points = [
+/*
+            CGPointMake(-self.frame.size.width*0.5, -self.frame.size.height*0.5),
+            CGPointMake(-self.frame.size.width*0.5, self.frame.size.height*1.5),
+            CGPointMake(self.frame.size.width*1.5, -self.frame.size.height*0.5),
+            CGPointMake(self.frame.size.width*1.5, self.frame.size.height*1.5),
+*/
+            CGPointMake(0, 0),
+            CGPointMake(0, self.frame.size.height),
+            CGPointMake(self.frame.size.width, 0),
+            CGPointMake(self.frame.size.width, self.frame.size.height),
+        ]
+        let min = self.minimumCoordinate(mapViewPoints: points)
+        let max = self.maximumCoordinate(mapViewPoints: points)
+
+        //var crimeInterval = 0.0
+        //var comfortInterval = 0.0
+        //var wheelInterval = 0.0
 
         // crime
         if self.shouldDrawCrimes {
+            //var start = NSDate()
             self.crimeDatas = HMACrimeData.fetch(minimumCoordinate: min, maximumCoordinate: max)
+            //crimeInterval = NSDate().timeIntervalSinceDate(start)
         }
+        else { self.crimeDatas = [] }
         // comfort
         if self.shouldDrawComfort {
-            self.humidityDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Humidity, minimumCoordinate: min, maximumCoordinate: max)
-            self.temperatureDatas = HMASensorData.fetch(sensorType: HMASensor.SensorType.Temperature, minimumCoordinate: min, maximumCoordinate: max)
+            //var start = NSDate()
+            self.heatIndexDatas = HMAHeatIndexData.fetch(minimumCoordinate: min, maximumCoordinate: max)
+            //comfortInterval = NSDate().timeIntervalSinceDate(start)
         }
+        else { self.heatIndexDatas = [] }
         // wheel
         if self.shouldDrawWheel {
+            //var start = NSDate()
             self.accelDatas = HMAWheelData.fetch(dataType: HMAWheel.DataType.Acceleration, minimumCoordinate: min, maximumCoordinate: max)
             self.torqueDatas = HMAWheelData.fetch(dataType: HMAWheel.DataType.RiderTorque, minimumCoordinate: min, maximumCoordinate: max)
+            //wheelInterval = NSDate().timeIntervalSinceDate(start)
         }
+        else {
+            self.accelDatas = []
+            self.torqueDatas = []
+        }
+
+        //HMALOG("DB crime:\(crimeInterval), comfort:\(comfortInterval), wheel:\(wheelInterval)")
     }
 
     /**
@@ -91,20 +123,32 @@ class HMAMapView: GMSMapView {
         // clear
         self.overlayManager.clearOverlays()
 
+        //var crimeInterval = 0.0
+        //var comfortInterval = 0.0
+        //var wheelInterval = 0.0
+
         let zoom = self.camera.zoom
 
         // crime
         if zoom > HMAGoogleMap.Zoom.MinOfCrime && self.shouldDrawCrimes {
+            //var start = NSDate()
             self.drawCrimeMakers()
+            //crimeInterval = NSDate().timeIntervalSinceDate(start)
         }
         // comfort
         if zoom > HMAGoogleMap.Zoom.MinOfComfort && self.shouldDrawComfort {
+            //var start = NSDate()
             self.drawHeatIndexHeatmap()
+            //comfortInterval = NSDate().timeIntervalSinceDate(start)
         }
         // wheel
         if zoom > HMAGoogleMap.Zoom.MinOfWheel && self.shouldDrawWheel {
+            //var start = NSDate()
             self.drawWheelPolyline()
+            //wheelInterval = NSDate().timeIntervalSinceDate(start)
         }
+
+        //HMALOG("Rendering crime:\(crimeInterval), comfort:\(comfortInterval), wheel:\(wheelInterval)")
 
         // destination
         self.drawDestinations()
@@ -367,6 +411,92 @@ class HMAMapView: GMSMapView {
         self.animateToBearing(angle)
     }
 
+    /**
+     * return routeDuration
+     * @return String ex) "7 mins"
+     **/
+    func routeDuration() -> String {
+        let jsons = self.routeJSONs
+        if jsons == nil { return "" }
+
+        var seconds = 0
+        for var i = 0; i < jsons!.count; i++ {
+            seconds += jsons![i].routeSeconds()
+        }
+        let hour = seconds / 3600
+        let min = (seconds % 3600) / 60
+        if hour > 0 { return "\(hour) hr \(min) min" }
+        else if min > 0 { return "\(min) min" }
+        return ""
+    }
+
+    /**
+     * return endAddress
+     * @return String ex) "711B Market Street, San Francisco, CA 94103, USA"
+     **/
+    func endAddress() -> String {
+        let jsons = self.routeJSONs
+        if jsons == nil { return "" }
+        if jsons!.count == 0 { return "" }
+
+        let json = jsons![jsons!.count - 1]
+        let address = json.endAddress()
+        return (address == nil) ? "" : address!
+    }
+
+//    /**
+//     * check if map should update drawing
+//     * @return Bool
+//     **/
+//    func shouldUpdateWhatMapDraws() -> Bool {
+//        func update() {
+//            let drawingPoints = [
+//                CGPointMake(-self.frame.size.width*0.5, -self.frame.size.height*0.5),
+//                CGPointMake(-self.frame.size.width*0.5, self.frame.size.height*1.5),
+//                CGPointMake(self.frame.size.width*1.5, -self.frame.size.height*0.5),
+//                CGPointMake(self.frame.size.width*1.5, self.frame.size.height*1.5),
+//            ]
+//            let drawingMin = self.minimumCoordinate(mapViewPoints: drawingPoints)
+//            let drawingMax = self.maximumCoordinate(mapViewPoints: drawingPoints)
+//            self.drawingRect = CGRectMake(
+//                CGFloat(drawingMin.latitude),
+//                CGFloat(drawingMin.longitude),
+//                CGFloat(drawingMax.latitude-drawingMin.latitude),
+//                CGFloat(drawingMax.longitude-drawingMin.longitude)
+//            )
+//            self.drawingZoom = self.camera.zoom
+//        }
+//
+//        if self.drawingZoom == nil || self.drawingRect == nil {
+//            update()
+//            return false
+//        }
+//
+//        if abs(self.drawingZoom! - self.camera.zoom) > 0.1 {
+//            update()
+//            return true
+//        }
+//
+//        let cameraPoints = [
+//            CGPointMake(0, 0),
+//            CGPointMake(0, self.frame.size.height),
+//            CGPointMake(self.frame.size.width, 0),
+//            CGPointMake(self.frame.size.width, self.frame.size.height),
+//        ]
+//        let cameraMin = self.minimumCoordinate(mapViewPoints: cameraPoints)
+//        let cameraMax = self.maximumCoordinate(mapViewPoints: cameraPoints)
+//        var cameraRect = CGRectMake(
+//            CGFloat(cameraMin.latitude),
+//            CGFloat(cameraMin.longitude),
+//            CGFloat(cameraMax.latitude-cameraMin.latitude),
+//            CGFloat(cameraMax.longitude-cameraMin.longitude)
+//        )
+//
+//        let contains = CGRectContainsRect(self.drawingRect!, cameraRect)
+//        if !contains { update() }
+//        return contains
+//    }
+
 
     /// MARK: - private api
 
@@ -434,9 +564,22 @@ class HMAMapView: GMSMapView {
     private func drawCrimeMakers() {
         if self.crimeDatas.count == 0 { return }
 
+        //var start = NSDate()
+
+/*
         for crime in self.crimeDatas {
             self.drawCrimeMaker(crime: crime)
         }
+*/
+        var count = self.crimeDatas.count
+        if count > HMAGoogleMap.MaxNumber.Crime { count = HMAGoogleMap.MaxNumber.Crime }
+        for var i = 0; i < count; i++ {
+            self.drawCrimeMaker(crime: self.crimeDatas[i])
+        }
+
+        //var end = NSDate()
+        //var interval = end.timeIntervalSinceDate(start)
+        //HMALOG("drawCrimeMakers: \(interval), count: \(self.crimeDatas.count)")
     }
 
     /**
@@ -453,38 +596,24 @@ class HMAMapView: GMSMapView {
      * draw heat index heatmap
      **/
     private func drawHeatIndexHeatmap() {
-        // make heat index list
-        var heatIndexDatas: [HMASensorData] = []
-        var humidityIndex = 0
-        for var i = 0; i < self.temperatureDatas.count; i++ {
-            var temperatureData = self.temperatureDatas[i]
-            for var j = humidityIndex; j < self.humidityDatas.count; j++ {
-                var humidityData = self.humidityDatas[i]
-                if temperatureData.lat != humidityData.lat ||
-                   temperatureData.long != humidityData.long ||
-                   temperatureData.timestamp != humidityData.timestamp {
-                       continue
-                }
-                humidityIndex = j
-                heatIndexDatas.append(temperatureData)
-                heatIndexDatas.append(humidityData)
-                break
-            }
-        }
-
+        //var start = NSDate()
         // make heatmap
         var locations: [CLLocation] = []
         var weights: [NSNumber] = []
         let boost: Float = 1.0
-        for var i = 0; i < heatIndexDatas.count; i += 2 {
-            locations.append(CLLocation(latitude: heatIndexDatas[i].lat.doubleValue, longitude: heatIndexDatas[i].long.doubleValue))
-            weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: heatIndexDatas[i+1].value.doubleValue, temperature: heatIndexDatas[i].value.doubleValue)))
+        for var i = 0; i < self.heatIndexDatas.count; i++ {
+            locations.append(CLLocation(latitude: self.heatIndexDatas[i].lat.doubleValue, longitude: heatIndexDatas[i].long.doubleValue))
+            weights.append(NSNumber(double: self.sensorEvaluation.getHeatIndexWeight(humidity: heatIndexDatas[i].humidity.doubleValue, temperature: heatIndexDatas[i].temperature.doubleValue)))
         }
         let overlay = GMSGroundOverlay(
             position: self.projection.coordinateForPoint(CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0)),
-            icon: UIImage.heatIndexHeatmapImage(mapView: self, locations: locations, weights: weights, boost: boost),
+            icon: UIImage.heatIndexHeatmapImage(mapView: self, frame: self.frame/*CGRectMake(-self.frame.size.width*0.5, -self.frame.size.height*0.5, self.frame.size.width*2.0, self.frame.size.height*2.0)*/, locations: locations, weights: weights, boost: boost),
             zoomLevel: CGFloat(self.camera.zoom)
         )
+        //var end = NSDate()
+        //var interval = end.timeIntervalSinceDate(start)
+        //HMALOG("Interval: \(interval)")
+
         overlay.bearing = self.camera.bearing
         overlay.map = self
         overlay.zIndex = HMAGoogleMap.ZIndex.HeatIndex
@@ -519,7 +648,7 @@ class HMAMapView: GMSMapView {
             line.zIndex = zIndex
             self.overlayManager.appendOverlay(line)
         }
-
+/*
         // RiderTorque
         for var i = 0; i < self.torqueDatas.count - 1; i++ {
             let locationA = CLLocation(latitude: self.torqueDatas[i].lat.doubleValue, longitude: self.torqueDatas[i].long.doubleValue)
@@ -534,7 +663,8 @@ class HMAMapView: GMSMapView {
                 self.wheelEvaluation.getRiderTorqueZIndex(torqueA: self.torqueDatas[i].value.doubleValue, torqueB: self.torqueDatas[i+1].value.doubleValue)
             )
         }
-
+*/
+        //var start = NSDate()
         // Acceleration
         for var i = 0; i < self.accelDatas.count - 1; i++ {
             let locationA = CLLocation(latitude: self.accelDatas[i].lat.doubleValue, longitude: self.accelDatas[i].long.doubleValue)
@@ -549,6 +679,9 @@ class HMAMapView: GMSMapView {
                 self.wheelEvaluation.getMinusAccelerationZIndex(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
             )
         }
+        //var end = NSDate()
+        //var interval = end.timeIntervalSinceDate(start)
+        //HMALOG("drawWheelPolyline: \(interval), count: \(self.accelDatas.count)")
     }
 
     /**
@@ -584,39 +717,6 @@ class HMAMapView: GMSMapView {
         }
 
         return locations
-    }
-
-    /**
-     * return routeDuration
-     * @return String ex) "7 mins"
-     **/
-    func routeDuration() -> String {
-        let jsons = self.routeJSONs
-        if jsons == nil { return "" }
-
-        var seconds = 0
-        for var i = 0; i < jsons!.count; i++ {
-            seconds += jsons![i].routeSeconds()
-        }
-        let hour = seconds / 3600
-        let min = (seconds % 3600) / 60
-        if hour > 0 { return "\(hour) hr \(min) min" }
-        else if min > 0 { return "\(min) min" }
-        return ""
-    }
-
-    /**
-     * return endAddress
-     * @return String ex) "711B Market Street, San Francisco, CA 94103, USA"
-     **/
-    func endAddress() -> String {
-        let jsons = self.routeJSONs
-        if jsons == nil { return "" }
-        if jsons!.count == 0 { return "" }
-
-        let json = jsons![jsons!.count - 1]
-        let address = json.endAddress()
-        return (address == nil) ? "" : address!
     }
 
 }

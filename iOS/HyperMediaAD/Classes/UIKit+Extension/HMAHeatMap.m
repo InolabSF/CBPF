@@ -205,6 +205,7 @@ inline static int isqrt(int x)
         max_weight = 0.0;
     }
 
+//    NSDate *start = [NSDate new];
     i = 0;
     j = 0;
     for (NSValue* pointValue in points)
@@ -238,7 +239,12 @@ inline static int isqrt(int x)
         i++;
         j++;
     }
+//    NSDate *end = [NSDate new];
+//    NSTimeInterval interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"1: %f", interval);
 
+
+//    start = [NSDate new];
     // Step 1.5
     // Normalize weights to be 0 .. 100 (like percents)
     // Weights array should be integer for not slowing down calculation by
@@ -267,12 +273,16 @@ inline static int isqrt(int x)
             point_weight_percent[i] = 1;
         }
     }
+//    end = [NSDate new];
+//    interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"2: %f", interval);
 
+
+//    start = [NSDate new];
     // Step 1.75 (optional)
     // Grouping and filtering bunches of points in same location
     int currentDistance;
     int currentDensity;
-
     if (groupingEnabled)
     {
         for (i = 0; i < points_num; i++)
@@ -316,7 +326,12 @@ inline static int isqrt(int x)
             }
         }
     }
+//    end = [NSDate new];
+//    interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"3: %f", interval);
 
+
+//    start = [NSDate new];
     // Step 2
     // Fill density info. Density is calculated around each point
     int from_x, from_y, to_x, to_y;
@@ -354,6 +369,9 @@ inline static int isqrt(int x)
             }
         }
     }
+//    end = [NSDate new];
+//    interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"4: %f", interval);
 
 
     free(point_x);
@@ -361,6 +379,7 @@ inline static int isqrt(int x)
     free(point_weight_percent);
 
 
+//    start = [NSDate new];
     // Step 2.5
     // Find max density (doing this in step 2 will have less performance)
     int maxDensity = density[0];
@@ -369,7 +388,12 @@ inline static int isqrt(int x)
         if (maxDensity < density[i])
             maxDensity = density[i];
     }
+//    end = [NSDate new];
+//    interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"5: %f", interval);
 
+
+//    start = [NSDate new];
     // Step 3
     // Render density info into raw RGBA pixels
     i = 0;
@@ -455,6 +479,9 @@ inline static int isqrt(int x)
             }
         }
     }
+//    end = [NSDate new];
+//    interval = [end timeIntervalSinceDate:start];
+//    NSLog(@"6: %f", interval);
 
     free(density);
 
