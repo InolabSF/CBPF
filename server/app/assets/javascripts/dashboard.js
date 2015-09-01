@@ -1,18 +1,19 @@
 (function(global) {
     "use strict;"
 
+    $(function() {
     /// constant
-    var LATITUDE = 42.2355854279;
-    var LONGITUDE = -71.5235686675;
-    //var LATITUDE = 37.7833;
-    //var LONGITUDE = -122.4167;
+    //var LATITUDE = 42.2355854279;
+    //var LONGITUDE = -71.5235686675;
+    var LATITUDE = 37.7833;
+    var LONGITUDE = -122.4167;
     var RADIUS = 50.0;
     var WHEEL_LOCATIONS = "wheel_locations";
+    var SENSOR_DATAS = "sensor_datas";
 
     /// global variable
     var g_map;
     var g_renderer;
-
 
     /**************************************************
      *             MapMath                            *
@@ -139,6 +140,45 @@
         return uri == "/wheel/accel_torque";
     }
 
+    /**************************************************
+     *             SensorMarker                       *
+     **************************************************/
+    function SensorMarker(map, value, lat, long) {
+        this.lat = lat;
+        this.long = long;
+        this.value = Math.floor(value * 10) / 10;
+        this.setMap(map);
+    };
+    SensorMarker.prototype = new google.maps.OverlayView();
+
+    /// Member
+    SensorMarker.prototype.draw = SensorMarker_draw;                            // SensorMarker#draw
+    SensorMarker.prototype.remove = SensorMarker_remove;                        // SensorMarker#remove
+
+    /// Implementation
+    function SensorMarker_draw() {
+        if (!this.div_) {
+            this.div_ = document.createElement( "div" );
+            this.div_.style.position = "absolute";
+            this.div_.style.color = "#006600";
+            this.div_.style.border = "1px solid";
+            this.div_.innerHTML = this.value;
+            var panes = this.getPanes();
+            panes.overlayLayer.appendChild( this.div_ );
+        }
+
+        var point = this.getProjection().fromLatLngToDivPixel( new google.maps.LatLng( this.lat, this.long ) );
+        this.div_.style.left = point.x + 'px';
+        this.div_.style.top = point.y + 'px';
+    }
+
+    function SensorMarker_remove() {
+        if (this.div_) {
+            this.div_.parentNode.removeChild(this.div_);
+            this.div_ = null;
+        }
+    }
+
 
     /**************************************************
      *                    Renderer                    *
@@ -149,6 +189,7 @@
     /// Member
     Renderer.prototype.drawAllMakers = Renderer_drawAllMakers;                            // Renderer#drawAllMakers
     Renderer.prototype.drawMakers = Renderer_drawMakers;                                  // Renderer#drawMakers
+    Renderer.prototype.drawSensorDatas = Renderer_drawSensorDatas;                        // Renderer#drawSensorDatas
     Renderer.prototype.drawResponse = Renderer_drawResponse;                              // Renderer#drawResponse
     Renderer.prototype.drawRangeRect = Renderer_drawRangeRect;                            // Renderer#drawRangeRect
     Renderer.prototype.drawMyLocation = Renderer_drawMyLocation;                          // Renderer#drawMyLocation
@@ -173,6 +214,7 @@
         var colors = ["FF3333", "33FF33", "3333FF", "FFFF33", "33FFFF", "FF33FF", "FFFFFF", "333333"]
         for (key in json) {
             if (key == WHEEL_LOCATIONS) { continue; }
+            if (key == SENSOR_DATAS) { this.drawSensorDatas(json[key]); continue; }
             this.drawMakers(json[key], colors[index]);
             index = (index + 1) % colors.length;
         }
@@ -201,6 +243,19 @@
                     icon: pinImage,
                     shadow: pinShadow
             });
+            this.markers.push(marker);
+        }
+    }
+
+    function Renderer_drawSensorDatas(json) {
+        var HUMIDITY = 1;
+        var PM25 = 5;
+        var NOISE = 6;
+        for (var i = 0; i < json.length; i++) {
+            var lat = json[i]["lat"];
+            var long = json[i]["long"];
+            var value = json[i]["value"];
+            var marker = new SensorMarker(g_map, value, lat, long);
             this.markers.push(marker);
         }
     }
@@ -356,7 +411,6 @@
     /**************************************************
      *                  Main                          *
      **************************************************/
-    $(function() {
         // initialization
         g_renderer = new Renderer();
         g_map = new google.maps.Map(

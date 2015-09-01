@@ -224,7 +224,7 @@ struct HMAGoogleMap {
 
     /// max number to draw
     struct MaxNumber {
-        static let Crime =                     250
+        static let Crime =                     150
         static let Wheel =                     1000
     }
 
