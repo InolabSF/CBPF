@@ -8,7 +8,7 @@ protocol HMABottomButtonDelegate {
      * called when clicked
      * @param bottomButton HMABottomButton
      */
-    func bottomButtonWasClicked(#bottomButton: HMABottomButton)
+    func bottomButtonWasClicked(bottomButton bottomButton: HMABottomButton)
 
 }
 
@@ -32,7 +32,7 @@ class HMABottomButton: UIView {
 
     /// MARK: - event listener
 
-    @IBAction func touchedUpInside(#button: UIButton) {
+    @IBAction func touchedUpInside(button button: UIButton) {
         if button == self.button {
             // delegate
             if self.delegate != nil { self.delegate?.bottomButtonWasClicked(bottomButton: self) }
@@ -49,7 +49,7 @@ class HMABottomButton: UIView {
         self.layer.shadowOffset = CGSizeMake(0.0, 0.0)
         self.layer.shadowColor = UIColor.blackColor().CGColor
         self.layer.shadowOpacity = 0.2
-        var rect = self.bounds
+        let rect = self.bounds
         self.layer.shadowPath = UIBezierPath(rect: rect).CGPath
     }
 

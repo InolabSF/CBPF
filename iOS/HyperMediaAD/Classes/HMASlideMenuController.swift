@@ -2,7 +2,7 @@ import UIKit
 
 
 /// MARK: - HMASlideMenuController
-class HMASlideMenuController: UIViewController, UITableViewDelegate {
+class HMASlideMenuController: UIViewController {
 
     /// MARK: - property
 
@@ -109,7 +109,7 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
      * @param indexPath NSIndexPath
      * @return height CGFloat
      **/
-    private func height(#indexPath: NSIndexPath) -> CGFloat {
+    private func height(indexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row < self.UIModes.count {
             return HMAUserInterfaceModeTableViewCell.hma_height()
         }
@@ -127,7 +127,7 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
      * @param indexPath NSIndexPath
      * @return cell UITableViewCell
      **/
-    private func cell(#indexPath: NSIndexPath) -> UITableViewCell {
+    private func cell(indexPath indexPath: NSIndexPath) -> UITableViewCell {
         // nibName
         var nibName = ""
         if indexPath.row < self.UIModes.count {
@@ -164,7 +164,7 @@ class HMASlideMenuController: UIViewController, UITableViewDelegate {
      * @param indexPath NSIndexPath
      * @return cell UITableViewCell
      **/
-    private func didSelectRow(#indexPath: NSIndexPath) {
+    private func didSelectRow(indexPath indexPath: NSIndexPath) {
         self.selectedIndex = indexPath.row
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
 

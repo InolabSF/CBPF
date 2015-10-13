@@ -58,7 +58,7 @@ class HMADestination: AnyObject {
      * }
      * @return [HMADestination]
      */
-    class func destinations(#json: JSON) -> [HMADestination] {
+    class func destinations(json json: JSON) -> [HMADestination] {
         var destinations: [HMADestination] = []
 
         let predictions: Array<JSON> = json["predictions"].arrayValue

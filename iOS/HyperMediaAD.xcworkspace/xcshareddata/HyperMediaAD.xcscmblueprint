@@ -1,0 +1,51 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BE553FECF21140B9A5B82BA37DCEF188D31D2638",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F9ECD0A4FDAC664D962229BC7D9F62568020AD65" : 0,
+    "13AECCFDEEB377F62322F16415A01BD4588C4001" : 0,
+    "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3" : 0,
+    "49CDAB8249A689DD2FB684F10E837CD2D77E0BE3" : 0,
+    "BE553FECF21140B9A5B82BA37DCEF188D31D2638" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A897F817-1D1E-4317-8F75-4C16F712AED9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F9ECD0A4FDAC664D962229BC7D9F62568020AD65" : "kenzan8000\/Destination%20Alarm",
+    "13AECCFDEEB377F62322F16415A01BD4588C4001" : "HyperMediaAD\/iOS\/HyperMediaAD\/Classes\/KYDrawerController",
+    "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3" : "HyperMediaADiOS\/HyperMediaAD\/Classes\/SwiftyJSON",
+    "49CDAB8249A689DD2FB684F10E837CD2D77E0BE3" : "HyperMediaAD\/iOS\/HyperMediaAD\/Classes\/Polyline",
+    "BE553FECF21140B9A5B82BA37DCEF188D31D2638" : "HyperMediaAD"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "HyperMediaAD",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOS\/HyperMediaAD.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ykyouhei\/KYDrawerController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "13AECCFDEEB377F62322F16415A01BD4588C4001"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/raphaelmor\/Polyline.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "49CDAB8249A689DD2FB684F10E837CD2D77E0BE3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/kenzan8000\/CCPF.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BE553FECF21140B9A5B82BA37DCEF188D31D2638"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/SwiftyJSON\/SwiftyJSON.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/kenzan8000\/Avoid-Crime.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F9ECD0A4FDAC664D962229BC7D9F62568020AD65"
+    }
+  ]
+}

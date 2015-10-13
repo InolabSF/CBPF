@@ -112,12 +112,12 @@ class HMASensorEvaluation: NSObject {
      * @param temperature Double
      * @return comfort evaluation
      */
-    func getHeatIndexWeight(#humidity: Double, temperature: Double) -> Double {
+    func getHeatIndexWeight(humidity humidity: Double, temperature: Double) -> Double {
         let celsius = (temperature - 32.0) / 1.8
         let heatIndex = 0.81 * celsius + 0.01 * humidity * (0.99 * celsius - 14.3) + 46.3
         if heatIndex < HMAHeatIndex.Min { return 0.0 }
         if heatIndex > HMAHeatIndex.Max { return 1.0 }
-        var weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(heatIndex)))
+        let weight = Double(self.heatIndexSplineCurve.interpolate(CGFloat(heatIndex)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -128,11 +128,11 @@ class HMASensorEvaluation: NSObject {
      * @param parameter comfort parameter
      * @return comfort evaluation
      */
-    func getPM25Weight(#parameter: Double) -> Double{
+    func getPM25Weight(parameter parameter: Double) -> Double{
         let pm25 = parameter
         if pm25 < HMAPM25.Min { return 0.0 }
         if pm25 > HMAPM25.Max { return 1.0 }
-        var weight = Double(self.pm25SplineCurve.interpolate(CGFloat(pm25)))
+        let weight = Double(self.pm25SplineCurve.interpolate(CGFloat(pm25)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight
@@ -143,11 +143,11 @@ class HMASensorEvaluation: NSObject {
      * @param parameter comfort parameter
      * @return sound level evaluation
      */
-    func getSoundLevelWeight(#parameter: Double) -> Double{
+    func getSoundLevelWeight(parameter parameter: Double) -> Double{
         let soundLevel = parameter
         if soundLevel < HMASound.Min { return 0.0 }
         if soundLevel > HMASound.Max { return 1.0 }
-        var weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(soundLevel)))
+        let weight = Double(self.soundLevelSplineCurve.interpolate(CGFloat(soundLevel)))
         if weight < 0.0 { return 0.0 }
         if weight > 1.0 { return 1.0 }
         return weight

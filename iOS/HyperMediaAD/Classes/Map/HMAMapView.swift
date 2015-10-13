@@ -169,7 +169,7 @@ class HMAMapView: GMSMapView {
         if mode == HMAUserInterface.Mode.SetRoute {
             self.mapType = kGMSTypeNone
             if self.tileLayer == nil {
-                var urls : GMSTileURLConstructor = { x, y, zoom in
+                let urls : GMSTileURLConstructor = { x, y, zoom in
                     return NSURL(string: "\(HMAMapbox.API.Tiles)\(HMAMapbox.MapID)/\(zoom)/\(x)/\(y).png?access_token=\(HMAMapbox.AccessToken)")
                 }
                 self.tileLayer = GMSURLTileLayer(URLConstructor: urls)
@@ -212,7 +212,7 @@ class HMAMapView: GMSMapView {
      * @param mapViewPoints coordinates on GMSMapView
      * @return CLLocationCoordinate2D
      **/
-    func minimumCoordinate(#mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
+    func minimumCoordinate(mapViewPoints mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
         var min = self.projection.coordinateForPoint(mapViewPoints[0])
         for point in mapViewPoints {
             let coordinate = self.projection.coordinateForPoint(point)
@@ -227,7 +227,7 @@ class HMAMapView: GMSMapView {
      * @param mapViewPoints coordinates on GMSMapView
      * @return CLLocationCoordinate2D
      **/
-    func maximumCoordinate(#mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
+    func maximumCoordinate(mapViewPoints mapViewPoints: [CGPoint]) -> CLLocationCoordinate2D {
         var max = self.projection.coordinateForPoint(mapViewPoints[0])
         for point in mapViewPoints {
             let coordinate = self.projection.coordinateForPoint(point)
@@ -400,7 +400,7 @@ class HMAMapView: GMSMapView {
         if encodedPathes.count == 0 { return }
 
         let path = GMSPath(fromEncodedPath: encodedPathes[0])
-        var bounds = GMSCoordinateBounds(path: path)
+        let bounds = GMSCoordinateBounds(path: path)
         self.moveCamera(GMSCameraUpdate.fitBounds(bounds, withEdgeInsets: UIEdgeInsetsMake(140.0, 40.0, 120.0, 80.0)))
 
         let startPoint = self.projection.pointForCoordinate(startLocation.coordinate)
@@ -518,7 +518,7 @@ class HMAMapView: GMSMapView {
 
         for pathString in encodedPathes {
             let path = GMSPath(fromEncodedPath: pathString)
-            var line = GMSPolyline(path: path)
+            let line = GMSPolyline(path: path)
             line.strokeWidth = 4.0
             line.tappable = false
             line.map = self
@@ -541,8 +541,8 @@ class HMAMapView: GMSMapView {
      * draw waypoint marker
      * @param location location
      **/
-    private func drawWaypoint(#location: CLLocationCoordinate2D) {
-        var marker = HMAWaypointMarker(position: location)
+    private func drawWaypoint(location location: CLLocationCoordinate2D) {
+        let marker = HMAWaypointMarker(position: location)
         marker.map = self
         self.overlayManager.appendOverlay(marker)
     }
@@ -552,8 +552,8 @@ class HMAMapView: GMSMapView {
      * @param location location
      * @param index Int
      **/
-    private func drawDestination(#location: CLLocationCoordinate2D, index: Int) {
-        var marker = HMADestinationMarker(position: location, index: index)
+    private func drawDestination(location location: CLLocationCoordinate2D, index: Int) {
+        let marker = HMADestinationMarker(position: location, index: index)
         marker.map = self
         self.overlayManager.appendOverlay(marker)
     }
@@ -586,8 +586,8 @@ class HMAMapView: GMSMapView {
      * draw crime marker
      * @param crime HMACrimeData
      **/
-    private func drawCrimeMaker(#crime: HMACrimeData) {
-        var marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue), crime: crime)
+    private func drawCrimeMaker(crime crime: HMACrimeData) {
+        let marker = HMACrimeMarker(position: CLLocationCoordinate2DMake(crime.lat.doubleValue, crime.long.doubleValue), crime: crime)
         marker.map = self
         self.overlayManager.appendOverlay(marker)
     }
@@ -626,7 +626,7 @@ class HMAMapView: GMSMapView {
     private func drawWheelPolyline() {
         // draw line
         func drawPolyline(
-            #map: HMAMapView,
+            map map: HMAMapView,
             coordinateA: CLLocationCoordinate2D,
             coordinateB: CLLocationCoordinate2D,
             color: UIColor,
@@ -640,7 +640,7 @@ class HMAMapView: GMSMapView {
 */
             //let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [0,1,2,3,])
             let polyline = Polyline(coordinates: [coordinateA, coordinateB,], levels: [16,])
-            var line = GMSPolyline(path: GMSPath(fromEncodedPath: polyline.encodedPolyline))
+            let line = GMSPolyline(path: GMSPath(fromEncodedPath: polyline.encodedPolyline))
             line.strokeColor = color
             line.strokeWidth = 4.0
             line.tappable = false
@@ -673,10 +673,10 @@ class HMAMapView: GMSMapView {
 
             drawPolyline(
                 map: self,
-                locationA.coordinate,
-                locationB.coordinate,
-                self.wheelEvaluation.getMinusAccelerationColor(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue),
-                self.wheelEvaluation.getMinusAccelerationZIndex(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
+                coordinateA: locationA.coordinate,
+                coordinateB: locationB.coordinate,
+                color: self.wheelEvaluation.getMinusAccelerationColor(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue),
+                zIndex: self.wheelEvaluation.getMinusAccelerationZIndex(accelA: self.accelDatas[i].value.doubleValue, accelB: self.accelDatas[i+1].value.doubleValue)
             )
         }
         //var end = NSDate()

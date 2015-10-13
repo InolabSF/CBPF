@@ -21,10 +21,10 @@ class HMAHeatIndexData: NSManagedObject {
      * @param maximumCoordinate CLLocationCoordinate2D
      * @return [HMAHeatIndexData]
      */
-    class func fetch(#minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> [HMAHeatIndexData] {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func fetch(minimumCoordinate minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> [HMAHeatIndexData] {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMAHeatIndexData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
@@ -33,11 +33,17 @@ class HMAHeatIndexData: NSManagedObject {
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
         fetchRequest.returnsObjectsAsFaults = false
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicaets)
 
-        var error: NSError? = nil
-        let datas = context.executeFetchRequest(fetchRequest, error: &error) as! [HMAHeatIndexData]
-        return datas
+        //var error: NSError? = nil
+        var datas: [HMAHeatIndexData]? = nil
+        do {
+            datas = try context.executeFetchRequest(fetchRequest) as? [HMAHeatIndexData]
+        }
+        catch _ {
+            datas = []
+        }
+        return datas!
     }
 
     /**
@@ -111,13 +117,13 @@ class HMAHeatIndexData: NSManagedObject {
 
             //start = NSDate()
 
-            var context = HMACoreDataManager.sharedInstance.managedObjectContext
+            let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
             var humidityIndex = 0
             for var i = 0; i < temperatureDatas.count; i++ {
-                var temperatureData = temperatureDatas[i]
+                let temperatureData = temperatureDatas[i]
                 for var j = humidityIndex; j < humidityDatas.count; j++ {
-                    var humidityData = humidityDatas[i]
+                    let humidityData = humidityDatas[i]
                     if temperatureData.lat != humidityData.lat ||
                        temperatureData.long != humidityData.long ||
                        temperatureData.timestamp != humidityData.timestamp {
@@ -125,7 +131,7 @@ class HMAHeatIndexData: NSManagedObject {
                     }
                     humidityIndex = j
 
-                    var data = NSEntityDescription.insertNewObjectForEntityForName("HMAHeatIndexData", inManagedObjectContext: context) as! HMAHeatIndexData
+                    let data = NSEntityDescription.insertNewObjectForEntityForName("HMAHeatIndexData", inManagedObjectContext: context) as! HMAHeatIndexData
                     data.humidity = humidityData.value
                     data.temperature = temperatureData.value
                     data.lat = humidityData.lat
@@ -144,17 +150,22 @@ class HMAHeatIndexData: NSManagedObject {
 
                 //start = NSDate()
 
-                var error: NSError? = nil
-                !context.save(&error)
+                //var error: NSError? = nil
+                do {
+                    try context.save()
+                }
+                catch _ {
+                    return
+                }
 
-                if error == nil {
-                    var dateFormatter = NSDateFormatter()
+                //if error == nil {
+                    let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd"
                     let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
-                    var key = HMAUserDefaults.HeatIndexYearMonthDay
+                    let key = HMAUserDefaults.HeatIndexYearMonthDay
                     NSUserDefaults().setObject(currentYearMonthDay, forKey: key)
                     NSUserDefaults().synchronize()
-                }
+                //}
 
                 //interval = NSDate().timeIntervalSinceDate(start)
                 //HMALOG("interval4: \(interval)")
@@ -167,18 +178,24 @@ class HMAHeatIndexData: NSManagedObject {
      * delete data
      **/
     class func delete() {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         // make fetch request
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMAHeatIndexData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
 
         // get all datas
-        var error: NSError? = nil
-        let datas = context.executeFetchRequest(fetchRequest, error: &error) as? [HMAHeatIndexData]
-        if error != nil || datas == nil {
+        //let error: NSError? = nil
+        var datas: [HMAHeatIndexData]? = nil
+        do {
+            datas = try context.executeFetchRequest(fetchRequest) as? [HMAHeatIndexData]
+        }
+        catch _ {
+        }
+        
+        if /*error != nil || */datas == nil {
             return
         }
 
@@ -187,7 +204,7 @@ class HMAHeatIndexData: NSManagedObject {
             context.deleteObject(data)
         }
 
-        var key = HMAUserDefaults.HeatIndexYearMonthDay
+        let key = HMAUserDefaults.HeatIndexYearMonthDay
         NSUserDefaults().setObject("", forKey: key)
         NSUserDefaults().synchronize()
     }
@@ -200,7 +217,7 @@ class HMAHeatIndexData: NSManagedObject {
      * @return Bool
      **/
     private class func hasData() -> Bool {
-        var key = HMAUserDefaults.HeatIndexYearMonthDay
+        let key = HMAUserDefaults.HeatIndexYearMonthDay
 
         // saved
         let savedYearMonthDay = NSUserDefaults().stringForKey(key)

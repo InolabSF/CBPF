@@ -22,7 +22,7 @@ class HMAWheelClient: AnyObject {
      * @param coordinate latitude and longitude
      * @param completionHandler (json: JSON) -> Void
      */
-    func getWheelData(#radius: Float, dataType: Int, max: Float?, min: Float?, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getWheelData(radius radius: Float, dataType: Int, max: Float?, min: Float?, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
         var queries: Dictionary<String, AnyObject> = [
             "data_type": "\(dataType)",
@@ -39,7 +39,7 @@ class HMAWheelClient: AnyObject {
      * cancel GET wheel/data
      * @param dataType dataType
      **/
-    func cancelGetWheelData(#dataType: Int) {
+    func cancelGetWheelData(dataType dataType: Int) {
         let predicate = NSPredicate(format: "request.URL.absoluteString CONTAINS[c] %@", "data_type=\(dataType)")
         HMAWheelOperationQueue.sharedInstance.cancelOperationsUsingPredicate(predicate)
     }
@@ -56,11 +56,11 @@ class HMAWheelClient: AnyObject {
      * @param coordinate latitude and longitude
      * @param completionHandler (json: JSON) -> Void
      */
-    func getWheelData(#queries: Dictionary<String, AnyObject>, completionHandler: (json: JSON) -> Void) {
+    func getWheelData(queries queries: Dictionary<String, AnyObject>, completionHandler: (json: JSON) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMAWheel.API.Data, queries: queries)!)
 
         // request
-        var operation = ISHTTPOperation(
+        let operation = ISHTTPOperation(
             request: request,
             handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 if error != nil { return }

@@ -9,7 +9,7 @@ protocol HMASearchResultViewDelegate {
      * @param searchResultView HMASearchResultView
      * @param selectedDestination selected destination
      */
-    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination)
+    func didSelectRow(searchResultView searchResultView: HMASearchResultView, selectedDestination: HMADestination)
 
 }
 
@@ -40,7 +40,7 @@ class HMASearchResultView: UIView {
         self.resultTableView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
         self.resultTableView.layer.shadowColor = UIColor.blackColor().CGColor
         self.resultTableView.layer.shadowOpacity = 0.2
-        var rect = self.resultTableView.bounds
+        let rect = self.resultTableView.bounds
         self.resultTableView.layer.shadowPath = UIBezierPath(rect: rect).CGPath
     }
 
@@ -66,7 +66,7 @@ extension HMASearchResultView: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let destination = self.destinations[indexPath.row]
 
-        var cell = UITableViewCell(
+        let cell = UITableViewCell(
             style: UITableViewCellStyle.Default,
             reuseIdentifier: HMANSStringFromClass(HMASearchResultView)
         )

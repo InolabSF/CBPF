@@ -18,9 +18,9 @@ class HMASensorClient: AnyObject {
      * @param coordinate latitude and longitude
      * @param completionHandler (json: JSON) -> Void
      */
-    func getSensorData(#radius: Float, sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getSensorData(radius radius: Float, sensorType: Int, coordinate: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
-        var queries: Dictionary<String, AnyObject> = [
+        let queries: Dictionary<String, AnyObject> = [
             "sensor_type": "\(sensorType)",
             "lat": "\(coordinate.latitude)",
             "long": "\(coordinate.longitude)",
@@ -29,7 +29,7 @@ class HMASensorClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMASensor.API.Data, queries: queries)!)
 
         // request
-        var operation = ISHTTPOperation(
+        let operation = ISHTTPOperation(
             request: request,
             handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 if error != nil { return }
@@ -50,7 +50,7 @@ class HMASensorClient: AnyObject {
      * cancel GET sensor/data
      * @param sensorType sensor type
      **/
-    func cancelGetSensorData(#sensorType: Int) {
+    func cancelGetSensorData(sensorType sensorType: Int) {
         //HMASensorOperationQueue.sharedInstance.cancelOperationsWithPath(NSURL(string: HMASensor.API.Data)!.path)
         let predicate = NSPredicate(format: "request.URL.absoluteString CONTAINS[c] %@", "sensor_type=\(sensorType)")
         HMASensorOperationQueue.sharedInstance.cancelOperationsUsingPredicate(predicate)

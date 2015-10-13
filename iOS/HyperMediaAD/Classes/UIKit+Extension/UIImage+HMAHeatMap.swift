@@ -12,7 +12,7 @@ extension UIImage {
      * @param boost Float
      * @return HMAHeatMapImageView
      **/
-    class func heatIndexHeatmapImage(#mapView: GMSMapView, frame: CGRect, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
+    class func heatIndexHeatmapImage(mapView mapView: GMSMapView, frame: CGRect, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
         var points: [NSValue] = []
         for var i = 0; i < locations.count; i++ {
             let location = locations[i]
@@ -29,7 +29,7 @@ extension UIImage {
      * @param boost Float
      * @return HMAHeatMapImageView
      **/
-    class func crimeHeatmapImage(#mapView: GMSMapView, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
+    class func crimeHeatmapImage(mapView mapView: GMSMapView, locations: [CLLocation], weights: [NSNumber], boost: Float) -> UIImage {
         var points: [NSValue] = []
         for var i = 0; i < locations.count; i++ {
             let location = locations[i]

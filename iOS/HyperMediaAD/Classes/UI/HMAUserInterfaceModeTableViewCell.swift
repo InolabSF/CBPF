@@ -33,7 +33,7 @@ class HMAUserInterfaceModeTableViewCell: UITableViewCell {
      * @param mode HMAUserInterface.Mode
      * @param selected BOOL
      **/
-    func design(#mode: Int, selected: Bool) {
+    func design(mode mode: Int, selected: Bool) {
         let color = (selected) ?
             UIColor(red: 54.0/255.0, green: 158.0/255.0, blue: 186.0/255.0, alpha: 1.0) :
             UIColor(red: 128.0/255.0, green: 128.0/255.0, blue: 128.0/255.0, alpha: 1.0)

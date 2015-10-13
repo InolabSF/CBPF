@@ -24,7 +24,7 @@ class HMAGoogleMapClient: AnyObject {
      * @param completionHandler (jsons: [JSON]) -> Void
      **/
     func getRoutes(
-        #origin: CLLocationCoordinate2D,
+        origin origin: CLLocationCoordinate2D,
         destinations: [CLLocationCoordinate2D],
         waypoints: [CLLocationCoordinate2D],
         completionHandler: (jsons: [JSON]) -> Void
@@ -43,7 +43,7 @@ class HMAGoogleMapClient: AnyObject {
             var theShortestDistance = Double(HMAAPI.Radius)
             for var j = 0; j < destinations.count; j++ {
                 b = destinations[j]
-                var distance = (HMAMapMath.miles(locationA: CLLocation(latitude: a.latitude, longitude: a.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude)) + HMAMapMath.miles(locationA: CLLocation(latitude: b.latitude, longitude: b.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude))) / 2.0
+                let distance = (HMAMapMath.miles(locationA: CLLocation(latitude: a.latitude, longitude: a.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude)) + HMAMapMath.miles(locationA: CLLocation(latitude: b.latitude, longitude: b.longitude), locationB: CLLocation(latitude: waypoints[i].latitude, longitude: waypoints[i].longitude))) / 2.0
                 if distance < theShortestDistance {
                     theShortestDistance = distance
                     theShortestIndex = j
@@ -56,7 +56,7 @@ class HMAGoogleMapClient: AnyObject {
         // google map direction API
         a = origin
         for var i = 0; i < destinations.count; i++ {
-            var isLast = (i == destinations.count - 1)
+            let isLast = (i == destinations.count - 1)
             b = destinations[i]
 
             // making queries
@@ -108,7 +108,7 @@ class HMAGoogleMapClient: AnyObject {
      *  }
      * @param completionHandler (json: JSON) -> Void
      */
-    func getRoute(#queries: Dictionary<String, AnyObject>, completionHandler: (json: JSON) -> Void) {
+    func getRoute(queries queries: Dictionary<String, AnyObject>, completionHandler: (json: JSON) -> Void) {
         // make request
         var q: Dictionary<String, AnyObject> = [
             HMAGoogleMap.TravelMode: HMAGoogleMap.TravelModes.Bicycling,
@@ -118,7 +118,7 @@ class HMAGoogleMapClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMAGoogleMap.API.Directions, queries: q)!)
 
         // request
-        var operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
+        let operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 dispatch_async(dispatch_get_main_queue(), {
@@ -143,7 +143,7 @@ class HMAGoogleMapClient: AnyObject {
      * @param location location
      * @param completionHandler (json: JSON) -> Void
      */
-    func getGeocode(#address: String, radius: Double, location: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getGeocode(address address: String, radius: Double, location: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
         let offsetLong = HMAMapMath.degreeOfLongitudePerRadius(radius, location: CLLocation(latitude: location.latitude, longitude: location.longitude))
         let offsetLat = HMAMapMath.degreeOfLatitudePerRadius(radius, location: CLLocation(latitude: location.latitude, longitude: location.longitude))
@@ -154,7 +154,7 @@ class HMAGoogleMapClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMAGoogleMap.API.GeoCode, queries: queries)!)
 
         // request
-        var operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
+        let operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 dispatch_async(dispatch_get_main_queue(), {
@@ -179,7 +179,7 @@ class HMAGoogleMapClient: AnyObject {
      * @param location location
      * @param completionHandler (json: JSON) -> Void
      */
-    func getPlaceAutoComplete(#input: String, radius: Double, location: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
+    func getPlaceAutoComplete(input input: String, radius: Double, location: CLLocationCoordinate2D, completionHandler: (json: JSON) -> Void) {
         // make request
         let queries = [
             "input" : input,
@@ -191,7 +191,7 @@ class HMAGoogleMapClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMAGoogleMap.API.PlaceAutoComplete, queries: queries)!)
 
         // request
-        var operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
+        let operation = ISHTTPOperation(request: request, handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 else {

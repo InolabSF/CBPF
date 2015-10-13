@@ -97,7 +97,7 @@ class HMAWheelEvaluation: NSObject {
      * @param accelB Double
      * @return accel evaluation (how much minus acceleration)
      */
-    func getMinusAccelerationColor(#accelA: Double, accelB: Double) -> UIColor {
+    func getMinusAccelerationColor(accelA accelA: Double, accelB: Double) -> UIColor {
         let average = (accelA + accelB) / 2.0
         if average > HMAMinusAcceleration.Level1 {
             return UIColor(red: 0.0, green: 0.65, blue: 0.0, alpha: 1.0)
@@ -124,7 +124,7 @@ class HMAWheelEvaluation: NSObject {
      * @param accelB Double
      * @return zIndex
      */
-    func getMinusAccelerationZIndex(#accelA: Double, accelB: Double) -> Int32 {
+    func getMinusAccelerationZIndex(accelA accelA: Double, accelB: Double) -> Int32 {
         let average = (accelA + accelB) / 2.0
         if average > HMAMinusAcceleration.Level1 {
             return HMAGoogleMap.ZIndex.Wheel1
@@ -142,7 +142,7 @@ class HMAWheelEvaluation: NSObject {
      * @param torqueB Double
      * @return torque evaluation (how much torque)
      */
-    func getRiderTorqueColor(#torqueA: Double, torqueB: Double) -> UIColor {
+    func getRiderTorqueColor(torqueA torqueA: Double, torqueB: Double) -> UIColor {
         let average = (torqueA + torqueB) / 2.0
         if average < HMARiderTorque.Level1 {
             return UIColor(red: 0.0, green: 0.65, blue: 0.0, alpha: 1.0)
@@ -169,7 +169,7 @@ class HMAWheelEvaluation: NSObject {
      * @param torqueB Double
      * @return zIndex
      */
-    func getRiderTorqueZIndex(#torqueA: Double, torqueB: Double) -> Int32 {
+    func getRiderTorqueZIndex(torqueA torqueA: Double, torqueB: Double) -> Int32 {
         let average = (torqueA + torqueB) / 2.0
         if average < HMARiderTorque.Level1 {
             return HMAGoogleMap.ZIndex.Wheel1

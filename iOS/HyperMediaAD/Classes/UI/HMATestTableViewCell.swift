@@ -31,7 +31,7 @@ class HMATestTableViewCell: UITableViewCell {
      * design
      * @param title String
      **/
-    func design(#title: String) {
+    func design(title title: String) {
         self.titleLabel.text = title
     }
 

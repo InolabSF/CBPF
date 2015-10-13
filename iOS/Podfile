@@ -2,7 +2,7 @@ link_with 'HyperMediaAD'
 platform :ios, '8.2'
 
 # map
-pod 'Google-Maps-iOS-SDK'
+pod 'GoogleMaps'
 
 # font
 pod 'ionicons'

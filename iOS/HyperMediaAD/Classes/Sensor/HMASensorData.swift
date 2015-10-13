@@ -20,8 +20,8 @@ class HMASensorData: NSManagedObject {
      * request to get sensor data to server
      * @param sensorType HMASensor.SensorType(Int)
      **/
-    class func requestToGetSensorData(#sensorType: Int) {
-        var coordinate = HMAMapView.sharedInstance.centerCoordinate()
+    class func requestToGetSensorData(sensorType sensorType: Int) {
+        let coordinate = HMAMapView.sharedInstance.centerCoordinate()
         HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
 
         if HMASensorData.hasData(sensorType: sensorType) { return }
@@ -45,10 +45,10 @@ class HMASensorData: NSManagedObject {
      * @param sensorType HMASensor.SensorType(Int)
      * @return Array<HMASensorData>
      */
-    class func fetch(#sensorType: Int) -> Array<HMASensorData> {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func fetch(sensorType sensorType: Int) -> Array<HMASensorData> {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
@@ -56,11 +56,11 @@ class HMASensorData: NSManagedObject {
             NSPredicate(format: "sensor_id = %d", sensorType),
         ]
         fetchRequest.returnsObjectsAsFaults = false
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicaets)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
-        var error: NSError? = nil
-        let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMASensorData>
+        //var error: NSError? = nil
+        let sensorDatas = (try! context.executeFetchRequest(fetchRequest)) as! Array<HMASensorData>
         return sensorDatas
     }
 
@@ -71,10 +71,10 @@ class HMASensorData: NSManagedObject {
      * @param maximumCoordinate CLLocationCoordinate2D
      * @return Array<HMASensorData>
      */
-    class func fetch(#sensorType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMASensorData> {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func fetch(sensorType sensorType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMASensorData> {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
@@ -84,11 +84,11 @@ class HMASensorData: NSManagedObject {
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
         fetchRequest.returnsObjectsAsFaults = false
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicaets)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
-        var error: NSError? = nil
-        let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMASensorData>
+        //var error: NSError? = nil
+        let sensorDatas = (try! context.executeFetchRequest(fetchRequest)) as! Array<HMASensorData>
         return sensorDatas
     }
 
@@ -113,21 +113,21 @@ class HMASensorData: NSManagedObject {
      *    ]
      *  }
      */
-    class func save(#sensorType: Int, json: JSON) {
+    class func save(sensorType sensorType: Int, json: JSON) {
         if HMASensorData.hasData(sensorType: sensorType) { return }
 
         HMASensorData.delete(sensorType: sensorType)
 
         let sensorDatas: Array<JSON> = json["sensor_datas"].arrayValue
 
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dateFormatter.timeZone = NSTimeZone(name: "UTC")
 
         for sensorData in sensorDatas {
-            var s = NSEntityDescription.insertNewObjectForEntityForName("HMASensorData", inManagedObjectContext: context) as! HMASensorData
+            let s = NSEntityDescription.insertNewObjectForEntityForName("HMASensorData", inManagedObjectContext: context) as! HMASensorData
             s.sensor_id = sensorData["sensor_id"].numberValue
             s.value = sensorData["value"].numberValue
             s.lat = sensorData["lat"].numberValue
@@ -137,11 +137,16 @@ class HMASensorData: NSManagedObject {
             if date != nil { s.timestamp = date! }
         }
 
-        var error: NSError? = nil
-        !context.save(&error)
+        //var error: NSError? = nil
+        do {
+            try context.save()
+        }
+        catch _ {
+            return
+        }
 
-        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
-        if error == nil && key != nil {
+        let key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
+        if /*error == nil && */key != nil {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
             NSUserDefaults().setObject(currentYearMonthDay, forKey: key!)
@@ -154,7 +159,7 @@ class HMASensorData: NSManagedObject {
      **/
     class func delete() {
         let keys = HMASensorData.getUserDefaultsAllKeys()
-        for (sensorType, key) in keys {
+        for (sensorType, _) in keys {
             HMASensorData.delete(sensorType: sensorType)
         }
     }
@@ -163,20 +168,26 @@ class HMASensorData: NSManagedObject {
      * delete data
      * @param sensorType HMASensor.SensorType(Int)
      **/
-    class func delete(#sensorType: Int) {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func delete(sensorType sensorType: Int) {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         // make fetch request
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMASensorData", inManagedObjectContext:context)
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates([NSPredicate(format: "sensor_id = %d", sensorType),])
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [NSPredicate(format: "sensor_id = %d", sensorType),])
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
 
         // get all sensor datas
-        var error: NSError? = nil
-        let sensorDatas = context.executeFetchRequest(fetchRequest, error: &error) as? [HMASensorData]
-        if error != nil || sensorDatas == nil {
+        //let error: NSError? = nil
+        var sensorDatas: [HMASensorData]? = nil
+        do {
+           sensorDatas = try context.executeFetchRequest(fetchRequest) as? [HMASensorData]
+        }
+        catch _ {
+        }
+        
+        if /*error != nil || */sensorDatas == nil {
             return
         }
 
@@ -197,8 +208,8 @@ class HMASensorData: NSManagedObject {
      * @param sensorType HMASensor.SensorType(Int)
      * @return Bool
      **/
-    class func hasData(#sensorType: Int) -> Bool {
-        var key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
+    class func hasData(sensorType sensorType: Int) -> Bool {
+        let key = HMASensorData.getUserDefaultsKey(sensorType: sensorType)
         if key == nil { return true } // invalid sensor type
 
         // saved
@@ -236,7 +247,7 @@ class HMASensorData: NSManagedObject {
      * @param sensorType HMASensor.SensorType(Int)
      * @return key(String?)
      **/
-    private class func getUserDefaultsKey(#sensorType: Int) -> String? {
+    private class func getUserDefaultsKey(sensorType sensorType: Int) -> String? {
         var keys = HMASensorData.getUserDefaultsAllKeys()
         return keys[sensorType]
     }

@@ -8,32 +8,32 @@ protocol HMASearchBoxViewDelegate {
      * called when search box was active
      * @param searchBoxView HMASearchBoxView
      */
-    func searchBoxWasActive(#searchBoxView: HMASearchBoxView)
+    func searchBoxWasActive(searchBoxView searchBoxView: HMASearchBoxView)
 
     /**
      * called when search box was inactive
      * @param searchBoxView HMASearchBoxView
      */
-    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView)
+    func searchBoxWasInactive(searchBoxView searchBoxView: HMASearchBoxView)
 
     /**
      * called when destination search finishes
      * @param searchBoxView HMASearchBoxView
      * @param destinations prediction of destinations
      */
-    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination])
+    func searchDidFinish(searchBoxView searchBoxView: HMASearchBoxView, destinations: [HMADestination])
 
     /**
      * called when clear button is touched up inside
      * @param searchBoxView HMASearchBoxView
      */
-    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView)
+    func clearButtonTouchedUpInside(searchBoxView searchBoxView: HMASearchBoxView)
 
     /**
      * called when geoLocation search did finish
      * @param searchBoxView HMASearchBoxView
      */
-    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D)
+    func geoLocationSearchDidFinish(searchBoxView searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D)
 }
 
 
@@ -85,7 +85,7 @@ class HMASearchBoxView: UIView {
 
     /// MARK: - event listener
 
-    @IBAction func touchedUpInside(#button: UIButton) {
+    @IBAction func touchedUpInside(button button: UIButton) {
         if button == self.activeButton {
             self.startSearch()
         }
@@ -124,7 +124,7 @@ class HMASearchBoxView: UIView {
 
         // place autocomplete API
         HMAGoogleMapClient.sharedInstance.getPlaceAutoComplete(
-            input: destination,
+            input: destination!,
             radius: 5,
             location: location.coordinate,
             completionHandler: { [unowned self] (json) in
@@ -143,13 +143,13 @@ class HMASearchBoxView: UIView {
      * design
      * @param parentView parent view
      */
-    func design(#parentView: UIView) {
+    func design(parentView parentView: UIView) {
         self.frame = CGRectMake(0, 0, parentView.bounds.width, self.frame.size.height)
 
         self.searchTextFieldBackgroundView.layer.shadowOffset = CGSizeMake(0.0, 0.0)
         self.searchTextFieldBackgroundView.layer.shadowColor = UIColor.blackColor().CGColor
         self.searchTextFieldBackgroundView.layer.shadowOpacity = 0.2
-        var rect = self.searchTextFieldBackgroundView.bounds
+        let rect = self.searchTextFieldBackgroundView.bounds
         self.searchTextFieldBackgroundView.layer.shadowPath = UIBezierPath(rect: rect).CGPath
     }
 
@@ -188,7 +188,7 @@ class HMASearchBoxView: UIView {
      * start geo location search
      * @param location CLLocationCoordinate2D
      **/
-    func startSearchGeoLocation(#coordinate: CLLocationCoordinate2D) {
+    func startSearchGeoLocation(coordinate coordinate: CLLocationCoordinate2D) {
         self.searchGeoLocationOverlayView.hidden = false
         self.searchGeoLocationIndicator.activityIndicatorViewStyle = TYMActivityIndicatorViewStyle.Small
         self.searchGeoLocationIndicator.setBackgroundImage(
@@ -198,7 +198,7 @@ class HMASearchBoxView: UIView {
 
         self.searchGeoLocationIndicator.startAnimating()
         HMAGoogleMapClient.sharedInstance.getGeocode(
-            address: self.searchTextField.text,
+            address: self.searchTextField.text!,
              radius: Double(HMAAPI.Radius),
            location: coordinate,
   completionHandler: { [unowned self] (json) in
@@ -255,7 +255,7 @@ class HMASearchBoxView: UIView {
      * @param json json
      * @return CLLocationCoordinate2D
      **/
-    private func geoLocations(#json: JSON) -> CLLocationCoordinate2D? {
+    private func geoLocations(json json: JSON) -> CLLocationCoordinate2D? {
         let results = json["results"].arrayValue
         if results.count == 0 { return nil }
 

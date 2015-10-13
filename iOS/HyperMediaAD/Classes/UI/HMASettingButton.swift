@@ -42,7 +42,7 @@ class HMASettingButton: UIView {
 
     /// MARK: - event listener
 
-    @IBAction func touchedUpInside(#button: UIButton) {
+    @IBAction func touchedUpInside(button button: UIButton) {
         if self.delegate != nil { self.delegate?.settingButton(self) }
     }
 

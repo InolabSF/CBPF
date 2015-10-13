@@ -60,12 +60,12 @@ class HMACrimeClient: AnyObject {
      * @param completionHandler (json: JSON) -> Void
      */
     func getCrime(
-        #radius: Float,
+        radius radius: Float,
         coordinate: CLLocationCoordinate2D,
         completionHandler: (json: JSON) -> Void
     ) {
         // make request
-        var queries: Dictionary<String, AnyObject> = [
+        let queries: Dictionary<String, AnyObject> = [
             "radius": "\(radius)",
             "lat": "\(coordinate.latitude)",
             "long": "\(coordinate.longitude)",
@@ -73,7 +73,7 @@ class HMACrimeClient: AnyObject {
         let request = NSMutableURLRequest(URL: NSURL(URLString: HMACrime.API.Data, queries: queries)!)
 
         // request
-        var operation = ISHTTPOperation(
+        let operation = ISHTTPOperation(
             request: request,
             handler:{ (response: NSHTTPURLResponse!, object: AnyObject!, error: NSError!) -> Void in
                 if error != nil { return }

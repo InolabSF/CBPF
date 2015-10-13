@@ -34,7 +34,7 @@ class HMAWebViewController: UIViewController {
 
 
     /// MARK: - event listener
-    @IBAction func touchedUpInside(#barButtonItem: UIBarButtonItem) {
+    @IBAction func touchedUpInside(barButtonItem barButtonItem: UIBarButtonItem) {
         self.navigationController!.dismissViewControllerAnimated(true, completion: {})
     }
 
@@ -58,7 +58,7 @@ extension HMAWebViewController: UIWebViewDelegate {
         self.indicatorView.stopAnimating()
     }
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         self.title = ""
         self.indicatorView.stopAnimating()
     }

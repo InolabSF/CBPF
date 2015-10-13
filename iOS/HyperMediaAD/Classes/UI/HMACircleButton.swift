@@ -53,7 +53,7 @@ class HMACircleButton: UIView {
 
     /// MARK: - event listener
 
-    @IBAction func touchedUpInside(#button: UIButton) {
+    @IBAction func touchedUpInside(button button: UIButton) {
         if button == self.button {
             let isOn = (self.button.alpha < 0.9)
             self.setIsOn(isOn)

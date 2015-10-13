@@ -21,8 +21,8 @@ class HMAWheelData: NSManagedObject {
      * @param max maxValue
      * @param min minValue
      **/
-    class func requestToGetWheelData(#dataType: Int, max: Float?, min: Float?) {
-        var coordinate = HMAMapView.sharedInstance.centerCoordinate()
+    class func requestToGetWheelData(dataType dataType: Int, max: Float?, min: Float?) {
+        let coordinate = HMAMapView.sharedInstance.centerCoordinate()
         HMACoreDataManager.deleteAllDataIfNeeds(currentLocation: coordinate)
 
         if HMAWheelData.hasData(dataType: dataType) { return }
@@ -49,10 +49,10 @@ class HMAWheelData: NSManagedObject {
      * @param maximumCoordinate CLLocationCoordinate2D
      * @return Array<HMACrimeData>
      */
-    class func fetch(#dataType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMAWheelData> {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func fetch(dataType dataType: Int, minimumCoordinate: CLLocationCoordinate2D, maximumCoordinate: CLLocationCoordinate2D) -> Array<HMAWheelData> {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMAWheelData", inManagedObjectContext:context)
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
@@ -63,16 +63,22 @@ class HMAWheelData: NSManagedObject {
             NSPredicate(format: "(long <= %@) AND (long >= %@)", NSNumber(double: maximumCoordinate.longitude), NSNumber(double: minimumCoordinate.longitude)),
         ]
         fetchRequest.returnsObjectsAsFaults = false
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates(predicaets)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicaets)
         //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]
 
-        var error: NSError? = nil
+        //var error: NSError? = nil
 /*
         let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as! Array<HMAWheelData>
         return wheelDatas
 */
-        let wheelDatas = (context.executeFetchRequest(fetchRequest, error: &error) as! NSArray).sortedArrayUsingDescriptors([NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]) as! Array<HMAWheelData>
-        return wheelDatas
+        var wheelDatas: Array<HMAWheelData>? = nil
+        do {
+         wheelDatas = ((try context.executeFetchRequest(fetchRequest)) as NSArray).sortedArrayUsingDescriptors([NSSortDescriptor(key: "lat", ascending: true), NSSortDescriptor(key: "long", ascending: true)]) as? Array<HMAWheelData>
+        }
+        catch _ {
+            wheelDatas = []
+        }
+        return wheelDatas!
     }
 
     /**
@@ -95,21 +101,21 @@ class HMAWheelData: NSManagedObject {
      *    ]
      *  }
      */
-    class func save(#dataType: Int, json: JSON) {
+    class func save(dataType dataType: Int, json: JSON) {
         if HMAWheelData.hasData(dataType: dataType) { return }
 
         HMAWheelData.delete(dataType: dataType)
 
         let wheelDatas: Array<JSON> = json["wheel_datas"].arrayValue
 
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dateFormatter.timeZone = NSTimeZone(name: "UTC")
 
         for wheelData in wheelDatas {
-            var s = NSEntityDescription.insertNewObjectForEntityForName("HMAWheelData", inManagedObjectContext: context) as! HMAWheelData
+            let s = NSEntityDescription.insertNewObjectForEntityForName("HMAWheelData", inManagedObjectContext: context) as! HMAWheelData
             s.data_type = wheelData["data_type"].numberValue
             s.value = wheelData["value"].numberValue
             s.lat = wheelData["lat"].numberValue
@@ -118,11 +124,16 @@ class HMAWheelData: NSManagedObject {
             if date != nil { s.timestamp = date! }
         }
 
-        var error: NSError? = nil
-        !context.save(&error)
+        //var error: NSError? = nil
+        do {
+            try context.save()
+        }
+        catch _ {
+            return
+        }
 
-        var key = HMAWheelData.getUserDefaultsKey(dataType: dataType)
-        if error == nil && key != nil {
+        let key = HMAWheelData.getUserDefaultsKey(dataType: dataType)
+        if /*error == nil && */key != nil {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let currentYearMonthDay = dateFormatter.stringFromDate(NSDate())
             NSUserDefaults().setObject(currentYearMonthDay, forKey: key!)
@@ -135,7 +146,7 @@ class HMAWheelData: NSManagedObject {
      **/
     class func delete() {
         let keys = HMAWheelData.getUserDefaultsAllKeys()
-        for (dataType, key) in keys {
+        for (dataType, _) in keys {
             HMAWheelData.delete(dataType: dataType)
         }
     }
@@ -144,20 +155,25 @@ class HMAWheelData: NSManagedObject {
      * delete data
      * @param dataType HMAWheel.DataType(Int)
      **/
-    class func delete(#dataType: Int) {
-        var context = HMACoreDataManager.sharedInstance.managedObjectContext
+    class func delete(dataType dataType: Int) {
+        let context = HMACoreDataManager.sharedInstance.managedObjectContext
 
         // make fetch request
-        var fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest()
         let entity = NSEntityDescription.entityForName("HMAWheelData", inManagedObjectContext:context)
-        fetchRequest.predicate = NSCompoundPredicate.andPredicateWithSubpredicates([ NSPredicate(format: "data_type= %d", dataType), ])
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [ NSPredicate(format: "data_type= %d", dataType), ])
         fetchRequest.entity = entity
         fetchRequest.fetchBatchSize = 20
 
         // get all wheel datas
-        var error: NSError? = nil
-        let wheelDatas = context.executeFetchRequest(fetchRequest, error: &error) as? [HMAWheelData]
-        if error != nil || wheelDatas == nil {
+        //let error: NSError? = nil
+        var wheelDatas: [HMAWheelData]? = nil
+        do {
+            wheelDatas = try context.executeFetchRequest(fetchRequest) as? [HMAWheelData]
+        }
+        catch _ {
+        }
+        if /*error != nil || */wheelDatas == nil {
             return
         }
 
@@ -213,7 +229,7 @@ class HMAWheelData: NSManagedObject {
      * @param dataType HMAWheel.DataType(Int)
      * @return key(String?)
      **/
-    private class func getUserDefaultsKey(#dataType: Int) -> String? {
+    private class func getUserDefaultsKey(dataType dataType: Int) -> String? {
         let keys = HMAWheelData.getUserDefaultsAllKeys()
         return keys[dataType]
 
@@ -224,8 +240,8 @@ class HMAWheelData: NSManagedObject {
      * @param dataType HMAWheel.DataType(Int)
      * @return Bool
      **/
-    private class func hasData(#dataType: Int) -> Bool {
-        var key = HMAWheelData.getUserDefaultsKey(dataType: dataType)
+    private class func hasData(dataType dataType: Int) -> Bool {
+        let key = HMAWheelData.getUserDefaultsKey(dataType: dataType)
         if key == nil { return true } // invalid data_type
 
         // saved

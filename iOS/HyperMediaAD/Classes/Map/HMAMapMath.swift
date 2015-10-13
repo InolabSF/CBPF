@@ -56,7 +56,7 @@ class HMAMapMath {
      * @param locationB CLLocation
      * @return miles
      **/
-    class func miles(#locationA: CLLocation, locationB: CLLocation) -> Double {
+    class func miles(locationA locationA: CLLocation, locationB: CLLocation) -> Double {
         return locationA.distanceFromLocation(locationB) * 0.000621371
     }
 
@@ -66,7 +66,7 @@ class HMAMapMath {
      * @param pointB CGPoint
      * @return angle Double
      **/
-    class func angle(#pointA: CGPoint, pointB: CGPoint) -> Double {
+    class func angle(pointA pointA: CGPoint, pointB: CGPoint) -> Double {
         let vector = CGPointMake(pointB.x - pointA.x, pointB.y - pointA.y)
         var degree = atan2(Double(vector.y), Double(vector.x)) * (180.0 / M_PI)
         if degree < 0.0 { degree += 360.0 }

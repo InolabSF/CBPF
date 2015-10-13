@@ -3,7 +3,7 @@ import CoreLocation
 
 
 /// MARK: - HMAViewController
-class HMAViewController: UIViewController, CLLocationManagerDelegate {
+class HMAViewController: UIViewController {
 
     /// MARK: - property
     var locationManager: CLLocationManager!
@@ -365,7 +365,7 @@ extension HMAViewController: CLLocationManagerDelegate {
         )
     }
 
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
     }
 
 }
@@ -528,13 +528,13 @@ extension HMAViewController: HMACircleButtonDelegate {
 /// MARK: - HMADurationViewDelegate
 extension HMAViewController: HMADurationViewDelegate {
 
-    func touchedUpInside(#durationView: HMADurationView) {
+    func touchedUpInside(durationView durationView: HMADurationView) {
     }
 
-    func willShow(#durationView: HMADurationView) {
+    func willShow(durationView durationView: HMADurationView) {
     }
 
-    func willHide(#durationView: HMADurationView) {
+    func willHide(durationView durationView: HMADurationView) {
     }
 
 }
@@ -543,26 +543,26 @@ extension HMAViewController: HMADurationViewDelegate {
 /// MARK: - HMASearchBoxViewDelegate
 extension HMAViewController: HMASearchBoxViewDelegate {
 
-    func searchBoxWasActive(#searchBoxView: HMASearchBoxView) {
+    func searchBoxWasActive(searchBoxView searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = false
         self.settingButton.hidden = true
     }
 
-    func searchBoxWasInactive(#searchBoxView: HMASearchBoxView) {
+    func searchBoxWasInactive(searchBoxView searchBoxView: HMASearchBoxView) {
         self.searchResultView.hidden = true
         self.settingButton.hidden = false
     }
 
-    func searchDidFinish(#searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
+    func searchDidFinish(searchBoxView searchBoxView: HMASearchBoxView, destinations: [HMADestination]) {
         self.searchResultView.updateDestinations(destinations)
     }
 
-    func clearButtonTouchedUpInside(#searchBoxView: HMASearchBoxView) {
+    func clearButtonTouchedUpInside(searchBoxView searchBoxView: HMASearchBoxView) {
         if self.searchBoxView.isActive { return }
         self.mapView.draw()
     }
 
-    func geoLocationSearchDidFinish(#searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D) {
+    func geoLocationSearchDidFinish(searchBoxView searchBoxView: HMASearchBoxView, coordinate: CLLocationCoordinate2D) {
         self.mapView.appendDestination(coordinate)
         self.mapView.updateWhatMapDraws()
         self.mapView.draw()
@@ -575,7 +575,7 @@ extension HMAViewController: HMASearchBoxViewDelegate {
 /// MARK: - HMASearchResultViewDelegate
 extension HMAViewController: HMASearchResultViewDelegate {
 
-    func didSelectRow(#searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
+    func didSelectRow(searchResultView searchResultView: HMASearchResultView, selectedDestination: HMADestination) {
         self.searchBoxView.endSearch()
         self.searchBoxView.setSearchText(selectedDestination.desc)
 

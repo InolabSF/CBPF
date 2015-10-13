@@ -56,7 +56,7 @@ class HMACrimeMarker: /*GMSCircle*/GMSMarker {
      * set icon
      * @param crime HMACrimeData
      **/
-    private func setIcon(#crime: HMACrimeData) {
+    private func setIcon(crime crime: HMACrimeData) {
         let iconNames = [
             "violence" : [
                 "GUN",

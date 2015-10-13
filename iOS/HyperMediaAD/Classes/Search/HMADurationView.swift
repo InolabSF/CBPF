@@ -8,19 +8,19 @@ protocol HMADurationViewDelegate {
      * called when view was tapped
      * @param durationView HMADurationView
      */
-    func touchedUpInside(#durationView: HMADurationView)
+    func touchedUpInside(durationView durationView: HMADurationView)
 
     /**
      * called when view will show
      * @param durationView HMADurationView
      */
-    func willShow(#durationView: HMADurationView)
+    func willShow(durationView durationView: HMADurationView)
 
     /**
      * called when view will hide
      * @param durationView HMADurationView
      */
-    func willHide(#durationView: HMADurationView)
+    func willHide(durationView durationView: HMADurationView)
 
 }
 
@@ -61,7 +61,7 @@ class HMADurationView: UIView {
      * design
      * @param parentView UIView
      **/
-    func design(#parentView: UIView) {
+    func design(parentView parentView: UIView) {
         // frame
         self.frame = CGRectMake(0, -self.frame.size.height, parentView.frame.size.width, self.frame.size.height)
 
@@ -78,7 +78,7 @@ class HMADurationView: UIView {
      * @param destinationString String
      * @param durationString String
      **/
-    func show(#destinationString: String, durationString: String) {
+    func show(destinationString destinationString: String, durationString: String) {
         self.destinationLabel.text = destinationString
         self.durationLabel.text = durationString
 

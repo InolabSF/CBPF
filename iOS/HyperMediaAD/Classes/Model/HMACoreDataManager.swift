@@ -15,27 +15,29 @@ class HMACoreDataManager {
     }
 
     var managedObjectContext: NSManagedObjectContext {
-        var coordinator = self.persistentStoreCoordinator
+        let coordinator = self.persistentStoreCoordinator
 
-        var managedObjectContext = NSManagedObjectContext()
+        let managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }
 
     var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         let documentsDirectories = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        let documentsDirectory = documentsDirectories[documentsDirectories.count - 1] as! NSURL
+        let documentsDirectory = documentsDirectories[documentsDirectories.count - 1] 
         let storeURL = documentsDirectory.URLByAppendingPathComponent("HMAModel.sqlite")
 
         var error: NSError? = nil
-        var persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        persistentStoreCoordinator.addPersistentStoreWithType(
-            NSSQLiteStoreType,
-            configuration: nil,
-            URL: storeURL,
-            options: nil,
-            error: &error
-        )
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        do {
+            try persistentStoreCoordinator.addPersistentStoreWithType(
+                NSSQLiteStoreType,
+                configuration: nil,
+                URL: storeURL,
+                options: nil)
+        } catch let error1 as NSError {
+            error = error1
+        }
 
         return persistentStoreCoordinator
     }
@@ -52,7 +54,7 @@ class HMACoreDataManager {
      * delete all data if delete needs
      * @param currentLocation currentLocation
      **/
-    class func deleteAllDataIfNeeds(#currentLocation: CLLocationCoordinate2D) {
+    class func deleteAllDataIfNeeds(currentLocation currentLocation: CLLocationCoordinate2D) {
         if HMACoreDataManager.isTooFarFromLastLocation(currentLocation: currentLocation) {
             HMACrimeData.delete()
             HMASensorData.delete()
@@ -71,7 +73,7 @@ class HMACoreDataManager {
      * @param currentLocation currentLocation
      * @return true or false
      **/
-    private class func isTooFarFromLastLocation(#currentLocation: CLLocationCoordinate2D) -> Bool {
+    private class func isTooFarFromLastLocation(currentLocation currentLocation: CLLocationCoordinate2D) -> Bool {
         let lastLatitude = NSUserDefaults().doubleForKey(HMAUserDefaults.LastLatitude)
         let lastLongitude = NSUserDefaults().doubleForKey(HMAUserDefaults.LastLongitude)
 

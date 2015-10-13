@@ -10,9 +10,14 @@ extension NSMutableURLRequest {
      * set httpbody
      * @param dictionary dictionary
      */
-    func hma_setHTTPBody(#dictionary: Dictionary<String, AnyObject>) {
+    func hma_setHTTPBody(dictionary dictionary: Dictionary<String, AnyObject>) {
         let json = JSON(dictionary)
-        let body = json.rawData()
+        let body: NSData?
+        do {
+            body = try json.rawData()
+        } catch _ {
+            body = nil
+        }
 
         self.HTTPBody = body
         if body != nil { self.setValue("\(body!.length)", forHTTPHeaderField:"Content-Length") }

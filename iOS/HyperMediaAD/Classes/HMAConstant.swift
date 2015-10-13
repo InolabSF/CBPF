@@ -9,7 +9,7 @@ import Foundation
  */
 func HMALOG(str: String) {
 #if DEBUG
-    println("////////// HMA log\n" + str + "\n\n")
+    print("////////// HMA log\n" + str + "\n\n")
 #endif
 }
 
