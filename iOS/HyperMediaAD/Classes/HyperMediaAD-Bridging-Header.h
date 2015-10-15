@@ -8,7 +8,7 @@
 #import "BFPaperButton.h"
 #import "TYMActivityIndicatorView.h"
 #import "HMAHeatMap.h"
-#import "MTStatusBarOverlay.h"
+#import "JDStatusBarNotification.h"
 #import "FSLineChart.h"
 /// network
 #import "ISHTTPOperation.h"

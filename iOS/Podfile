@@ -11,7 +11,7 @@ pod 'ionicons'
 pod 'Touchpose'
 pod 'BFPaperButton'
 pod 'TYMActivityIndicatorView'
-pod 'MTStatusBarOverlay'
+pod 'JDStatusBarNotification'
 pod 'FSLineChart'
 
 # network

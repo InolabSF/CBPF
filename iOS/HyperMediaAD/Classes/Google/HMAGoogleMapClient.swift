@@ -29,7 +29,8 @@ class HMAGoogleMapClient: AnyObject {
         waypoints: [CLLocationCoordinate2D],
         completionHandler: (jsons: [JSON]) -> Void
     ) {
-        MTStatusBarOverlay.sharedInstance().postMessage("Searching Route")
+        JDStatusBarNotification.showWithStatus("Searching Route")
+        JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: .Gray)
 
         self.routeJSONs = []
 
@@ -75,7 +76,7 @@ class HMAGoogleMapClient: AnyObject {
                     self.routeJSONs.append(json)
                     if isLast {
                         completionHandler(jsons: self.routeJSONs)
-                        MTStatusBarOverlay.sharedInstance().hide()
+                        JDStatusBarNotification.dismiss()
                     }
                 }
             )
@@ -195,7 +196,7 @@ class HMAGoogleMapClient: AnyObject {
                 var responseJSON = JSON([:])
                 if object != nil { responseJSON = JSON(data: object as! NSData) }
                 else {
-                    MTStatusBarOverlay.sharedInstance().postImmediateErrorMessage("Failed", duration:2.0, animated:true)
+                    JDStatusBarNotification.showWithStatus("Failed", dismissAfter: 2.0)
                     return
                 }
 
